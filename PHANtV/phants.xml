@@ -1,0 +1,39 @@
+<tool id="phants" name="PHANtS" version="2.0">
+    <description>Only to be used through IRIDA</description>
+    <requirements>
+        <requirement type="package" version="3.7">python</requirement>
+        <requirement type="package" version="8.0">mysql-connector-python</requirement>
+        <requirement type="package" version="0.25">pandas</requirement>
+        <requirement type="package" version="1.16">numpy</requirement>
+    </requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+        #if $token == "tW9jiEusOSGvsE91qso1":
+            python
+            $__tool_directory__/PHANtS.py
+            --input_files $phants_filenames
+            --species '$species'
+            --phants_stat $phants_stat
+        #else
+            touch $phants_stat
+        #end if
+]]>
+    </command>
+
+    <inputs>
+        <param name="token" type="text" label="execution token" />
+        <param name="phants_filenames" format="tabular" type="data" label="filenames" />
+        <param name="species" type="text" label="Species" />
+    </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data name="phants_stat" format="html" label="${tool.name} on ${on_string}: statistics" ></data>
+   </outputs>
+</tool>

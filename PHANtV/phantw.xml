@@ -1,0 +1,47 @@
+<tool id="phantw" name="PHANtW" version="2.0">
+    <description>Only to be used through IRIDA</description>
+    <requirements>
+        <requirement type="package" version="3.6.6">python</requirement>
+        <requirement type="package" version="4.2.0">DendroPy</requirement>
+        <requirement type="package" version="0.8.13">hdbscan</requirement>
+        <requirement type="package" version="2.1.2">matplotlib</requirement>
+        <requirement type="package" version="2.1">networkx</requirement>
+        <requirement type="package" version="0.36.2">numba</requirement>
+        <requirement type="package" version="1.14.1">numpy</requirement>
+        <requirement type="package" version="0.22.0">pandas</requirement>
+        <requirement type="package" version="0.19.1">scikit-learn</requirement>
+        <requirement type="package" version="1.0.0">scipy</requirement>
+        <requirement type="package" version="0.3.5">sharedmem</requirement>
+    </requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+        #if $token == "tW9jiEusOSGvsE91qso1":
+            perl
+            $__tool_directory__/PHANtW.pl
+              $phantw_filenames
+              $phantw_cl
+              $phantw_tree
+        #else
+            touch $phantw_cl
+            touch $phantw_tree
+        #end if
+]]>
+    </command>
+
+    <inputs>
+        <param name="token" type="text" label="execution token" />
+        <param name="phantw_filenames" format="tabular" type="data" label="filenames" />
+    </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data name="phantw_tree" format="nwk" label="${tool.name} on ${on_string}: clustering" ></data>
+        <data name="phantw_cl" format="csv" label="${tool.name} on ${on_string}: clusters" ></data>
+   </outputs>
+</tool>

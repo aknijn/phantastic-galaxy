@@ -1,0 +1,64 @@
+    window.onload = function() {
+      var ctx1 = document.getElementById('canvas1').getContext('2d');
+      window.myQC = new Chart(ctx1, {type: 'pie',data: QCData,
+        options: {
+          title: {display: true,text: 'Quality check'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true
+        }
+      });
+      var ctx2 = document.getElementById('canvas2').getContext('2d');
+      window.myAR = new Chart(ctx2, {type: 'bar',data: AnnoRegioneData,
+        options: {
+          title: {display: true,text: 'Casi Anno-Regione'},
+          tooltips: {mode: 'index',intersect: false, position:'nearest'},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx3 = document.getElementById('canvas3').getContext('2d');
+      window.myST = new Chart(ctx3, {type: 'pie',data: STData,
+        options: {
+          title: {display: true,text: 'Sequence Types'},
+          tooltips: {mode: 'index',intersect: true},
+          legend: {position: 'left'},
+          responsive: true
+        }
+      });
+      var ctx4 = document.getElementById('canvas4').getContext('2d');
+      window.myRS = new Chart(ctx4, {type: 'bar',data: RegioneSeroData,
+        options: {
+          title: {display: true,text: 'Casi Regione-Serogruppo'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx5 = document.getElementById('canvas5').getContext('2d');
+      window.myRS = new Chart(ctx5, {type: 'bar',data: AnnoSTData,
+        options: {
+          title: {display: true,text: 'Casi Anno-Sequence Types'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });	  
+    };
+    function getRCH() {
+    var hex = "0123456789ABCDEF",
+      color = "#";
+      for (var i = 1; i <= 6; i++) {
+        color += hex[Math.floor(Math.random() * 16)];
+      }
+    return color;
+    }
+  </script>
+</body>
+
+</html>

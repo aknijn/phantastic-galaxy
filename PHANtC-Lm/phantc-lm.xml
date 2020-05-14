@@ -1,0 +1,61 @@
+<tool id="phantc-lm" name="PHANtC-Lm" version="2.0">
+    <description>Only to be used through IRIDA</description>
+    <requirements>
+        <requirement type="package" version="3.8">python</requirement>
+        <requirement type="package" version="1.17.3">numpy</requirement>
+        <requirement type="package" version="1.74">biopython</requirement>
+        <requirement type="package" version="5.26">perl</requirement>
+        <requirement type="package" version="1.642">perl-dbi</requirement>
+        <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
+        <requirement type="package" version="0.2.4">mentalist</requirement>
+        <requirement type="package" version="3.6.0">r</requirement>
+    </requirements>
+    <environment_variables>
+        <environment_variable name="HOME">/home/galaxy</environment_variable>
+    </environment_variables>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+        #if $token == "tW9jiEusOSGvsE91qso1" and $species == "Listeria monocytogenes":
+            perl
+            $__tool_directory__/PHANtC-Lm.pl
+              ${input_pc.forward}
+              #if str( $input_pc.reverse.name ) == "dummy.fastq":
+                  'NULL'                    
+              #else
+                  ${input_pc.reverse}
+              #end if
+              $input_id
+			  $phantclm_allele
+			  $phantclm_json
+              $phantclm_tree
+              $phantclm_dm
+        #else
+            touch $phantclm_allele
+            touch $phantclm_json
+            touch $phantclm_tree
+            touch $phantclm_dm
+       #end if
+]]>
+    </command>
+
+    <inputs>
+        <param name="token" type="text" label="execution token" />
+        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" optional="false" />
+        <param name="input_id" type="text" label="IRIDA sample code" />
+        <param name="species" type="text" label="species name" />
+    </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data format="tsv" name="phantclm_allele" label="${tool.name} on ${on_string}: allele calls" ></data>
+        <data format="json" name="phantclm_json" label="${tool.name} on ${on_string}: allele filter" ></data>
+        <data format="nwk" name="phantclm_tree" label="${tool.name} on ${on_string}: clustering" ></data>
+        <data format="tsv" name="phantclm_dm" label="${tool.name} on ${on_string}: distance matrix" ></data>
+   </outputs>
+</tool>

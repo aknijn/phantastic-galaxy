@@ -1,0 +1,38 @@
+<tool id="phantw-pre" name="PHANtW-pre" version="2.1">
+    <description>Only to be used through IRIDA</description>
+    <requirements>
+        <requirement type="package" version="5.26">perl</requirement>
+        <requirement type="package" version="1.642">perl-dbi</requirement>
+        <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
+    </requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+    #if $token == "tW9jiEusOSGvsE91qso1":
+      perl
+        $__tool_directory__/PHANtW-pre.pl
+        ${input_pc.forward}
+		$useNames
+        $phantw_filename
+    #else
+        touch $phantw_filename
+    #end if
+]]>
+    </command>
+
+    <inputs>
+        <param name="token" type="text" label="execution token" />
+        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" />
+        <param name="useNames" type="boolean" truevalue="true" falsevalue="false" checked="False" label="Use sample names instead of codes" />
+    </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data name="phantw_filename" format="tabular" label="filename" />
+   </outputs>
+</tool>

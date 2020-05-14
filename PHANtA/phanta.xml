@@ -1,0 +1,89 @@
+<tool id="phanta" name="PHANtA" version="2.0">
+    <description>Only to be used through IRIDA</description>
+    <requirements>
+        <requirement type="package" version="2.7">python</requirement>
+		<requirement type="package" version="8.0">mysql-connector-python</requirement>
+        <requirement type="package" version="5.26.2">perl</requirement>
+        <requirement type="package" version="2.3.0">bowtie2</requirement>
+        <requirement type="package" version="1.3.1">samtools</requirement>
+        <requirement type="package" version="1.3.1">bcftools</requirement>
+        <requirement type="package" version="0.36">trimmomatic</requirement>
+        <requirement type="package" version="3.12.0">spades</requirement>
+        <requirement type="package" version="1.18">pilon</requirement>
+		<requirement type="package" version="5.0.2">quast</requirement>
+    </requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+        #if $token == "tW9jiEusOSGvsE91qso1":
+            #if str( $input_pc.reverse.name ) == "dummy.fastq":
+                python
+                $__tool_directory__/PHANtA-S.py  
+                    --input1 ${input_pc.forward}
+					--genomeSize $genomeSize
+					--input_id $input_id
+                    --contigs $phanta_contigs
+					--json $phanta_json
+					--quast $phanta_quast
+            #else
+                perl
+                $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
+                  "python2.7 $__tool_directory__/PHANtA.py
+                  -s '$species'
+                  -g $genomeSize
+                  -f fastq_1.fastq.gz fastq_2.fastq.gz
+                  -o output_dir
+                  --threads \${GALAXY_SLOTS:-4}
+                  --doNotUseProvidedSoftware
+                  --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$TrueCoverage.trueConfigFile
+                  --skipFastQC
+                  --trimSlidingWindow 5:20
+                  --trimLeading 3
+                  --trimTrailing 3
+                  --trimMinLength 55
+                  --spadesMaxMemory 14
+                  --spadesMinCoverageAssembly 2
+                  --spadesMinKmerCovContigs 2
+                  --spadesDefaultKmers
+                  --spadesMinContigsLength 100
+                  --skipMLST
+                  --noGitInfo
+                  --doNotSearchAdapters
+                  --estimatedMinimumCoverage 10
+                  "
+            #end if
+        #else
+            touch $phanta_contigs
+			touch $phanta_json
+			touch $phanta_quast
+        #end if  
+]]>
+    </command>
+
+    <inputs>
+        <param name="token" type="text" label="execution token" />
+        <param name="species" type="text" label="species name" />
+        <param name="genomeSize" type="float" value="5.0" label="Expected genome size in Mb" help="Float" />
+        <param name="input_pc" type="data_collection"  format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Must be of datatype &quot;fastqsanger&quot;" optional="false" />
+        <param name="input_id" type="text" label="IRIDA sample code" />
+        <param name="skipEstimatedCoverage" type="boolean" truevalue="true" falsevalue="false" checked="False" label="Do not estimate coverage depth based on number of sequenced nucleotides and expected genome size" />
+        <conditional name="TrueCoverage">
+            <param name="skipTrueCoverage" type="boolean" truevalue="true" falsevalue="false" checked="False" label="Do not run trueCoverage_ReMatCh analysis" />
+            <when value="false">
+                <param name="trueConfigFile" type="text" label="File species.config with trueCoverage_ReMatCh settings" />
+            </when>
+        </conditional>
+   </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
+        <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
+        <data format="tsv" name="phanta_quast" label="${tool.name} on ${on_string}: report" />
+   </outputs>
+</tool>
