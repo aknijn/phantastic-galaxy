@@ -111,7 +111,8 @@ sub collectOutput{
 
 # Obtain alleles from db with allele_coverage>79,9% and write to temp file
 sub createAllelesFile {
-    my $sql = "select mlst_listeria.allele_strain from mlst_listeria where permille_loci>799";
+    my $sql = "select mlst_listeria.allele_strain from mlst_listeria where sample_code='FILE' union
+				select mlst_listeria.allele_strain from mlst_listeria where permille_loci>799";
     # connect to MySQL database
     my %attr2 = ( PrintError=>0, RaiseError=>1);
     my $dbh2 = DBI->connect($dsn,$user,$pwd,\%attr2);

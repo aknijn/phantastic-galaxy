@@ -10,7 +10,7 @@
 
 import sys, getopt
 import os
-import datetime as dt
+
 
 def mlst_calls(call_file):
   # return a MLST call matrix, with samples on the rows and loci on the columns.

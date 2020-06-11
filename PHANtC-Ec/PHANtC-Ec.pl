@@ -124,18 +124,24 @@ sub createAllelesFile {
     my $serotype = <$if>;
     chomp $serotype;
     close $if;
-    my $sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
+	my $sql;
+	if ($serotype == 'O?') {
+		$sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
+               select mlst_ecoli.allele_strain from mlst_ecoli where permille_loci>799";
+	}
+	else
+	{
+		$sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
                select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='$input1_name' union
                select mlst_ecoli.allele_strain from sample_metadata_entry AS sme_s
                  inner join metadata_field AS mf_s on sme_s.metadata_KEY = mf_s.id 
                  inner join metadata_entry AS me_s on sme_s.metadata_id = me_s.id 
-                 inner join metadata_entry AS me_m on me_s.value = me_m.value 
-                 inner join sample_metadata_entry AS sme_m on me_m.id = sme_m.metadata_id
-                 inner join sample_metadata_entry AS sme_c on sme_m.sample_id = sme_c.sample_id
+                 inner join sample_metadata_entry AS sme_c on sme_s.sample_id = sme_c.sample_id
                  inner join metadata_field AS mf_c on sme_c.metadata_KEY = mf_c.id
                  inner join metadata_entry AS me_c on sme_c.metadata_id = me_c.id 
                  inner join mlst_ecoli on me_c.value = mlst_ecoli.sample_code
                where me_s.value = '$serotype' and left(mf_s.label,9) = 'Antigen_O' and mf_c.label = 'Sample_code' and mlst_ecoli.permille_loci>799";
+	}
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
