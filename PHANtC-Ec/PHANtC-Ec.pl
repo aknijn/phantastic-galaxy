@@ -125,7 +125,7 @@ sub createAllelesFile {
     chomp $serotype;
     close $if;
 	my $sql;
-	if ($serotype == 'O?') {
+	if ($serotype eq 'O?') {
 		$sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
                select mlst_ecoli.allele_strain from mlst_ecoli where permille_loci>799";
 	}
