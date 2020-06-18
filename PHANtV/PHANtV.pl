@@ -13,6 +13,7 @@ use Config::Simple;
 my ($input_files,
     $species,
     $useNames,
+    $phantv_am,
     $phantv_dm,
     $phantv_tree) = @ARGV;
 
@@ -36,10 +37,11 @@ sub runMentaLiST {
     my $files_id = getIdFilesString(@inputs);
     createAllelesFile($files_id);
     if ($useNames eq "true") { substituteCodesByNames($files_id); }
-    # calc distance matrix from temp database
-    #system("$scriptdir/scripts/mentalist_distance cgMLST.tmp > $phantv_dm");
+    # copy allele profiles in allele matrix file
+	copy("cgMLST.tmp",$phantv_am);
+    # calculate distance matrix from allele profiles
     my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantv_dm");
-    # calc tree from distance matrix
+    # calculate tree from distance matrix
     system("$scriptdir/scripts/mentalist_tree $phantv_dm > $phantv_tree");
     return 0;
 }
@@ -62,7 +64,7 @@ sub getIdFilesString {
     return $idFilesString;
 }
 
-# Obtain alleles from db and write to temp file
+# Obtain allele profiles from db and write to temp file
 sub createAllelesFile {
     my ($files_id) = @_;
     my $sql;
@@ -154,6 +156,6 @@ sub substituteCodesByNames {
     # substitute the sample_code by its corrisponding sample_name
     my $cmd = q( awk -F "\t" 'BEGIN {OFS = FS} NR==FNR{a[$2]=$1;next}{$1=a[$1];}1' code2name.tmp cgMLST.tmp > cgMLST.tmp2 );
     system($cmd);
-    system("mv cgMLST.tmp cgMLST.tmp.OLD");
-    system("mv cgMLST.tmp2 cgMLST.tmp");
+    move("cgMLST.tmp","cgMLST.tmp.OLD");
+    move("cgMLST.tmp2","cgMLST.tmp");
 }

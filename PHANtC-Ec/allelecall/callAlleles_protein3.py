@@ -463,7 +463,7 @@ def main(input_file,temppath,blastPath,verbose,bsrTresh,sizeTresh):
                             #DNAstr = str(currentCDSDict[">" + cdsStrName])
 
                             AlleleDNAstr = alleleList[int(alleleMatchid) - 1]
-                            verboseprint(str(match))
+                            #verboseprint(str(match))
                             verboseprint("BSR : " + str(scoreRatio))
 
                             if scoreRatio >= bsrTresh:
@@ -566,8 +566,8 @@ def main(input_file,temppath,blastPath,verbose,bsrTresh,sizeTresh):
                     if leftmatchContig < leftmatchAllele and rightmatchContig < rightmatchAllele:
 
                         # ~ resultsList.append('PLOTSC:-1')
-                        perfectMatchIdAllele.append('LOTSC')
-                        perfectMatchIdAllele2.append('LOTSC')
+                        perfectMatchIdAllele.append('PLOTSC')
+                        perfectMatchIdAllele2.append('PLOTSC')
                         # ~ if not Reversed:
                         # ~ perfectMatchIdAllele2.append(str(contigname)+"&"+str(matchLocation[0])+"-"+str(matchLocation[1])+"&"+"+")
                         # ~ else:

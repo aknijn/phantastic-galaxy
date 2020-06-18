@@ -118,13 +118,14 @@ sub collectStatistics{
     return 0;
 }
 
-# Obtain alleles from db and write to temp file
+# Obtain allele profiles from db and write to temp file
 sub createAllelesFile {
     open(my $if, $serotype_file) or die "Could not read from serotype_file, program halting.";
     my $serotype = <$if>;
     chomp $serotype;
     close $if;
 	my $sql;
+	# If the serogroup is known, retrieve allele profiles only from those samples, if O? then from all
 	if ($serotype eq 'O?') {
 		$sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
                select mlst_ecoli.allele_strain from mlst_ecoli where permille_loci>799";

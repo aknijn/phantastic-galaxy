@@ -1,4 +1,4 @@
-<tool id="phantv" name="PHANtV" version="2.1">
+<tool id="phantv" name="PHANtV" version="2.2">
     <description>Only to be used through IRIDA</description>
     <requirements>
         <requirement type="package" version="3.6">python</requirement>
@@ -31,9 +31,11 @@
             $phantv_filenames
             '$species'
 			$useNames
+            $phantv_am
             $phantv_dm
             $phantv_tree
         #else
+            touch $phantv_am
             touch $phantv_dm
             touch $phantv_tree
         #end if
@@ -49,7 +51,8 @@
 
     <!-- define outputs -->
     <outputs>
-        <data name="phantv_tree" format="nwk" label="${tool.name} on ${on_string}: clustering" ></data>
+        <data name="phantv_am" format="tabular" label="${tool.name} on ${on_string}: allele matrix" ></data>
         <data name="phantv_dm" format="tabular" label="${tool.name} on ${on_string}: distance matrix" ></data>
+        <data name="phantv_tree" format="nwk" label="${tool.name} on ${on_string}: clustering" ></data>
    </outputs>
 </tool>

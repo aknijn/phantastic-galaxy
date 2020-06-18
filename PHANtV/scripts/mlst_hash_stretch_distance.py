@@ -10,7 +10,7 @@
 
 import sys, getopt
 import os
-import datetime as dt
+
 
 def mlst_calls(call_file):
   # return a MLST call matrix, with samples on the rows and loci on the columns.
@@ -53,6 +53,9 @@ def compare_alleles(allele_1, allele_2):
     comparison = 0
   elif 'ASM' in allele_1 or 'ASM' in allele_2:
     # partial allele found
+    comparison = 0
+  elif 'ERROR' in allele_1 or 'ERROR' in allele_2:
+    # allele not found
     comparison = 0
   else:
     comparison = 1

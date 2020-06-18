@@ -54,6 +54,9 @@ def compare_alleles(allele_1, allele_2):
   elif 'ASM' in allele_1 or 'ASM' in allele_2:
     # partial allele found
     comparison = 0
+  elif 'ERROR' in allele_1 or 'ERROR' in allele_2:
+    # allele not found
+    comparison = 0
   else:
     comparison = 1
   return comparison
