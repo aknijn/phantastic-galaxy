@@ -104,7 +104,7 @@ def set_reference(species, outdir, script_path, trueCoverage):
 
 
 def confirm_genes_fasta_rules(typing_fasta_headers, typing_rules_file):
-    with open(typing_rules_file, 'rtU') as reader:
+    with open(typing_rules_file, 'rt') as reader:
         genes = []
         for line in reader:
             line = line.splitlines()[0]

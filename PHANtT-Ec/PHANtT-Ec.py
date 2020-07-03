@@ -69,14 +69,19 @@ def __main__():
         subprocess.call("mentalist call --output_votes -o 'mentalist_out' --db '/afs/galaxy/tool-data/mentalist_databases/escherichia_coli_pubmlst_k31_2018-10-09/escherichia_coli_pubmlst_k31_m023_2018-10-09.jld' -1 input_1.fq", shell=True)
     sequence_typing = openFileAsTable("mentalist_out.byvote")
     sequence_qc = openFileAsTable("mentalist_out.coverage.txt")
+    # SEROTYPER O&H
+    if args.input2:
+      subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
+    else:
+      subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " n input_1.fq xxx input.fasta", shell=True)
     # SEROTYPER O
-    subprocess.call("mmseqs easy-search --search-type 3 --format-output target,pident,alnlen,tlen input.fasta " + TOOL_DIR + "/data/O_typeDB mmseqs_O /tmp", shell=True)
-    subprocess.call("awk -F '\t' '($3>800 && $4>800) { print $1 FS $2 FS $3 FS $4 }' mmseqs_O | sort -nrk 2 -nrk 3 > mmseqs_O_fc", shell=True)
-    sero_typing_o = openFileAsTable("mmseqs_O_fc")
+    subprocess.call("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_O | sort -nrk 2 -nrk 3 > serogroup_O_fc", shell=True)
+    subprocess.call("awk -F , '!seen[$0]++' serogroup_O_fc > serogroup_O_fcd", shell=True)
+    sero_typing_o = openFileAsTable("serogroup_O_fcd")
     # SEROTYPER H
-    subprocess.call("mmseqs easy-search --search-type 3 --format-output target,pident,alnlen,tlen input.fasta " + TOOL_DIR + "/data/H_typeDB mmseqs_H /tmp", shell=True)
-    subprocess.call("awk -F '\t' '($3>800 && $4>800) { print $1 FS $2 FS $3 FS $4 }' mmseqs_H | sort -nrk 2 -nrk 3 > mmseqs_H_fc", shell=True)
-    sero_typing_h = openFileAsTable("mmseqs_H_fc")
+    subprocess.call("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_H | sort -nrk 2 -nrk 3 > serogroup_H_fc", shell=True)
+    subprocess.call("awk -F , '!seen[$0]++' serogroup_H_fc > serogroup_H_fcd", shell=True)
+    sero_typing_h = openFileAsTable("serogroup_H_fcd")
     try:
         report_data = {}
         report = open(args.output, 'w')
