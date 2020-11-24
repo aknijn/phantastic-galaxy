@@ -1,0 +1,37 @@
+<tool id="phantt-pre" name="PHANtT-pre" version="2.0">
+    <description>Only to be used through IRIDA</description>
+    <requirements>
+        <requirement type="package" version="5.26">perl</requirement>
+        <requirement type="package" version="1.642">perl-dbi</requirement>
+        <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
+    </requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+    #if $token == "tW9jiEusOSGvsE91qso1":
+	  awk -v OFS='\t' 'split($1, arr, "/") { printf("%s%s",sep,arr[6]);sep="," }END{print ""}' $input_pc.forward > ids.tab;
+      perl
+        $__tool_directory__/PHANtT-pre.pl
+        ids.tab
+        $phantt_samples
+    #else
+        touch $phantt_samples
+    #end if
+]]>
+    </command>
+
+    <inputs>
+        <param name="token" type="text" label="execution token" />
+        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" />
+    </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data name="phantt_samples" format="tabular" label="sample names - virulotypes" />
+   </outputs>
+</tool>
