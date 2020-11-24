@@ -85,7 +85,12 @@ def __main__():
         os.system("ln -s " + os.popen("which trimmomatic.jar").read().strip() + " trimmomatic.jar")
         subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar SE -threads ${GALAXY_SLOTS:-6} -phred33 fastq_in.fastqsanger input_1.fq SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:55", shell=True)
     # ASSEMBLY
-    subprocess.call("perl " + TOOL_DIR + "/scripts/spades.pl spades_contigs spades_contig_stats spades_scaffolds spades_scaffold_stats spades_log NODE spades.py --disable-gzip-output --careful -t ${GALAXY_SLOTS:-16} --iontorrent -s fastq:input_1.fq", shell=True)
+    strSequencer = ""
+    # check if the file is ION Torrent
+    with open('input_1.fq', 'r') as fq:
+        if fq.readline().count(':') == 2:
+            strSequencer = "--iontorrent"
+    subprocess.call("perl " + TOOL_DIR + "/scripts/spades.pl spades_contigs spades_contig_stats spades_scaffolds spades_scaffold_stats spades_log NODE spades.py --disable-gzip-output --careful -t ${GALAXY_SLOTS:-16} " + strSequencer + " -s fastq:input_1.fq", shell=True)
     subprocess.call("perl " + TOOL_DIR + "/scripts/filter_spades_repeats.pl -i spades_contigs -t spades_contig_stats -c 0.33 -r 1.75 -l 1000 -o output_with_repeats -u output_without_repeats -n repeat_sequences_only -e 5000 -f discarded_sequences -s summary", shell=True)
     shutil.move("output_without_repeats", args.contigs)
     # QUAST
