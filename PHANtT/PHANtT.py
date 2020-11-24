@@ -41,9 +41,9 @@ def __main__():
             os.remove('genes_found')
         for (sample_name, sample_virulotypes) in zip(samples_name, samples_virulotypes):
             # select distinct best matching allele & transpose array
-            subprocess.call("sort -n -r -k2,2 -k3,3 -k4,4 " + sample_virulotypes  + " | awk '!seen[substr($1, 1, index($1, \"_\")-1)]++ { print $1}' | sort > out_" + sample_name + "_distinct", shell=True)
+            subprocess.call("sort -n -r -k2,2 -k3,3 -k4,4 " + sample_virulotypes  + " | awk '$2>80 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { print $1}' | sort > out_" + sample_name + "_distinct", shell=True)
             # collect all genes found
-            subprocess.call("sort -n -r -k2,2 -k3,3 -k4,4 " + sample_virulotypes  + " | awk '!seen[substr($1, 1, index($1, \"_\")-1)]++ { print substr($1, 1, index($1, \"_\")-1)}' >> genes_found", shell=True)
+            subprocess.call("sort -n -r -k2,2 -k3,3 -k4,4 " + sample_virulotypes  + " | awk '$2>80 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { print substr($1, 1, index($1, \"_\")-1)}' >> genes_found", shell=True)
         # filter out duplicate genes
         subprocess.call("awk 'NF && !seen[$1]++ { print $1 }' genes_found | sort > genes_found_distinct", shell=True)
         # create the matrix samples - genes
