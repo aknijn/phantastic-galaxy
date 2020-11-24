@@ -78,6 +78,8 @@ sub collectOutput{
       <$if_in>;
       my $allele_line = <$if_in>;
       chomp $allele_line;
+	  # remove INF- from newly inferred alleles
+	  $allele_line =~ s/INF-//ig;
       close $if_in;
 
       my $sql_insert = "insert into mlst_ecoli (sample_code) values (?)";
