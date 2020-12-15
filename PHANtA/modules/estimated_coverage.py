@@ -1,4 +1,4 @@
-import utils
+from . import utils
 import os
 from functools import partial
 import multiprocessing
@@ -13,7 +13,8 @@ def countSequencedBases(fastq_file, outdir):
     # Determine compression type
     compression_type = utils.compressionType(fastq_file)
     if compression_type is not None:
-        command = [compression_type[1], '--keep', '--stdout', fastq_file, '|', 'grep', '--after-context=1', '"@"', '|', 'grep', '--invert-match', '"^--$"', '|', 'grep', '--invert-match', '"@"', '|', 'wc', '']
+        command = [compression_type[1], '--keep', '--stdout', fastq_file, '|', 'grep', '--after-context=1', '"@"', '|',
+                   'grep', '--invert-match', '"^--$"', '|', 'grep', '--invert-match', '"@"', '|', 'wc', '']
 
         # Number of characters
         command[18] = '--chars'
@@ -85,13 +86,13 @@ def getEstimatedCoverage(fastq_files, estimatedGenomeSizeMb, outdir, threads, es
         report = 'Estimated depth coverage: ' + str(estimatedCoverage) + 'x'
         if estimatedCoverage >= estimatedMinimumCoverage:
             pass_qc = True
-            print report
+            print(report)
         else:
             failing['sample'] = report + ' (lower than ' + str(estimatedMinimumCoverage) + 'x)'
-            print failing['sample']
+            print(failing['sample'])
 
     else:
         failing['sample'] = 'Did not run'
-        print failing['sample']
+        print(failing['sample'])
 
     return run_successfully, pass_qc, failing, estimatedCoverage

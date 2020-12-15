@@ -1,5 +1,5 @@
 import os
-import utils
+from . import utils
 from functools import partial
 
 
@@ -23,23 +23,23 @@ def trimmomatic(jar_path_trimmomatic, sampleName, trimmomatic_folder, threads, a
             else:
                 if nts2clip_based_ntsContent is not None:
                     crop = nts2clip_based_ntsContent[1]
-                    print str(crop) + ' nucleotides will be clipped at the end of reads'
+                    print(str(crop) + ' nucleotides will be clipped at the end of reads')
                     crop = maxReadsLength - crop
                     command[10] = str('CROP:' + str(crop))
         else:
-            print 'Because FastQC did not run successfully, --trimCrop option will not be considered'
+            print('Because FastQC did not run successfully, --trimCrop option will not be considered')
 
         if headCrop is not None:
             command[11] = str('HEADCROP:' + str(headCrop[0]))
         else:
             if nts2clip_based_ntsContent is not None:
                 headCrop = nts2clip_based_ntsContent[0]
-                print str(headCrop) + ' nucleotides will be clipped at the beginning of reads'
+                print(str(headCrop) + ' nucleotides will be clipped at the beginning of reads')
                 command[11] = str('HEADCROP:' + str(headCrop))
 
     if not doNotSearchAdapters:
         if adaptersFasta is not None:
-            print 'Removing adapters contamination using ' + adaptersFasta
+            print('Removing adapters contamination using ' + adaptersFasta)
             command[12] = 'ILLUMINACLIP:' + adaptersFasta + ':3:30:10:6:true'
         else:
             trimmomatic_adapters_folder = os.path.join(os.path.dirname(script_path), 'src', 'Trimmomatic-0.36',
@@ -48,22 +48,24 @@ def trimmomatic(jar_path_trimmomatic, sampleName, trimmomatic_folder, threads, a
                               # os.path.join(trimmomatic_adapters_folder, 'NexteraPE-PE.fa'),
                               os.path.join(trimmomatic_adapters_folder, 'TruSeq2-PE.fa'),
                               os.path.join(trimmomatic_adapters_folder, 'TruSeq3-PE-2.fa')]
-            print 'Removing adapters contamination using ' + str(adapters_files)
+            print('Removing adapters contamination using ' + str(adapters_files))
             adaptersFasta = concatenateFastaFiles(adapters_files, trimmomatic_folder, 'concatenated_adaptersFile.fasta')
             command[12] = 'ILLUMINACLIP:' + adaptersFasta + ':3:30:10:6:true'
 
+    run_successfully = False
     if fastq_encoding is not None:
         if fastq_encoding == 33:
             command[7] = '-phred33'
         elif fastq_encoding == 64:
             command[7] = '-phred64'
         run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, True)
-    else:
-        print 'Trimmomatic fail! Trying run with Phred+33 enconding defined...'
+
+    if not run_successfully:
+        print('Trying to run Trimmomatic with Phred+33 encoding defined...')
         command[7] = '-phred33'
         run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, True)
         if not run_successfully:
-            print 'Trimmomatic fail again! Trying run with Phred+64 enconding defined...'
+            print('Trimmomatic failed again! Trying to run with Phred+64 encoding defined...')
             command[7] = '-phred64'
             run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, True)
 
@@ -147,10 +149,10 @@ def runTrimmomatic(jar_path_trimmomatic, sampleName, outdir, threads, adaptersFa
 
         if not not_empty_fastq:
             warnings['sample'] = 'Zero reads after Trimmomatic'
-            print warnings['sample']
+            print(warnings['sample'])
 
     else:
         failing['sample'] = 'Did not run'
-        print failing['sample']
+        print(failing['sample'])
 
     return run_successfully, not_empty_fastq, failing, paired_reads, trimmomatic_folder, fileSize, warnings

@@ -1,6 +1,6 @@
 import sys
 import os
-import utils
+from . import utils
 from functools import partial
 
 
@@ -35,7 +35,7 @@ def fastQC(fastqc_folder, threads, adaptersFasta, fastq_files):
     command = command + fastq_files
     if adaptersFasta is not None:
         adaptersTEMP = adapters2fastQC(fastqc_folder, adaptersFasta)
-        print 'Scanning for adapters contamination using ' + adaptersFasta
+        print('Scanning for adapters contamination using ' + adaptersFasta)
         command[9] = '--adapters ' + adaptersTEMP
     run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, True)
 
@@ -242,7 +242,7 @@ def check_FastQC_runSuccessfully(fastqc_folder, fastq_files):
         try:
             open(os.path.join(fastqc_folder, str(reads_file + '_fastqc'), 'fastqc_data.txt'), 'rtU')
         except Exception as e:
-            print e
+            print(e)
             run_successfully = False
     return run_successfully
 
@@ -281,19 +281,19 @@ def runFastQCanalysis(outdir, threads, adaptersFasta, fastq_files, keepFiles, fa
         # Get number nucleotides to clip based on nucleotide content bias
         nts2clip_based_ntsContent = nts2clip(ntsContent_biasStatus)
 
-        print "Number of reads found: " + str(numberReads)
-        print "Maximum reads length found for both fastq files: " + str(maximumReadsLength) + " nts"
-        print "Reads length class more frequently found in fastq files: " + str(moreFrequentReadsLength)
+        print("Number of reads found: " + str(numberReads))
+        print("Maximum reads length found for both fastq files: " + str(maximumReadsLength) + " nts")
+        print("Reads length class more frequently found in fastq files: " + str(moreFrequentReadsLength))
         if len(badReads) == 0:
             pass_qc = True
         elif len(badReads) > 0:
-            print "Reads files FAILING FastQC control: " + str(badReads)
+            print("Reads files FAILING FastQC control: " + str(badReads))
         if len(goodReads) > 0:
-            print "Reads files passing FastQC control: " + str(goodReads)
-        print 'To improve reads quality, consider clipping the next number of nucleotides in the fastq files at 5 end and 3 end, respectively: ' + str(nts2clip_based_ntsContent)
+            print("Reads files passing FastQC control: " + str(goodReads))
+        print('To improve reads quality, consider clipping the next number of nucleotides in the fastq files at 5 end and 3 end, respectively: ' + str(nts2clip_based_ntsContent))
     else:
         failing['sample'] = 'Did not run'
-        print failing['sample']
+        print(failing['sample'])
 
     if not keepFiles:
         utils.removeDirectory(fastqc_folder)

@@ -30,7 +30,7 @@ exit 0;
 sub runPHANtA {
     gzip $fastq1 => "fastq_1.fastq.gz" or die "gzip failed: $GzipError\n";
     gzip $fastq2 => "fastq_2.fastq.gz" or die "gzip failed: $GzipError\n";
-    my $rematchdir = "$scriptdir/../../INNUENDO/ReMatCh";
+    my $rematchdir = "$scriptdir/../ReMatCh";
     my $newpath = "PATH=$ENV{PATH}:$rematchdir";
     `$newpath; $python`;
     return 0;

@@ -9,9 +9,9 @@ INNUca.py - INNUENDO quality control of reads, de novo assembly and contigs
 quality assessment, and possible contamination detection
 <https://github.com/B-UMMI/INNUca>
 
-Copyright (C) 2017 Miguel Machado <mpmachado@medicina.ulisboa.pt>
+Copyright (C) 2018 Miguel Machado <mpmachado@medicina.ulisboa.pt>
 
-Last modified: September 24, 2018
+Last modified: February 05, 2020
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ import modules.spades as spades
 import modules.assembly_mapping as assembly_mapping
 import modules.pilon as pilon
 import modules.mlst as mlst
+from modules.insert_size import run_for_innuca as insert_size
 import modules.trueCoverage_rematch as trueCoverage
 import modules.combine_reports as combine_reports
 import time
@@ -46,14 +47,16 @@ import os
 import sys
 
 
+# TODO: parse breseq: https://stackoverflow.com/questions/2870667/how-to-convert-an-html-table-to-an-array-in-python
+
+
 def get_trueCoverage_config(skipTrueCoverage, trueConfigFile, speciesExpected, script_path):
     trueCoverage_config = None
     if not skipTrueCoverage:
         trueCoverage_reference = None
-        trueCoverage_config = None
 
         if trueConfigFile is None:
-            print 'No trueCoverage_ReMatCh config file was provided. Search for default files'
+            print('No trueCoverage_ReMatCh config file was provided. Search for default files')
             trueCoverage_config_file, trueCoverage_reference = trueCoverage.check_existing_default_config(speciesExpected, script_path)
         else:
             trueCoverage_config_file = trueConfigFile
@@ -64,30 +67,31 @@ def get_trueCoverage_config(skipTrueCoverage, trueConfigFile, speciesExpected, s
             trueCoverage_config['reference_file'] = trueCoverage_reference
 
         if trueCoverage_config is not None:
-            print 'The following trueCoverage_ReMatCh config file will be used: ' + trueCoverage_config_file
-            print 'The following trueCoverage_ReMatCh reference file will be used: ' + trueCoverage_config['reference_file'] + '\n'
+            print('The following trueCoverage_ReMatCh config file will be used: ' + trueCoverage_config_file)
+            print('The following trueCoverage_ReMatCh reference file will be'
+                  ' used: {reference}\n'.format(reference=trueCoverage_config['reference_file']))
         else:
-            print 'No trueCoverage_ReMatCh config file was found'
+            print('No trueCoverage_ReMatCh config file was found')
     return trueCoverage_config
 
 
-def include_rematch_dependencies_path(doNotUseProvidedSoftware):
-    command = ['which', 'rematch.py']
-    run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, False)
-    if run_successfully:
-        rematch = stdout.splitlines()[0]
+def include_rematch_dependencies_path(do_not_use_provided_software):
+    rematch_script = utils.find_rematch()
+
+    if not do_not_use_provided_software and rematch_script is not None:
         path_variable = os.environ['PATH']
-        script_folder = os.path.dirname(rematch)
-        if not doNotUseProvidedSoftware:
-            bcftools = os.path.join(script_folder, 'src', 'bcftools-1.3.1', 'bin')
-            os.environ['PATH'] = str(':'.join([bcftools, path_variable]))
+        script_folder = os.path.dirname(rematch_script)
+        bcftools = os.path.join(script_folder, 'src', 'bcftools-1.3.1', 'bin')
+        os.environ['PATH'] = str(':'.join([bcftools, path_variable]))
+
+    return rematch_script
 
 
 version_kraken_global = None
 
 
 def main():
-    version = '4.0'
+    version = '4.2.2'
     args = utils.parseArguments(version)
 
     general_start_time = time.time()
@@ -102,25 +106,25 @@ def main():
     if not args.noLog:
         sys.stdout = utils.Logger(outdir, time_str)
 
-    print '\n' + '==========> INNUca.py <=========='
-    print '\n' + 'Program start: ' + time.ctime()
+    print('\n' + '==========> INNUca.py <==========')
+    print('\n' + 'Program start: ' + time.ctime())
 
     # Tells where the logfile will be stored
     if not args.noLog:
-        print '\n' + 'LOGFILE:'
-        print sys.stdout.getLogFile()
+        print('\n' + 'LOGFILE:')
+        print(sys.stdout.getLogFile())
 
     # Print command
-    print '\n' + 'COMMAND:'
+    print('\n' + 'COMMAND:')
     script_path = os.path.abspath(sys.argv[0])
-    print sys.executable + ' ' + script_path + ' ' + ' '.join(sys.argv[1:])
+    print(sys.executable + ' ' + script_path + ' ' + ' '.join(sys.argv[1:]))
 
     # Print directory where programme was lunch
-    print '\n' + 'PRESENT DIRECTORY:'
-    print os.getcwd()
+    print('\n' + 'PRESENT DIRECTORY:')
+    print(os.getcwd())
 
     # Print program version
-    print '\n' + 'VERSION INNUca.py:'
+    print('\n' + 'VERSION INNUca.py:')
     utils.script_version_git(version=version, current_directory=os.getcwd(), script_path=script_path,
                              no_git_info=args.noGitInfo)
 
@@ -128,47 +132,57 @@ def main():
     utils.get_cpu_information(outdir, time_str)
 
     # Get trueCoverage_ReMatCh settings
-    trueCoverage_config = get_trueCoverage_config(args.skipTrueCoverage, args.trueConfigFile.name if args.trueConfigFile is not None else None, args.speciesExpected, script_path)
+    trueCoverage_config = get_trueCoverage_config(args.skipTrueCoverage,
+                                                  args.trueConfigFile.name if args.trueConfigFile is not None else None,
+                                                  args.speciesExpected, script_path)
 
     # Check programms
     programs_version_dictionary = {}
-    programs_version_dictionary['gunzip'] = ['--version', '>=', '1.6']
+    programs_version_dictionary['gunzip'] = {'required': ['--version', '>=', '1.6']}
 
     # Java check first for java dependents check next
     if not (args.skipFastQC and args.skipTrimmomatic and (args.skipPilon or args.skipSPAdes)):
         # programs_version_dictionary['java'] = ['-version', '>=', '1.8']
-        programs_version_dictionary['java'] = [None, '>=', '1.8']  # For OpenJDK compatibility
+        programs_version_dictionary['java'] = {'required': [None, '>=', '1.8']}  # For OpenJDK compatibility
     missingPrograms, programs_version_dictionary = utils.checkPrograms(programs_version_dictionary)
     if len(missingPrograms) > 0:
         sys.exit('\n' + 'Errors:' + '\n' + '\n'.join(missingPrograms))
+
+    rematch_script = None
 
     if args.runKraken:
         global version_kraken_global
         version_kraken_global = kraken_version()
         if version_kraken_global == 2:
-            programs_version_dictionary['kraken2'] = ['--version', '>=', '2.0.6']
+            programs_version_dictionary['kraken2'] = {'required': ['--version', '>=', '2.0.6']}
         else:
-            programs_version_dictionary['kraken'] = ['--version', '>=', '0.10.6']
-            programs_version_dictionary['kraken-repor'] = ['--version', '>=', '0.10.6']
-    if not args.skipTrueCoverage or trueCoverage_config is not None:
-        include_rematch_dependencies_path(args.doNotUseProvidedSoftware)
-        programs_version_dictionary['rematch.py'] = ['--version', '>=', '3.2']
-        programs_version_dictionary['bcftools'] = ['--version', '==', '1.3.1']
+            programs_version_dictionary['kraken'] = {'required': ['--version', '>=', '0.10.6']}
+            programs_version_dictionary['kraken-repor'] = {'required': ['--version', '>=', '0.10.6']}
+    if not args.skipTrueCoverage and trueCoverage_config is not None:
+        rematch_script = include_rematch_dependencies_path(args.doNotUseProvidedSoftware)
+        programs_version_dictionary['rematch.py'] = {'required': ['--version', '>=', '4.0.1']}
+        programs_version_dictionary['bcftools'] = {'required': ['--version', '==', '1.3.1']}
     if not (args.skipTrueCoverage and ((args.skipAssemblyMapping and args.skipPilon) or args.skipSPAdes)):
-        programs_version_dictionary['bowtie2'] = ['--version', '>=', '2.2.9']
-        programs_version_dictionary['samtools'] = ['--version', '==', '1.3.1']
+        programs_version_dictionary['bowtie2'] = {'required': ['--version', '>=', '2.2.9']}
+        programs_version_dictionary['samtools'] = {'required': ['--version', '==', '1.3.1']}
     if not args.skipFastQC:
-        programs_version_dictionary['fastqc'] = ['--version', '==', '0.11.5']
+        programs_version_dictionary['fastqc'] = {'required': ['--version', '==', '0.11.5']}
     if not args.skipTrimmomatic:
-        programs_version_dictionary['trimmomatic-0.36.jar'] = ['-version', '==', '0.36']
+        programs_version_dictionary['trimmomatic-{version}.jar'.format(version=args.trimVersion)] = \
+            {'required': ['-version', '==', args.trimVersion]}
     if args.runPear:
-        programs_version_dictionary['pear'] = ['--version', '>=', '0.9.10']
+        programs_version_dictionary['pear'] = {'required': ['--version', '>=', '0.9.10']}
     if not args.skipSPAdes:
-        programs_version_dictionary['spades.py'] = ['--version', '>=', '3.9.0']
+        programs_version_dictionary['spades.py'] = {'required': ['--version', '>=', '3.9.0']}
     if not (args.skipPilon or args.skipSPAdes):
-        programs_version_dictionary['pilon-1.18.jar'] = ['--version', '==', '1.18']
+        programs_version_dictionary['pilon-{version}.jar'.format(version=args.pilonVersion)] = \
+            {'required': ['--version', '==', args.pilonVersion]}
     if not (args.skipMLST or args.skipSPAdes):
-        programs_version_dictionary['mlst'] = ['--version', '>=', '2.4']
+        programs_version_dictionary['mlst'] = {'required': ['--version', '>=', '2.4']}
+    if args.runInsertSize and not args.skipSPAdes:
+        if args.skipAssemblyMapping and args.skipPilon:
+            programs_version_dictionary['bowtie2'] = {'required': ['--version', '>=', '2.2.9']}
+            programs_version_dictionary['samtools'] = {'required': ['--version', '==', '1.3.1']}
 
     # Set and print PATH variable
     utils.setPATHvariable(args, script_path)
@@ -180,23 +194,26 @@ def main():
     # .jar paths
     jar_path_trimmomatic = None
     if not args.skipTrimmomatic:
-        jar_path_trimmomatic = programs_version_dictionary['trimmomatic-0.36.jar'][3]
+        jar_path_trimmomatic = \
+            programs_version_dictionary['trimmomatic-{version}.jar'.format(version=args.trimVersion)]['found']['path']
 
     jar_path_pilon = None
     if not args.skipPilon and not args.skipSPAdes:
-        jar_path_pilon = programs_version_dictionary['pilon-1.18.jar'][3]
+        jar_path_pilon = \
+            programs_version_dictionary['pilon-{version}.jar'.format(version=args.pilonVersion)]['found']['path']
 
-    rematch_script = None
-    # ReMatCh path
-    if not args.skipTrueCoverage:
-        rematch_script = programs_version_dictionary['rematch.py'][3]
+    # Get SPAdes version
+    spades_version = None
+    if not args.skipSPAdes:
+        spades_version = programs_version_dictionary['spades.py']['found']['version']
 
     # pairEnd_filesSeparation_list = args.pairEnd_filesSeparation
     pairEnd_filesSeparation_list = None
-    samples, inputDirectory, removeCreatedSamplesDirectories, indir_same_outdir = get_samples(args.inputDirectory, args.fastq, outdir, pairEnd_filesSeparation_list)
+    samples, inputDirectory, removeCreatedSamplesDirectories, indir_same_outdir = \
+        get_samples(args.inputDirectory, args.fastq, outdir, pairEnd_filesSeparation_list)
 
     # Start running the analysis
-    print '\n' + 'RUNNING INNUca.py'
+    print('\n' + 'RUNNING INNUca.py')
 
     # Prepare run report file
     samples_report_path = os.path.join(outdir, 'samples_report.' + time_str + '.tab')
@@ -219,12 +236,12 @@ def main():
     # Determine SPAdes maximum memory
     spadesMaxMemory = None
     if not args.skipSPAdes:
-        print ''
+        print('')
         spadesMaxMemory = spades.define_memory(args.spadesMaxMemory, args.threads, available_memory_GB)
     # Determine .jar maximum memory
     jarMaxMemory = 'off'
     if not (args.skipTrimmomatic and (args.skipSPAdes or args.skipPilon)):
-        print ''
+        print('')
         jarMaxMemory = utils.define_jar_max_memory(args.jarMaxMemory, args.threads, available_memory_GB)
 
     # Run INNUca for each sample
@@ -232,7 +249,7 @@ def main():
     for sample in samples:
         sample_start_time = time.time()
 
-        print '\n' + 'Sample: ' + sample + '\n'
+        print('\n' + 'Sample: ' + sample + '\n')
 
         # Create sample outdir
         sample_outdir = os.path.abspath(os.path.join(outdir, sample, ''))
@@ -242,18 +259,21 @@ def main():
         # Get fastq files
         fastq_files = utils.searchFastqFiles(os.path.join(inputDirectory, sample, ''), pairEnd_filesSeparation_list, False)
         if len(fastq_files) == 1:
-            print 'Only one fastq file was found: ' + str(fastq_files)
-            print 'Pair-End sequencing is required. Moving to the next sample'
+            print('Only one fastq file was found: ' + str(fastq_files))
+            print('Pair-End sequencing is required. Moving to the next sample')
             continue
         elif len(fastq_files) == 0:
-            print 'No compressed fastq files were found. Continue to the next sample'
+            print('No compressed fastq files were found. Continue to the next sample')
             continue
 
-        print 'The following files will be used:'
-        print str(fastq_files) + '\n'
+        print('The following files will be used:')
+        print(str(fastq_files) + '\n')
 
         # Run INNUca.py analysis
-        run_successfully, pass_qc, run_report = run_innuca(sample, sample_outdir, fastq_files, args, script_path, scheme, spadesMaxMemory, jar_path_trimmomatic, jar_path_pilon, jarMaxMemory, trueCoverage_config, rematch_script, species_genus, mlst_scheme_genus)
+        run_successfully, pass_qc, run_report = \
+            run_innuca(sample, sample_outdir, fastq_files, args, script_path, scheme, spadesMaxMemory,
+                       jar_path_trimmomatic, jar_path_pilon, jarMaxMemory, trueCoverage_config, rematch_script,
+                       species_genus, mlst_scheme_genus, spades_version=spades_version)
 
         # Save sample fail report
         utils.write_fail_report(os.path.join(sample_outdir, 'fail_report.txt'), run_report)
@@ -272,7 +292,7 @@ def main():
         if args.fastq is not None:
             utils.removeDirectory(os.path.join(outdir, 'reads', ''))
 
-        print 'END ' + sample + ' analysis'
+        print('END ' + sample + ' analysis')
         time_taken = utils.runTime(sample_start_time)
 
         # Save run report
@@ -303,13 +323,14 @@ def main():
         utils.removeDirectory(os.path.join(inputDirectory, ''))
 
     # Run report
-    print '\n' + 'END INNUca.py'
-    print '\n' + 'Pipeline problems: {not_run_successfully} samples'.format(not_run_successfully=(len(samples) - number_samples_successfully))
-    print '\n' + 'FAIL: {number_samples_fail} samples'.format(number_samples_fail=(len(samples) - number_samples_pass - number_samples_warning))
-    print '\n' + 'WARNING: {number_samples_warning} samples'.format(number_samples_warning=number_samples_warning)
-    print '\n' + 'PASS: {number_samples_pass} samples'.format(number_samples_pass=number_samples_pass)
-    time_taken = utils.runTime(general_start_time)
-    del time_taken
+    print('\n' + 'END INNUca.py')
+    print('\n' + 'Pipeline problems: {not_run_successfully}'
+                 ' samples'.format(not_run_successfully=(len(samples) - number_samples_successfully)))
+    print('\n' + 'FAIL: {number_samples_fail}'
+                 ' samples'.format(number_samples_fail=(len(samples) - number_samples_pass - number_samples_warning)))
+    print('\n' + 'WARNING: {number_samples_warning} samples'.format(number_samples_warning=number_samples_warning))
+    print('\n' + 'PASS: {number_samples_pass} samples'.format(number_samples_pass=number_samples_pass))
+    _ = utils.runTime(general_start_time)
 
     # Check whether INNUca.py run at least one sample successfully
     if number_samples_successfully == 0:
@@ -320,7 +341,7 @@ def write_warning_report(warning_report_path, run_report):
     with open(warning_report_path, 'wt') as writer_warningReport:
         warnings = []
         for step in ('reads_Kraken', 'first_FastQC', 'Trimmomatic', 'second_FastQC', 'Pear', 'SPAdes',
-                     'Assembly_Mapping', 'MLST', 'reads_Kraken'):
+                     'Assembly_Mapping', 'MLST', 'assembly_Kraken'):
             if len(run_report[step][4]) > 0:
                 if step == 'first_FastQC' and \
                         run_report['second_FastQC'][1] is not False and \
@@ -349,27 +370,33 @@ def get_sample_args_fastq(fastq_files_list, outdir, pairEnd_filesSeparation_list
     for fastq in fastq_files_list:
         fastq_link = os.path.join(new_indir, os.path.basename(fastq))
         os.symlink(fastq, fastq_link)
-    samples, removeCreatedSamplesDirectories, indir_same_outdir = utils.checkSetInputDirectory(new_indir, outdir, pairEnd_filesSeparation_list)
+    samples, removeCreatedSamplesDirectories, indir_same_outdir = \
+        utils.checkSetInputDirectory(new_indir, outdir, pairEnd_filesSeparation_list)
     return new_indir, samples, removeCreatedSamplesDirectories, indir_same_outdir
 
 
-def get_samples(args_inputDirectory, args_fastq, outdir, pairEnd_filesSeparation_list):
+def get_samples(args_input_directory, args_fastq, outdir, pair_end_files_separation_list):
+    samples, input_directory, remove_created_samples_directories, indir_same_outdir = None, None, None, None
+
     if args_fastq is None:
         # Check if input directory exists with fastq files and store samples name that have fastq files
-        inputDirectory = os.path.abspath(os.path.join(args_inputDirectory, ''))
-        print ''
-        samples, removeCreatedSamplesDirectories, indir_same_outdir = utils.checkSetInputDirectory(inputDirectory, outdir, pairEnd_filesSeparation_list)
-    elif args_inputDirectory is None:
+        input_directory = os.path.abspath(os.path.join(args_input_directory, ''))
+        print('')
+        samples, remove_created_samples_directories, indir_same_outdir = \
+            utils.checkSetInputDirectory(input_directory, outdir, pair_end_files_separation_list)
+    elif args_input_directory is None:
         fastq_files = [os.path.abspath(fastq.name) for fastq in args_fastq]
         if fastq_files[0] == fastq_files[1]:
             sys.exit('Same fastq file provided twice')
-        inputDirectory, samples, removeCreatedSamplesDirectories, indir_same_outdir = get_sample_args_fastq(fastq_files, outdir, pairEnd_filesSeparation_list)
+        input_directory, samples, remove_created_samples_directories, indir_same_outdir = \
+            get_sample_args_fastq(fastq_files, outdir, pair_end_files_separation_list)
 
-    return samples, inputDirectory, removeCreatedSamplesDirectories, indir_same_outdir
+    return samples, input_directory, remove_created_samples_directories, indir_same_outdir
 
 
 def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spades_max_memory, jar_path_trimmomatic,
-               jar_path_pilon, jar_max_memory, true_coverage_config, rematch_script, species_genus, mlst_scheme_genus):
+               jar_path_pilon, jar_max_memory, true_coverage_config, rematch_script, species_genus, mlst_scheme_genus,
+               spades_version=None):
     threads = args.threads
     adapters_fasta = args.adapters
     if adapters_fasta is not None:
@@ -391,28 +418,34 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
     if not_corruption_found:
         # Run Kraken
         # most_abundant_taxon_percent = None
+        run_successfully_kraken = False
+        run_successfully_estimated_coverage = False
+        estimated_coverage = None
+        run_successfully_true_coverage = False
+        pass_qc_true_coverage = False
+
+        trimmomatic_run_successfully = False
         if args.runKraken:
             print('\n'
                   '--runKraken set. Running Kraken for reads')
-            run_successfully, pass_qc, time_taken, failing, warning, _ = \
+            run_successfully_kraken, pass_qc, time_taken, failing, warning, _ = \
                 kraken(species=args.speciesExpected, files_to_classify=fastq_files, kraken_db=args.krakenDB,
                        files_type='fastq', outdir=outdir, version_kraken=version_kraken_global,
                        db_mem=args.krakenMemory, quick=args.krakenQuick, min_percent_covered=args.krakenMinCov,
                        max_unclassified_frag=args.krakenMaxUnclass, min_base_quality=args.krakenMinQual,
                        threads=threads)
-            runs['reads_Kraken'] = [run_successfully, pass_qc, time_taken, failing, warning, 'NA']
+            runs['reads_Kraken'] = [run_successfully_kraken, pass_qc, time_taken, failing, warning, 'NA']
         else:
             runs['reads_Kraken'] = skipped
 
-        if args.runKraken and (run_successfully and not pass_qc) and not args.krakenProceed and not args.krakenIgnoreQC:
+        if args.runKraken and \
+                (run_successfully_kraken and not pass_qc) and \
+                not args.krakenProceed and \
+                not args.krakenIgnoreQC:
             print('\n'
                   'This sample does not pass Kraken module QA/QC. It will not proceed with INNUca pipeline')
         else:
             # Run first Estimated Coverage
-            run_successfully_estimated_coverage = False
-            estimated_coverage = None
-            run_successfully_true_coverage = False
-            pass_qc_true_coverage = False
             if not args.skipEstimatedCoverage:
                 # Check whether the Estimated Coverage output is already present
                 report_file = os.path.join(outdir, 'coverage_report.txt')
@@ -424,10 +457,8 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                                                   args.estimatedMinimumCoverage)
                 runs['first_Coverage'] = [run_successfully_estimated_coverage, pass_qc, time_taken, failing, {}, 'NA']
             else:
-                print '--skipEstimatedCoverage set. Skipping First Estimated Coverage analysis'
+                print('--skipEstimatedCoverage set. Skipping First Estimated Coverage analysis')
                 runs['first_Coverage'] = skipped
-
-            trimmomatic_run_successfully = False
 
             # # Correct first estimation coverage with Kraken percentage
             # # Does not seem to be a good idea (at least for Streptococcus agalactiae)
@@ -447,24 +478,26 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                                               not estimated_coverage < args.estimatedMinimumCoverage):
                 if not args.skipTrueCoverage and true_coverage_config is not None:
                     # Run True Coverage
-                    run_successfully_true_coverage, pass_qc_true_coverage, time_taken, failing = \
-                        trueCoverage.runTrueCoverage(sample_name, fastq_files, true_coverage_config['reference_file'],
-                                                     threads, outdir,
-                                                     true_coverage_config['length_extra_seq'],
-                                                     true_coverage_config['minimum_depth_presence'],
-                                                     true_coverage_config['minimum_depth_call'],
-                                                     true_coverage_config['minimum_depth_frequency_dominant_allele'],
-                                                     true_coverage_config['minimum_gene_coverage'], False,
-                                                     true_coverage_config['minimum_gene_identity'],
-                                                     true_coverage_config, rematch_script)
+                    run_successfully_true_coverage, pass_qc_true_coverage, time_taken, failing, _ = \
+                        trueCoverage.run_true_coverage(sample_name, fastq_files, true_coverage_config['reference_file'],
+                                                       threads, outdir,
+                                                       true_coverage_config['length_extra_seq'],
+                                                       true_coverage_config['minimum_depth_presence'],
+                                                       true_coverage_config['minimum_depth_call'],
+                                                       true_coverage_config['minimum_depth_frequency_dominant_allele'],
+                                                       true_coverage_config['minimum_gene_coverage'], False,
+                                                       true_coverage_config['minimum_gene_identity'],
+                                                       true_coverage_config, rematch_script, num_map_loc=1,
+                                                       bowtie_algorithm=args.trueCoverageBowtieAlgo,
+                                                       clean_run_rematch=True)
                     runs['trueCoverage_ReMatCh'] = [run_successfully_true_coverage, pass_qc_true_coverage, time_taken,
                                                     failing, {}, 'NA']
                 else:
-                    print '\n' + '--skipTrueCoverage set. Skipping True coverage analysis'
+                    print('\n' + '--skipTrueCoverage set. Skipping True coverage analysis')
                     runs['trueCoverage_ReMatCh'] = skipped
 
-                if args.skipTrueCoverage or true_coverage_config is None or (run_successfully_true_coverage and
-                                                                             pass_qc_true_coverage):
+                if args.skipTrueCoverage or true_coverage_config is None or args.trueCoverageProceed or \
+                        (run_successfully_true_coverage and pass_qc_true_coverage):
                     # Run first FastQC
                     nts2clip_based_nts_content = None
                     if not args.skipFastQC:
@@ -474,7 +507,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                                                                                   'first_run')
                         runs['first_FastQC'] = [run_successfully, pass_qc, time_taken, failing, warning, 'NA']
                     else:
-                        print '--skipFastQC set. Skipping First FastQC analysis'
+                        print('--skipFastQC set. Skipping First FastQC analysis')
                         runs['first_FastQC'] = skipped
 
                     # Run Trimmomatic
@@ -505,7 +538,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                                 runs['second_Coverage'] = [run_successfully_estimated_coverage, pass_qc, time_run,
                                                            failing, {}, 'NA']
                             else:
-                                print '--skipEstimatedCoverage set. Skipping Second Estimated Coverage analysis'
+                                print('--skipEstimatedCoverage set. Skipping Second Estimated Coverage analysis')
                                 runs['second_Coverage'] = skipped
 
                             if args.skipEstimatedCoverage or (run_successfully_estimated_coverage and
@@ -523,13 +556,14 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                                     if run_successfully:
                                         max_reads_length = maximum_reads_length
                                 else:
-                                    print '--skipFastQC set. Skipping Second FastQC analysis'
+                                    print('--skipFastQC set. Skipping Second FastQC analysis')
                                     runs['second_FastQC'] = skipped
                             else:
                                 print('\n'
                                       'Estimated coverage is too lower (< {estimatedMinimumCoverage}x). This sample'
                                       ' will not proceed with INNUca'
                                       ' pipeline'.format(estimatedMinimumCoverage=args.estimatedMinimumCoverage))
+                                runs['second_FastQC'] = skipped
                         else:
                             print('Trimmomatic did not run successfully or return zero reads! Skipping Second Estimated'
                                   ' Coverage analysis and FastQC analysis')
@@ -564,8 +598,8 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                 args.krakenIgnoreQC:
             if args.skipEstimatedCoverage or (run_successfully_estimated_coverage and
                                               not estimated_coverage < args.estimatedMinimumCoverage):
-                if args.skipTrueCoverage or true_coverage_config is None or (run_successfully_true_coverage and
-                                                                             pass_qc_true_coverage):
+                if args.skipTrueCoverage or true_coverage_config is None or args.trueCoverageProceed or \
+                        (run_successfully_true_coverage and pass_qc_true_coverage):
                     if args.skipFastQC or (runs['second_FastQC'][1] or
                                            (runs['second_FastQC'][1] is None and
                                             runs['first_FastQC'][1])) is not False or \
@@ -577,7 +611,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
             assembled_se_reads = None
             # Run Pear
             if args.runPear:
-                print '--runPear set. Running Pear'
+                print('--runPear set. Running Pear')
                 pear_min_overlap = pear.determine_minimum_overlap(args.pearMinOverlap, min_reads_length,
                                                                   max_reads_length)
                 run_successfully, pass_qc, time_taken, failing, unassembled_pe_reads, assembled_se_reads, \
@@ -591,13 +625,15 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
             # Run SPAdes
             if not args.skipSPAdes:
                 run_successfully, pass_qc, time_taken, failing, contigs_spades, warning = \
-                    spades.runSpades(sample_name, outdir, threads,
-                                     unassembled_pe_reads if unassembled_pe_reads is not None else fastq_files,
-                                     args.spadesNotUseCareful, spades_max_memory,
-                                     args.spadesMinCoverageAssembly, args.spadesMinContigsLength, genome_size,
-                                     args.spadesKmers, max_reads_length, args.spadesDefaultKmers,
-                                     args.spadesMinKmerCovContigs, assembled_se_reads, args.saveExcludedContigs,
-                                     args.maxNumberContigs)
+                    spades.run_spades(sample_name, outdir, threads,
+                                      unassembled_pe_reads if unassembled_pe_reads is not None else fastq_files,
+                                      args.spadesNotUseCareful, spades_max_memory,
+                                      args.spadesMinCoverageAssembly, args.spadesMinContigsLength, genome_size,
+                                      args.spadesKmers, max_reads_length, args.spadesDefaultKmers,
+                                      args.spadesMinKmerCovContigs, assembled_se_reads, args.saveExcludedContigs,
+                                      args.maxNumberContigs, args.keepSPAdesScaffolds, spades_version=spades_version,
+                                      estimated_coverage=estimated_coverage,
+                                      spades_not_use_isolate=args.spadesNotUseIsolate)
                 runs['SPAdes'] = [run_successfully, pass_qc, time_taken, failing, warning, 'NA']
 
                 if run_successfully:
@@ -636,7 +672,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                                     os.path.isfile(assembly_filtered):
                                 contigs = assembly_filtered
                     else:
-                        print '--skipAssemblyMapping set. Skipping Assembly Mapping check'
+                        print('--skipAssemblyMapping set. Skipping Assembly Mapping check')
                         runs['Assembly_Mapping'] = skipped
 
                     # Run Pilon
@@ -669,7 +705,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                             utils.removeDirectory(pilon_folder)
 
                     else:
-                        print '--skipPilon set. Skipping Pilon correction'
+                        print('--skipPilon set. Skipping Pilon correction')
                         runs['Pilon'] = skipped
 
                     if not args.keepBAM:
@@ -716,7 +752,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                     if not args.skipAssemblyMapping:
                         utils.removeDirectory(assembly_mapping_folder)
 
-                    print '\n' + 'Final assembly: ' + contigs
+                    print('\n' + 'Final assembly: ' + contigs)
                     with open(os.path.join(outdir, 'final_assembly.txt'), 'wt') as writer:
                         writer.write(contigs + '\n')
 
@@ -726,7 +762,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                             mlst.runMlst(contigs, scheme, outdir, species_genus, mlst_scheme_genus)
                         runs['MLST'] = [run_successfully, pass_qc, time_taken, failing, warning, 'NA']
                     else:
-                        print '--skipMLST set. Skipping MLST analysis'
+                        print('--skipMLST set. Skipping MLST analysis')
                         runs['MLST'] = skipped
 
                     # Run Kraken
@@ -744,22 +780,34 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
                     else:
                         runs['assembly_Kraken'] = skipped
 
+                    # Run insert_size
+                    if args.runInsertSize:
+                        print('\n'
+                              '--runInsertSize set. Running insert_size')
+                        run_successfully, _, time_taken, failing = \
+                            insert_size(sample_name=sample_name, reference=contigs,
+                                        fastq=fastq_files, outdir=outdir, threads=threads, dist=args.insertSizeDist)
+                        runs['insert_size'] = [run_successfully, None, time_taken, failing, {}, 'NA']
+                    else:
+                        runs['insert_size'] = skipped
                 else:
-                    print('SPAdes did not run successfully! Skipping Pilon correction, Assembly Mapping check'
-                          ' and MLST analysis')
+                    print('SPAdes did not run successfully! Skipping Pilon correction, Assembly Mapping check,'
+                          ' MLST and Kraken (assembly) analysis and insert size determination')
             else:
-                print('--skipSPAdes set. Skipping SPAdes, Pilon correction, Assembly Mapping check and MLST'
-                      ' analysis')
+                print('--skipSPAdes set. Skipping SPAdes, Pilon correction, Assembly Mapping check and MLST and Kraken'
+                      ' (assembly) analysis and insert size determination')
                 runs['SPAdes'] = skipped
                 runs['Assembly_Mapping'] = skipped
                 runs['Pilon'] = skipped
                 runs['MLST'] = skipped
+                runs['assembly_Kraken'] = skipped
+                runs['insert_size'] = skipped
     else:
-        print 'Moving to the next sample'
+        print('Moving to the next sample')
 
     for step in ('reads_Kraken', 'first_Coverage', 'trueCoverage_ReMatCh', 'first_FastQC', 'Trimmomatic',
                  'second_Coverage', 'second_FastQC', 'Pear', 'SPAdes', 'Assembly_Mapping', 'Pilon', 'MLST',
-                 'assembly_Kraken'):
+                 'assembly_Kraken', 'insert_size'):
         if step not in runs:
             runs[step] = not_run
 
@@ -777,7 +825,7 @@ def run_innuca(sample_name, outdir, fastq_files, args, script_path, scheme, spad
     pass_reads_kraken = runs['reads_Kraken'][1] is not False or args.krakenIgnoreQC
     pass_cov = (runs['second_Coverage'][1] or (runs['second_Coverage'][1] is None and
                                                runs['first_Coverage'][1])) is not False
-    pass_true_cov = runs['trueCoverage_ReMatCh'][1] is not False
+    pass_true_cov = runs['trueCoverage_ReMatCh'][1] is not False or args.trueCoverageIgnoreQC
     pass_fastqc = (runs['second_FastQC'][1] or (runs['second_FastQC'][1] is None and
                                                 runs['first_FastQC'][1])) is not False
     # pass_trimmomatic = runs['Trimmomatic'][1] is not False

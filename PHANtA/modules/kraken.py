@@ -26,10 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
 import os.path
-from utils import runCommandPopenCommunicate as utils_run_command
-from utils import runTime as utils_run_time
-from utils import checkPrograms as utils_check_programs
-from utils import timer as utils_timer
+from modules.utils import runCommandPopenCommunicate as utils_run_command
+from modules.utils import runTime as utils_run_time
+from modules.utils import checkPrograms as utils_check_programs
+from modules.utils import timer as utils_timer
 from functools import partial
 import argparse
 import time
@@ -882,8 +882,8 @@ def main():
 
     parser_optional_general = parser.add_argument_group('General facultative options')
     parser_optional_general.add_argument('-o', '--outdir', type=str, metavar='/path/to/output/directory/',
-                                         help='Path to the directory where the sequences will be stored (default: ./)',
-                                         required=False, default='.')
+                                         help='Path to the directory where the information will be stored'
+                                              ' (default: ./)', required=False, default='.')
     parser_optional_general.add_argument('-j', '--threads', type=int, metavar='N',
                                          help='Number of threads to use (default: 1)', required=False, default=1)
 
@@ -935,10 +935,11 @@ def main():
         print()
         sys.exit('Kraken was not found in PATH')
 
-    print()
-
     if len(missing_programs) > 0:
+        print()
         sys.exit('\n' + 'Errors:' + '\n' + '\n'.join(missing_programs))
+
+    print()
 
     args.outdir = os.path.abspath(args.outdir)
     if not os.path.isdir(args.outdir):

@@ -10,8 +10,10 @@ import pickle
 import functools
 import traceback
 
-
-# import csv
+try:
+    from pkg_resources import resource_filename
+except ImportError as e:
+    print('WARNING: {}'.format(e))
 
 
 def parseArguments(version):
@@ -79,6 +81,7 @@ def parseArguments(version):
     running_options.add_argument('--skipPilon', action='store_true',
                                  help='Tells the programme to not run Pilon correction')
     running_options.add_argument('--skipMLST', action='store_true', help='Tells the programme to not run MLST analysis')
+    running_options.add_argument('--runInsertSize', action='store_true', help='Runs the insert_size module at the end')
 
     adapters_options = parser.add_mutually_exclusive_group()
     # description = 'Control how adapters are handle by INNUca.'
@@ -156,6 +159,22 @@ def parseArguments(version):
                                             ' unless --skipTrueCoverage is specified. Do not use together with'
                                             ' --skipTrueCoverage option',
                                        required=False)
+    true_coverage_options.add_argument('--trueCoverageBowtieAlgo', type=str, metavar='"--very-sensitive-local"',
+                                       help='Bowtie2 alignment mode to be used via ReMatCh to map the reads and'
+                                            ' determine the true coverage. It can be an end-to-end alignment'
+                                            ' (unclipped alignment) or local alignment (soft clipped'
+                                            ' alignment). Also, the user can choose between fast or sensitive'
+                                            ' alignments. Please check Bowtie2 manual for extra information:'
+                                            ' http://bowtie-bio.sourceforge.net/bowtie2/index.shtml .'
+                                            ' This option should be provided between quotes and starting with'
+                                            ' an empty space (like --bowtieAlgo " --very-fast") or using equal'
+                                            ' sign (like --bowtieAlgo="--very-fast")',
+                                       required=False, default='--very-sensitive-local')
+    true_coverage_options.add_argument('--trueCoverageProceed', action='store_true',
+                                       help='Do not stop INNUca.py if sample fails trueCoverage_ReMatCh')
+    true_coverage_options.add_argument('--trueCoverageIgnoreQC', action='store_true',
+                                       help='Ignore trueCoverage_ReMatCh QA/QC in sample quality assessment. Useful'
+                                            ' when analysing data from species with unknown behaviour')
 
     fast_qc_options = parser.add_argument_group(title='FastQC options')
     fast_qc_options.add_argument('--fastQCkeepFiles', action='store_true',
@@ -164,6 +183,10 @@ def parseArguments(version):
                                  help='Do not stop INNUca.py if sample fails FastQC')
 
     trimmomatic_options = parser.add_argument_group(title='Trimmomatic options')
+    trimmomatic_options.add_argument('--trimVersion', type=str, metavar='0.38',
+                                     help='Tells INNUca.py which Trimmomatic version to use (available'
+                                          ' options: %(choices)s)',
+                                     choices=['0.36', '0.38'], required=False, default='0.38')
     trimmomatic_options.add_argument('--trimKeepFiles', action='store_true',
                                      help='Tells INNUca.py to not remove the output of Trimmomatic')
     trimmomatic_options.add_argument('--doNotTrimCrops', action='store_true',
@@ -199,18 +222,30 @@ def parseArguments(version):
                                      required=False, default=55)
 
     spades_options = parser.add_argument_group(title='SPAdes options')
-    spades_options.add_argument('--spadesVersion', type=str, metavar='3.11.0',
-                                help='Tells INNUca.py which SPAdes version to use (available options: %(choices)s)'
-                                     ' (default: 3.11.0)',
-                                choices=['3.9.0', '3.10.1', '3.11.0'], required=False, default='3.11.0')
+    spades_options.add_argument('--spadesVersion', type=str, metavar='3.14.0',
+                                help='Tells INNUca.py which SPAdes version to use (available options: %(choices)s)',
+                                choices=['3.11.1', '3.13.0', '3.14.0'], required=False, default='3.14.0')
     spades_options.add_argument('--spadesNotUseCareful', action='store_true',
-                                help='Tells SPAdes to only perform the assembly without the --careful option')
+                                help='Tells SPAdes to perform the assembly without the --careful option.'
+                                     ' When the SPAdes --isolate option is allowed to be used (for SPAdes >= v4.14.0'
+                                     ' and in the cases that INNUca --spadesNotUseIsolate option is not used) and the'
+                                     ' estimated depth of coverage is >= 100x, the SPAdes --careful option is not used'
+                                     ' anyway.')
+    spades_options.add_argument('--spadesNotUseIsolate', action='store_true',
+                                help='Tells SPAdes to not use --isolate option (only possible for SPAdes >= v3.14.0).'
+                                     ' The SPAdes --isolate option is used when the estimated depth of coverage'
+                                     ' is >= 100x (unless the INNUca --spadesNotUseIsolate is used) and automatically'
+                                     ' turns on the INNUca --spadesNotUseCareful option and consequently do not use'
+                                     ' the SPAdes --careful option.'
+                                     ' Accordingally to SPAdes, the --isolate option is highly recommended for'
+                                     ' high-coverage isolate and multi-cell data (improves the assembly quality and'
+                                     ' running time).')
     spades_options.add_argument('--spadesMinContigsLength', type=int, metavar='N',
                                 help='Filter SPAdes contigs for length greater or equal than this value (default:'
                                      ' maximum reads size or 200 bp)',
                                 required=False)
     spades_options.add_argument('--spadesMaxMemory', type=int, metavar='N',
-                                help='The maximum amount of RAM Gb for SPAdes to use (default: 2 Gb per thread will be'
+                                help='The maximum amount of RAM Gb for SPAdes to use (default: 3 Gb per thread will be'
                                      ' used up to the free available memory)',
                                 required=False)
     spades_options.add_argument('--spadesMinCoverageAssembly', type=spades_cov_cutoff, metavar='N',
@@ -244,8 +279,13 @@ def parseArguments(version):
                                   help='Tells INNUca.py to save excluded contigs')
     assembly_options.add_argument('--keepIntermediateAssemblies', action='store_true',
                                   help='Tells INNUca to keep all the intermediate assemblies')
+    assembly_options.add_argument('--keepSPAdesScaffolds', action='store_true',
+                                  help='Tells INNUca to keep SPAdes scaffolds')
 
     pilon_options = parser.add_argument_group(title='Pilon options')
+    pilon_options.add_argument('--pilonVersion', type=str, metavar='1.23',
+                               help='Tells INNUca.py which Pilon version to use (available options: %(choices)s)',
+                               choices=['1.18', '1.23'], required=False, default='1.23')
     pilon_options.add_argument('--pilonKeepFiles', action='store_true',
                                help='Tells INNUca.py to not remove the output of Pilon')
 
@@ -254,6 +294,13 @@ def parseArguments(version):
                                                                           ' assessment. Useful when analysing data'
                                                                           ' from possible new species or higher'
                                                                           ' taxonomic levels (higher than species)')
+
+    insert_options = parser.add_argument_group(title='insert_size options',
+                                               description='This module determines the sequencing insert size by'
+                                                           ' mapping the reades used in the assembly back to the'
+                                                           ' produced assembly it self')
+    insert_options.add_argument('--insertSizeDist', action='store_true',
+                                help='Produces a distribution plot of the insert sizes (requires Plotly)')
 
     pear_options = parser.add_argument_group(title='Pear options')
     pear_options.add_argument('--pearKeepFiles', action='store_true',
@@ -286,6 +333,11 @@ def parseArguments(version):
     if args.krakenMaxUnclass is not None:
         if args.krakenMaxUnclass < 0 or args.krakenMaxUnclass > 100:
             msg.append('--krakenMaxUnclass should be a value between [0, 100]')
+    if args.insertSizeDist:
+        try:
+            import plotly
+        except ImportError as e:
+            msg.append('Used --insertSizeDist but Python Plotly package was not found: {e}'.format(e=e))
 
     if len(msg) > 0:
         argparse.ArgumentParser.error('\n'.join(msg))
@@ -371,33 +423,40 @@ def runCommandPopenCommunicate(command, shell_True, timeout_sec_None, print_coma
     if print_comand_True:
         print('Running: ' + ' '.join(command))
 
-    if shell_True:
-        command = ' '.join(command)
-        proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    else:
-        proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        if shell_True:
+            command = ' '.join(command)
+            proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        else:
+            proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    not_killed_by_timer = True
-    if timeout_sec_None is None:
-        stdout, stderr = proc.communicate()
-    else:
-        time_counter = Timer(timeout_sec_None, kill_subprocess_Popen, args=(proc, command,))
-        time_counter.start()
-        stdout, stderr = proc.communicate()
-        time_counter.cancel()
-        not_killed_by_timer = time_counter.isAlive()
+        not_killed_by_timer = True
+        if timeout_sec_None is None:
+            stdout, stderr = proc.communicate()
+        else:
+            time_counter = Timer(timeout_sec_None, kill_subprocess_Popen, args=(proc, command,))
+            time_counter.start()
+            stdout, stderr = proc.communicate()
+            time_counter.cancel()
+            not_killed_by_timer = time_counter.isAlive()
 
-    if proc.returncode == 0:
-        run_successfully = True
-    else:
-        if not print_comand_True and not_killed_by_timer:
-            print('Running: ' + str(command))
-        if len(stdout) > 0:
-            print('STDOUT')
-            print(stdout.decode("utf-8"))
-        if len(stderr) > 0:
-            print('STDERR')
-            print(stderr.decode("utf-8"))
+        if proc.returncode == 0:
+            run_successfully = True
+        else:
+            if not print_comand_True and not_killed_by_timer:
+                print('Running: ' + str(command))
+            if len(stdout) > 0:
+                print('STDOUT')
+                print(stdout.decode("utf-8"))
+            if len(stderr) > 0:
+                print('STDERR')
+                print(stderr.decode("utf-8"))
+    except OSError as error_found:
+        error_found = 'ERROR: {c} - {e}'.format(c=command, e=error_found)
+        print(error_found)
+        stdout = ''
+        stderr = error_found
+
     return run_successfully, stdout.decode("utf-8"), stderr.decode("utf-8")
 
 
@@ -435,26 +494,29 @@ def checkPrograms(programs_version_dictionary):
     which_program = ['which', '']
     listMissings = []
     for program in programs:
+        programs[program]['found'] = {'path': None, 'version': None}
         which_program[1] = program
         run_successfully, stdout, stderr = runCommandPopenCommunicate(which_program, False, None, False)
         if not run_successfully:
             listMissings.append(program + ' not found in PATH.')
         else:
-            print(stdout.splitlines()[0])
-            programs[program].append(stdout.splitlines()[0])
-            if programs[program][0] is None:
-                print(program + ' (impossible to determine programme version) found at: ' + stdout.splitlines()[0])
+            programs[program]['found']['path'] = stdout.splitlines()[0]
+            print(programs[program]['found']['path'])
+            if programs[program]['required'][0] is None:
+                print('{program} (impossible to determine program version) found at: {path}'.format(
+                    program=program, path=programs[program]['found']['path']))
             else:
                 if program.endswith('.jar'):
-                    check_version = ['java', '-jar', stdout.splitlines()[0], programs[program][0]]
+                    check_version = ['java', '-jar', programs[program]['found']['path'],
+                                     programs[program]['required'][0]]
                 else:
-                    check_version = [stdout.splitlines()[0], programs[program][0]]
+                    check_version = [programs[program]['found']['path'], programs[program]['required'][0]]
                 run_successfully, stdout, stderr = runCommandPopenCommunicate(check_version, False, None, False)
                 if stdout == '':
                     stdout = stderr
                 if program == 'bunzip2':
                     version_line = stdout.splitlines()[0].rsplit(',', 1)[0].split(' ')[-1]
-                elif program == 'pilon-1.18.jar':
+                elif program.startswith('pilon-'):
                     version_line = stdout.splitlines()[0].split(' ', 3)[2]
                 elif program == 'mlst' or program == 'kraken' or program == 'kraken-report' or program == 'kraken2':
                     version_line = stdout.splitlines()[0].split(' ')[-1].split('-', 1)[0]
@@ -463,10 +525,11 @@ def checkPrograms(programs_version_dictionary):
                 replace_characters = ['"', 'v', 'V', '+']
                 for i in replace_characters:
                     version_line = version_line.replace(i, '')
+                programs[program]['found']['version'] = version_line
                 print(program + ' (' + version_line + ') found')
-                if programs[program][1] == '>=':
+                if programs[program]['required'][1] == '>=':
                     program_found_version = version_line.split('.')
-                    program_version_required = programs[program][2].split('.')
+                    program_version_required = programs[program]['required'][2].split('.')
                     if len(program_version_required) == 3:
                         if len(program_found_version) == 2:
                             program_found_version.append(0)
@@ -479,13 +542,13 @@ def checkPrograms(programs_version_dictionary):
                             continue
                         else:
                             listMissings.append(
-                                'It is required ' + program + ' with version ' + programs[program][1] + ' ' +
-                                programs[program][2])
+                                'It is required ' + program + ' with version ' +
+                                programs[program]['required'][1] + ' ' + programs[program]['required'][2])
                 else:
-                    if version_line != programs[program][2]:
+                    if version_line != programs[program]['required'][2]:
                         listMissings.append(
-                            'It is required ' + program + ' with version ' + programs[program][1] + ' ' +
-                            programs[program][2])
+                            'It is required ' + program + ' with version ' +
+                            programs[program]['required'][1] + ' ' + programs[program]['required'][2])
     return listMissings, programs
 
 
@@ -495,12 +558,12 @@ def setPATHvariable(args, script_path):
     # Set path to use provided softwares
     if not args.doNotUseProvidedSoftware:
         fastQC = os.path.join(script_folder, 'src', 'fastqc_v0.11.5')
-        trimmomatic = os.path.join(script_folder, 'src', 'Trimmomatic-0.36')
+        trimmomatic = os.path.join(script_folder, 'src', 'Trimmomatic-{version}'.format(version=args.trimVersion))
         pear = os.path.join(script_folder, 'src', 'PEAR_v0.9.10', 'bin')
         spades = os.path.join(script_folder, 'src', 'SPAdes-{version}-Linux'.format(version=args.spadesVersion), 'bin')
         bowtie2 = os.path.join(script_folder, 'src', 'bowtie2-2.2.9')
         samtools = os.path.join(script_folder, 'src', 'samtools-1.3.1', 'bin')
-        pilon = os.path.join(script_folder, 'src', 'pilon_v1.18')
+        pilon = os.path.join(script_folder, 'src', 'pilon_v{version}'.format(version=args.pilonVersion))
 
         os.environ['PATH'] = str(':'.join([fastQC, trimmomatic, pear, spades, bowtie2, samtools, pilon, path_variable]))
     print('\n' + 'PATH variable:')
@@ -551,8 +614,8 @@ def organizeSamplesFastq(directory, pairEnd_filesSeparation_list):
     files = searchFastqFiles(directory, None, True)
 
     if len(files) == 0:
-        sys.exit(
-            'No fastq files were found! Make sure fastq files ends with .fastq.gz or .fq.gz, and the pair-end information is either in _R1_001. or _1. format.')
+        sys.exit('No fastq files were found! Make sure fastq files ends with .fastq.gz or .fq.gz, and the pair-end'
+                 ' information is either in _R1_001. or _1. format.')
 
     pairEnd_filesSeparation = [['_R1_001.f', '_R2_001.f'], ['_1.f', '_2.f']]
     if pairEnd_filesSeparation_list is not None:
@@ -627,8 +690,8 @@ def checkSetInputDirectory(inputDirectory, outdir, pairEnd_filesSeparation_list)
         directories = [d for d in os.listdir(inputDirectory) if
                        not d.startswith('.') and os.path.isdir(os.path.join(inputDirectory, d, ''))]
         if os.path.basename(outdir) in directories:
-            print(
-                'Output directory is inside input directory and will be ignore in the checking and setting input directory step')
+            print('Output directory is inside input directory and will be ignore in the checking and setting input'
+                  ' directory step')
             directories.remove(os.path.basename(outdir))
         if len(directories) == 0:
             print('There is no samples folders! Search for fastq files in input directory')
@@ -644,9 +707,12 @@ def checkSetInputDirectory(inputDirectory, outdir, pairEnd_filesSeparation_list)
                     continue
                 elif len(files) >= 1:
                     samples.append(directory)
+                else:
+                    print('WARNING: no fastq files were found for sample {sample}!'
+                          ' This sample will be ignored. (one common problem is broken links)'.format(sample=directory))
     if len(samples) == 0:
-        sys.exit(
-            'There is no fastq files for the samples folders provided! Make sure fastq files ends with .fastq.gz or .fq.gz, and the pair-end information is either in _R1_001. or _1. format.')
+        sys.exit('There is no fastq files for the samples folders provided! Make sure fastq files ends with .fastq.gz'
+                 ' or .fq.gz, and the pair-end information is either in _R1_001. or _1. format.')
     return samples, removeCreatedSamplesDirectories, indir_same_outdir
 
 
@@ -657,7 +723,7 @@ def removeDirectory(directory):
 
 
 # Get script version
-def script_version_git(version, current_directory, script_path, no_git_info=True):
+def script_version_git(version, current_directory, script_path, no_git_info=False):
     """
     Print script version and get GitHub commit information
 
@@ -669,14 +735,14 @@ def script_version_git(version, current_directory, script_path, no_git_info=True
         Path to the directory where the script was start to run
     script_path : str
         Path to the script running
-    no_git_info : bool, default True
-        False if it is not necessary to retreive the GitHub commit information
+    no_git_info : bool, default False
+        True if it is not necessary to retreive the GitHub commit information
 
     Returns
     -------
 
     """
-    print('Version ' + version)
+    print('Version {}'.format(version))
 
     if not no_git_info:
         try:
@@ -707,11 +773,11 @@ def extractVariableFromPickle(pickleFile):
 
 
 def compressionType(file_to_test):
-    magic_dict = {'\x1f\x8b\x08': ['gzip', 'gunzip'], '\x42\x5a\x68': ['bzip2', 'bunzip2']}
+    magic_dict = {b'\x1f\x8b\x08': ['gzip', 'gunzip'], b'\x42\x5a\x68': ['bzip2', 'bunzip2']}
 
     max_len = max(len(x) for x in magic_dict)
 
-    with open(file_to_test, 'r') as reader:
+    with open(file_to_test, 'rb') as reader:
         file_start = reader.read(max_len)
 
     for magic, filetype in magic_dict.items():
@@ -721,7 +787,8 @@ def compressionType(file_to_test):
 
 
 steps = ['FastQ_Integrity', 'reads_Kraken', 'first_Coverage', 'trueCoverage_ReMatCh', 'first_FastQC', 'Trimmomatic',
-         'second_Coverage', 'second_FastQC', 'Pear', 'SPAdes', 'Pilon', 'Assembly_Mapping', 'MLST', 'assembly_Kraken']
+         'second_Coverage', 'second_FastQC', 'Pear', 'SPAdes', 'Pilon', 'Assembly_Mapping', 'MLST', 'assembly_Kraken',
+         'insert_size']
 
 
 def sampleReportLine(run_report):
@@ -746,7 +813,7 @@ def sampleReportLine(run_report):
             else:
                 warnings = True
 
-        if step in ('FastQ_Integrity', 'Pilon'):
+        if step in ('FastQ_Integrity', 'Pilon', 'insert_size'):
             l = [run_successfully, run_report[step][2]]
         elif step == 'Trimmomatic':
             l = [run_successfully, run_report[step][2], run_report[step][5]]
@@ -763,7 +830,7 @@ def start_sample_report_file(samples_report_path):
             l = [step + '_filesOK', step + '_runningTime']
         elif step == 'Trimmomatic':
             l = [step + '_runSuccessfully', step + '_runningTime', step + '_fileSize']
-        elif step == 'Pilon':
+        elif step in ['Pilon', 'insert_size']:
             l = [step + '_runSuccessfully', step + '_runningTime']
         else:
             l = [step + '_runSuccessfully', step + '_passQC', step + '_runningTime']
@@ -965,11 +1032,11 @@ def get_sequence_information(fasta_file, length_extra_seq):
                 if not blank_line_found:
                     if line.startswith('>'):
                         if len(temp_sequence_dict) > 0:
-                            if temp_sequence_dict.values()[0]['length'] - 2 * length_extra_seq > 0:
-                                sequence_dict[temp_sequence_dict.keys()[0]] = temp_sequence_dict.values()[0]
-                                headers.append(temp_sequence_dict.values()[0]['header'])
+                            if list(temp_sequence_dict.values())[0]['length'] - 2 * length_extra_seq > 0:
+                                sequence_dict[list(temp_sequence_dict.keys())[0]] = list(temp_sequence_dict.values())[0]
+                                headers.append(list(temp_sequence_dict.values())[0]['header'])
                             else:
-                                print(temp_sequence_dict.values()[0]['header'] + ' sequence ignored due to length <= 0')
+                                print(list(temp_sequence_dict.values())[0]['header'] + ' sequence ignored due to length <= 0')
                             temp_sequence_dict = {}
 
                         if line[1:] in headers:
@@ -986,14 +1053,35 @@ def get_sequence_information(fasta_file, length_extra_seq):
                 blank_line_found = True
 
         if len(temp_sequence_dict) > 0:
-            if temp_sequence_dict.values()[0]['length'] - 2 * length_extra_seq > 0:
-                sequence_dict[temp_sequence_dict.keys()[0]] = temp_sequence_dict.values()[0]
-                headers.append(temp_sequence_dict.values()[0]['header'])
+            if list(temp_sequence_dict.values())[0]['length'] - 2 * length_extra_seq > 0:
+                sequence_dict[list(temp_sequence_dict.keys())[0]] = list(temp_sequence_dict.values())[0]
+                headers.append(list(temp_sequence_dict.values())[0]['header'])
             else:
-                print(temp_sequence_dict.values()[0]['header'] + ' sequence ignored due to length <= 0')
+                print(list(temp_sequence_dict.values())[0]['header'] + ' sequence ignored due to length <= 0')
 
     return sequence_dict, headers
 
 
 def chunkstring(string, length):
     return (string[0 + i:length + i] for i in range(0, len(string), length))
+
+
+def find_rematch():
+    original_rematch = None
+    command = ['which', 'rematch.py']
+    run_successfully, stdout, stderr = runCommandPopenCommunicate(command, False, None, False)
+    if run_successfully:
+        original_rematch = stdout.splitlines()[0]
+
+    resource_rematch = None
+    try:
+        resource_rematch = resource_filename('ReMatCh', 'rematch.py')
+    # except ModuleNotFoundError:  FOR PYTHON 3
+    except Exception:
+        resource_rematch = original_rematch
+    else:
+        print('\n'
+              'Using ReMatCh "{resource_rematch}" via "{original_rematch}"\n'.format(resource_rematch=resource_rematch,
+                                                                                     original_rematch=original_rematch))
+
+    return resource_rematch

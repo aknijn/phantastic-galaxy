@@ -1,5 +1,5 @@
 import os.path
-import utils
+from . import utils
 import multiprocessing
 import functools
 
@@ -122,11 +122,11 @@ def run_pear(decompressed_reads_list, sample_name, threads, outdir, fastq_encodi
             command[12] = str(fastq_encoding[1])
             run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, True)
         else:
-            print 'Pear fail! Trying run with Phred+33 enconding defined...'
+            print('Pear failed! Trying run with Phred+33 encoding defined...')
             command[12] = '33'
             run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, True)
             if not run_successfully:
-                print 'Pear fail again! Trying run with Phred+64 enconding defined...'
+                print('Pear failed again! Trying run with Phred+64 encoding defined...')
                 command[12] = '64'
                 run_successfully, stdout, stderr = utils.runCommandPopenCommunicate(command, False, None, True)
 
@@ -167,7 +167,7 @@ def run_pear(decompressed_reads_list, sample_name, threads, outdir, fastq_encodi
             failing['sample'] = False
         else:
             failing['sample'] = 'Number of overlapping reads is >= 75% of total reads'
-            print failing
+            print(failing)
 
     return run_successfully, pass_qc, failing, assembled_se_reads, unassembled_pe_reads, assembled_reads, unassembled_reads, discarded_reads
 
@@ -192,10 +192,10 @@ def determine_minimum_overlap(pear_min_overlap, min_reads_legth, max_reads_legth
     if pear_min_overlap is None:
         if max_reads_legth is not None:
             pear_min_overlap = int(round(float(max_reads_legth) / 4 * 3, 0))
-            print 'The minimum reads overlaping for Pear assembly them into only one read is ' + str(pear_min_overlap) + ' nts (3/4 of ' + str(max_reads_legth) + ' maximum reads length)'
+            print('The minimum reads overlaping for Pear assembly them into only one read is ' + str(pear_min_overlap) + ' nts (3/4 of ' + str(max_reads_legth) + ' maximum reads length)')
         else:
             pear_min_overlap = int(round(float(min_reads_legth) / 4 * 3, 0))
-            print 'The minimum reads overlaping for Pear assembly them into only one read is ' + str(pear_min_overlap) + ' nts (3/4 of ' + str(min_reads_legth) + ' minimum reads length)'
+            print('The minimum reads overlaping for Pear assembly them into only one read is ' + str(pear_min_overlap) + ' nts (3/4 of ' + str(min_reads_legth) + ' minimum reads length)')
     return pear_min_overlap
 
 
@@ -239,6 +239,6 @@ def runPear(fastq_files, threads, outdir, sampleName, fastq_encoding, trimmomati
 
     if not run_successfully:
         warnings['sample'] = 'Did not run'
-        print warnings
+        print(warnings)
 
     return run_successfully, True, failing, unassembled_pe_reads, assembled_se_reads, pear_folder, warnings

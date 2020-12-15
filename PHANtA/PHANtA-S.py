@@ -90,7 +90,7 @@ def __main__():
     with open('input_1.fq', 'r') as fq:
         if fq.readline().count(':') == 2:
             strSequencer = "--iontorrent"
-    subprocess.call("perl " + TOOL_DIR + "/scripts/spades.pl spades_contigs spades_contig_stats spades_scaffolds spades_scaffold_stats spades_log NODE spades.py --disable-gzip-output --careful -t ${GALAXY_SLOTS:-16} " + strSequencer + " -s fastq:input_1.fq", shell=True)
+    subprocess.call("perl " + TOOL_DIR + "/scripts/spades.pl spades_contigs spades_contig_stats spades_scaffolds spades_scaffold_stats spades_log NODE spades.py --disable-gzip-output --isolate -t ${GALAXY_SLOTS:-16} " + strSequencer + " -s input_1.fq", shell=True)
     subprocess.call("perl " + TOOL_DIR + "/scripts/filter_spades_repeats.pl -i spades_contigs -t spades_contig_stats -c 0.33 -r 1.75 -l 1000 -o output_with_repeats -u output_without_repeats -n repeat_sequences_only -e 5000 -f discarded_sequences -s summary", shell=True)
     shutil.move("output_without_repeats", args.contigs)
     # QUAST
