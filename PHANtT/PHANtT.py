@@ -57,7 +57,7 @@ def __main__():
                 for gene_all in genes_all:
                     this_gene = "-"
                     for gene_sample in genes_sample:
-                        if gene_all + "_" in gene_sample:
+                        if gene_sample.startswith(gene_all + "_"):
                             this_gene = gene_sample
                     str_sample = str_sample + "\t" + this_gene
             matrix.write(str_sample + "\n")
