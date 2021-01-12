@@ -104,9 +104,25 @@ sub collectOutput{
         $qc_status = "Passed";
         $qc_messages = "Passed.";
     }
+	my $lineage = getLineage($mlst_st[8]);
     # write json
     open(my $of, ">", $output_file) or die "Could not read from output_tab, program halting.";
-    print $of "\{\"information_name\": \"" . $input_name . "\", \"qc_status\": \"" . $qc_status . "\", \"qc_messages\": \"" . $qc_messages . "\", \"serotype_serogroup\": \"" . $serotype . "\", \"serotype_amplicons\": \"" . $amplicons . "\"\, \"mlst_ST\": \"ST" . $mlst_st[8] . "\"\, \"region\": \"" . $region . "\"\, \"year\": \"" . $year . "\"\}";
+    print $of "\{\"information_name\": \"" . $input_name . "\", \"qc_status\": \"" . $qc_status . "\", \"qc_messages\": \"" . $qc_messages . "\", \"serotype_serogroup\": \"" . $serotype . "\", \"serotype_amplicons\": \"" . $amplicons . "\", \"mlst_ST\": \"ST" . $mlst_st[8] .  "\", \"mlst_CC\": \"" . $mlst_st[9] . "\", \"mlst_lineage\": \"" . $lineage . "\", \"region\": \"" . $region . "\", \"year\": \"" . $year . "\"\}";
     close $of;
     return 0;
+}
+
+sub getLineage {
+	my $line;
+	my ($st) = @_;
+	my $result = "-";
+    my $mlst_profile = "$scriptdir/data/listeria_monocytogenes_pubmlst.jld.profile";
+    open my $if, '<', $mlst_profile;
+    <$if>;
+    while ($line = <$if>) {
+        chomp $line;
+        my @profile = split(/\t/, $line);
+        if ($profile[0] eq $st) { $result = $profile[9]; }
+    }
+	return $result;
 }

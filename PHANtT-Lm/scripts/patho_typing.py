@@ -244,7 +244,7 @@ def parse_config(config_file):
               'minimum_depth_frequency_dominant_allele': None, 'minimum_gene_coverage': None,
               'minimum_gene_identity': None}
 
-    with open(config_file, 'rtU') as reader:
+    with open(config_file, 'rt') as reader:
         field = None
         for line in reader:
             line = line.splitlines()[0]
