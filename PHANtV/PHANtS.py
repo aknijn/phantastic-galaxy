@@ -85,6 +85,19 @@ def getMetadata(inputfiles, species):
               "inner join metadata_entry AS me_Cluster on sme_Cluster.metadata_id = me_Cluster.id " +
               "WHERE sme_Anno.metadata_KEY = 81 AND sme_MLST.metadata_KEY = 75 AND sme_QC.metadata_KEY = 78 " +
               "AND sme_Reg.metadata_KEY = 69 AND sme_SG.metadata_KEY = 63 AND sme_ST.metadata_KEY = 96 AND sme_Cluster.metadata_KEY = 103 AND sequence_file_pair_files.files_id IN (" + files_id + ")")
+    elif species == "SARS-CoV-2":
+        sql = ("SELECT me_Anno.value AS Anno, LEFT(me_MLST.value,INSTR(me_MLST.value, '(')-2) AS MLST, me_QC.value AS QC, me_Reg.value AS Regione, '-' AS Sero, '-' AS SeroT, '-' AS Cluster FROM sequence_file_pair_files " +
+              "inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id " +
+              "inner join sample_metadata_entry AS sme_Anno on sample_sequencingobject.sample_id = sme_Anno.sample_id " +
+              "inner join sample_metadata_entry AS sme_MLST on sample_sequencingobject.sample_id = sme_MLST.sample_id " +
+              "inner join sample_metadata_entry AS sme_QC on sample_sequencingobject.sample_id = sme_QC.sample_id " +
+              "inner join sample_metadata_entry AS sme_Reg on sample_sequencingobject.sample_id = sme_Reg.sample_id " +
+              "inner join metadata_entry AS me_Anno on sme_Anno.metadata_id = me_Anno.id " +
+              "inner join metadata_entry AS me_MLST on sme_MLST.metadata_id = me_MLST.id " +
+              "inner join metadata_entry AS me_QC on sme_QC.metadata_id = me_QC.id " +
+              "inner join metadata_entry AS me_Reg on sme_Reg.metadata_id = me_Reg.id " +
+              "WHERE sme_Anno.metadata_KEY = 81 AND sme_MLST.metadata_KEY = 142 AND sme_QC.metadata_KEY = 78 " +
+              "AND sme_Reg.metadata_KEY = 69 AND sequence_file_pair_files.files_id IN (" + files_id + ")")
     else:
         sql = ("SELECT me_Anno.value AS Anno, me_MLST.value AS MLST, me_QC.value AS QC, me_Reg.value AS Regione, '-' AS Sero, '-' AS SeroT, me_Cluster.value AS Cluster FROM sequence_file_pair_files " +
               "inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id " +
@@ -157,7 +170,7 @@ def getRegionSero(dataframe):
     dfpivot = pd.pivot_table(dataframe,index=["Sero"], columns='Regione', values='QC', aggfunc=len, fill_value=0)
     dfkeys = dfpivot.keys().tolist()
     dfseros = dfpivot.index
-    strSR = "var RegioneSeroData = {labels: [" + ",".join(["\"" + item.replace("__sq__", "'") + "\"" for item in dfkeys]) + "],datasets: ["
+    strRS = "var RegioneSeroData = {labels: [" + ",".join(["\"" + item.replace("__sq__", "'") + "\"" for item in dfkeys]) + "],datasets: ["
     lstseros = []
     for idx, row in dfpivot.iterrows():
         sero = idx
@@ -166,8 +179,24 @@ def getRegionSero(dataframe):
             lstserodata.append(row[dfkey])
         strserodata = ",".join([str(item) for item in lstserodata])
         lstseros.append("{label: \"" + sero + "\", backgroundColor : getRCH(), data: [" + strserodata + "]}")
-    strSR = strSR + ",".join(lstseros) + "]};\n"
-    return strSR
+    strRS = strRS + ",".join(lstseros) + "]};\n"
+    return strRS
+
+def getRegionLineage(dataframe):
+    dfpivot = pd.pivot_table(dataframe,index=["MLST"], columns='Regione', values='QC', aggfunc=len, fill_value=0)
+    dfkeys = dfpivot.keys().tolist()
+    dfseros = dfpivot.index
+    strRL = "var RegioneLineageData = {labels: [" + ",".join(["\"" + item.replace("__sq__", "'") + "\"" for item in dfkeys]) + "],datasets: ["
+    lstlineages = []
+    for idx, row in dfpivot.iterrows():
+        sero = idx
+        lstlineagedata = []
+        for dfkey in dfkeys:
+            lstlineagedata.append(row[dfkey])
+        strlineagedata = ",".join([str(item) for item in lstlineagedata])
+        lstlineages.append("{label: \"" + sero + "\", backgroundColor : getRCH(), data: [" + strlineagedata + "]}")
+    strRL = strRL + ",".join(lstlineages) + "]};\n"
+    return strRL
 
 def getYearST(dataframe):
     dfpivot = pd.pivot_table(dataframe,index=["MLST"], columns='Anno', values='QC', aggfunc=len, fill_value=0)
@@ -233,20 +262,32 @@ def __main__():
     args = parser.parse_args()
     if args.species == "Shiga toxin-producing Escherichia coli":
         args.species = "Escherichia coli"
+    if args.species == "Coronavirus":
+        args.species = "SARS-CoV-2"
     metadata = getMetadata(args.input_files, args.species)
     try:
         report = open(args.phants_stat, 'w')
         # write head html
-        insertFile(TOOL_DIR + "/report_head.html", report)
-        report.write(getClusterTable(metadata))
+        if args.species == "SARS-CoV-2":
+            insertFile(TOOL_DIR + "/report_head_sc2.html", report)
+        else:
+            insertFile(TOOL_DIR + "/report_head.html", report)
+        if args.species != "SARS-CoV-2":
+            report.write(getClusterTable(metadata))
         report.write("</td></tr></table>\n")
-        report.write("<div>Riepilogo per <i>%s</i>, elaborato %s</div>\n<script>\n" % (args.species, datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")))
+        report.write("<div>ISS: Riepilogo per <i>%s</i>, elaborato %s</div>\n<script>\n" % (args.species, datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")))
         report.write(getPassedFailed(metadata))
         report.write(getYearRegion(metadata))
         report.write(getST(metadata))
-        report.write(getRegionSero(metadata))
+        if args.species == "SARS-CoV-2":
+            report.write(getRegionLineage(metadata))
+        else:
+            report.write(getRegionSero(metadata))
         report.write(getYearST(metadata))
-        insertFile(TOOL_DIR + "/report_tail.html", report)
+        if args.species == "SARS-CoV-2":
+            insertFile(TOOL_DIR + "/report_tail_sc2.html", report)
+        else:
+            insertFile(TOOL_DIR + "/report_tail.html", report)
     finally:
         report.close()
 

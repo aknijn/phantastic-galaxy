@@ -21,16 +21,16 @@
       var ctx3 = document.getElementById('canvas3').getContext('2d');
       window.myST = new Chart(ctx3, {type: 'pie',data: STData,
         options: {
-          title: {display: true,text: 'Sequence Types'},
+          title: {display: true,text: 'Lineages'},
           tooltips: {mode: 'index',intersect: true},
           legend: {position: 'left'},
           responsive: true
         }
       });
       var ctx4 = document.getElementById('canvas4').getContext('2d');
-      window.myRS = new Chart(ctx4, {type: 'bar',data: RegioneSeroData,
+      window.myRS = new Chart(ctx4, {type: 'bar',data: RegioneLineageData,
         options: {
-          title: {display: true,text: 'Casi Regione-Serogruppo'},
+          title: {display: true,text: 'Casi Regione-Lineage'},
           tooltips: {mode: 'index',intersect: false},
           responsive: true,
           legend: {position: 'left'},
@@ -41,7 +41,7 @@
       var ctx5 = document.getElementById('canvas5').getContext('2d');
       window.myRS = new Chart(ctx5, {type: 'bar',data: AnnoSTData,
         options: {
-          title: {display: true,text: 'Casi Anno-Sequence Type'},
+          title: {display: true,text: 'Casi Anno-Lineage'},
           tooltips: {mode: 'index',intersect: false},
           responsive: true,
           legend: {position: 'left'},
