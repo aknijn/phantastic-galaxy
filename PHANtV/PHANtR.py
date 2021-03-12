@@ -51,13 +51,14 @@ def getMetadata(inputfiles, species):
 
     if species == "Escherichia coli":
         sql = ("SELECT me_Anno.value AS Anno, me_MLST.value AS MLST, me_QC.value AS QC, me_Reg.value AS Regione, me_AGO.value AS Sero, '-' AS SeroT, " +
-              "CONCAT(me_STX1.value,'/',me_STX2.value) As Stx12, me_STX.value As StxSub, me_EAE.value As Eae FROM sequence_file_pair_files " +
+              "me_Cluster.value AS Cluster, CONCAT(me_STX1.value,'/',me_STX2.value) As Stx12, me_STX.value As StxSub, me_EAE.value As Eae FROM sequence_file_pair_files " +
               "inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id " +
               "inner join sample_metadata_entry AS sme_Anno on sample_sequencingobject.sample_id = sme_Anno.sample_id " +
               "inner join sample_metadata_entry AS sme_MLST on sample_sequencingobject.sample_id = sme_MLST.sample_id " +
               "inner join sample_metadata_entry AS sme_QC on sample_sequencingobject.sample_id = sme_QC.sample_id " +
               "inner join sample_metadata_entry AS sme_Reg on sample_sequencingobject.sample_id = sme_Reg.sample_id " +
               "inner join sample_metadata_entry AS sme_AGO on sample_sequencingobject.sample_id = sme_AGO.sample_id " +
+              "inner join sample_metadata_entry AS sme_Cluster on sample_sequencingobject.sample_id = sme_Cluster.sample_id " +
               "inner join sample_metadata_entry AS sme_STX on sample_sequencingobject.sample_id = sme_STX.sample_id " +
               "inner join sample_metadata_entry AS sme_STX1 on sample_sequencingobject.sample_id = sme_STX1.sample_id " +
               "inner join sample_metadata_entry AS sme_STX2 on sample_sequencingobject.sample_id = sme_STX2.sample_id " +
@@ -67,18 +68,19 @@ def getMetadata(inputfiles, species):
               "inner join metadata_entry AS me_QC on sme_QC.metadata_id = me_QC.id " +
               "inner join metadata_entry AS me_Reg on sme_Reg.metadata_id = me_Reg.id " +
               "inner join metadata_entry AS me_AGO on sme_AGO.metadata_id = me_AGO.id " +
+              "inner join metadata_entry AS me_Cluster on sme_Cluster.metadata_id = me_Cluster.id " +
               "inner join metadata_entry AS me_STX on sme_STX.metadata_id = me_STX.id " +
               "inner join metadata_entry AS me_STX1 on sme_STX1.metadata_id = me_STX1.id " +
               "inner join metadata_entry AS me_STX2 on sme_STX2.metadata_id = me_STX2.id " +
               "inner join metadata_entry AS me_EAE on sme_EAE.metadata_id = me_EAE.id " +
               "WHERE sme_Anno.metadata_KEY = 81 AND sme_MLST.metadata_KEY = 75 AND sme_QC.metadata_KEY = 78 " +
-              "AND sme_Reg.metadata_KEY = 69 AND sme_AGO.metadata_KEY = 70 " +
+              "AND sme_Reg.metadata_KEY = 69 AND sme_AGO.metadata_KEY = 70 AND sme_Cluster.metadata_KEY = 103 " +
               "AND sme_STX.metadata_KEY = 72 AND sme_EAE.metadata_KEY = 73 " +
               "AND sme_STX1.metadata_KEY = 77 AND sme_STX2.metadata_KEY = 79 " +
               "AND sequence_file_pair_files.files_id IN (" + files_id + ")")
     elif species == "Listeria monocytogenes":
         sql = ("SELECT me_Anno.value AS Anno, me_MLST.value AS MLST, me_QC.value AS QC, me_Reg.value AS Regione, me_SG.value AS Sero, me_ST.value AS SeroT, " +
-              "'-' As Stx12, '-' As StxSub, '-' As Eae FROM sequence_file_pair_files " +
+              "me_Cluster.value AS Cluster, '-' As Stx12, '-' As StxSub, '-' As Eae FROM sequence_file_pair_files " +
               "inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id " +
               "inner join sample_metadata_entry AS sme_Anno on sample_sequencingobject.sample_id = sme_Anno.sample_id " +
               "inner join sample_metadata_entry AS sme_MLST on sample_sequencingobject.sample_id = sme_MLST.sample_id " +
@@ -86,18 +88,20 @@ def getMetadata(inputfiles, species):
               "inner join sample_metadata_entry AS sme_Reg on sample_sequencingobject.sample_id = sme_Reg.sample_id " +
               "inner join sample_metadata_entry AS sme_SG on sample_sequencingobject.sample_id = sme_SG.sample_id " +
               "inner join sample_metadata_entry AS sme_ST on sample_sequencingobject.sample_id = sme_ST.sample_id " +
+              "inner join sample_metadata_entry AS sme_Cluster on sample_sequencingobject.sample_id = sme_Cluster.sample_id " +
               "inner join metadata_entry AS me_Anno on sme_Anno.metadata_id = me_Anno.id " +
               "inner join metadata_entry AS me_MLST on sme_MLST.metadata_id = me_MLST.id " +
               "inner join metadata_entry AS me_QC on sme_QC.metadata_id = me_QC.id " +
               "inner join metadata_entry AS me_Reg on sme_Reg.metadata_id = me_Reg.id " +
               "inner join metadata_entry AS me_SG on sme_SG.metadata_id = me_SG.id " +
               "inner join metadata_entry AS me_ST on sme_ST.metadata_id = me_ST.id " +
+              "inner join metadata_entry AS me_Cluster on sme_Cluster.metadata_id = me_Cluster.id " +
               "WHERE sme_Anno.metadata_KEY = 81 AND sme_MLST.metadata_KEY = 75 AND sme_QC.metadata_KEY = 78 " +
               "AND sme_Reg.metadata_KEY = 69 AND sme_SG.metadata_KEY = 63 AND sme_ST.metadata_KEY = 96 " +
-              "AND AND sequence_file_pair_files.files_id IN (" + files_id + ")")
+              "AND sme_Cluster.metadata_KEY = 103 AND sequence_file_pair_files.files_id IN (" + files_id + ")")
     elif species == "SARS-CoV-2":
         sql = ("SELECT me_Anno.value AS Anno, LEFT(me_MLST.value,INSTR(me_MLST.value, '(')-2) AS MLST, me_QC.value AS QC, me_Reg.value AS Regione, " +
-              "'-' AS Sero, '-' AS SeroT, '-' As Stx12, '-' As StxSub, '-' As Eae FROM sequence_file_pair_files " +
+              "'-' AS Sero, '-' AS SeroT, '-' AS Cluster, '-' As Stx12, '-' As StxSub, '-' As Eae FROM sequence_file_pair_files " +
               "inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id " +
               "inner join sample_metadata_entry AS sme_Anno on sample_sequencingobject.sample_id = sme_Anno.sample_id " +
               "inner join sample_metadata_entry AS sme_MLST on sample_sequencingobject.sample_id = sme_MLST.sample_id " +
@@ -111,25 +115,27 @@ def getMetadata(inputfiles, species):
               "AND sme_Reg.metadata_KEY = 69 AND sequence_file_pair_files.files_id IN (" + files_id + ")")
     else:
         sql = ("SELECT me_Anno.value AS Anno, me_MLST.value AS MLST, me_QC.value AS QC, me_Reg.value AS Regione, '-' AS Sero, '-' AS SeroT, " +
-              "'-' As Stx12, '-' As StxSub, '-' As Eae FROM sequence_file_pair_files " +
+              "me_Cluster.value AS Cluster, '-' As Stx12, '-' As StxSub, '-' As Eae FROM sequence_file_pair_files " +
               "inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id " +
               "inner join sample_metadata_entry AS sme_Anno on sample_sequencingobject.sample_id = sme_Anno.sample_id " +
               "inner join sample_metadata_entry AS sme_MLST on sample_sequencingobject.sample_id = sme_MLST.sample_id " +
               "inner join sample_metadata_entry AS sme_QC on sample_sequencingobject.sample_id = sme_QC.sample_id " +
               "inner join sample_metadata_entry AS sme_Reg on sample_sequencingobject.sample_id = sme_Reg.sample_id " +
               "inner join sample_metadata_entry AS sme_SG on sample_sequencingobject.sample_id = sme_SG.sample_id " +
+              "inner join sample_metadata_entry AS sme_Cluster on sample_sequencingobject.sample_id = sme_Cluster.sample_id " +
               "inner join metadata_entry AS me_Anno on sme_Anno.metadata_id = me_Anno.id " +
               "inner join metadata_entry AS me_MLST on sme_MLST.metadata_id = me_MLST.id " +
               "inner join metadata_entry AS me_QC on sme_QC.metadata_id = me_QC.id " +
               "inner join metadata_entry AS me_Reg on sme_Reg.metadata_id = me_Reg.id " +
+              "inner join metadata_entry AS me_Cluster on sme_AGO.metadata_id = me_Cluster.id " +
               "WHERE sme_Anno.metadata_KEY = 81 AND sme_MLST.metadata_KEY = 75 AND sme_QC.metadata_KEY = 78 " +
-              "AND sme_Reg.metadata_KEY = 69 AND sequence_file_pair_files.files_id IN (" + files_id + ")")
+              "AND sme_Reg.metadata_KEY = 69 AND sme_Cluster.metadata_KEY = 103 AND sequence_file_pair_files.files_id IN (" + files_id + ")")
 
     try:
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(buffered=True)
         cursor.execute(sql)
-        records = pd.DataFrame(cursor.fetchall(),columns=['Anno','MLST','QC','Regione','Sero','SeroT','Stx12','StxSub','Eae'])
+        records = pd.DataFrame(cursor.fetchall(),columns=['Anno','MLST','QC','Regione','Sero','SeroT','Cluster','Stx12','StxSub','Eae'])
         cursor.close()
         return records
     except mysql.connector.Error as err:
@@ -227,21 +233,6 @@ def getRegionSero(dataframe):
     strRS = strRS + ",".join(lstseros) + "]};\n"
     return strRS
 
-def getRegionST(dataframe):
-    dfpivot = pd.pivot_table(dataframe,index=["MLST"], columns='Regione', values='QC', aggfunc=len, fill_value=0)
-    dfkeys = dfpivot.keys().tolist()
-    strRS = "var RegioneSTData = {labels: [" + ",".join(["\"" + item.replace("__sq__", "'") + "\"" for item in dfkeys]) + "],datasets: ["
-    lststs = []
-    for idx, row in dfpivot.iterrows():
-        st = idx
-        lststdata = []
-        for dfkey in dfkeys:
-            lststdata.append(row[dfkey])
-        strstdata = ",".join([str(item) for item in lststdata])
-        lststs.append("{label: \"" + st + "\", backgroundColor : getRCH(), data: [" + strstdata + "]}")
-    strRS = strRS + ",".join(lststs) + "]};\n"
-    return strRS
-
 def getStx12Sero(dataframe):
     dfpivot = pd.pivot_table(dataframe,index=["Sero"], columns='Stx12', values='QC', aggfunc=len, fill_value=0)
     dfkeys = dfpivot.keys().tolist()
@@ -287,24 +278,63 @@ def getRegionLineage(dataframe):
     strRL = strRL + ",".join(lstlineages) + "]};\n"
     return strRL
 
-def getSTYear(dataframe):
-    dfpivot = pd.pivot_table(dataframe,index=["Anno"], columns='MLST', values='QC', aggfunc=len, fill_value=0)
+def getYearST(dataframe):
+    dfpivot = pd.pivot_table(dataframe,index=["MLST"], columns='Anno', values='QC', aggfunc=len, fill_value=0)
     dfkeys = dfpivot.keys().tolist()
-    strSY = "var STAnnoData = {labels: [" + ",".join(["'" + item + "'" for item in dfkeys]) + "],datasets: ["
-    lstyears = []
+    strYS = "var AnnoSTData = {labels: [" + ",".join(["'" + item + "'" for item in dfkeys]) + "],datasets: ["
+    lststs = []
     for idx, row in dfpivot.iterrows():
-        year = idx
-        lstyeardata = []
+        lststdata = []
         for dfkey in dfkeys:
-            lstyeardata.append(row[dfkey])
-        stryeardata = ",".join([str(item) for item in lstyeardata])
-        lstyears.append("{label: \"" + year + "\", backgroundColor : getRCH(), data: [" + stryeardata + "]}")
-    strSY = strSY + ",".join(lstyears) + "]};\n"
-    return strSY
+            lststdata.append(row[dfkey])
+        strstdata = ",".join([str(item) for item in lststdata])
+        lststs.append("{label: \"" + idx + "\", backgroundColor : getRCH(), data: [" + strstdata + "]}")
+    strYS = strYS + ",".join(lststs) + "]};\n"
+    return strYS
+
+def getClusterTable(dataframe):
+    df_clusters = dataframe.groupby('Cluster')
+    #Column Count
+    df_count = df_clusters.count()[['MLST']]
+    df_count.columns = ['Numero di casi']
+    #Columns Sequence type & Serogroup
+    df_first = df_clusters.first()
+    df_first.drop(['QC'],axis=1,inplace=True)
+    df_first.drop(['Anno'],axis=1,inplace=True)
+    df_first.drop(['Regione'],axis=1,inplace=True)
+    df_first = df_first[['MLST','Sero','SeroT']]
+    df_first.columns = ['Sequence type', 'Sierogruppo', 'Serotipo']
+    #Column Years
+    df_years = dataframe.copy()
+    df_years.drop(['QC'],axis=1,inplace=True)
+    df_years.drop(['MLST'],axis=1,inplace=True)
+    df_years.drop(['Regione'],axis=1,inplace=True)
+    df_years.drop(['Sero'],axis=1,inplace=True)
+    df_years.drop(['SeroT'],axis=1,inplace=True)
+    df_years = df_years.drop_duplicates()
+    df_years = df_years.sort_values(by=['Anno']).groupby('Cluster')
+    df_years = df_years['Anno'].apply(lambda tags: ', '.join(tags))
+    #Column Regions
+    df_regions = dataframe.copy()
+    df_regions.drop(['QC'],axis=1,inplace=True)
+    df_regions.drop(['MLST'],axis=1,inplace=True)
+    df_regions.drop(['Anno'],axis=1,inplace=True)
+    df_regions.drop(['Sero'],axis=1,inplace=True)
+    df_regions.drop(['SeroT'],axis=1,inplace=True)
+    df_regions = df_regions.drop_duplicates()
+    df_regions = df_regions.sort_values(by=['Regione']).groupby('Cluster')
+    df_regions = df_regions['Regione'].apply(lambda tags: ', '.join(tags))
+    #df_regions.columns = ['Cluster', 'Regioni coinvolti']
+    #Merge dataframes
+    df_intermediate1 = df_count.merge(df_first, left_on='Cluster', right_on='Cluster')
+    df_intermediate2 = df_intermediate1.merge(df_years, left_on='Cluster', right_on='Cluster')
+    df_final = df_intermediate2.merge(df_regions, left_on='Cluster', right_on='Cluster')
+    df_final = df_final.filter(regex ='^[^_]*_[^_]*$', axis=0)
+    strCT = df_final.to_html(classes='table table-cross', border=0)
+    return strCT  
 
 def getYear(dataframe):
     lstyrdata = dataframe.Anno.unique()
-    lstyrdata.sort()
     if dataframe.Anno.nunique(dropna = True) == 1:
         strYR = "Anno " + str(lstyrdata[0])
     else:
@@ -334,10 +364,13 @@ def __main__():
                 insertFile(TOOL_DIR + "/report_head.html", report)
         if args.species == "Escherichia coli":
             report.write(getYear(metadata))
-            if metadata.Anno.nunique(dropna = True) == 1:
-                insertFile(TOOL_DIR + "/report_head2_stec1.html", report)
-            else:
-                insertFile(TOOL_DIR + "/report_head2_stec2.html", report)
+            insertFile(TOOL_DIR + "/report_head_stec2.html", report)
+        if args.species != "SARS-CoV-2":
+            report.write(getClusterTable(metadata))
+        report.write("</td></tr></table>\n")
+        if args.species == "Escherichia coli":
+            report.write("<div>Report a cura del Laboratorio nazionale di Riferimento per <i>E. coli</i></br>\n")
+            report.write("Arnold Knijn, Valeria Michelacci, Rosangela Tozzoli, Paola Chiani, Fabio Minelli, Silvia Arancia, Federica Gigliucci, Margherita Montalbano e Stefano Morabito</br>\n")
         report.write("<div>ISS: Riepilogo per <i>%s</i>, elaborato %s</div>\n<script>\n" % (args.species, datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")))
         # Add the data
         report.write(getPassedFailed(metadata))
@@ -347,19 +380,15 @@ def __main__():
             report.write(getRegionLineage(metadata))
         else:
             report.write(getRegionSero(metadata))
-        report.write(getSTYear(metadata))
+        report.write(getYearST(metadata))
         if args.species == "Escherichia coli":
-            report.write(getRegionST(metadata))
             report.write(getSero(metadata))
             report.write(getSeroYear(metadata))
             report.write(getStxSub(metadata))
             report.write(getStx12Sero(metadata))
             report.write(getEaeSero(metadata))
         if args.species == "Escherichia coli":
-            if metadata.Anno.nunique(dropna = True) == 1:
-                insertFile(TOOL_DIR + "/report_tail_stec1.html", report)
-            else:
-                insertFile(TOOL_DIR + "/report_tail_stec2.html", report)
+            insertFile(TOOL_DIR + "/report_tail_stec.html", report)
         else:
             if args.species == "SARS-CoV-2":
                 insertFile(TOOL_DIR + "/report_tail_sc2.html", report)

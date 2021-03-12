@@ -8,9 +8,9 @@
         }
       });
       var ctx2 = document.getElementById('canvas2').getContext('2d');
-      window.myAR = new Chart(ctx2, {type: 'bar',data: AnnoRegioneData,
+      window.myAR = new Chart(ctx2, {type: 'bar',data: RegioneAnnoData,
         options: {
-          title: {display: true,text: 'Casi Anno-Regione'},
+          title: {display: true,text: 'Casi Regione-Anno'},
           tooltips: {mode: 'index',intersect: false, position:'nearest'},
           responsive: true,
           legend: {position: 'left'},
@@ -30,7 +30,7 @@
       var ctx4 = document.getElementById('canvas4').getContext('2d');
       window.myRS = new Chart(ctx4, {type: 'bar',data: RegioneSeroData,
         options: {
-          title: {display: true,text: 'Casi Regione-Serogruppo'},
+          title: {display: true,text: 'Casi Regione-Sierogruppo'},
           tooltips: {mode: 'index',intersect: false},
           responsive: true,
           legend: {position: 'left'},
@@ -39,9 +39,9 @@
         }
       });
       var ctx5 = document.getElementById('canvas5').getContext('2d');
-      window.myRS = new Chart(ctx5, {type: 'bar',data: AnnoSTData,
+      window.myRS = new Chart(ctx5, {type: 'bar',data: STAnnoData,
         options: {
-          title: {display: true,text: 'Casi Anno-Sequence Type'},
+          title: {display: true,text: 'Casi Sequence Type-Anno'},
           tooltips: {mode: 'index',intersect: false},
           responsive: true,
           legend: {position: 'left'},

@@ -1,0 +1,127 @@
+    window.onload = function() {
+      var ctx1 = document.getElementById('canvas1').getContext('2d');
+      window.myQC = new Chart(ctx1, {type: 'pie',data: QCData,
+        options: {
+          title: {display: true,text: 'Distribuzione dei risultati del controllo di qualità sui dati di sequenziamento immessi nella piattaforma IRIDA-ARIES'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true
+        }
+      });
+      var ctx2 = document.getElementById('canvas2').getContext('2d');
+      window.myRA = new Chart(ctx2, {type: 'bar',data: RegioneAnnoData,
+        options: {
+          title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per regione di provenienza'},
+          tooltips: {mode: 'index',intersect: false, position:'nearest'},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx3 = document.getElementById('canvas3').getContext('2d');
+      window.myST = new Chart(ctx3, {type: 'pie',data: STData,
+        options: {
+          title: {display: true,text: 'Frequenza dei sequence types identificati negli isolati STEC da casi di malattia nell’uomo'},
+          tooltips: {mode: 'index',intersect: true},
+          legend: {position: 'left'},
+          responsive: true
+        }
+      });
+      var ctx4 = document.getElementById('canvas4').getContext('2d');
+      window.myAS = new Chart(ctx4, {type: 'bar',data: STAnnoData,
+        options: {
+          title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sequence type di appartenenza, per Regione di provenienza e per anno'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx5 = document.getElementById('canvas5').getContext('2d');
+      window.mySG = new Chart(ctx5, {type: 'pie',data: SeroData,
+        options: {
+          title: {display: true,text: 'Frequenza dei sierogruppi identificati negli isolati STEC da casi di malattia nell’uomo'},
+          tooltips: {mode: 'index',intersect: false},
+          legend: {position: 'left'},
+          responsive: true
+        }
+      });
+      var ctx6 = document.getElementById('canvas6').getContext('2d');
+      window.mySA = new Chart(ctx6, {type: 'bar',data: SeroAnnoData,
+        options: {
+          title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo di appartenenza, per Regione di provenienza e per anno'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx7 = document.getElementById('canvas7').getContext('2d');
+      window.myRS = new Chart(ctx7, {type: 'bar',data: RegioneSTData,
+        options: {
+          title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sequence type di appartenenza e per Regione di provenienza'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx8 = document.getElementById('canvas8').getContext('2d');
+      window.myRS = new Chart(ctx8, {type: 'bar',data: RegioneSeroData,
+        options: {
+          title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo di appartenenza e per Regione di provenienza'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx9 = document.getElementById('canvas9').getContext('2d');
+      window.mySS = new Chart(ctx9, {type: 'bar',data: StxSeroData,
+        options: {
+          title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo e sottotipo di geni stx'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+      var ctx10 = document.getElementById('canvas10').getContext('2d');
+      window.myES = new Chart(ctx10, {type: 'bar',data: EaeSeroData,
+        options: {
+          title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo di appartenenza e per la presenza del gene eae'},
+          tooltips: {mode: 'index',intersect: false},
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+    };
+      var ctx11 = document.getElementById('canvas11').getContext('2d');
+      window.mySX = new Chart(ctx11, {type: 'pie',data: StxData,
+        options: {
+          title: {display: true,text: 'Frequenza dei sottotipi dei geni stx e delle loro combinazioni negli isolati STEC da casi di malattia nell’uomo'},
+          tooltips: {mode: 'index',intersect: false},
+          legend: {position: 'left'},
+          responsive: true
+        }
+      });
+
+    function getRCH() {
+    var hex = "0123456789ABCDEF",
+      color = "#";
+      for (var i = 1; i <= 6; i++) {
+        color += hex[Math.floor(Math.random() * 16)];
+      }
+    return color;
+    }
+  </script>
+</body>
+
+</html>
