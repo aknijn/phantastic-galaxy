@@ -3,7 +3,17 @@
       window.myQC = new Chart(ctx1, {type: 'pie',data: QCData,
         options: {
           title: {display: true,text: 'Distribuzione dei risultati del controllo di qualità sui dati di sequenziamento immessi nella piattaforma IRIDA-ARIES'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true
         }
       });
@@ -11,7 +21,17 @@
       window.myRA = new Chart(ctx2, {type: 'bar',data: RegioneAnnoData,
         options: {
           title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per regione di provenienza'},
-          tooltips: {mode: 'index',intersect: false, position:'nearest'},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -22,7 +42,17 @@
       window.myST = new Chart(ctx3, {type: 'pie',data: STData,
         options: {
           title: {display: true,text: 'Frequenza dei sequence types identificati negli isolati STEC da casi di malattia nell’uomo'},
-          tooltips: {mode: 'index',intersect: true},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           legend: {position: 'left'},
           responsive: true
         }
@@ -31,7 +61,17 @@
       window.myAS = new Chart(ctx4, {type: 'bar',data: STAnnoData,
         options: {
           title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sequence type di appartenenza, per Regione di provenienza e per anno'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -42,7 +82,17 @@
       window.mySG = new Chart(ctx5, {type: 'pie',data: SeroData,
         options: {
           title: {display: true,text: 'Frequenza dei sierogruppi identificati negli isolati STEC da casi di malattia nell’uomo'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           legend: {position: 'left'},
           responsive: true
         }
@@ -51,7 +101,17 @@
       window.mySA = new Chart(ctx6, {type: 'bar',data: SeroAnnoData,
         options: {
           title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo di appartenenza, per Regione di provenienza e per anno'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -62,7 +122,17 @@
       window.myRS = new Chart(ctx7, {type: 'bar',data: RegioneSTData,
         options: {
           title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sequence type di appartenenza e per Regione di provenienza'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -73,7 +143,17 @@
       window.myRS = new Chart(ctx8, {type: 'bar',data: RegioneSeroData,
         options: {
           title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo di appartenenza e per Regione di provenienza'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -84,7 +164,17 @@
       window.mySS = new Chart(ctx9, {type: 'bar',data: StxSeroData,
         options: {
           title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo e sottotipo di geni stx'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -95,7 +185,17 @@
       window.myES = new Chart(ctx10, {type: 'bar',data: EaeSeroData,
         options: {
           title: {display: true,text: 'Distribuzione del numero di casi con isolato disponibile mostrati per sierogruppo di appartenenza e per la presenza del gene eae'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -107,7 +207,17 @@
       window.mySX = new Chart(ctx11, {type: 'pie',data: StxData,
         options: {
           title: {display: true,text: 'Frequenza dei sottotipi dei geni stx e delle loro combinazioni negli isolati STEC da casi di malattia nell’uomo'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           legend: {position: 'left'},
           responsive: true
         }

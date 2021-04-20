@@ -1,5 +1,6 @@
 # phantastic-galaxy
 An automated analysis pipeline PHANtAsTiC: Public Health Analysis of Nucleotides through Assembly, Typing and Clustering
+Version 2.0
 
 The pipeline is implemented as a Galaxy (https://galaxyproject.org/) workflow integrated with an IRIDA (https://www.irida.ca/) instance.
 The tool performs performs trimming (Trimmomatic) and assembly (SPAdes or INNUca), typing and clustering elaborations 

@@ -11,11 +11,11 @@ use IO::Compress::Gzip qw(gzip $GzipError) ;
 # Parse arguments
 my ($fastq1,
     $fastq2,
-	$input_id,
-	$genomeSize,
+    $input_id,
+    $genomeSize,
     $polished_fasta,
-	$json,
-	$quast,
+    $json,
+    $quast,
     $python) = @ARGV;
 
 # Run program
@@ -45,14 +45,14 @@ sub collectOutput{
     chomp $line;
     move($line, $polished_fasta);
     close $if;
-	# COVERAGE
-	my @trueCoverage_files = glob "output_dir/*/trueCoverage_report.txt";
+    # COVERAGE
+    my @trueCoverage_files = glob "output_dir/*/trueCoverage_report.txt";
     foreach my $trueCoverage_file (@trueCoverage_files)
     {
       open(my $fh, '<', $trueCoverage_file) or die "Could not open file '$trueCoverage_file' $!";
       my $lastline;
       $lastline = $_, while (<$fh>);
-	  chomp $lastline;
+      chomp $lastline;
       close($fh);
       open($fh, '>', $json) or die "Could not open file '$json' $!";
       print $fh "{\"coverage\": \"$lastline\"}";

@@ -19,7 +19,7 @@ exit 0;
 sub runPathoTyping {
     my $abs_path = Cwd::abs_path($PROGRAM_NAME);
     my $scriptdir = dirname($abs_path);
-    my $rematchdir = "$scriptdir/ReMatCh";
+    my $rematchdir = "$scriptdir/../../ReMatCh";
     my $newpath = "PATH=$ENV{PATH}:$rematchdir";
     `$newpath; $python`;
      return 0;

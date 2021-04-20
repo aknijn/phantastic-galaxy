@@ -31,17 +31,7 @@ sub getSampleNames{
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
     my $sql;
 
-    $sql = "select
-             sample.sampleName, analysis_output_file.file_path
-           from
-             sequence_file_pair_files
-             inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id
-             inner join sample on sample_sequencingobject.sample_id = sample.id
-             inner join analysis_submission_sequencing_object on sequence_file_pair_files.pair_id = analysis_submission_sequencing_object.sequencing_object_id
-             inner join analysis_submission on analysis_submission_sequencing_object.analysis_submission_id = analysis_submission.id
-             inner join analysis_output_file_map on analysis_submission.analysis_id = analysis_output_file_map.analysis_id
-             inner join analysis_output_file on analysis_output_file_map.analysisOutputFilesMap_id = analysis_output_file.id
-           where analysis_output_file_map.analysis_output_file_key = 'virulotypes' and sequence_file_pair_files.files_id IN ($idFastqs)";
+    $sql = "select sampleName, file_path from v_sample_name_virulotypes where files_id IN ($idFastqs)";
 
     my $sth = $dbh->prepare($sql);
     $sth->execute();

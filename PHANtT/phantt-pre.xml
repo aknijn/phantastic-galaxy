@@ -1,4 +1,4 @@
-<tool id="phantt-pre" name="PHANtT-pre" version="2.0">
+<tool id="phantt-pre" name="PHANtT-pre" version="2.3">
     <description>Only to be used through IRIDA</description>
     <requirements>
         <requirement type="package" version="5.26">perl</requirement>
@@ -13,7 +13,7 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $token == "tW9jiEusOSGvsE91qso1":
+    #if $token == "D85SteptkQZ9MobOk9pa":
 	  awk -v OFS='\t' 'split($1, arr, "/") { printf("%s%s",sep,arr[6]);sep="," }END{print ""}' $input_pc.forward > ids.tab;
       perl
         $__tool_directory__/PHANtT-pre.pl

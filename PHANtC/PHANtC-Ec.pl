@@ -13,8 +13,8 @@ use Config::Simple;
 my ($input1,
     $input1_name,
     $serotype_file,
-	$phantcec_allele,
-	$phantcec_json,
+    $phantcec_allele,
+    $phantcec_json,
     $phantcec_tree,
     $phantcec_dm) = @ARGV;
 
@@ -40,7 +40,7 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "python $scriptdir/PHANtC-Ec.py -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $scriptdir/TrainingFiles4Prodigal/trained_eColi.trn -g $scriptdir/../../INNUENDO/schema_chewBBACA_cgMLST_V4/_schema.txt";
+    my $python = "python chewBBACA.py -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $scriptdir/TrainingFiles4Prodigal/trained_eColi.trn -g $scriptdir/../../INNUENDO/schema_chewBBACA_cgMLST_V4/_schema.txt";
     my $result = system("$newpath; $python");
     return 0;
 }
@@ -78,8 +78,8 @@ sub collectOutput{
       <$if_in>;
       my $allele_line = <$if_in>;
       chomp $allele_line;
-	  # remove INF- from newly inferred alleles
-	  $allele_line =~ s/INF-//ig;
+      # remove INF- from newly inferred alleles
+      $allele_line =~ s/INF-//ig;
       close $if_in;
 
       my $sql_insert = "insert into mlst_ecoli (sample_code) values (?)";
@@ -104,19 +104,19 @@ sub collectOutput{
 
 # Collect output with statistics, save the number of genes mapped, the total number of loci and the relative number of mapped genes
 sub collectStatistics{
-	my @statistics = glob "output_dir/results_*/results_statistics.tsv";
+    my @statistics = glob "output_dir/results_*/results_statistics.tsv";
     if (@statistics == 1) { 
-	  move($statistics[0], $phantcec_allele) ;
+      move($statistics[0], $phantcec_allele) ;
       open(my $if_st, '<', $phantcec_allele) or die "Could not read from results_statistics.tsv, program halting.";
       my $lastline;
       $lastline = $_, while (<$if_st>);
-	  chomp $lastline;
-	  my @keys = split( /\t/, $lastline );
-	  $sampleGenesMapped = $keys[1];
-	  $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]);
-	  $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
-      close $if_st;	  
-	}
+      chomp $lastline;
+      my @keys = split( /\t/, $lastline );
+      $sampleGenesMapped = $keys[1];
+      $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]);
+      $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
+      close $if_st;      
+    }
     return 0;
 }
 
@@ -126,25 +126,18 @@ sub createAllelesFile {
     my $serotype = <$if>;
     chomp $serotype;
     close $if;
-	my $sql;
-	# If the serogroup is known, retrieve allele profiles only from those samples, if O? then from all
-	if ($serotype eq 'O?') {
-		$sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
-               select mlst_ecoli.allele_strain from mlst_ecoli where permille_loci>799";
-	}
-	else
-	{
-		$sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
-               select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='$input1_name' union
-               select mlst_ecoli.allele_strain from sample_metadata_entry AS sme_s
-                 inner join metadata_field AS mf_s on sme_s.metadata_KEY = mf_s.id 
-                 inner join metadata_entry AS me_s on sme_s.metadata_id = me_s.id 
-                 inner join sample_metadata_entry AS sme_c on sme_s.sample_id = sme_c.sample_id
-                 inner join metadata_field AS mf_c on sme_c.metadata_KEY = mf_c.id
-                 inner join metadata_entry AS me_c on sme_c.metadata_id = me_c.id 
-                 inner join mlst_ecoli on me_c.value = mlst_ecoli.sample_code
-               where me_s.value = '$serotype' and left(mf_s.label,9) = 'Antigen_O' and mf_c.label = 'Sample_code' and mlst_ecoli.permille_loci>799";
-	}
+    my $sql;
+    # If the serogroup is known, retrieve allele profiles only from those samples, if O? then from all
+    if ($serotype eq 'O?') {
+        $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
+               select allele_strain from mlst_ecoli where permille_loci>799";
+    }
+    else
+    {
+        $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
+               select allele_strain from mlst_ecoli where sample_code='$input1_name' union
+               select allele_strain from v_mlst_ecoli where permille_loci>799 and Antigen_O = '$serotype'";
+    }
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);

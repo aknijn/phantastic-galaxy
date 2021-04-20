@@ -1,20 +1,13 @@
-<tool id="phantc-ec" name="PHANtC-Ec" version="2.0">
+<tool id="phantc-ec" name="PHANtC-Ec" version="2.3">
     <description>Only to be used through IRIDA</description>
     <requirements>
         <requirement type="package" version="3.8">python</requirement>
-        <requirement type="package" version="1.17.3">numpy</requirement>
-        <requirement type="package" version="1.3.2">scipy</requirement>
+        <requirement type="package" version="2.7">chewbbaca</requirement>
         <requirement type="package" version="5.26">perl</requirement>
         <requirement type="package" version="1.642">perl-dbi</requirement>
         <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
-        <requirement type="package" version="1.74">biopython</requirement>
-        <requirement type="package" version="4.3.0">plotly</requirement>
-        <requirement type="package" version="1.8.2">SPARQLWrapper</requirement>
-        <requirement type="package" version="0.25.3">pandas</requirement>
-        <requirement type="package" version="2.9.0">blast</requirement>
+        <requirement type="package" version="2.11.0">blast</requirement>
         <requirement type="package" version="2.6.3">prodigal</requirement>
-        <requirement type="package" version="2.1">clustalw</requirement>
-        <requirement type="package" version="7.313">mafft</requirement>
         <requirement type="package" version="3.6.0">r</requirement>
     </requirements>
     <!-- basic error handling -->

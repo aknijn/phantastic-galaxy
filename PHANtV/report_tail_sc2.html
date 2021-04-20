@@ -3,15 +3,35 @@
       window.myQC = new Chart(ctx1, {type: 'pie',data: QCData,
         options: {
           title: {display: true,text: 'Quality check'},
-          tooltips: {mode: 'index',intersect: false},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true
         }
       });
       var ctx2 = document.getElementById('canvas2').getContext('2d');
-      window.myAR = new Chart(ctx2, {type: 'bar',data: AnnoRegioneData,
+      window.myAR = new Chart(ctx2, {type: 'bar',data: RegioneAnnoData,
         options: {
-          title: {display: true,text: 'Casi Anno-Regione'},
-          tooltips: {mode: 'index',intersect: false, position:'nearest'},
+          title: {display: true,text: 'Casi Settimana-Regione (percentuale dei casi nella settimana)'},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -22,7 +42,17 @@
       window.myST = new Chart(ctx3, {type: 'pie',data: STData,
         options: {
           title: {display: true,text: 'Lineages'},
-          tooltips: {mode: 'index',intersect: true},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           legend: {position: 'left'},
           responsive: true
         }
@@ -30,8 +60,18 @@
       var ctx4 = document.getElementById('canvas4').getContext('2d');
       window.myRS = new Chart(ctx4, {type: 'bar',data: RegioneLineageData,
         options: {
-          title: {display: true,text: 'Casi Regione-Lineage'},
-          tooltips: {mode: 'index',intersect: false},
+          title: {display: true,text: 'Casi Regione-Lineage (percentuale dei casi del lineage)'},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
@@ -41,15 +81,48 @@
       var ctx5 = document.getElementById('canvas5').getContext('2d');
       window.myRS = new Chart(ctx5, {type: 'bar',data: STAnnoData,
         options: {
-          title: {display: true,text: 'Casi Lineage-Anno'},
-          tooltips: {mode: 'index',intersect: false},
+          title: {display: true,text: 'Casi Settimana-Lineage (percentuale dei casi nella settimana)'},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
           responsive: true,
           legend: {position: 'left'},
           scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
           }
         }
       });	  
-    };
+      reDrawGraph6();
+      var ctx7 = document.getElementById('canvas7').getContext('2d');
+      window.myRS = new Chart(ctx7, {type: 'bar',data: RegioneMutazioniData,
+        options: {
+          title: {display: true,text: 'Casi Regione-Mutazioni S (percentuale dei casi delle mutazioni)'},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
+          responsive: true,
+          legend: {position: 'bottom'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+      });
+    }
+
     function getRCH() {
     var hex = "0123456789ABCDEF",
       color = "#";
@@ -58,7 +131,38 @@
       }
     return color;
     }
-  </script>
+	
+    function getRegionData() {
+    var eID = document.getElementById("regionsCombo");
+    var regVal = eID.options[eID.selectedIndex].value;
+    return eval(regVal);
+    }
+
+    function reDrawGraph6() {
+      var ctx6 = document.getElementById('canvas6').getContext('2d');
+	  if (window.AO !== undefined && window.AO !== null) { window.AO.destroy(); }
+      window.AO = new Chart(ctx6, {type: 'bar',data: getRegionData(),
+        options: {
+          title: {display: true,text: 'Casi Settimana-Ospedale (percentuale dei casi nella settimana)'},
+          tooltips: {
+		    callbacks: {
+              label: function(tooltipItem, data) {
+        	    var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) { return previousValue + currentValue; });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return currentValue + " (" + percentage + "%)";
+              }
+            }
+	      },
+          responsive: true,
+          legend: {position: 'left'},
+          scales: {xAxes: [{stacked: true,}],yAxes: [{stacked: true}]
+          }
+        }
+	  });
+    }
+	</script>
 </body>
 
 </html>

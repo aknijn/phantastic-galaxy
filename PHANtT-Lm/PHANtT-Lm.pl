@@ -32,7 +32,7 @@ exit($result);
 # Run LisSero
 sub runLisSero {
     $python = $python . " " . $inputf . " > output_tab";
-	print "Running $python \n";
+    print "Running $python \n";
     my $result = system("$python");
     return $result;
 }
@@ -51,10 +51,10 @@ sub runMentaLiST {
 # Run Virulotyper
 sub runVirulotyper {
     if ($input2 ne "NULL") {
-      system("perl $scriptdir/scripts/patho_typing_pt.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 $input2 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
+      system("perl $scriptdir/scripts/patho_typing.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 $input2 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
       system("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > $virulotypes");
     } else {
-      system("perl $scriptdir/scripts/patho_typing_pt.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
+      system("perl $scriptdir/scripts/patho_typing.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
       system("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > $virulotypes");
     }
     return 0;
@@ -62,7 +62,7 @@ sub runVirulotyper {
 
 # Run AMRgenes
 sub runAMRgenes {
-    system("amrfinder --threads 4 --database /ariesdb/database/amrfinder -n $inputf -o $amrgenes");
+    system("abricate --db ncbi $inputf > $amrgenes");
     return 0;
 }
 
@@ -104,7 +104,7 @@ sub collectOutput{
         $qc_status = "Passed";
         $qc_messages = "Passed.";
     }
-	my $lineage = getLineage($mlst_st[8]);
+    my $lineage = getLineage($mlst_st[8]);
     # write json
     open(my $of, ">", $output_file) or die "Could not read from output_tab, program halting.";
     print $of "\{\"information_name\": \"" . $input_name . "\", \"qc_status\": \"" . $qc_status . "\", \"qc_messages\": \"" . $qc_messages . "\", \"serotype_serogroup\": \"" . $serotype . "\", \"serotype_amplicons\": \"" . $amplicons . "\", \"mlst_ST\": \"ST" . $mlst_st[8] .  "\", \"mlst_CC\": \"" . $mlst_st[9] . "\", \"mlst_lineage\": \"" . $lineage . "\", \"region\": \"" . $region . "\", \"year\": \"" . $year . "\"\}";
@@ -113,9 +113,9 @@ sub collectOutput{
 }
 
 sub getLineage {
-	my $line;
-	my ($st) = @_;
-	my $result = "-";
+    my $line;
+    my ($st) = @_;
+    my $result = "-";
     my $mlst_profile = "$scriptdir/data/listeria_monocytogenes_pubmlst.jld.profile";
     open my $if, '<', $mlst_profile;
     <$if>;
@@ -124,5 +124,5 @@ sub getLineage {
         my @profile = split(/\t/, $line);
         if ($profile[0] eq $st) { $result = $profile[9]; }
     }
-	return $result;
+    return $result;
 }

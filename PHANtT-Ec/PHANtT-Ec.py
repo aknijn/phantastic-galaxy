@@ -41,7 +41,7 @@ def __main__():
     if args.input2:
         subprocess.call("ln -s " + args.input2 + " input_2.fq", shell=True)
     # AMRGENES
-    subprocess.call("amrfinder --threads 4 --database /ariesdb/database/amrfinder -n input.fasta -O Escherichia -o " + args.amrgenes, shell=True)
+    subprocess.call("abricate --db ncbi $inputf > " + args.amrgenes, shell=True)
     # VIRULOTYPER
     if args.input2:
         subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)

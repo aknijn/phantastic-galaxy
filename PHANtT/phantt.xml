@@ -1,4 +1,4 @@
-<tool id="phantt" name="PHANtT" version="2.0">
+<tool id="phantt" name="PHANtT" version="2.3">
     <description>Only to be used through IRIDA</description>
     <requirements>
         <requirement type="package" version="3.7">python</requirement>
@@ -9,7 +9,7 @@
     </stdio>
     <command>
 <![CDATA[
-        #if $token == "tW9jiEusOSGvsE91qso1":
+        #if $token == "D85SteptkQZ9MobOk9pa":
             python
             $__tool_directory__/PHANtT.py
             --input $phantt_samples

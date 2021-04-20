@@ -72,19 +72,8 @@ sub createAllelesFile {
     if (index($files_id, ',') == -1) {
         # only one file in input, return allele strains of samples with same serotype
         if ($species eq "Escherichia coli") {
-            $sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
-                    select mlst_ecoli.allele_strain from sequence_file_pair_files AS sfpf_s
-                      inner join sample_sequencingobject AS sso_s on sfpf_s.pair_id = sso_s.sequencingobject_id
-                      inner join sample_metadata_entry AS sme_s on sso_s.sample_id = sme_s.sample_id
-                      inner join metadata_field AS mf_s on sme_s.metadata_KEY = mf_s.id
-                      inner join metadata_entry AS me_s on sme_s.metadata_id = me_s.id 
-                      inner join metadata_entry AS me_m on me_s.value = me_m.value 
-                      inner join sample_metadata_entry AS sme_m on me_m.id = sme_m.metadata_id
-                      inner join sample_metadata_entry AS sme_c on sme_m.sample_id = sme_c.sample_id
-                      inner join metadata_field AS mf_c on sme_c.metadata_KEY = mf_c.id
-                      inner join metadata_entry AS me_c on sme_c.metadata_id = me_c.id 
-                      inner join mlst_ecoli on me_c.value = mlst_ecoli.sample_code
-                    where left(mf_s.label,9) = 'Antigen_O' and mf_c.label = 'Sample_code' and sfpf_s.files_id = $files_id";
+            $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
+                    select allele_strain from v_mlst_ecoli_files_id_1 where files_id = $files_id";
         } else {
             if ($species eq "Listeria monocytogenes") {
                 $sql = "select mlst_listeria.allele_strain from mlst_listeria";
@@ -92,23 +81,13 @@ sub createAllelesFile {
         }
     } else {
         if ($species eq "Escherichia coli") {
-            $sql = "select mlst_ecoli.allele_strain from mlst_ecoli where sample_code='FILE' union
-                    select mlst_ecoli.allele_strain from sequence_file_pair_files
-                      inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id
-                      inner join sample_metadata_entry on sample_sequencingobject.sample_id = sample_metadata_entry.sample_id
-                      inner join metadata_field on sample_metadata_entry.metadata_KEY = metadata_field.id
-                      inner join metadata_entry on sample_metadata_entry.metadata_id = metadata_entry.id
-                      inner join mlst_ecoli on metadata_entry.value = mlst_ecoli.sample_code
-                    where left(metadata_field.label,11) = 'Sample_code' and sequence_file_pair_files.files_id IN ($files_id)";} else {
+            $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
+                    select allele_strain from  from v_mlst_ecoli_files_id_1 where files_id = $files_id";
+		} else {
             if ($species eq "Listeria monocytogenes") {
-                $sql = "select mlst_listeria.allele_strain from mlst_listeria where sample_code='FILE' union
-                        select mlst_listeria.allele_strain from sequence_file_pair_files
-                          inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id
-                          inner join sample_metadata_entry on sample_sequencingobject.sample_id = sample_metadata_entry.sample_id
-                          inner join metadata_field on sample_metadata_entry.metadata_KEY = metadata_field.id
-                          inner join metadata_entry on sample_metadata_entry.metadata_id = metadata_entry.id
-                          inner join mlst_listeria on metadata_entry.value = mlst_listeria.sample_code
-                        where metadata_field.label = 'Sample_code' and sequence_file_pair_files.files_id IN ($files_id)";}
+                $sql = "select allele_strain from mlst_listeria where sample_code='FILE' union
+                        select allele_strain from  from v_mlst_listeria_files_id_1 where files_id = $files_id";
+			}
         }
     }
 
@@ -131,13 +110,7 @@ sub createAllelesFile {
 # Obtain samples names and codes from db and update the temp file
 sub substituteCodesByNames {
     my ($files_id) = @_;
-    my $sql = "select sample.sampleName, metadata_entry.value from sequence_file_pair_files
-                  inner join sample_sequencingobject on sequence_file_pair_files.pair_id = sample_sequencingobject.sequencingobject_id
-                  inner join sample_metadata_entry on sample_sequencingobject.sample_id = sample_metadata_entry.sample_id
-                  inner join metadata_field on sample_metadata_entry.metadata_KEY = metadata_field.id
-                  inner join metadata_entry on sample_metadata_entry.metadata_id = metadata_entry.id
-                  inner join sample on sample_sequencingobject.sample_id = sample.id
-                where left(metadata_field.label,11) = 'Sample_code' and sequence_file_pair_files.files_id IN ($files_id)";
+    my $sql = "select sampleName, sampleCode from v_sample_name_code where files_id IN ($files_id)";
 
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
