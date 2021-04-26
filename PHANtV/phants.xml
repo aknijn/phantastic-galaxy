@@ -20,8 +20,10 @@
             --input_files $phants_filenames
             --species '$species'
             --phants_stat $phants_stat
+            --phants_trend $phants_trend
         #else
             touch $phants_stat
+            touch $phants_trend
         #end if
 ]]>
     </command>
@@ -35,5 +37,6 @@
     <!-- define outputs -->
     <outputs>
         <data name="phants_stat" format="html" label="${tool.name} on ${on_string}: statistics" ></data>
+        <data name="phants_trend" format="csv" label="${tool.name} on ${on_string}: trend" ></data>
    </outputs>
 </tool>

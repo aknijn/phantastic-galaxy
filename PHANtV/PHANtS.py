@@ -275,17 +275,25 @@ def getYear(dataframe):
         strYR = "Anni " + ", ".join([str(item) for item in lstyrdata])
     return strYR
 
+
 def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_files', dest='input_files', help='phants filenames')
     parser.add_argument('--species', dest='species', help='species')
     parser.add_argument('--phants_stat', dest='phants_stat', help='phants stat report html file')
+    parser.add_argument('--phants_trend', dest='phants_trend', help='phants trend report csv file')
     args = parser.parse_args()
     if args.species == "Shiga toxin-producing Escherichia coli":
         args.species = "Escherichia coli"
     if args.species == "Coronavirus":
         args.species = "SARS-CoV-2"
     metadata = getMetadata(args.input_files, args.species)
+    # write csv
+    dfpivot = pd.pivot_table(metadata,index=["MLST"], columns='Anno', values='QC', aggfunc=len, fill_value=0)
+    if args.species == "SARS-CoV-2":
+        dfpivot = dfpivot.rename_axis("Lineage")
+    dfpivot.to_csv(args.phants_trend) 
+    # write html
     try:
         report = open(args.phants_stat, 'w')
         # write head html
