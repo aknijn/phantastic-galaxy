@@ -1,5 +1,5 @@
 <tool id="phantw-pre" name="PHANtW-pre" version="2.3">
-    <description>Only to be used through IRIDA</description>
+    <description>Preparation for SNP Observer</description>
     <requirements>
         <requirement type="package" version="5.26">perl</requirement>
         <requirement type="package" version="1.642">perl-dbi</requirement>
@@ -13,20 +13,15 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $token == "D85SteptkQZ9MobOk9pa":
-      perl
-        $__tool_directory__/PHANtW-pre.pl
-        ${input_pc.forward}
-		$useNames
-        $phantw_filename
-    #else
-        touch $phantw_filename
-    #end if
+    perl
+      $__tool_directory__/PHANtW-pre.pl
+      ${input_pc.forward}
+      $useNames
+      $phantw_filename
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" />
         <param name="useNames" type="boolean" truevalue="true" falsevalue="false" checked="False" label="Use sample names instead of codes" />
     </inputs>

@@ -1,5 +1,5 @@
 <tool id="phantc-ec" name="PHANtC-Ec" version="2.3">
-    <description>Only to be used through IRIDA</description>
+    <description>Clustering by chewBBACA for Escherichia coli</description>
     <requirements>
         <requirement type="package" version="3.8">python</requirement>
         <requirement type="package" version="2.7">chewbbaca</requirement>
@@ -18,27 +18,26 @@
     </stdio>
     <command>
 <![CDATA[
-        #if $token == "tW9jiEusOSGvsE91qso1" and $species == "Escherichia coli":
-            perl 
-            $__tool_directory__/PHANtC-Ec.pl
-              '${",".join(map(str, $input1))}'
-              $input_id
-              $serotype
-			  $phantcec_allele
-			  $phantcec_json
-              $phantcec_tree
-              $phantcec_dm
-        #else
-            touch $phantcec_allele
-            touch $phantcec_json
-            touch $phantcec_tree
-            touch $phantcec_dm
-        #end if
+    #if $species == "Escherichia coli":
+        perl 
+        $__tool_directory__/PHANtC-Ec.pl
+          '${",".join(map(str, $input1))}'
+          $input_id
+          $serotype
+          $phantcec_allele
+          $phantcec_json
+          $phantcec_tree
+          $phantcec_dm
+    #else
+        touch $phantcec_allele
+        touch $phantcec_json
+        touch $phantcec_tree
+        touch $phantcec_dm
+    #end if
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="input1" format="fasta" type="data" multiple="true" label="fasta file" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="serotype" format="txt" type="data" label="O serotype" />

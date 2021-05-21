@@ -1,5 +1,5 @@
 <tool id="phantj" name="PHANtJ" version="2.3">
-    <description>Only to be used through IRIDA</description>
+    <description>Create json file from analysis results</description>
     <requirements>
         <requirement type="package" version="3.7">python</requirement>
     </requirements>
@@ -11,17 +11,12 @@
     </stdio>
     <command>
 <![CDATA[
-        #if $token == "tW9jiEusOSGvsE91qso1":
-            python 
-			$__tool_directory__/PHANtJ.py --phanta_json $phanta_json --phantt_json $phantt_json --phantc_json $phantc_json --phantastic_json $phantastic_type
-        #else
-            touch $phantastic_type
-        #end if  
+    python 
+      $__tool_directory__/PHANtJ.py --phanta_json $phanta_json --phantt_json $phantt_json --phantc_json $phantc_json --phantastic_json $phantastic_type
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="phanta_json" format="txt" type="data" label="phanta_json" />
         <param name="phantt_json" format="txt" type="data" label="phantt_json" />
         <param name="phantc_json" format="txt" type="data" label="phantc_json" />

@@ -1,5 +1,5 @@
 <tool id="phantt-pre" name="PHANtT-pre" version="2.3">
-    <description>Only to be used through IRIDA</description>
+    <description>Preparation for multivirulotyper</description>
     <requirements>
         <requirement type="package" version="5.26">perl</requirement>
         <requirement type="package" version="1.642">perl-dbi</requirement>
@@ -13,20 +13,15 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $token == "D85SteptkQZ9MobOk9pa":
-	  awk -v OFS='\t' 'split($1, arr, "/") { printf("%s%s",sep,arr[6]);sep="," }END{print ""}' $input_pc.forward > ids.tab;
-      perl
-        $__tool_directory__/PHANtT-pre.pl
-        ids.tab
-        $phantt_samples
-    #else
-        touch $phantt_samples
-    #end if
+    awk -v OFS='\t' 'split($1, arr, "/") { printf("%s%s",sep,arr[6]);sep="," }END{print ""}' $input_pc.forward > ids.tab;
+    perl
+      $__tool_directory__/PHANtT-pre.pl
+      ids.tab
+      $phantt_samples
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" />
     </inputs>
 

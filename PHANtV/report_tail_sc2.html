@@ -20,7 +20,7 @@
       var ctx2 = document.getElementById('canvas2').getContext('2d');
       window.myAR = new Chart(ctx2, {type: 'bar',data: RegioneAnnoData,
         options: {
-          title: {display: true,text: 'Casi Settimana-Regione (percentuale dei casi nella settimana)'},
+          title: {display: true,text: 'Sequenziamenti Settimana-Regione (percentuale dei sequenziamenti delle regione nella settimana)'},
           tooltips: {
 		    callbacks: {
               label: function(tooltipItem, data) {
@@ -60,7 +60,7 @@
       var ctx4 = document.getElementById('canvas4').getContext('2d');
       window.myRS = new Chart(ctx4, {type: 'bar',data: RegioneLineageData,
         options: {
-          title: {display: true,text: 'Casi Regione-Lineage (percentuale dei casi del lineage)'},
+          title: {display: true,text: 'Casi Regione-Lineage (percentuale dei casi del lineage nella regione)'},
           tooltips: {
 		    callbacks: {
               label: function(tooltipItem, data) {
@@ -81,7 +81,7 @@
       var ctx5 = document.getElementById('canvas5').getContext('2d');
       window.myRS = new Chart(ctx5, {type: 'bar',data: STAnnoData,
         options: {
-          title: {display: true,text: 'Casi Settimana-Lineage (percentuale dei casi nella settimana)'},
+          title: {display: true,text: 'Casi Lineage-Settimana (percentuale dei casi della settimana nel lineage)'},
           tooltips: {
 		    callbacks: {
               label: function(tooltipItem, data) {
@@ -101,9 +101,9 @@
       });	  
       reDrawGraph6();
       var ctx7 = document.getElementById('canvas7').getContext('2d');
-      window.myRS = new Chart(ctx7, {type: 'bar',data: RegioneMutazioniData,
+      window.myRS = new Chart(ctx7, {type: 'bar',data: RegioneStx12Data,
         options: {
-          title: {display: true,text: 'Casi Regione-Mutazioni S (percentuale dei casi delle mutazioni)'},
+          title: {display: true,text: 'Casi Regione-VOC (percentuale dei casi)'},
           tooltips: {
 		    callbacks: {
               label: function(tooltipItem, data) {
@@ -143,7 +143,7 @@
 	  if (window.AO !== undefined && window.AO !== null) { window.AO.destroy(); }
       window.AO = new Chart(ctx6, {type: 'bar',data: getRegionData(),
         options: {
-          title: {display: true,text: 'Casi Settimana-Ospedale (percentuale dei casi nella settimana)'},
+          title: {display: true,text: "Sequenziamenti Settimana-Ospedale (percentuale dei sequenziamenti dell'ospedale nella settimana)"},
           tooltips: {
 		    callbacks: {
               label: function(tooltipItem, data) {

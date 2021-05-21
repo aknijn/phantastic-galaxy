@@ -1,5 +1,5 @@
-<tool id="phantv-pre" name="PHANtV-pre" version="2.3">
-    <description>Only to be used through IRIDA</description>
+<tool id="phant-pre" name="PHANt-pre" version="2.3">
+    <description>Preparation for Collapse Collection</description>
     <!-- basic error handling -->
     <stdio>
         <!-- Assume anything other than zero is an error -->
@@ -8,21 +8,15 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $token == "D85SteptkQZ9MobOk9pa":
-        cat $input_pc.forward > $phantv_filename
-    #else:
-        touch $phantv_filename
-    #end if
+    cat $input_pc.forward > $phants_filename
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" />
     </inputs>
 
-    <!-- define outputs -->
     <outputs>
-        <data name="phantv_filename" format="tabular" label="filename" ></data>
+        <data name="phants_filename" format="tabular" label="filename" ></data>
    </outputs>
 </tool>

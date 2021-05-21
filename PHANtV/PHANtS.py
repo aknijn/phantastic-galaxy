@@ -191,6 +191,21 @@ def getRegionST(dataframe):
     strRS = strRS + ",".join(lststs) + "]};\n"
     return strRS
 
+def getRegionStx12(dataframe):
+    dfpivot = pd.pivot_table(dataframe,index=["Stx12"], columns='Regione', values='QC', aggfunc=len, fill_value=0)
+    dfkeys = dfpivot.keys().tolist()
+    strRStx = "var RegioneStx12Data = {labels: [" + ",".join(["\"" + item.replace("__sq__", "'") + "\"" for item in dfkeys]) + "],datasets: ["
+    lststxs = []
+    for idx, row in dfpivot.iterrows():
+        stx = idx
+        lststxdata = []
+        for dfkey in dfkeys:
+            lststxdata.append(row[dfkey])
+        strstxdata = ",".join([str(item) for item in lststxdata])
+        lststxs.append("{label: \"" + stx + "\", backgroundColor : getRCH(), data: [" + strstxdata + "]}")
+    strRStx = strRStx + ",".join(lststxs) + "]};\n"
+    return strRStx
+
 def getStx12Sero(dataframe):
     dfpivot = pd.pivot_table(dataframe,index=["Sero"], columns='Stx12', values='QC', aggfunc=len, fill_value=0)
     dfkeys = dfpivot.keys().tolist()
@@ -275,6 +290,13 @@ def getYear(dataframe):
         strYR = "Anni " + ", ".join([str(item) for item in lstyrdata])
     return strYR
 
+def getTable(dataframe):
+    df_clusters = dataframe.groupby('Regione')
+    #Column Count
+    df_count = df_clusters.count()[['QC']]
+    df_count.columns = ['Numero di sequenziamenti']
+    strCT = df_count.to_html(classes='table table-cross', border=0)
+    return strCT
 
 def __main__():
     parser = argparse.ArgumentParser()
@@ -302,6 +324,8 @@ def __main__():
         else:
             if args.species == "SARS-CoV-2":
                 insertFile(TOOL_DIR + "/report_head_sc2.html", report)
+                report.write(getTable(metadata))
+                report.write("</td></tr></table>\n")
             else:
                 insertFile(TOOL_DIR + "/report_head.html", report)
         if args.species == "Escherichia coli":
@@ -318,6 +342,7 @@ def __main__():
         if args.species == "SARS-CoV-2":
             report.write(getRegionLineage(metadata))
             report.write(getRegionMutations(metadata))
+            report.write(getRegionStx12(metadata))
             report.write(getHospitalYear(metadata,'Abruzzo','AbData'))
             report.write(getHospitalYear(metadata,'Basilicata','BaData'))
             report.write(getHospitalYear(metadata,'Calabria','ClData'))

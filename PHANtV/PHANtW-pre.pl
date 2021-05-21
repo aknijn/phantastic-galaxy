@@ -27,7 +27,7 @@ exit(0);
 
 sub getFastaPaths{
     my $idFastqs = $_[0];
-    my $prepath = "/afs/irida21/data/output/";
+    my $prepath = "/ifs/irida21/data/output/";
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);

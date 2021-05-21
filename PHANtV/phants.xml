@@ -1,5 +1,5 @@
 <tool id="phants" name="PHANtS" version="2.3">
-    <description>Only to be used through IRIDA</description>
+    <description>Summary report</description>
     <requirements>
         <requirement type="package" version="3.7">python</requirement>
         <requirement type="package" version="8.0">mysql-connector-python</requirement>
@@ -14,22 +14,16 @@
     </stdio>
     <command>
 <![CDATA[
-        #if $token == "D85SteptkQZ9MobOk9pa":
-            python
-            $__tool_directory__/PHANtS.py
-            --input_files $phants_filenames
-            --species '$species'
-            --phants_stat $phants_stat
-            --phants_trend $phants_trend
-        #else
-            touch $phants_stat
-            touch $phants_trend
-        #end if
+    python
+      $__tool_directory__/PHANtS.py
+      --input_files $phants_filenames
+      --species '$species'
+      --phants_stat $phants_stat
+      --phants_trend $phants_trend
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="phants_filenames" format="tabular" type="data" label="filenames" />
         <param name="species" type="text" label="Species" />
     </inputs>

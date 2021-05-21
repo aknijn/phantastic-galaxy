@@ -1,9 +1,9 @@
 <tool id="phanta" name="PHANtA" version="2.3">
-    <description>Only to be used through IRIDA</description>
+    <description>Trimming, Assembly, QUAST</description>
     <requirements>
         <requirement type="package" version="3.7">python</requirement>
-		<requirement type="package" version="8.0">mysql-connector-python</requirement>
-		<requirement type="package" version="5.0">configparser</requirement>
+        <requirement type="package" version="8.0">mysql-connector-python</requirement>
+        <requirement type="package" version="5.0">configparser</requirement>
         <requirement type="package" version="5.26.2">perl</requirement>
         <requirement type="package" version="1.7">perl-bioperl</requirement>
         <requirement type="package" version="2.3.4">bowtie2</requirement>
@@ -12,7 +12,7 @@
         <requirement type="package" version="0.38">trimmomatic</requirement>
         <requirement type="package" version="3.15">spades</requirement>
         <requirement type="package" version="1.23">pilon</requirement>
-		<requirement type="package" version="5.0.2">quast</requirement>
+        <requirement type="package" version="5.0.2">quast</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>
@@ -22,53 +22,46 @@
     </stdio>
     <command>
 <![CDATA[
-        #if $token == "tW9jiEusOSGvsE91qso1":
-            #if str( $input_pc.reverse.name ) == "dummy.fastq":
-                python
-                $__tool_directory__/PHANtA-S.py  
-                    --input1 ${input_pc.forward}
-					--genomeSize $genomeSize
-					--input_id $input_id
-                    --contigs $phanta_contigs
-					--json $phanta_json
-					--quast $phanta_quast
-            #else
-                perl
-                $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
-                  "python $__tool_directory__/PHANtA.py
-                  -s '$species'
-                  -g $genomeSize
-                  -f fastq_1.fastq.gz fastq_2.fastq.gz
-                  -o output_dir
-                  --threads \${GALAXY_SLOTS:-4}
-                  --doNotUseProvidedSoftware
-                  --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$TrueCoverage.trueConfigFile
-                  --skipFastQC
-                  --trimSlidingWindow 5:20
-                  --trimLeading 3
-                  --trimTrailing 3
-                  --trimMinLength 55
-                  --spadesMaxMemory 14
-                  --spadesMinCoverageAssembly 2
-                  --spadesMinKmerCovContigs 2
-                  --spadesDefaultKmers
-                  --spadesMinContigsLength 100
-                  --skipMLST
-                  --noGitInfo
-                  --doNotSearchAdapters
-                  --estimatedMinimumCoverage 10
-                  "
-            #end if
-        #else
-            touch $phanta_contigs
-			touch $phanta_json
-			touch $phanta_quast
-        #end if  
+    #if str( $input_pc.reverse.name ) == "dummy.fastq":
+        python
+        $__tool_directory__/PHANtA-S.py  
+            --input1 ${input_pc.forward}
+            --genomeSize $genomeSize
+            --input_id $input_id
+            --contigs $phanta_contigs
+            --json $phanta_json
+            --quast $phanta_quast
+    #else
+        perl
+        $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
+          "python $__tool_directory__/PHANtA.py
+          -s '$species'
+          -g $genomeSize
+          -f fastq_1.fastq.gz fastq_2.fastq.gz
+          -o output_dir
+          --threads \${GALAXY_SLOTS:-4}
+          --doNotUseProvidedSoftware
+          --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$TrueCoverage.trueConfigFile
+          --skipFastQC
+          --trimSlidingWindow 5:20
+          --trimLeading 3
+          --trimTrailing 3
+          --trimMinLength 55
+          --spadesMaxMemory 14
+          --spadesMinCoverageAssembly 2
+          --spadesMinKmerCovContigs 2
+          --spadesDefaultKmers
+          --spadesMinContigsLength 100
+          --skipMLST
+          --noGitInfo
+          --doNotSearchAdapters
+          --estimatedMinimumCoverage 10
+          "
+    #end if
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="species" type="text" label="species name" />
         <param name="genomeSize" type="float" value="5.0" label="Expected genome size in Mb" help="Float" />
         <param name="input_pc" type="data_collection"  format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Must be of datatype &quot;fastqsanger&quot;" optional="false" />

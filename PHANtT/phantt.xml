@@ -1,5 +1,5 @@
 <tool id="phantt" name="PHANtT" version="2.3">
-    <description>Only to be used through IRIDA</description>
+    <description>Multivirulotyper</description>
     <requirements>
         <requirement type="package" version="3.7">python</requirement>
     </requirements>
@@ -9,20 +9,15 @@
     </stdio>
     <command>
 <![CDATA[
-        #if $token == "D85SteptkQZ9MobOk9pa":
-            python
-            $__tool_directory__/PHANtT.py
-            --input $phantt_samples
-            --multivirulotypes $multivirulotypes
-            --species '$species'
-        #else
-            touch $multivirulotypes
-        #end if
+    python
+      $__tool_directory__/PHANtT.py
+      --input $phantt_samples
+      --multivirulotypes $multivirulotypes
+      --species '$species'
 ]]>
     </command>
 
     <inputs>
-        <param name="token" type="text" label="execution token" />
         <param name="species" type="text" label="Species" />
         <param name="phantt_samples" format="tabular" type="data" label="samples" />
     </inputs>
