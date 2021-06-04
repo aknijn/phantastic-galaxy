@@ -60,7 +60,7 @@
       var ctx4 = document.getElementById('canvas4').getContext('2d');
       window.myRS = new Chart(ctx4, {type: 'bar',data: RegioneLineageData,
         options: {
-          title: {display: true,text: 'Casi Regione-Lineage (percentuale dei casi del lineage nella regione)'},
+          title: {display: true,text: 'Sequenze Regione-Lineage (percentuale dei casi del lineage nella regione)'},
           tooltips: {
 		    callbacks: {
               label: function(tooltipItem, data) {
@@ -81,7 +81,7 @@
       var ctx5 = document.getElementById('canvas5').getContext('2d');
       window.myRS = new Chart(ctx5, {type: 'bar',data: STAnnoData,
         options: {
-          title: {display: true,text: 'Casi Lineage-Settimana (percentuale dei casi della settimana nel lineage)'},
+          title: {display: true,text: 'Sequenze Settimana-Lineage (percentuale dei lineage nella settimana )'},
           tooltips: {
 		    callbacks: {
               label: function(tooltipItem, data) {

@@ -101,7 +101,7 @@ def getHospitalYear(dataframe, region, regionData):
     regiondataframe = dataframe[dataframe.Regione==region]
     dfpivot = pd.pivot_table(regiondataframe,index=["Anno"], columns='Sero', values='QC', aggfunc=len, fill_value=0)
     dfkeys = dfpivot.keys().tolist()
-    strHY = "var " + regionData + " = {labels: [" + ",".join(["\"" + item.replace("__sq__", "'") + "\"" for item in dfkeys]) + "],datasets: ["
+    strHY = "var " + regionData + " = {labels: [" + ",".join(["\"" + item.replace("\"", "") + "\"" for item in dfkeys]) + "],datasets: ["
     lstyears = []
     for idx, row in dfpivot.iterrows():
         year = idx
@@ -267,18 +267,18 @@ def getRegionMutations(dataframe):
     return strRM
 
 def getSTYear(dataframe):
-    dfpivot = pd.pivot_table(dataframe,index=["Anno"], columns='MLST', values='QC', aggfunc=len, fill_value=0)
+    dfpivot = pd.pivot_table(dataframe,index=["MLST"], columns='Anno', values='QC', aggfunc=len, fill_value=0)
     dfkeys = dfpivot.keys().tolist()
     strSY = "var STAnnoData = {labels: [" + ",".join(["'" + item + "'" for item in dfkeys]) + "],datasets: ["
-    lstyears = []
+    lstlineages = []
     for idx, row in dfpivot.iterrows():
-        year = idx
-        lstyeardata = []
+        lineages = idx
+        lstlineagedata = []
         for dfkey in dfkeys:
-            lstyeardata.append(row[dfkey])
-        stryeardata = ",".join([str(item) for item in lstyeardata])
-        lstyears.append("{label: \"" + year + "\", backgroundColor : getRCH(), data: [" + stryeardata + "]}")
-    strSY = strSY + ",".join(lstyears) + "]};\n"
+            lstlineagedata.append(row[dfkey])
+        strlineagedata = ",".join([str(item) for item in lstlineagedata])
+        lstlineages.append("{label: \"" + lineages + "\", backgroundColor : getRCH(), data: [" + strlineagedata + "]}")
+    strSY = strSY + ",".join(lstlineages) + "]};\n"
     return strSY
 
 def getYear(dataframe):
