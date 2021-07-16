@@ -17,7 +17,8 @@ my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
 prepareEnvironment();
 my $result=runPopPUNK();
-move("output/output_core_NJ.nwk", $phantw_tree);
+#move("output/output_core_NJ.nwk", $phantw_tree);
+system(qq(sed 's-\\x27--g' output/output_core_NJ.nwk > $phantw_tree));
 system("sed 's-input_dir/--g' distances.txt > $phantw_cl");
 
 exit($result);
