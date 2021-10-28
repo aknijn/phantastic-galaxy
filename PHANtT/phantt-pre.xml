@@ -13,7 +13,13 @@
     </stdio>
     <command>
 <![CDATA[
-    awk -v OFS='\t' 'split($1, arr, "/") { printf("%s%s",sep,arr[6]);sep="," }END{print ""}' $input_pc.forward > ids.tab;
+    #if str( $input_pc.forward.name[0:15] ) == "fileForwardList":
+      cat $input_pc.forward > phantt_filenames
+    #else:
+      echo '$input_pc.forward' > phantt_filenames
+    #end if
+
+    awk -v OFS='\t' 'split($1, arr, "/") { printf("%s%s",sep,arr[6]);sep="," }END{print ""}' phantt_filenames > ids.tab;
     perl
       $__tool_directory__/PHANtT-pre.pl
       ids.tab

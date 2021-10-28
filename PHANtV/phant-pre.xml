@@ -8,7 +8,11 @@
     </stdio>
     <command>
 <![CDATA[
-    cat $input_pc.forward > $phants_filename
+    #if str( $input_pc.forward.name[0:15] ) == "fileForwardList":
+      cat $input_pc.forward > $phants_filename
+    #else:
+      echo '$input_pc.forward' > $phants_filename
+    #end if
 ]]>
     </command>
 
