@@ -156,12 +156,7 @@ def __main__():
             str_shigatoxin_subtype = " ".join(shigatoxin_subtypes)
         report_data["shigatoxin_subtype"] = str_shigatoxin_subtype
         sequence_qc_result = True
-        sequence_qc_cov = 0
-        for x in range(7):
-            if float(sequence_qc[x+1][2]) < 1:
-                sequence_qc_result = False
-            sequence_qc_cov = sequence_qc_cov + float(sequence_qc[x+1][3])
-        if sequence_qc_cov < 210:
+        if "?" in sequence_typing or "-" in sequence_typing:
             sequence_qc_result = False
         if sequence_qc_result:
             report_data['qc_status'] = "Passed"

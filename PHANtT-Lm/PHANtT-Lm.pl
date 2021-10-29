@@ -39,12 +39,12 @@ sub runLisSero {
 
 # Run runMentaLiST
 sub runMentaLiST {
-    my $mlst_schema = "$scriptdir/data/listeria_monocytogenes_pubmlst.jld";
     if ($input2 ne "NULL") {
       system("mentalist call --output_votes -o mentalist_out --db $mlst_schema -1 $input1 -2 $input2");
     } else {
-      system("mentalist call --output_votes -o mentalist_out --db $mlst_schema -1 $input1");
+      
     }
+	system("mlst --legacy --scheme lmonocytogenes input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci");
     return 0;
 }
 
@@ -77,52 +77,40 @@ sub collectOutput{
     my ($strain, $serotype, $amplicons) = split(/\t/, $line);
     close $if;
     # MentaLiST
-    $input_file = 'mentalist_out.byvote';
-    open($if, $input_file) or die "Could not read from mentalist_out, program halting.";
+    my $sequence_qc_result = 1;
+    $input_file = 'mlstsevenloci';
+    open($if, $input_file) or die "Could not read from mlstsevenloci, program halting.";
     <$if>;
     $line = <$if>;
     chomp $line;
     my @mlst_st = split(/\t/, $line);
     close $if;
-    # Quality Control
-    my $sequence_qc_result = 1;
-    my $sequence_qc_cov = 0;
-    $input_file = 'mentalist_out.coverage.txt';
-    open $if, '<', $input_file;
-    <$if>;
-    while ($line = <$if>) {
-        chomp $line;
-        my @sequence_qc = split(/\t/, $line);
-        if ($sequence_qc[2] < 1) { $sequence_qc_result = 0; }
-        $sequence_qc_cov = $sequence_qc_cov + $sequence_qc[3];
-    }
-    if ($sequence_qc_cov < 210) { $sequence_qc_result = 0; }
-    close $if;
+    if ((index($line, '?') != -1) or (index($line, '-') != -1)) { $sequence_qc_result = 0; }
     my $qc_status = "Failed";
     my $qc_messages = "Accepted for outbreak investigation.";
     if ($sequence_qc_result) {
         $qc_status = "Passed";
         $qc_messages = "Passed.";
     }
-    my $lineage = getLineage($mlst_st[8]);
+    my @CCandLineage = getCCandLineage($mlst_st[0]);
     # write json
     open(my $of, ">", $output_file) or die "Could not read from output_tab, program halting.";
-    print $of "\{\"information_name\": \"" . $input_name . "\", \"qc_status\": \"" . $qc_status . "\", \"qc_messages\": \"" . $qc_messages . "\", \"serotype_serogroup\": \"" . $serotype . "\", \"serotype_amplicons\": \"" . $amplicons . "\", \"mlst_ST\": \"ST" . $mlst_st[8] .  "\", \"mlst_CC\": \"" . $mlst_st[9] . "\", \"mlst_lineage\": \"" . $lineage . "\", \"region\": \"" . $region . "\", \"year\": \"" . $year . "\"\}";
+    print $of "\{\"information_name\": \"" . $input_name . "\", \"qc_status\": \"" . $qc_status . "\", \"qc_messages\": \"" . $qc_messages . "\", \"serotype_serogroup\": \"" . $serotype . "\", \"serotype_amplicons\": \"" . $amplicons . "\", \"mlst_ST\": \"ST" . $mlst_st[0] .  "\", \"mlst_CC\": \"" . $CCandLineage[0] . "\", \"mlst_lineage\": \"" . $CCandLineage[1] . "\", \"region\": \"" . $region . "\", \"year\": \"" . $year . "\"\}";
     close $of;
     return 0;
 }
 
-sub getLineage {
+sub getCCandLineage {
     my $line;
     my ($st) = @_;
-    my $result = "-";
-    my $mlst_profile = "$scriptdir/data/listeria_monocytogenes_pubmlst.jld.profile";
+    my @result = ("-", "-");
+    my $mlst_profile = "$scriptdir/data/lmonocytogenes.txt";
     open my $if, '<', $mlst_profile;
     <$if>;
     while ($line = <$if>) {
         chomp $line;
         my @profile = split(/\t/, $line);
-        if ($profile[0] eq $st) { $result = $profile[9]; }
+        if ($profile[0] eq $st) { @result = ($profile[8], $profile[9]); }
     }
-    return $result;
+    return @result;
 }
