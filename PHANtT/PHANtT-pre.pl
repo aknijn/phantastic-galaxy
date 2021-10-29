@@ -38,7 +38,7 @@ sub getSampleNames{
   
     open my $if, '>', $output or die "Error writing to output, program halting.";
     while (my @row = $sth->fetchrow_array) { 
-        print $if "$row[0]\t/afs/irida/data/output/$row[1]\n";
+        print $if "$row[0]\t/gfs/irida-phantastic/data/output/$row[1]\n";
     }       
     close $if;
        

@@ -63,12 +63,13 @@ def __main__():
     # SHIGATOXIN SEQUENCE SEARCH
     subprocess.call(TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
     # SEQUENCETYPER
-    if args.input2:
-        subprocess.call("mentalist call --output_votes -o 'mentalist_out' --db '/afs/galaxy/tool-data/mentalist_databases/escherichia_coli_pubmlst_k31_2018-10-09/escherichia_coli_pubmlst_k31_m023_2018-10-09.jld' -1 input_1.fq -2 input_2.fq", shell=True)
-    else:
-        subprocess.call("mentalist call --output_votes -o 'mentalist_out' --db '/afs/galaxy/tool-data/mentalist_databases/escherichia_coli_pubmlst_k31_2018-10-09/escherichia_coli_pubmlst_k31_m023_2018-10-09.jld' -1 input_1.fq", shell=True)
-    sequence_typing = openFileAsTable("mentalist_out.byvote")
-    sequence_qc = openFileAsTable("mentalist_out.coverage.txt")
+    # if args.input2:
+        # subprocess.call("mentalist call --output_votes -o 'mentalist_out' --db '/afs/galaxy/tool-data/mentalist_databases/escherichia_coli_pubmlst_k31_2018-10-09/escherichia_coli_pubmlst_k31_m023_2018-10-09.jld' -1 input_1.fq -2 input_2.fq", shell=True)
+    # else:
+        # subprocess.call("mentalist call --output_votes -o 'mentalist_out' --db '/afs/galaxy/tool-data/mentalist_databases/escherichia_coli_pubmlst_k31_2018-10-09/escherichia_coli_pubmlst_k31_m023_2018-10-09.jld' -1 input_1.fq", shell=True)
+    subprocess.call("mlst --legacy --scheme ecoli input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci", shell=True)
+    sequence_typing = openFileAsTable("mlstsevenloci")
+    ######sequence_qc = openFileAsTable("mentalist_out.coverage.txt")
     # SEROTYPER O&H
     if args.input2:
       subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
@@ -100,11 +101,11 @@ def __main__():
         else:
             report_data["serotype_h"] = sero_typing_h[0][0][sero_typing_h[0][0].rfind("H"):]
         if len(sequence_typing) < 2:
-            report_data["mlst_ST"] = "ST?"
+            report.write("ST?")
         elif sequence_typing[1][1] == "failed":
-            report_data["mlst_ST"] = "ST?"
+            report.write("ST?")
         else:
-            report_data["mlst_ST"] = "ST" + sequence_typing[1][8]
+            report.write("ST%s" % sequence_typing[1][0])
         subprocess.call("cat virulotyper > " + args.virulotypes, shell=True)
         subprocess.call("sort virulotyper | awk '/eae_|stx1._|stx2._|ehxa_/ && $2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_rep", shell=True)
         
