@@ -101,11 +101,11 @@ def __main__():
         else:
             report_data["serotype_h"] = sero_typing_h[0][0][sero_typing_h[0][0].rfind("H"):]
         if len(sequence_typing) < 2:
-            report.write("ST?")
+            report_data["mlst_ST"] = "ST?"
         elif sequence_typing[1][1] == "failed":
-            report.write("ST?")
+            report_data["mlst_ST"] = "ST?"
         else:
-            report.write("ST%s" % sequence_typing[1][0])
+            report_data["mlst_ST"] = "ST" + sequence_typing[1][0]
         subprocess.call("cat virulotyper > " + args.virulotypes, shell=True)
         subprocess.call("sort virulotyper | awk '/eae_|stx1._|stx2._|ehxa_/ && $2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_rep", shell=True)
         
