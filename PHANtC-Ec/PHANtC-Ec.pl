@@ -40,7 +40,7 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "python chewBBACA.py -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $scriptdir/TrainingFiles4Prodigal/trained_eColi.trn -g $scriptdir/../../INNUENDO/schema_chewBBACA_cgMLST_V4/_schema.txt";
+    my $python = "chewBBACA.py -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $scriptdir/TrainingFiles4Prodigal/trained_eColi.trn -g $scriptdir/../../INNUENDO/schema_chewBBACA_cgMLST_V4/_schema.txt";
     my $result = system("$newpath; $python");
     return 0;
 }
