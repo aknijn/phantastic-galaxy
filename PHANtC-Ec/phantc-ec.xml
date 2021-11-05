@@ -6,6 +6,7 @@
         <requirement type="package" version="5.26">perl</requirement>
         <requirement type="package" version="1.642">perl-dbi</requirement>
         <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
+        <requirement type="package" version="4.58">perl-config-simple</requirement>
         <requirement type="package" version="2.11.0">blast</requirement>
         <requirement type="package" version="2.6.3">prodigal</requirement>
         <requirement type="package" version="3.6.0">r</requirement>
