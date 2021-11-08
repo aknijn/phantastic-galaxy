@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-## A wrapper script to call chewBBACA and MentaLiST
+## A wrapper script to call chewBBACA and MentaLiST (only tree part)
 use strict;
 use warnings;
 use Cwd;
@@ -19,6 +19,7 @@ my ($input1,
     $phantcec_dm) = @ARGV;
 
 # Run program
+my $chewiedir = '/ariesdb/database/Chewie-NS';
 my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
 my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
@@ -40,7 +41,7 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $scriptdir/TrainingFiles4Prodigal/trained_eColi.trn -g $scriptdir/../../INNUENDO/schema_Ecoli_cgMLST_V4/schema_seed/.genes_list";
+    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Escherichia_coli.trn -g $chewiedir/ecoli/ecoli_INNUENDO_wgMLST/ --gl $chewiedir/ecoli/Ecoli_cgMLST_ns_ids.txt";
     my $result = system("$newpath; $python");
     return 0;
 }
@@ -64,7 +65,7 @@ sub prepareEnvironment {
     if ($inlist ne "NULL") {
       mkdir($indir);
       if ($inlist_name ne "NULL") {
-        symlink($inlist, $indir . "/" . $inlist_name);
+        symlink($inlist, $indir . "/" . $inlist_name .  ".fasta");
       }
     }
     return 0;
