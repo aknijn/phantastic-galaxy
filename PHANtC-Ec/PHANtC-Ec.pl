@@ -79,8 +79,9 @@ sub collectOutput{
       <$if_in>;
       my $allele_line = <$if_in>;
       chomp $allele_line;
-      # remove INF- from newly inferred alleles
+      # remove INF- from newly inferred alleles and .fasta from the filename
       $allele_line =~ s/INF-//ig;
+      $allele_line =~ s/.fasta//ig;
       close $if_in;
 
       my $sql_insert = "insert into mlst_ecoli (sample_code) values (?)";

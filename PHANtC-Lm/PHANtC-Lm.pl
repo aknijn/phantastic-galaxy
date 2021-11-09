@@ -18,6 +18,7 @@ my ($input1,
     $phantclm_dm) = @ARGV;
 
 # Run program
+my $chewiedir = '/ariesdb/database/Chewie-NS';
 my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
 my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
@@ -36,7 +37,7 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "python chewBBACA.py -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $scriptdir/TrainingFiles4Prodigal/Listeria_monocytogenes.trn -g $scriptdir/../../INNUENDO/schema_chewBBACA_cgMLST_V4/_schema.txt";
+    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Listeria_monocytogenes.trn -g $chewiedir/listeria/lmonocytogenes_Pasteur_cgMLST/";
     my $result = system("$newpath; $python");
     return 0;
 }
@@ -60,7 +61,7 @@ sub prepareEnvironment {
     if ($inlist ne "NULL") {
       mkdir($indir);
       if ($inlist_name ne "NULL") {
-        symlink($inlist, $indir . "/" . $inlist_name);
+        symlink($inlist, $indir . "/" . $inlist_name .  ".fasta");
       }
     }
     return 0;
@@ -76,6 +77,7 @@ sub collectOutput{
       chomp $allele_line;
       # remove INF- from newly inferred alleles
       $allele_line =~ s/INF-//ig;
+      $allele_line =~ s/.fasta//ig;
       close $if_in;
 
       my $sql_insert = "insert into mlst_listeria (sample_code) values (?)";
