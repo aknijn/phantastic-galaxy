@@ -82,11 +82,11 @@ sub createAllelesFile {
     } else {
         if ($species eq "Escherichia coli") {
             $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
-                    select allele_strain from  from v_mlst_ecoli_files_id_1 where files_id IN ($files_id)";
+                    select allele_strain from v_mlst_ecoli_files_id_1 where files_id IN ($files_id)";
 		} else {
             if ($species eq "Listeria monocytogenes") {
                 $sql = "select allele_strain from mlst_listeria where sample_code='FILE' union
-                        select allele_strain from  from v_mlst_listeria_files_id_1 where files_id IN ($files_id)";
+                        select allele_strain from v_mlst_listeria_files_id_1 where files_id IN ($files_id)";
 			}
         }
     }
