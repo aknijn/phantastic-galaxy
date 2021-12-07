@@ -2,7 +2,7 @@
     <description>Allele Observer</description>
     <requirements>
         <requirement type="package" version="3.8">python</requirement>
-        <requirement type="package" version="1.21.4">numpy</requirement>
+        <requirement type="package" version="1.21.2">numpy</requirement>
         <requirement type="package" version="1.7.1">scipy</requirement>
         <requirement type="package" version="5.26">perl</requirement>
         <requirement type="package" version="1.642">perl-dbi</requirement>
