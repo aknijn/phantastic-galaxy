@@ -66,10 +66,9 @@ def main():
     csv_header = ['id','NomeCampione','DataCampione','DataCaricamento','CodiceInterno','Descrizione','QC','Regione','Provincia','Comune','OrigineIsolato','FasciaEta','NumeroVaccinazioni','DataUltimaVaccinazione','Ospedale','Laboratorio','Lineage','Clade','ORF1ab','Spike','ORF3a','E-protein','M-protein','ORF6','ORF7a','ORF7b','ORF8','N-protein','ORF10','Variante','Sequenza','N_consensus']
     args = parser.parse_args()
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"))
-    sample_dict = {}
     if metadata:
         # Create csv
-        with open(args.metadati, 'w') as meta_csv:
+        with open(args.phante_csv, 'w') as meta_csv:
             meta_csv_writer = csv.writer(meta_csv)
             meta_csv_writer.writerow(csv_header)
             for meta_row in metadata:
