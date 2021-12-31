@@ -63,7 +63,7 @@ def main():
     parser.add_argument('--species', dest='species', help='species')
     parser.add_argument('--phante_csv', dest='phante_csv', help='phante_csv')
 
-    csv_header = ['id','NomeCampione','DataCampione','DataCaricamento','CodiceInterno','Descrizione','QC','Regione','Provincia','Comune','OrigineIsolato','FasciaEta','NumeroVaccinazioni','DataUltimaVaccinazione','Ospedale','Laboratorio','Lineage','Clade','ORF1ab','Spike','ORF3a','E-protein','M-protein','ORF6','ORF7a','ORF7b','ORF8','N-protein','ORF10','Variante','Sequenza','N_consensus']
+    csv_header = ['id','NomeCampione','DataCampione','DataCaricamento','CodiceInterno','Descrizione','QC','Regione','Provincia','Comune','OrigineIsolato','FasciaEta','NumeroVaccinazioni','DataUltimaVaccinazione','Ospedale','Laboratorio','Lineage','Clade','ORF1ab','Spike','ORF3a','E-protein','M-protein','ORF6','ORF7a','ORF7b','ORF8','N-protein','ORF10','Variante','Sequenza','N_consensus','Coverage']
     args = parser.parse_args()
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"))
     if metadata:
@@ -72,7 +72,7 @@ def main():
             meta_csv_writer = csv.writer(meta_csv)
             meta_csv_writer.writerow(csv_header)
             for meta_row in metadata:
-                meta_csv_writer.writerow(meta_row[0:-1])
+                meta_csv_writer.writerow(meta_row[0:-2])
 
 if __name__ == "__main__":
     main()
