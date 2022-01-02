@@ -40,7 +40,7 @@ def getMetadata(inputfiles, inuser, inspecies):
     idfiles = [getIdFile(x.rstrip('\n')) for x in content]
     files_id = ",".join(idfiles)
     if inspecies == 'Coronavirus':
-        sql = (sql_coronavirus + "(lab_users.username = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") order by sample.id")
+        sql = (sql_coronavirus + "(lab_users.username = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     else:
         sql = "select * from v_export_sarscov2 LIMIT 0"
     try:
