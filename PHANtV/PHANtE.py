@@ -38,7 +38,7 @@ def getMetadata(inputfiles, inuser):
         content = f.readlines()
     idfiles = [getIdFile(x.rstrip('\n')) for x in content]
     files_id = ",".join(idfiles)
-    sql = ("select * from v_export_sarscov2 where email = '" + inuser + "' and files_id in (" + files_id + ") order by id")
+    sql = ("select * from v_export_sarscov2 where (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") order by id")
     try:
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(buffered=True)
