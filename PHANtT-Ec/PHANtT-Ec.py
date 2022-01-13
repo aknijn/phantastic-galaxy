@@ -108,6 +108,7 @@ def __main__():
             report_data["mlst_ST"] = "ST" + sequence_typing[1][0]
         subprocess.call("cat virulotyper > " + args.virulotypes, shell=True)
         subprocess.call("sort virulotyper | awk '/eae_|stx1._|stx2._|ehxa_/ && $2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_rep", shell=True)
+        subprocess.call("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
         
         with open('virulotyper_rep') as virurep:
             virulotype_eae = "-"
@@ -127,6 +128,10 @@ def __main__():
         report_data["virulotype_ehxa"] = virulotype_ehxa
         report_data["virulotype_stx1"] = virulotype_stx1
         report_data["virulotype_stx2"] = virulotype_stx2
+        with open('virulotyper_all') as viruall:
+            virulotypes_all = viruall.readline().strip() 
+        report_data["virulotypes_all"] = virulotypes_all
+
         shigatoxin_typing = openFileAsTable("shigatoxin_fc")
         if len(shigatoxin_typing) == 0:
             str_shigatoxin_subtype = "No subtype match found"
