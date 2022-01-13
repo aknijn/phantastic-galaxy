@@ -130,7 +130,7 @@ def __main__():
         report_data["virulotype_stx2"] = virulotype_stx2
         with open('virulotyper_all') as viruall:
             virulotypes_all = viruall.readline().strip() 
-        report_data["virulotypes_all"] = virulotypes_all
+        report_data["virulotypes_all"] = virulotypes_all.replace(", ,", ",")
 
         shigatoxin_typing = openFileAsTable("shigatoxin_fc")
         if len(shigatoxin_typing) == 0:
