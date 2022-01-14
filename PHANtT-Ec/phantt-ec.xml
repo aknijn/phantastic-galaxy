@@ -25,7 +25,7 @@
 <![CDATA[
     #if $species == "Escherichia coli":
         python
-        $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --serotype $serotype --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes
+        $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --serotype $serotype --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
           -1 ${input_pc.forward}
           #if str( $input_pc.reverse.name ) != "dummy.fastq":
               -2 ${input_pc.reverse}
@@ -35,6 +35,7 @@
         touch $phanttec_json
         touch $virulotypes
         touch $amrgenes
+        touch $seqtype
     #end if
 ]]>
     </command>
@@ -54,5 +55,6 @@
         <data name="phanttec_json" format="json" label="${tool.name} on ${on_string}: typing" />
         <data name="virulotypes" format="tabular" label="${tool.name} on ${on_string}: virulotypes" />
         <data name="amrgenes" format="tabular" label="${tool.name} on ${on_string}: amrgenes" />
+        <data name="seqtype" format="tabular" label="${tool.name} on ${on_string}: sequence type" />
     </outputs>
 </tool>

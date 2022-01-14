@@ -34,6 +34,7 @@ def __main__():
     parser.add_argument('--output', dest='output', help='output report json file')
     parser.add_argument('--virulotypes', dest='virulotypes', help='strain virulotypes')
     parser.add_argument('--amrgenes', dest='amrgenes', help='strain AMR genes')
+    parser.add_argument('--seqtype', dest='seqtype', help='MLST 7 genes')
     args = parser.parse_args()
 
     subprocess.call("ln -s " + args.fasta + " input.fasta", shell=True)
@@ -63,13 +64,9 @@ def __main__():
     # SHIGATOXIN SEQUENCE SEARCH
     subprocess.call(TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
     # SEQUENCETYPER
-    # if args.input2:
-        # subprocess.call("mentalist call --output_votes -o 'mentalist_out' --db '/afs/galaxy/tool-data/mentalist_databases/escherichia_coli_pubmlst_k31_2018-10-09/escherichia_coli_pubmlst_k31_m023_2018-10-09.jld' -1 input_1.fq -2 input_2.fq", shell=True)
-    # else:
-        # subprocess.call("mentalist call --output_votes -o 'mentalist_out' --db '/afs/galaxy/tool-data/mentalist_databases/escherichia_coli_pubmlst_k31_2018-10-09/escherichia_coli_pubmlst_k31_m023_2018-10-09.jld' -1 input_1.fq", shell=True)
     subprocess.call("mlst --legacy --scheme ecoli input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci", shell=True)
+    subprocess.call("cat mlstsevenloci > " + args.seqtype, shell=True)
     sequence_typing = openFileAsTable("mlstsevenloci")
-    ######sequence_qc = openFileAsTable("mentalist_out.coverage.txt")
     # SEROTYPER O&H
     if args.input2:
       subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
@@ -103,6 +100,8 @@ def __main__():
         if len(sequence_typing) < 2:
             report_data["mlst_ST"] = "ST?"
         elif sequence_typing[1][1] == "failed":
+            report_data["mlst_ST"] = "ST?"
+        elif sequence_typing[1][0] == "-":
             report_data["mlst_ST"] = "ST?"
         else:
             report_data["mlst_ST"] = "ST" + sequence_typing[1][0]
