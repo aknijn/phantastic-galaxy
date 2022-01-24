@@ -19,7 +19,7 @@ my ($input1,
     $phantcec_dm) = @ARGV;
 
 # Run program
-my $chewiedir = '/ariesdb/database/Chewie-NS';
+my $chewiedir = '/gfs/data-flow/Chewie-NS';
 my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
 my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
