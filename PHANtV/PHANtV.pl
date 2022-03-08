@@ -38,7 +38,7 @@ sub runMentaLiST {
     createAllelesFile($files_id);
     if ($useNames eq "true") { substituteCodesByNames($files_id); }
     # copy allele profiles in allele matrix file
-	copy("cgMLST.tmp",$phantv_am);
+    copy("cgMLST.tmp",$phantv_am);
     # calculate distance matrix from allele profiles
     my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantv_dm");
     # calculate tree from distance matrix
@@ -83,11 +83,11 @@ sub createAllelesFile {
         if ($species eq "Escherichia coli") {
             $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
                     select allele_strain from v_mlst_ecoli_files_id where files_id IN ($files_id)";
-		} else {
+        } else {
             if ($species eq "Listeria monocytogenes") {
                 $sql = "select allele_strain from mlst_listeria where sample_code='FILE' union
                         select allele_strain from v_mlst_listeria_files_id where files_id IN ($files_id)";
-			}
+            }
         }
     }
 
@@ -110,7 +110,17 @@ sub createAllelesFile {
 # Obtain samples names and codes from db and update the temp file
 sub substituteCodesByNames {
     my ($files_id) = @_;
-    my $sql = "select sampleName, sampleCode from v_sample_name_code where files_id IN ($files_id)";
+    my $sql;
+    if (index($files_id, ',') == -1) {
+        # only one file in input, return allele strains of samples with same serotype
+        if ($species eq "Escherichia coli") {
+            $sql = "select sampleName, sampleCode from v_sample_name_code_ecoli_1 where files_id IN ($files_id)";
+        } else {
+            if ($species eq "Listeria monocytogenes") {
+                $sql = "select sampleName, sampleCode from v_sample_name_code_listeria_1";
+            }
+        }
+    } else { $sql = "select sampleName, sampleCode from v_sample_name_code where files_id IN ($files_id)"; }
 
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
