@@ -78,10 +78,6 @@ sub getIdFile {
 # Obtain iridaInstance from file path
 sub getIridaInstance {
     my ($inpath) = @_;
-    open my $if, '<', $inpath;
-    chomp(my @inFiles = <$if>);
-    close $if;
-    my ($inpath2) = @inFiles[1];
-    my(@dirs) = split m%/%, $inpath2;
+    my(@dirs) = split m%/%, $inpath;
     return $dirs[2];
 }
