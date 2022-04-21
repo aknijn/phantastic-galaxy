@@ -81,7 +81,7 @@ sub getIridaInstance {
     open my $if, '<', $inpath;
     chomp(my @inFiles = <$if>);
     close $if;
-    my ($inpath) = @inFiles[1];
-    my(@dirs) = split m%/%, $inpath;
+    my ($inpath2) = @inFiles[1];
+    my(@dirs) = split m%/%, $inpath2;
     return $dirs[2];
 }
