@@ -22,12 +22,14 @@ my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
 my $idFastqs = getIdFiles($input1);
-getFastaPaths($idFastqs);
+my $iridaInstance = getIridaInstance($input1);
+getFastaPaths($idFastqs, $iridaInstance);
 exit(0);
 
 sub getFastaPaths{
     my $idFastqs = $_[0];
-    my $prepath = "/gfs/irida21/data/output/";
+    my $iridaInstance = $_[1];
+    my $prepath = "/gfs/" . $iridaInstance . "/data/output/";
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
@@ -71,4 +73,15 @@ sub getIdFile {
     my ($inpath) = @_;
     my(@dirs) = split m%/%, $inpath;
     return $dirs[5];
+}
+
+# Obtain iridaInstance from file path
+sub getIridaInstance {
+    my ($inpath) = @_;
+    open my $if, '<', $inpath;
+    chomp(my @inFiles = <$if>);
+    close $if;
+    my ($inpath) = @inFiles[1];
+    my(@dirs) = split m%/%, $inpath;
+    return $dirs[2];
 }
