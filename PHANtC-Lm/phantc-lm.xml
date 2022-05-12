@@ -24,12 +24,7 @@
     #if $species == "Listeria monocytogenes":
         perl
         $__tool_directory__/PHANtC-Lm.pl
-          ${input_pc.forward}
-          #if str( $input_pc.reverse.name ) == "dummy.fastq":
-              'NULL'                    
-          #else
-              ${input_pc.reverse}
-          #end if
+          '${",".join(map(str, $input1))}'
           $input_id
           $phantclm_allele
           $phantclm_json
@@ -45,7 +40,7 @@
     </command>
 
     <inputs>
-        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" optional="false" />
+        <param name="input1" format="fasta" type="data" multiple="true" label="fasta file" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="species" type="text" label="species name" />
     </inputs>
