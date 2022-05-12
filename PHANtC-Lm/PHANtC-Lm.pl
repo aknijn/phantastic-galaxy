@@ -45,13 +45,13 @@ sub runChewBBACA {
 # Run runMentaLiST, only the tree part
 sub runMentaLiST {
     createAllelesFile();
-    open my $of, '>', $phantcec_json or die "Cannot open json: $!";
+    open my $of, '>', $phantclm_json or die "Cannot open json: $!";
     print $of "{\"core_genome_schema_size\": $cgLociNumber, \"sample_genes_mapped\": $sampleGenesMapped}";
     close $of;
     # calc distance matrix from database
-    my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantcec_dm");
+    my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantclm_dm");
     # calc tree from distance matrix
-    system("python $scriptdir/scripts/mentalist_tree $phantcec_dm > $phantcec_tree");
+    system("python $scriptdir/scripts/mentalist_tree $phantclm_dm > $phantclm_tree");
     return 0;
 }
 
@@ -104,8 +104,8 @@ sub collectOutput{
 sub collectStatistics{
     my @statistics = glob "output_dir/results_*/results_statistics.tsv";
     if (@statistics == 1) { 
-      move($statistics[0], $phantcec_allele) ;
-      open(my $if_st, '<', $phantcec_allele) or die "Could not read from results_statistics.tsv, program halting.";
+      move($statistics[0], $phantclm_allele) ;
+      open(my $if_st, '<', $phantclm_allele) or die "Could not read from results_statistics.tsv, program halting.";
       my $lastline;
       $lastline = $_, while (<$if_st>);
       chomp $lastline;

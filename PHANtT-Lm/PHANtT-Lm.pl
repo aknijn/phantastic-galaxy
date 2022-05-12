@@ -23,7 +23,7 @@ my ($input1,
 my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
 my $result = runLisSero();
-runMentaLiST();
+runMLST();
 runVirulotyper();
 runAMRgenes();
 collectOutput();
@@ -37,14 +37,9 @@ sub runLisSero {
     return $result;
 }
 
-# Run runMentaLiST
-sub runMentaLiST {
-    if ($input2 ne "NULL") {
-      system("mentalist call --output_votes -o mentalist_out --db $mlst_schema -1 $input1 -2 $input2");
-    } else {
-      
-    }
-	system("mlst --legacy --scheme lmonocytogenes input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci");
+# Run MLST
+sub runMLST {
+	system("mlst --legacy --scheme lmonocytogenes " . $inputf . " | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci");
     return 0;
 }
 
@@ -76,7 +71,7 @@ sub collectOutput{
     chomp $line;
     my ($strain, $serotype, $amplicons) = split(/\t/, $line);
     close $if;
-    # MentaLiST
+    # MLST
     my $sequence_qc_result = 1;
     $input_file = 'mlstsevenloci';
     open($if, $input_file) or die "Could not read from mlstsevenloci, program halting.";
