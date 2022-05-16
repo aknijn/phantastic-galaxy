@@ -53,7 +53,7 @@ def getMetadata(inputfiles, inuser, inspecies):
     else:
         csv_header = []
         sql = "select * from sample LIMIT 0"
-    
+    print(sql)
     try:
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(buffered=True)
