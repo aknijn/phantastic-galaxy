@@ -49,7 +49,7 @@ def getMetadata(inputfiles, inuser, inspecies):
         sql = (sql_species + "(lab_users.username = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     else:
         sql = "select * from sample LIMIT 0"
-    print(sql)
+
     try:
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(buffered=True)
