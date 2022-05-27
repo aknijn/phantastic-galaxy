@@ -32,31 +32,42 @@
             --json $phanta_json
             --quast $phanta_quast
     #else
-        perl
-        $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
-          "python $__tool_directory__/PHANtA.py
-          -s '$species'
-          -g $genomeSize
-          -f fastq_1.fastq.gz fastq_2.fastq.gz
-          -o output_dir
-          --threads \${GALAXY_SLOTS:-4}
-          --doNotUseProvidedSoftware
-          --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$TrueCoverage.trueConfigFile
-          --skipFastQC
-          --trimSlidingWindow 5:20
-          --trimLeading 3
-          --trimTrailing 3
-          --trimMinLength 55
-          --spadesMaxMemory 14
-          --spadesMinCoverageAssembly 2
-          --spadesMinKmerCovContigs 2
-          --spadesDefaultKmers
-          --spadesMinContigsLength 100
-          --skipMLST
-          --noGitInfo
-          --doNotSearchAdapters
-          --estimatedMinimumCoverage 10
-          "
+        #if str( $input_pc.forward.name ) == "dummy.fastq":
+            python
+            $__tool_directory__/PHANtA-S.py  
+                --input1 ${input_pc.reverse}
+                --genomeSize $genomeSize
+                --input_id $input_id
+                --contigs $phanta_contigs
+                --json $phanta_json
+                --quast $phanta_quast
+        #else
+            perl
+            $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
+              "python $__tool_directory__/PHANtA.py
+              -s '$species'
+              -g $genomeSize
+              -f fastq_1.fastq.gz fastq_2.fastq.gz
+              -o output_dir
+              --threads \${GALAXY_SLOTS:-4}
+              --doNotUseProvidedSoftware
+              --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$TrueCoverage.trueConfigFile
+              --skipFastQC
+              --trimSlidingWindow 5:20
+              --trimLeading 3
+              --trimTrailing 3
+              --trimMinLength 55
+              --spadesMaxMemory 14
+              --spadesMinCoverageAssembly 2
+              --spadesMinKmerCovContigs 2
+              --spadesDefaultKmers
+              --spadesMinContigsLength 100
+              --skipMLST
+              --noGitInfo
+              --doNotSearchAdapters
+              --estimatedMinimumCoverage 10
+              "
+        #end if
     #end if
 ]]>
     </command>

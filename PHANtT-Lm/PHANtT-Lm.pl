@@ -45,19 +45,27 @@ sub runMLST {
 
 # Run Virulotyper
 sub runVirulotyper {
-    if ($input2 ne "NULL") {
-      system("perl $scriptdir/scripts/patho_typing.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 $input2 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
-      system("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > $virulotypes");
+    if ($input1 ne "NULL") {
+      if ($input2 ne "NULL") {
+        system("perl $scriptdir/scripts/patho_typing.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 $input2 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
+        system("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > $virulotypes");
+      } else {
+        system("perl $scriptdir/scripts/patho_typing.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
+        system("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > $virulotypes");
+      }
     } else {
-      system("perl $scriptdir/scripts/patho_typing.pl 'python $scriptdir/scripts/patho_typing.py -s Listeria monocytogenes -f $input1 -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'");
-      system("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > $virulotypes");
-    }
+      system("touch $virulotypes");
+	}
     return 0;
 }
 
 # Run AMRgenes
 sub runAMRgenes {
-    system("abricate --db ncbi $inputf > $amrgenes");
+    if ($input1 ne "NULL") {
+      system("abricate --db ncbi $inputf > $amrgenes");
+    } else {
+      system("touch $amrgenes");
+	}
     return 0;
 }
 

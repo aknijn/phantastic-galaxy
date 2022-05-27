@@ -26,15 +26,24 @@
     #if $species == "Listeria monocytogenes":
         perl
         $__tool_directory__/PHANtT-Lm.pl
-          ${input_pc.forward}
-          #if str( $input_pc.reverse.name ) == "dummy.fastq":
-              'NULL'                    
-          #else
-              ${input_pc.reverse}
-          #end if
-          #for $inputf in $input_f:
-            ${inputf}
-          #end for
+            #if str( $input_pc.forward.name ) == "dummy.fastq" and str( $input_pc.reverse.name ) == "dummy.fastq":
+                'NULL'
+                'NULL'                    
+            #else
+                #if str( $input_pc.reverse.name ) == "dummy.fastq":
+                    ${input_pc.forward}
+                    'NULL'                    
+                #else
+                    #if str( $input_pc.forward.name ) == "dummy.fastq":
+                        ${input_pc.reverse}
+                        'NULL'                    
+                    #else
+                        ${input_pc.forward}
+                        ${input_pc.reverse}
+                    #end if
+                #end if
+            #end if
+          ${input_fasta}
           $input_id
           '$region'
           $year
@@ -52,7 +61,7 @@
 
     <inputs>
         <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" optional="false" />
-        <param name="input_f" type="data_collection" format="fasta" collection_type="list" label="FASTA collection" help="Collection of genome files (fasta)" optional="false" />
+        <param name="input_fasta" format="fasta" type="data" multiple="true" label="fasta file" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="region" type="text" label="Sample Region" />
         <param name="year" type="text" label="Sample Year" />

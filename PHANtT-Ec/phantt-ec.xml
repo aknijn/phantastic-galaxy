@@ -26,10 +26,14 @@
     #if $species == "Escherichia coli":
         python
         $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --serotype $serotype --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
-          -1 ${input_pc.forward}
-          #if str( $input_pc.reverse.name ) != "dummy.fastq":
-              -2 ${input_pc.reverse}
-          #end if
+            #if str( $input_pc.forward.name ) != "dummy.fastq":
+                -1 ${input_pc.forward}
+                #if str( $input_pc.reverse.name ) != "dummy.fastq":
+                    -2 ${input_pc.reverse}
+                #end if
+            #else
+                -1 ${input_pc.reverse}
+            #end if
     #else
         touch $serotype
         touch $phanttec_json

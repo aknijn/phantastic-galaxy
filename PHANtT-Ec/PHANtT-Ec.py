@@ -41,37 +41,49 @@ def __main__():
     subprocess.call("ln -s " + args.input1 + " input_1.fq", shell=True)
     if args.input2:
         subprocess.call("ln -s " + args.input2 + " input_2.fq", shell=True)
-    # AMRGENES
-    subprocess.call("abricate --db resfinder input.fasta > " + args.amrgenes, shell=True)
-    # VIRULOTYPER
-    if args.input2:
-        subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+    # AMRGENES (only if fastq are provided)
+    if args.input1.endswith(".fastq"):
+        subprocess.call("abricate --db resfinder input.fasta > " + args.amrgenes, shell=True)
     else:
-        subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
-    subprocess.call("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > virulotyper", shell=True)
-    # SHIGATOXIN TYPER
-    os.system("ln -s " + os.popen("which trimmomatic.jar").read().strip() + " trimmomatic.jar")
-    if args.input2:
-        # TRIMMING
-        subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar PE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq input_2.fq trimmed1 trimmed1unpaired trimmed2 trimmed2unpaired SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:36", shell=True)
-        # ASSEMBLY
-        subprocess.call(TOOL_DIR + "/scripts/stx_subtype_pe.sh " + TOOL_DIR + " trimmed1 trimmed2 input.fasta", shell=True)
+        subprocess.call("touch " + args.amrgenes, shell=True)
+    # VIRULOTYPER (only if fastq are provided)
+    if args.input1.endswith(".fastq"):
+        if args.input2:
+            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+        else:
+            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+        subprocess.call("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > virulotyper", shell=True)
     else:
-        # TRIMMING
-        subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar SE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq trimmed1 SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:55", shell=True)
-        # ASSEMBLY
-        subprocess.call(TOOL_DIR + "/scripts/stx_subtype_se.sh " + TOOL_DIR + " trimmed1 input.fasta", shell=True)
-    # SHIGATOXIN SEQUENCE SEARCH
-    subprocess.call(TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
+        subprocess.call("touch virulotyper", shell=True)
+    # SHIGATOXIN TYPER (only if fastq are provided)
+    if args.input1.endswith(".fastq"):
+        os.system("ln -s " + os.popen("which trimmomatic.jar").read().strip() + " trimmomatic.jar")
+        if args.input2:
+            # TRIMMING
+            subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar PE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq input_2.fq trimmed1 trimmed1unpaired trimmed2 trimmed2unpaired SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:36", shell=True)
+            # ASSEMBLY
+            subprocess.call(TOOL_DIR + "/scripts/stx_subtype_pe.sh " + TOOL_DIR + " trimmed1 trimmed2 input.fasta", shell=True)
+        else:
+            # TRIMMING
+            subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar SE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq trimmed1 SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:55", shell=True)
+            # ASSEMBLY
+            subprocess.call(TOOL_DIR + "/scripts/stx_subtype_se.sh " + TOOL_DIR + " trimmed1 input.fasta", shell=True)
+        # SHIGATOXIN SEQUENCE SEARCH
+        subprocess.call(TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
+    else:
+        shutil.copy(args.input1, "input.fasta")
     # SEQUENCETYPER
     subprocess.call("mlst --legacy --scheme ecoli input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci", shell=True)
     subprocess.call("cat mlstsevenloci > " + args.seqtype, shell=True)
     sequence_typing = openFileAsTable("mlstsevenloci")
     # SEROTYPER O&H
-    if args.input2:
-      subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
+    if args.input1.endswith(".fastq"):
+        if args.input2:
+            subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
+        else:
+            subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " n input_1.fq xxx input.fasta", shell=True)
     else:
-      subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " n input_1.fq xxx input.fasta", shell=True)
+        subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " 0 xxx xxx input.fasta", shell=True)
     # SEROTYPER O
     subprocess.call("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_O | sort -nrk 2 -nrk 3 > serogroup_O_fc", shell=True)
     subprocess.call("awk -F , '!seen[$0]++' serogroup_O_fc > serogroup_O_fcd", shell=True)
