@@ -73,6 +73,7 @@ def __main__():
         subprocess.call(TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
     else:
         shutil.copy(args.input1, "input.fasta")
+        subprocess.call("touch shigatoxin_fc", shell=True)
     # SEQUENCETYPER
     subprocess.call("mlst --legacy --scheme ecoli input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci", shell=True)
     subprocess.call("cat mlstsevenloci > " + args.seqtype, shell=True)
