@@ -123,20 +123,26 @@ def __main__():
         subprocess.call("sort virulotyper | awk '/eae_|stx1._|stx2._|ehxa_/ && $2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_rep", shell=True)
         subprocess.call("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
         
-        with open('virulotyper_rep') as virurep:
-            virulotype_eae = "-"
-            virulotype_ehxa = "-"
-            virulotype_stx1 = "-"
-            virulotype_stx2 = "-"
-            for line in virurep:
-                if "eae" in line:
-                    virulotype_eae = "eae"
-                if "ehxa" in line:
-                    virulotype_ehxa = "ehxa"
-                if "stx1" in line:
-                    virulotype_stx1 = "stx1"
-                if "stx2" in line:
-                    virulotype_stx2 = "stx2"
+        if args.input1.endswith(".fastq"):
+            with open('virulotyper_rep') as virurep:
+                virulotype_eae = "-"
+                virulotype_ehxa = "-"
+                virulotype_stx1 = "-"
+                virulotype_stx2 = "-"
+                for line in virurep:
+                    if "eae" in line:
+                        virulotype_eae = "eae"
+                    if "ehxa" in line:
+                        virulotype_ehxa = "ehxa"
+                    if "stx1" in line:
+                        virulotype_stx1 = "stx1"
+                    if "stx2" in line:
+                        virulotype_stx2 = "stx2"
+        else:
+            virulotype_eae = "ND"
+            virulotype_ehxa = "ND"
+            virulotype_stx1 = "ND"
+            virulotype_stx2 = "ND"
         report_data["virulotype_eae"] = virulotype_eae
         report_data["virulotype_ehxa"] = virulotype_ehxa
         report_data["virulotype_stx1"] = virulotype_stx1
@@ -147,7 +153,10 @@ def __main__():
 
         shigatoxin_typing = openFileAsTable("shigatoxin_fc")
         if len(shigatoxin_typing) == 0:
-            str_shigatoxin_subtype = "No subtype match found"
+            if args.input1.endswith(".fastq"):
+                str_shigatoxin_subtype = "No subtype match found"
+            else:
+                str_shigatoxin_subtype = "ND"
         else:
             # get corresponding subtypes
             shigatoxin_subtypes = []
