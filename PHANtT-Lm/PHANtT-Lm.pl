@@ -17,6 +17,7 @@ my ($input1,
     $output_file,
     $virulotypes,
     $amrgenes,
+    $seqtype,
     $python) = @ARGV;
 
 # Run program
@@ -39,7 +40,8 @@ sub runLisSero {
 
 # Run MLST
 sub runMLST {
-	system("mlst --legacy --scheme lmonocytogenes " . $inputf . " | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci");
+    system("mlst --legacy --scheme lmonocytogenes " . $inputf . " | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci");
+    copy("mlstsevenloci",$seqtype) or die "Could not copy mlstsevenloci, program halting.";
     return 0;
 }
 
@@ -55,7 +57,7 @@ sub runVirulotyper {
       }
     } else {
       system("touch $virulotypes");
-	}
+    }
     return 0;
 }
 
@@ -65,7 +67,7 @@ sub runAMRgenes {
       system("abricate --db ncbi $inputf > $amrgenes");
     } else {
       system("touch $amrgenes");
-	}
+    }
     return 0;
 }
 
