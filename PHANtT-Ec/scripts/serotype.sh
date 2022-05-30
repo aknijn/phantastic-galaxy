@@ -12,6 +12,7 @@ then
   touch duk_H_seqs;
 else
   # FILTER + ASSEMBLE + BLAST FASTQ
+  chmod u+x $tooldir/scripts/duk
   if [ $paired = "y" ]
   then
     $tooldir/scripts/duk -m filteredO1.fq -k 23 $tooldir/data/O_type.fsa $fastqfile1;

@@ -9,6 +9,7 @@ cp $fastafile stxdir/spades.fasta;
 rm -r output_dir;
 
 # FILTER + ASSEMBLY
+chmod u+x $tooldir/scripts/duk
 $tooldir/scripts/duk -m stxdir/duk.fq -k 23 $tooldir/data/stx.fa $fastqfile;
 dukfilesize=$(wc -c "stxdir/duk.fq" | awk '{print $1}');
 if [ $dukfilesize -gt 0 ]

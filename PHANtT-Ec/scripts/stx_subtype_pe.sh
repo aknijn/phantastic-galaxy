@@ -10,6 +10,7 @@ cp $fastafile stxdir/spades.fasta;
 rm -r output_dir;
 
 # FILTER + ASSEMBLY
+chmod u+x $tooldir/scripts/duk
 $tooldir/scripts/duk -m stxdir/filtered1STX.fq -k 23 $tooldir/data/stx.fa $fastqfile1;
 $tooldir/scripts/duk -m stxdir/filtered2STX.fq -k 23 $tooldir/data/stx.fa $fastqfile2;
 $tooldir/scripts/fastq_pair stxdir/filtered1STX.fq stxdir/filtered2STX.fq;
