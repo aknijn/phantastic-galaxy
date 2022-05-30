@@ -63,14 +63,14 @@ def __main__():
             # TRIMMING
             subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar PE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq input_2.fq trimmed1 trimmed1unpaired trimmed2 trimmed2unpaired SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:36", shell=True)
             # ASSEMBLY
-            subprocess.call(TOOL_DIR + "/scripts/stx_subtype_pe.sh " + TOOL_DIR + " trimmed1 trimmed2 input.fasta", shell=True)
+            subprocess.call("sh " + TOOL_DIR + "/scripts/stx_subtype_pe.sh " + TOOL_DIR + " trimmed1 trimmed2 input.fasta", shell=True)
         else:
             # TRIMMING
             subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar SE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq trimmed1 SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:55", shell=True)
             # ASSEMBLY
-            subprocess.call(TOOL_DIR + "/scripts/stx_subtype_se.sh " + TOOL_DIR + " trimmed1 input.fasta", shell=True)
+            subprocess.call("sh " + TOOL_DIR + "/scripts/stx_subtype_se.sh " + TOOL_DIR + " trimmed1 input.fasta", shell=True)
         # SHIGATOXIN SEQUENCE SEARCH
-        subprocess.call(TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
+        subprocess.call("sh " + TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
     else:
         shutil.copy(args.input1, "input.fasta")
         subprocess.call("touch shigatoxin_fc", shell=True)
@@ -81,11 +81,11 @@ def __main__():
     # SEROTYPER O&H
     if args.input1.endswith(".fastq"):
         if args.input2:
-            subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
+            subprocess.call("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
         else:
-            subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " n input_1.fq xxx input.fasta", shell=True)
+            subprocess.call("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " n input_1.fq xxx input.fasta", shell=True)
     else:
-        subprocess.call(TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " 0 xxx xxx input.fasta", shell=True)
+        subprocess.call("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " 0 xxx xxx input.fasta", shell=True)
     # SEROTYPER O
     subprocess.call("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_O | sort -nrk 2 -nrk 3 > serogroup_O_fc", shell=True)
     subprocess.call("awk -F , '!seen[$0]++' serogroup_O_fc > serogroup_O_fcd", shell=True)
