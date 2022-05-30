@@ -20,14 +20,14 @@
             "name": "Input dataset collection",
             "outputs": [],
             "position": {
-                "bottom": 995.8000030517578,
-                "height": 30.599990844726562,
-                "left": 539,
-                "right": 639,
-                "top": 965.2000122070312,
+                "bottom": 471.6000061035156,
+                "height": 30.600006103515625,
+                "left": 463.5666809082031,
+                "right": 563.5666809082031,
+                "top": 441,
                 "width": 100,
-                "x": 539,
-                "y": 965.2000122070312
+                "x": 463.5666809082031,
+                "y": 441
             },
             "tool_id": null,
             "tool_state": "{\"optional\": false, \"collection_type\": \"list:paired\"}",
@@ -65,14 +65,14 @@
                 }
             ],
             "position": {
-                "bottom": -134.56666564941406,
+                "bottom": 981.1999969482422,
                 "height": 107.19999694824219,
-                "left": 747.4666748046875,
-                "right": 847.4666748046875,
-                "top": -241.76666259765625,
+                "left": 741.9666748046875,
+                "right": 841.9666748046875,
+                "top": 874,
                 "width": 100,
-                "x": 747.4666748046875,
-                "y": -241.76666259765625
+                "x": 741.9666748046875,
+                "y": 874
             },
             "post_job_actions": {
                 "HideDatasetActionphanta_contigs": {
@@ -100,9 +100,93 @@
         },
         "2": {
             "annotation": "",
-            "content_id": "phantt-ec",
+            "content_id": "phantt-lm",
             "errors": null,
             "id": 2,
+            "input_connections": {
+                "input_fasta": {
+                    "id": 1,
+                    "output_name": "phanta_contigs"
+                },
+                "input_pc": {
+                    "id": 0,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool PHANtT-Lm",
+                    "name": "input_fasta"
+                },
+                {
+                    "description": "runtime parameter for tool PHANtT-Lm",
+                    "name": "input_pc"
+                }
+            ],
+            "label": null,
+            "name": "PHANtT-Lm",
+            "outputs": [
+                {
+                    "name": "phanttlm_out",
+                    "type": "json"
+                },
+                {
+                    "name": "virulotypes",
+                    "type": "tabular"
+                },
+                {
+                    "name": "amrgenes",
+                    "type": "tabular"
+                },
+                {
+                    "name": "seqtype",
+                    "type": "tabular"
+                }
+            ],
+            "position": {
+                "bottom": 121.39999389648438,
+                "height": 178.39999389648438,
+                "left": 1030.36669921875,
+                "right": 1130.36669921875,
+                "top": -57,
+                "width": 100,
+                "x": 1030.36669921875,
+                "y": -57
+            },
+            "post_job_actions": {
+                "HideDatasetActionamrgenes": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "amrgenes"
+                },
+                "HideDatasetActionphanttlm_out": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "phanttlm_out"
+                },
+                "HideDatasetActionseqtype": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "seqtype"
+                },
+                "HideDatasetActionvirulotypes": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "virulotypes"
+                }
+            },
+            "tool_id": "phantt-lm",
+            "tool_state": "{\"input_fasta\": {\"__class__\": \"RuntimeValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"RuntimeValue\"}, \"region\": \"\", \"species\": \"\", \"year\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "2.3",
+            "type": "tool",
+            "uuid": "7ea51124-be62-4758-8ef5-2cf43638065f",
+            "workflow_outputs": []
+        },
+        "3": {
+            "annotation": "",
+            "content_id": "phantt-ec",
+            "errors": null,
+            "id": 3,
             "input_connections": {
                 "input_fasta": {
                     "id": 1,
@@ -139,14 +223,14 @@
                 }
             ],
             "position": {
-                "bottom": 367.03334045410156,
+                "bottom": 542.8000030517578,
                 "height": 203.8000030517578,
-                "left": 1115.800048828125,
-                "right": 1215.800048828125,
-                "top": 163.23333740234375,
+                "left": 1030.36669921875,
+                "right": 1130.36669921875,
+                "top": 339,
                 "width": 100,
-                "x": 1115.800048828125,
-                "y": 163.23333740234375
+                "x": 1030.36669921875,
+                "y": 339
             },
             "post_job_actions": {
                 "HideDatasetActionamrgenes": {
@@ -182,11 +266,11 @@
             "uuid": "5e52c758-6cdc-4bb6-81b8-09cd02d0ea55",
             "workflow_outputs": []
         },
-        "3": {
+        "4": {
             "annotation": "",
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
-            "id": 3,
+            "id": 4,
             "input_connections": {
                 "input_list": {
                     "id": 1,
@@ -203,14 +287,14 @@
                 }
             ],
             "position": {
-                "bottom": -293.3666687011719,
+                "bottom": 846.3999938964844,
                 "height": 56.399993896484375,
-                "left": 1115.800048828125,
-                "right": 1215.800048828125,
-                "top": -349.76666259765625,
+                "left": 1030.36669921875,
+                "right": 1130.36669921875,
+                "top": 790,
                 "width": 100,
-                "x": 1115.800048828125,
-                "y": -349.76666259765625
+                "x": 1030.36669921875,
+                "y": 790
             },
             "post_job_actions": {
                 "ChangeDatatypeActionoutput": {
@@ -248,80 +332,9 @@
                 {
                     "label": null,
                     "output_name": "output",
-                    "uuid": "1c7eda71-c585-41cb-adbc-4bd0e247c4d5"
+                    "uuid": "916f72a7-6381-4470-b0a6-9d505c702575"
                 }
             ]
-        },
-        "4": {
-            "annotation": "",
-            "content_id": "phantt-lm",
-            "errors": null,
-            "id": 4,
-            "input_connections": {
-                "input_fasta": {
-                    "id": 1,
-                    "output_name": "phanta_contigs"
-                },
-                "input_pc": {
-                    "id": 0,
-                    "output_name": "output"
-                }
-            },
-            "inputs": [
-                {
-                    "description": "runtime parameter for tool PHANtT-Lm",
-                    "name": "input_fasta"
-                }
-            ],
-            "label": null,
-            "name": "PHANtT-Lm",
-            "outputs": [
-                {
-                    "name": "phanttlm_out",
-                    "type": "json"
-                },
-                {
-                    "name": "virulotypes",
-                    "type": "tabular"
-                },
-                {
-                    "name": "amrgenes",
-                    "type": "tabular"
-                }
-            ],
-            "position": {
-                "bottom": 681.0333404541016,
-                "height": 142.8000030517578,
-                "left": 1115.800048828125,
-                "right": 1215.800048828125,
-                "top": 538.2333374023438,
-                "width": 100,
-                "x": 1115.800048828125,
-                "y": 538.2333374023438
-            },
-            "post_job_actions": {
-                "HideDatasetActionamrgenes": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "amrgenes"
-                },
-                "HideDatasetActionphanttlm_out": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "phanttlm_out"
-                },
-                "HideDatasetActionvirulotypes": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "virulotypes"
-                }
-            },
-            "tool_id": "phantt-lm",
-            "tool_state": "{\"input_f\": {\"__class__\": \"ConnectedValue\"}, \"input_fasta\": {\"__class__\": \"RuntimeValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"region\": \"\", \"species\": \"\", \"token\": \"\", \"year\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "2.3",
-            "type": "tool",
-            "uuid": "d5c278c2-6235-4344-834f-d1244da86063",
-            "workflow_outputs": []
         },
         "5": {
             "annotation": "",
@@ -344,14 +357,14 @@
                 }
             ],
             "position": {
-                "bottom": 919.6333312988281,
+                "bottom": 1002.3999938964844,
                 "height": 56.399993896484375,
-                "left": 1115.800048828125,
-                "right": 1215.800048828125,
-                "top": 863.2333374023438,
+                "left": 1030.36669921875,
+                "right": 1130.36669921875,
+                "top": 946,
                 "width": 100,
-                "x": 1115.800048828125,
-                "y": 863.2333374023438
+                "x": 1030.36669921875,
+                "y": 946
             },
             "post_job_actions": {
                 "ChangeDatatypeActionoutput": {
@@ -384,7 +397,7 @@
                 {
                     "label": null,
                     "output_name": "output",
-                    "uuid": "e1a516ad-7901-424c-a7ea-ffd1e974de59"
+                    "uuid": "66f2f9d8-58c8-46c3-8992-547826c0df28"
                 }
             ]
         },
@@ -399,12 +412,7 @@
                     "output_name": "phanta_contigs"
                 }
             },
-            "inputs": [
-                {
-                    "description": "runtime parameter for tool PHANtC-Lm",
-                    "name": "input1"
-                }
-            ],
+            "inputs": [],
             "label": null,
             "name": "PHANtC-Lm",
             "outputs": [
@@ -426,14 +434,14 @@
                 }
             ],
             "position": {
-                "bottom": 1205.0334014892578,
+                "bottom": 1206.8000030517578,
                 "height": 142.8000030517578,
-                "left": 1202.2333984375,
-                "right": 1302.2333984375,
-                "top": 1062.2333984375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": 1064,
                 "width": 100,
-                "x": 1202.2333984375,
-                "y": 1062.2333984375
+                "x": 1358.7666015625,
+                "y": 1064
             },
             "post_job_actions": {
                 "HideDatasetActionphantclm_allele": {
@@ -458,7 +466,7 @@
                 }
             },
             "tool_id": "phantc-lm",
-            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"token\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"token\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "2.3",
             "type": "tool",
             "uuid": "0929d61c-4c48-4b6f-82a8-cf3f45949213",
@@ -485,14 +493,14 @@
                 }
             ],
             "position": {
-                "bottom": -217.36666870117188,
+                "bottom": 1617.3999938964844,
                 "height": 56.399993896484375,
-                "left": 2071,
-                "right": 2171,
-                "top": -273.76666259765625,
+                "left": 1995.566650390625,
+                "right": 2095.566650390625,
+                "top": 1561,
                 "width": 100,
-                "x": 2071,
-                "y": -273.76666259765625
+                "x": 1995.566650390625,
+                "y": 1561
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -516,16 +524,436 @@
         },
         "8": {
             "annotation": "",
-            "content_id": "phantc-ec",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
             "id": 8,
+            "input_connections": {
+                "input_list": {
+                    "id": 2,
+                    "output_name": "virulotypes"
+                }
+            },
+            "inputs": [],
+            "label": "Virulotyping-Lm",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 157.39999389648438,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": 101,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": 101
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "cbabafb0-856e-4a1f-8962-068df12342d2",
+            "workflow_outputs": []
+        },
+        "9": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 9,
+            "input_connections": {
+                "input_list": {
+                    "id": 2,
+                    "output_name": "amrgenes"
+                }
+            },
+            "inputs": [],
+            "label": "AMRgenes-Lm",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": -146.60000610351562,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": -203,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": -203
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "54ed2ccb-0e23-4119-a1db-beaa74dc2c13",
+            "workflow_outputs": []
+        },
+        "10": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 10,
+            "input_connections": {
+                "input_list": {
+                    "id": 2,
+                    "output_name": "seqtype"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Collapse Collection",
+                    "name": "input_list"
+                }
+            ],
+            "label": "SeqTyping-Lm",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 461.3999938964844,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": 405,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": 405
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"RuntimeValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "749c97ae-57a1-405d-a791-a44dd6245268",
+            "workflow_outputs": []
+        },
+        "11": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 11,
+            "input_connections": {
+                "input_list": {
+                    "id": 2,
+                    "output_name": "phanttlm_out"
+                }
+            },
+            "inputs": [],
+            "label": "Typing-Lm",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": -450.6000061035156,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": -507,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": -507
+            },
+            "post_job_actions": {
+                "DeleteIntermediatesActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "DeleteIntermediatesAction",
+                    "output_name": "output"
+                },
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "dc324beb-7719-4c63-8cb5-956cce300374",
+            "workflow_outputs": []
+        },
+        "12": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 12,
+            "input_connections": {
+                "input_list": {
+                    "id": 3,
+                    "output_name": "amrgenes"
+                }
+            },
+            "inputs": [],
+            "label": "AMRgenes-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 5.399993896484375,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": -51,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": -51
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "ad61e6be-a29c-49e8-94a0-199af752cff4",
+            "workflow_outputs": []
+        },
+        "13": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 13,
+            "input_connections": {
+                "input_list": {
+                    "id": 3,
+                    "output_name": "virulotypes"
+                }
+            },
+            "inputs": [],
+            "label": "Virulotyping-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 309.3999938964844,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": 253,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": 253
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "546cdb2b-4d67-42ac-995d-545f14031c7d",
+            "workflow_outputs": []
+        },
+        "14": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 14,
+            "input_connections": {
+                "input_list": {
+                    "id": 3,
+                    "output_name": "phanttec_json"
+                }
+            },
+            "inputs": [],
+            "label": "Typing-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": -298.6000061035156,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": -355,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": -355
+            },
+            "post_job_actions": {
+                "DeleteIntermediatesActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "DeleteIntermediatesAction",
+                    "output_name": "output"
+                },
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "a0ee9f59-8a4a-42be-b83e-d7dd8bf897e9",
+            "workflow_outputs": []
+        },
+        "15": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 15,
+            "input_connections": {
+                "input_list": {
+                    "id": 3,
+                    "output_name": "seqtype"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Collapse Collection",
+                    "name": "input_list"
+                }
+            ],
+            "label": "SeqTyping-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 613.3999938964844,
+                "height": 56.399993896484375,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": 557,
+                "width": 100,
+                "x": 1358.7666015625,
+                "y": 557
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"RuntimeValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "25b36631-f649-4a11-8345-d97e21364a0f",
+            "workflow_outputs": []
+        },
+        "16": {
+            "annotation": "",
+            "content_id": "phantc-ec",
+            "errors": null,
+            "id": 16,
             "input_connections": {
                 "input1": {
                     "id": 1,
                     "output_name": "phanta_contigs"
                 },
                 "serotype": {
-                    "id": 2,
+                    "id": 3,
                     "output_name": "serotype"
                 }
             },
@@ -551,14 +979,14 @@
                 }
             ],
             "position": {
-                "bottom": -50.79998779296875,
+                "bottom": 867,
                 "height": 158,
-                "left": 1390.2333984375,
-                "right": 1490.2333984375,
-                "top": -208.79998779296875,
+                "left": 1358.7666015625,
+                "right": 1458.7666015625,
+                "top": 709,
                 "width": 100,
-                "x": 1390.2333984375,
-                "y": -208.79998779296875
+                "x": 1358.7666015625,
+                "y": 709
             },
             "post_job_actions": {
                 "HideDatasetActionphantcec_allele": {
@@ -589,371 +1017,11 @@
             "uuid": "f660e2e7-1d21-48de-ab58-7f45a3356953",
             "workflow_outputs": []
         },
-        "9": {
+        "17": {
             "annotation": "",
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
-            "id": 9,
-            "input_connections": {
-                "input_list": {
-                    "id": 2,
-                    "output_name": "amrgenes"
-                }
-            },
-            "inputs": [],
-            "label": "AMRgenes-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 214.63333129882812,
-                "height": 56.399993896484375,
-                "left": 1404.2333984375,
-                "right": 1504.2333984375,
-                "top": 158.23333740234375,
-                "width": 100,
-                "x": 1404.2333984375,
-                "y": 158.23333740234375
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "ad61e6be-a29c-49e8-94a0-199af752cff4",
-            "workflow_outputs": []
-        },
-        "10": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 10,
-            "input_connections": {
-                "input_list": {
-                    "id": 2,
-                    "output_name": "virulotypes"
-                }
-            },
-            "inputs": [],
-            "label": "Virulotyping-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 366.6333312988281,
-                "height": 56.399993896484375,
-                "left": 1404.2333984375,
-                "right": 1504.2333984375,
-                "top": 310.23333740234375,
-                "width": 100,
-                "x": 1404.2333984375,
-                "y": 310.23333740234375
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "546cdb2b-4d67-42ac-995d-545f14031c7d",
-            "workflow_outputs": []
-        },
-        "11": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 11,
-            "input_connections": {
-                "input_list": {
-                    "id": 2,
-                    "output_name": "phanttec_json"
-                }
-            },
-            "inputs": [],
-            "label": "Typing-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 518.6333312988281,
-                "height": 56.399993896484375,
-                "left": 1404.2333984375,
-                "right": 1504.2333984375,
-                "top": 462.23333740234375,
-                "width": 100,
-                "x": 1404.2333984375,
-                "y": 462.23333740234375
-            },
-            "post_job_actions": {
-                "DeleteIntermediatesActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "DeleteIntermediatesAction",
-                    "output_name": "output"
-                },
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "a0ee9f59-8a4a-42be-b83e-d7dd8bf897e9",
-            "workflow_outputs": []
-        },
-        "12": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 12,
-            "input_connections": {
-                "input_list": {
-                    "id": 4,
-                    "output_name": "amrgenes"
-                }
-            },
-            "inputs": [],
-            "label": "AMRgenes-Lm",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 670.6333312988281,
-                "height": 56.399993896484375,
-                "left": 1404.2333984375,
-                "right": 1504.2333984375,
-                "top": 614.2333374023438,
-                "width": 100,
-                "x": 1404.2333984375,
-                "y": 614.2333374023438
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "54ed2ccb-0e23-4119-a1db-beaa74dc2c13",
-            "workflow_outputs": []
-        },
-        "13": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 13,
-            "input_connections": {
-                "input_list": {
-                    "id": 4,
-                    "output_name": "virulotypes"
-                }
-            },
-            "inputs": [],
-            "label": "Virulotyping-Lm",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 822.6333312988281,
-                "height": 56.399993896484375,
-                "left": 1404.2333984375,
-                "right": 1504.2333984375,
-                "top": 766.2333374023438,
-                "width": 100,
-                "x": 1404.2333984375,
-                "y": 766.2333374023438
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "cbabafb0-856e-4a1f-8962-068df12342d2",
-            "workflow_outputs": []
-        },
-        "14": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 14,
-            "input_connections": {
-                "input_list": {
-                    "id": 4,
-                    "output_name": "phanttlm_out"
-                }
-            },
-            "inputs": [],
-            "label": "Typing-Lm",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 974.6000061035156,
-                "height": 56.399993896484375,
-                "left": 1404.2333984375,
-                "right": 1504.2333984375,
-                "top": 918.2000122070312,
-                "width": 100,
-                "x": 1404.2333984375,
-                "y": 918.2000122070312
-            },
-            "post_job_actions": {
-                "DeleteIntermediatesActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "DeleteIntermediatesAction",
-                    "output_name": "output"
-                },
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "dc324beb-7719-4c63-8cb5-956cce300374",
-            "workflow_outputs": []
-        },
-        "15": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 15,
-            "input_connections": {
-                "input_list": {
-                    "id": 6,
-                    "output_name": "phantclm_dm"
-                }
-            },
-            "inputs": [],
-            "label": "Distances-Lm",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 953.6333312988281,
-                "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 897.2333374023438,
-                "width": 100,
-                "x": 1742.6666259765625,
-                "y": 897.2333374023438
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "64242705-3ce0-4b07-89d9-83f549ed969e",
-            "workflow_outputs": []
-        },
-        "16": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 16,
+            "id": 17,
             "input_connections": {
                 "input_list": {
                     "id": 6,
@@ -970,14 +1038,14 @@
                 }
             ],
             "position": {
-                "bottom": 1105.5999450683594,
+                "bottom": 629.3999938964844,
                 "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 1049.199951171875,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 573,
                 "width": 100,
-                "x": 1742.6666259765625,
-                "y": 1049.199951171875
+                "x": 1717.1666259765625,
+                "y": 573
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -999,19 +1067,19 @@
             "uuid": "164a90a3-e0c0-47a0-ac0e-36412f589e2e",
             "workflow_outputs": []
         },
-        "17": {
+        "18": {
             "annotation": "",
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
-            "id": 17,
+            "id": 18,
             "input_connections": {
                 "input_list": {
                     "id": 6,
-                    "output_name": "phantclm_allele"
+                    "output_name": "phantclm_dm"
                 }
             },
             "inputs": [],
-            "label": "AlleleCalls-Lm",
+            "label": "Distances-Lm",
             "name": "Collapse Collection",
             "outputs": [
                 {
@@ -1020,14 +1088,14 @@
                 }
             ],
             "position": {
-                "bottom": 1257.6333923339844,
+                "bottom": 933.3999938964844,
                 "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 1201.2333984375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 877,
                 "width": 100,
-                "x": 1742.6666259765625,
-                "y": 1201.2333984375
+                "x": 1717.1666259765625,
+                "y": 877
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1046,14 +1114,14 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "56b78c6f-7027-4a9d-8f06-5a683e1ab228",
+            "uuid": "64242705-3ce0-4b07-89d9-83f549ed969e",
             "workflow_outputs": []
         },
-        "18": {
+        "19": {
             "annotation": "",
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
-            "id": 18,
+            "id": 19,
             "input_connections": {
                 "input_list": {
                     "id": 6,
@@ -1070,14 +1138,14 @@
                 }
             ],
             "position": {
-                "bottom": 1409.6333923339844,
+                "bottom": 1237.3999938964844,
                 "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 1353.2333984375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 1181,
                 "width": 100,
-                "x": 1742.6666259765625,
-                "y": 1353.2333984375
+                "x": 1717.1666259765625,
+                "y": 1181
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1099,56 +1167,6 @@
             "uuid": "fdb95e3d-2361-4abe-bdbd-de35f0f2fff8",
             "workflow_outputs": []
         },
-        "19": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 19,
-            "input_connections": {
-                "input_list": {
-                    "id": 8,
-                    "output_name": "phantcec_tree"
-                }
-            },
-            "inputs": [],
-            "label": "Clustering-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 11.633331298828125,
-                "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": -44.76666259765625,
-                "width": 100,
-                "x": 1742.6666259765625,
-                "y": -44.76666259765625
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "cee5e43d-5c0b-4b35-934a-0fd001f03891",
-            "workflow_outputs": []
-        },
         "20": {
             "annotation": "",
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
@@ -1156,12 +1174,12 @@
             "id": 20,
             "input_connections": {
                 "input_list": {
-                    "id": 8,
-                    "output_name": "phantcec_allele"
+                    "id": 6,
+                    "output_name": "phantclm_allele"
                 }
             },
             "inputs": [],
-            "label": "AlleleCalls-Ec",
+            "label": "AlleleCalls-Lm",
             "name": "Collapse Collection",
             "outputs": [
                 {
@@ -1170,14 +1188,14 @@
                 }
             ],
             "position": {
-                "bottom": 163.63333129882812,
+                "bottom": 1541.3999938964844,
                 "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 107.23333740234375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 1485,
                 "width": 100,
-                "x": 1742.6666259765625,
-                "y": 107.23333740234375
+                "x": 1717.1666259765625,
+                "y": 1485
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1196,121 +1214,21 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "3a02ade3-a0f6-4daa-887d-3ed35b813af9",
+            "uuid": "56b78c6f-7027-4a9d-8f06-5a683e1ab228",
             "workflow_outputs": []
         },
         "21": {
             "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "content_id": "cat1",
             "errors": null,
             "id": 21,
             "input_connections": {
-                "input_list": {
-                    "id": 8,
-                    "output_name": "phantcec_dm"
-                }
-            },
-            "inputs": [],
-            "label": "Distances-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": -140.39999389648438,
-                "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": -196.79998779296875,
-                "width": 100,
-                "x": 1742.6666259765625,
-                "y": -196.79998779296875
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "b83b14a6-dd94-44cd-bf30-44966033b78a",
-            "workflow_outputs": []
-        },
-        "22": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 22,
-            "input_connections": {
-                "input_list": {
-                    "id": 8,
-                    "output_name": "phantcec_json"
-                }
-            },
-            "inputs": [],
-            "label": "AlleleFilter-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 315.6333312988281,
-                "height": 56.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 259.23333740234375,
-                "width": 100,
-                "x": 1742.6666259765625,
-                "y": 259.23333740234375
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "f871e3fe-126f-4540-a5a1-4c152cb1cfb3",
-            "workflow_outputs": []
-        },
-        "23": {
-            "annotation": "",
-            "content_id": "cat1",
-            "errors": null,
-            "id": 23,
-            "input_connections": {
                 "input1": {
-                    "id": 9,
+                    "id": 12,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
-                    "id": 12,
+                    "id": 9,
                     "output_name": "output"
                 }
             },
@@ -1324,14 +1242,14 @@
                 }
             ],
             "position": {
-                "bottom": 472.6333312988281,
+                "bottom": -110.60000610351562,
                 "height": 61.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 411.23333740234375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": -172,
                 "width": 100,
-                "x": 1742.6666259765625,
-                "y": 411.23333740234375
+                "x": 1717.1666259765625,
+                "y": -172
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1358,22 +1276,22 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "410fb882-b843-4bb2-a5b3-ea3409f57e80"
+                    "uuid": "c968dbda-31fb-4a25-ae41-ed77c5289b70"
                 }
             ]
         },
-        "24": {
+        "22": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 24,
+            "id": 22,
             "input_connections": {
                 "input1": {
-                    "id": 10,
+                    "id": 13,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
-                    "id": 13,
+                    "id": 8,
                     "output_name": "output"
                 }
             },
@@ -1387,14 +1305,14 @@
                 }
             ],
             "position": {
-                "bottom": 634.6333312988281,
+                "bottom": 158.39999389648438,
                 "height": 61.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 573.2333374023438,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 97,
                 "width": 100,
-                "x": 1742.6666259765625,
-                "y": 573.2333374023438
+                "x": 1717.1666259765625,
+                "y": 97
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1426,22 +1344,22 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "dcb78eaa-3bab-44a6-8f75-765477369654"
+                    "uuid": "8738e1c4-2580-4d20-8483-68b1879c79d8"
                 }
             ]
         },
-        "25": {
+        "23": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 25,
+            "id": 23,
             "input_connections": {
                 "input1": {
-                    "id": 11,
+                    "id": 14,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
-                    "id": 14,
+                    "id": 11,
                     "output_name": "output"
                 }
             },
@@ -1455,14 +1373,14 @@
                 }
             ],
             "position": {
-                "bottom": 796.6333312988281,
+                "bottom": -321.6000061035156,
                 "height": 61.399993896484375,
-                "left": 1742.6666259765625,
-                "right": 1842.6666259765625,
-                "top": 735.2333374023438,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": -383,
                 "width": 100,
-                "x": 1742.6666259765625,
-                "y": 735.2333374023438
+                "x": 1717.1666259765625,
+                "y": -383
             },
             "post_job_actions": {
                 "DeleteIntermediatesActionout_file1": {
@@ -1483,18 +1401,291 @@
             "uuid": "2f5b4ac4-1ad6-43ae-b54d-a92535f3ce86",
             "workflow_outputs": []
         },
-        "26": {
+        "24": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 26,
+            "id": 24,
             "input_connections": {
                 "input1": {
-                    "id": 19,
+                    "id": 15,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
+                    "id": 10,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Concatenate datasets",
+                    "name": "input1"
+                }
+            ],
+            "label": "SeqTyping",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 320.3999938964844,
+                "height": 61.399993896484375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 259,
+                "width": 100,
+                "x": 1717.1666259765625,
+                "y": 259
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tabular"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "DeleteIntermediatesActionout_file1": {
+                    "action_arguments": {},
+                    "action_type": "DeleteIntermediatesAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_seq.tab"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "9b316279-63db-4d96-93bc-5672a0eea1e5",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "88904cdf-d5c4-4a50-ba6b-cdac11d1810f"
+                }
+            ]
+        },
+        "25": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 25,
+            "input_connections": {
+                "input_list": {
                     "id": 16,
+                    "output_name": "phantcec_tree"
+                }
+            },
+            "inputs": [],
+            "label": "Clustering-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 477.3999938964844,
+                "height": 56.399993896484375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 421,
+                "width": 100,
+                "x": 1717.1666259765625,
+                "y": 421
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "cee5e43d-5c0b-4b35-934a-0fd001f03891",
+            "workflow_outputs": []
+        },
+        "26": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 26,
+            "input_connections": {
+                "input_list": {
+                    "id": 16,
+                    "output_name": "phantcec_dm"
+                }
+            },
+            "inputs": [],
+            "label": "Distances-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 781.3999938964844,
+                "height": 56.399993896484375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 725,
+                "width": 100,
+                "x": 1717.1666259765625,
+                "y": 725
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "b83b14a6-dd94-44cd-bf30-44966033b78a",
+            "workflow_outputs": []
+        },
+        "27": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 27,
+            "input_connections": {
+                "input_list": {
+                    "id": 16,
+                    "output_name": "phantcec_json"
+                }
+            },
+            "inputs": [],
+            "label": "AlleleFilter-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 1085.3999938964844,
+                "height": 56.399993896484375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 1029,
+                "width": 100,
+                "x": 1717.1666259765625,
+                "y": 1029
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "f871e3fe-126f-4540-a5a1-4c152cb1cfb3",
+            "workflow_outputs": []
+        },
+        "28": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 28,
+            "input_connections": {
+                "input_list": {
+                    "id": 16,
+                    "output_name": "phantcec_allele"
+                }
+            },
+            "inputs": [],
+            "label": "AlleleCalls-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 1389.3999938964844,
+                "height": 56.399993896484375,
+                "left": 1717.1666259765625,
+                "right": 1817.1666259765625,
+                "top": 1333,
+                "width": 100,
+                "x": 1717.1666259765625,
+                "y": 1333
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "3a02ade3-a0f6-4daa-887d-3ed35b813af9",
+            "workflow_outputs": []
+        },
+        "29": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 29,
+            "input_connections": {
+                "input1": {
+                    "id": 25,
+                    "output_name": "output"
+                },
+                "queries_0|input2": {
+                    "id": 17,
                     "output_name": "output"
                 }
             },
@@ -1508,14 +1699,14 @@
                 }
             ],
             "position": {
-                "bottom": 715.6333312988281,
+                "bottom": 513.3999938964844,
                 "height": 61.399993896484375,
-                "left": 2071,
-                "right": 2171,
-                "top": 654.2333374023438,
+                "left": 1995.566650390625,
+                "right": 2095.566650390625,
+                "top": 452,
                 "width": 100,
-                "x": 2071,
-                "y": 654.2333374023438
+                "x": 1995.566650390625,
+                "y": 452
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1547,85 +1738,22 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "c61cad76-0cec-4bb6-98ac-4dca15547893"
+                    "uuid": "cb7e6c42-65a8-4552-b220-d00f125af7bb"
                 }
             ]
         },
-        "27": {
+        "30": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 27,
+            "id": 30,
             "input_connections": {
                 "input1": {
-                    "id": 20,
+                    "id": 26,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
-                    "id": 17,
-                    "output_name": "output"
-                }
-            },
-            "inputs": [],
-            "label": "AlleleCalls",
-            "name": "Concatenate datasets",
-            "outputs": [
-                {
-                    "name": "out_file1",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 878.6333312988281,
-                "height": 61.399993896484375,
-                "left": 2071,
-                "right": 2171,
-                "top": 817.2333374023438,
-                "width": 100,
-                "x": 2071,
-                "y": 817.2333374023438
-            },
-            "post_job_actions": {
-                "ChangeDatatypeActionout_file1": {
-                    "action_arguments": {
-                        "newtype": "tabular"
-                    },
-                    "action_type": "ChangeDatatypeAction",
-                    "output_name": "out_file1"
-                },
-                "RenameDatasetActionout_file1": {
-                    "action_arguments": {
-                        "newname": "phantastic_ac.tab"
-                    },
-                    "action_type": "RenameDatasetAction",
-                    "output_name": "out_file1"
-                }
-            },
-            "tool_id": "cat1",
-            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "1.0.0",
-            "type": "tool",
-            "uuid": "ce5065c6-e892-4bf1-9104-caade30bb52e",
-            "workflow_outputs": [
-                {
-                    "label": null,
-                    "output_name": "out_file1",
-                    "uuid": "3723abda-26f8-42f9-8739-1a35f815dcde"
-                }
-            ]
-        },
-        "28": {
-            "annotation": "",
-            "content_id": "cat1",
-            "errors": null,
-            "id": 28,
-            "input_connections": {
-                "input1": {
-                    "id": 21,
-                    "output_name": "output"
-                },
-                "queries_0|input2": {
-                    "id": 15,
+                    "id": 18,
                     "output_name": "output"
                 }
             },
@@ -1639,14 +1767,14 @@
                 }
             ],
             "position": {
-                "bottom": 553.6333312988281,
+                "bottom": 817.3999938964844,
                 "height": 61.399993896484375,
-                "left": 2071,
-                "right": 2171,
-                "top": 492.23333740234375,
+                "left": 1995.566650390625,
+                "right": 2095.566650390625,
+                "top": 756,
                 "width": 100,
-                "x": 2071,
-                "y": 492.23333740234375
+                "x": 1995.566650390625,
+                "y": 756
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1673,22 +1801,22 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "34d34a56-6760-42bb-95ba-f83bc3aa88da"
+                    "uuid": "7dc9a21a-65d1-46d9-9cfd-00616a6adc3f"
                 }
             ]
         },
-        "29": {
+        "31": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 29,
+            "id": 31,
             "input_connections": {
                 "input1": {
-                    "id": 22,
+                    "id": 27,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
-                    "id": 18,
+                    "id": 19,
                     "output_name": "output"
                 }
             },
@@ -1702,14 +1830,14 @@
                 }
             ],
             "position": {
-                "bottom": 1040.6000061035156,
+                "bottom": 1109.3999938964844,
                 "height": 61.399993896484375,
-                "left": 2071,
-                "right": 2171,
-                "top": 979.2000122070312,
+                "left": 1995.566650390625,
+                "right": 2095.566650390625,
+                "top": 1048,
                 "width": 100,
-                "x": 2071,
-                "y": 979.2000122070312
+                "x": 1995.566650390625,
+                "y": 1048
             },
             "post_job_actions": {
                 "HideDatasetActionout_file1": {
@@ -1725,22 +1853,85 @@
             "uuid": "5a8e6529-3f69-456d-b03c-6782adf41b3e",
             "workflow_outputs": []
         },
-        "30": {
+        "32": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 32,
+            "input_connections": {
+                "input1": {
+                    "id": 28,
+                    "output_name": "output"
+                },
+                "queries_0|input2": {
+                    "id": 20,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": "AlleleCalls",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 1425.3999938964844,
+                "height": 61.399993896484375,
+                "left": 1995.566650390625,
+                "right": 2095.566650390625,
+                "top": 1364,
+                "width": 100,
+                "x": 1995.566650390625,
+                "y": 1364
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tabular"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_ac.tab"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "ce5065c6-e892-4bf1-9104-caade30bb52e",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "42ae0b74-934f-4527-927e-62f910347c77"
+                }
+            ]
+        },
+        "33": {
             "annotation": "",
             "content_id": "phantj",
             "errors": null,
-            "id": 30,
+            "id": 33,
             "input_connections": {
                 "phanta_json": {
                     "id": 7,
                     "output_name": "output"
                 },
                 "phantc_json": {
-                    "id": 29,
+                    "id": 31,
                     "output_name": "out_file1"
                 },
                 "phantt_json": {
-                    "id": 25,
+                    "id": 23,
                     "output_name": "out_file1"
                 }
             },
@@ -1754,14 +1945,14 @@
                 }
             ],
             "position": {
-                "bottom": 813.8333282470703,
-                "height": 76.59999084472656,
-                "left": 2349.466796875,
-                "right": 2449.466796875,
-                "top": 737.2333374023438,
+                "bottom": 483.6000061035156,
+                "height": 76.60000610351562,
+                "left": 2283.966796875,
+                "right": 2383.966796875,
+                "top": 407,
                 "width": 100,
-                "x": 2349.466796875,
-                "y": 737.2333374023438
+                "x": 2283.966796875,
+                "y": 407
             },
             "post_job_actions": {
                 "ChangeDatatypeActionphantastic_type": {
@@ -1788,7 +1979,7 @@
                 {
                     "label": null,
                     "output_name": "phantastic_type",
-                    "uuid": "f10cdec5-d6c2-4bd2-b068-579728028c34"
+                    "uuid": "1ded1918-17d1-4a41-b3a1-2dab82f40c9f"
                 }
             ]
         }
@@ -1796,6 +1987,6 @@
     "tags": [
         "IRIDA"
     ],
-    "uuid": "c6093d7a-25a4-4e29-b974-e432cb360969",
-    "version": 2
+    "uuid": "092416ba-5b29-4e1c-904b-e11dec0e6ee9",
+    "version": 6
 }
