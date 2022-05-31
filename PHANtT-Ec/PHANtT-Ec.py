@@ -138,17 +138,18 @@ def __main__():
                         virulotype_stx1 = "stx1"
                     if "stx2" in line:
                         virulotype_stx2 = "stx2"
+            with open('virulotyper_all') as viruall:
+                virulotypes_all = viruall.readline().strip() 
         else:
             virulotype_eae = "ND"
             virulotype_ehxa = "ND"
             virulotype_stx1 = "ND"
             virulotype_stx2 = "ND"
+            virulotypes_all = "ND"
         report_data["virulotype_eae"] = virulotype_eae
         report_data["virulotype_ehxa"] = virulotype_ehxa
         report_data["virulotype_stx1"] = virulotype_stx1
         report_data["virulotype_stx2"] = virulotype_stx2
-        with open('virulotyper_all') as viruall:
-            virulotypes_all = viruall.readline().strip() 
         report_data["virulotypes_all"] = virulotypes_all.replace(", ,", ",")
 
         shigatoxin_typing = openFileAsTable("shigatoxin_fc")
