@@ -12,11 +12,12 @@ import argparse
 import configparser
 import sys
 import os
+import shutil
+import subprocess
 import datetime
 import fileinput
 import mysql.connector
 from mysql.connector import errorcode
-import pandas as pd
 from fpdf import FPDF
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -28,8 +29,8 @@ dataAMRHeader = ("Start","Stop","Strand","Gene symbol","Product","Resistance","%
 class PDF(FPDF):
     def header(self):
         # Rendering logos:
-        self.image("logo_sinistra.png", 20, 8, 26)
-        self.image("logo_destra.png", 250, 8,26)
+        self.image(TOOL_DIR + "/logo_sinistra.png", 20, 8, 26)
+        self.image(TOOL_DIR + "/logo_destra.png", 250, 8,26)
         # Setting font
         self.set_font("helvetica", "B", 12)
         # Moving cursor to the right:
@@ -97,7 +98,7 @@ def getMetadata(inputfiles, inuser, inspecies):
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(buffered=True)
         cursor.execute(sql)
-        records = pd.DataFrame(cursor.fetchall(),columns=['ID_ceppo','Anno','Antigen_O','Antigen_H','QC_status','Regione','MLST_ST','stx1','stx2','stx_subtype','eae','ehxA','DataCampione','Copertura','vir_tab','amr_tab'])
+        records = cursor.fetchall()
         cursor.close()
         return records
     except mysql.connector.Error as err:
@@ -125,7 +126,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.set_font("helvetica", "B", 10)
     line_height = pdf.font_size * 1.5
     col_width = pdf.epw / 12  # distribute content evenly
-    pdf.set_fill_color(r=150) 
+    pdf.set_fill_color(r=150)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
@@ -139,7 +140,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[9], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[10], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[11], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    
+
     pdf.ln(line_height)
     pdf.set_fill_color(r=220)
     pdf.set_font("helvetica", "", 10)
@@ -157,7 +158,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.multi_cell(col_width, line_height, dataSommario[10], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommario[11], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(line_height)
-    
+
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(120)
@@ -182,7 +183,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
             pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
         pdf.ln(line_height)
         i = i + 1
-    
+
     pdf.ln(2)
     pdf.set_font("helvetica", "", 10)
     pdf.write(8, "*=nome del gene_allele_Acc. Number NCBI")
@@ -205,24 +206,36 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataAMRHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(2*line_height)
-    pdf.set_fill_color(r=220)
-    pdf.set_font("helvetica", "", 10)
-    pdf.multi_cell(col_width, 2*line_height, dataAMR[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMR[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMR[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMR[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(2*col_width, line_height, dataAMR[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMR[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMR[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMR[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    
+    for rowAMR in dataAMR:
+        if (i % 2) == 0:
+            pdf.set_fill_color(r=255) 
+            pdf.set_font("helvetica", "", 10)
+        else:
+            pdf.set_fill_color(r=220) 
+            pdf.set_font("helvetica", "", 10)
+        for cellAMR in rowAMR:
+            pdf.multi_cell(col_width, line_height, cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
+        pdf.ln(line_height)
+        i = i + 1
+
+    # pdf.set_fill_color(r=220)
+    # pdf.set_font("helvetica", "", 10)
+    # pdf.multi_cell(col_width, 2*line_height, dataAMR[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    # pdf.multi_cell(col_width, 2*line_height, dataAMR[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    # pdf.multi_cell(col_width, 2*line_height, dataAMR[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    # pdf.multi_cell(col_width, 2*line_height, dataAMR[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    # pdf.multi_cell(2*col_width, line_height, dataAMR[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    # pdf.multi_cell(col_width, 2*line_height, dataAMR[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    # pdf.multi_cell(col_width, 2*line_height, dataAMR[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    # pdf.multi_cell(col_width, 2*line_height, dataAMR[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+
     pdf.ln(30)
     pdf.set_font("helvetica", "B", 11)
     pdf.write(8, "Roma " + datetime.date.today().strftime("%d/%m/%Y"))
     pdf.ln(12)
     pdf.cell(30)
-    pdf.image("firme.png", w=200)
-    pdf.output('reports/report_' + dataSommario[1][0] + '.pdf')
+    pdf.image(TOOL_DIR + "/firme.png", w=200)
+    pdf.output('reports/report_' + dataSommario[0] + '.pdf')
 
 def __main__():
     parser = argparse.ArgumentParser()
@@ -237,12 +250,16 @@ def __main__():
         args.species = "SARS-CoV-2"
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
 
-    os.mkdir('reports')
+    if not os.path.exists('reports'):
+        os.mkdir('reports')
+
     for metadataRow in metadata:
         dataSommario = metadataRow[0:13]
-        amr_tab = openFileAsTable(IRIDA_DIR + metadataRow[14])
-        vir_tab = openFileAsTable(IRIDA_DIR + metadataRow[15])
-        writePdf(dataSommario, amr_tab[1:][2:5,13:14,9:10], vir_tab[1:][:])
+        subprocess.call("awk -F '\t' '$4>80 { print $0 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 " + IRIDA_DIR + metadataRow[14] + " > vir_tab_file", shell=True)
+        subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 > amr_tab_file", shell=True)
+        amr_tab = openFileAsTable('amr_tab_file')
+        vir_tab = openFileAsTable('vir_tab_file')
+        writePdf(dataSommario, amr_tab, vir_tab)
     shutil.make_archive('irida_reports', format='zip', root_dir='reports')
     shutil.copyfile('irida_reports.zip', args.phantr_reports)
 
