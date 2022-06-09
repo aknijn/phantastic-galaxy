@@ -68,7 +68,7 @@ def openFileAsTable(filename):
         table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
     return table_data
 
-def getMetadata(inputfiles, species):
+def getMetadata(inputfiles, inuser, inspecies):
     config = configparser.ConfigParser()
     config.read(TOOL_DIR + '/../phantastic.conf')
     dbhost = config['db']['host']
@@ -87,10 +87,11 @@ def getMetadata(inputfiles, species):
     idfiles = [getIdFile(x.rstrip('\n')) for x in content]
     files_id = ",".join(idfiles)
 
-    if species == "Escherichia coli":
-        sql = ("SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,Regione,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli WHERE files_id IN (" + files_id + ")")
+    if inspecies == "Escherichia coli":
+        sql_species = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,Regione,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli"
+        sql = (sql_species + " WHERE (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     else:
-        sql = ("SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,Regione,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli WHERE files_id IN ('0')")
+        sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,Regione,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli WHERE files_id IN ('0')"
 
     try:
         cnx = mysql.connector.connect(**config)
@@ -227,13 +228,14 @@ def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_files', dest='input_files', help='phants filenames')
     parser.add_argument('--species', dest='species', help='species')
+    parser.add_argument('--user', dest='user', help='user')
     parser.add_argument('--phantr_reports', dest='phantr_reports', help='phantr reports zip file')
     args = parser.parse_args()
     if args.species == "Shiga toxin-producing Escherichia coli":
         args.species = "Escherichia coli"
     if args.species == "Coronavirus":
         args.species = "SARS-CoV-2"
-    metadata = getMetadata(args.input_files, args.species)
+    metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
 
     os.mkdir('reports')
     for metadataRow in metadata:

@@ -19,12 +19,14 @@
       $__tool_directory__/PHANtR.py
       --input_files $phantr_filenames
       --species '$species'
+      --user '$user'
       --phantr_reports $phantr_reports
 ]]>
     </command>
 
     <inputs>
         <param name="phantr_filenames" format="tabular" type="data" label="filenames" />
+        <param name="user" type="text" label="user" />
         <param name="species" type="text" label="Species" />
     </inputs>
 
