@@ -1,4 +1,4 @@
-<tool id="phantr" name="PHANtr" version="2.3">
+<tool id="phantr" name="PHANtR" version="2.3">
     <description>Analysis report</description>
     <requirements>
         <requirement type="package" version="3.7">python</requirement>
