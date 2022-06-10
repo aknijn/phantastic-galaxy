@@ -117,7 +117,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.set_font("helvetica", "B", 12)
     pdf.write(8, "Data dell'analisi: " + str(dataSommario[12]))
     pdf.ln(8)
-    pdf.write(8, "Copertura del file: " + str(round(dataSommario[13])) + "X")
+    pdf.write(8, "Copertura del file: " + str(dataSommario[13]) + "X")
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(120)
