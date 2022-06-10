@@ -165,7 +165,8 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.write(8, "Virulotipo")
     pdf.ln(10)
     line_height = pdf.font_size * 1.1
-    col_width = pdf.epw / 4  # distribute content evenly
+    pdf.cell(25)
+    col_width = (pdf.epw - 50)/ 4  # distribute content evenly
     i=1
     pdf.set_fill_color(r=150)
     pdf.set_font("helvetica", "B", 10)
@@ -179,8 +180,9 @@ def writePdf(dataSommario, dataAMR, dataVir):
         else:
             pdf.set_fill_color(r=220) 
             pdf.set_font("helvetica", "", 10)
+        pdf.cell(25)
         for cellVir in rowVir:
-            pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
+            pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
         pdf.ln(line_height)
         i = i + 1
 
@@ -197,13 +199,13 @@ def writePdf(dataSommario, dataAMR, dataVir):
     line_height = pdf.font_size * 1.5
     col_width = pdf.epw / 8  # distribute content evenly
     pdf.set_fill_color(r=150) 
-    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, line_height, dataAMRHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataAMRHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(2*line_height)
     for rowAMR in dataAMR:
