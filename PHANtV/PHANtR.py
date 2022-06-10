@@ -254,9 +254,9 @@ def __main__():
         os.mkdir('reports')
 
     for metadataRow in metadata:
-        print(metadataRow)
         dataSommario = metadataRow[0:13]
-        subprocess.call("awk -F '\t' '$4>80 { print $0 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 " + IRIDA_DIR + metadataRow[14] + " > vir_tab_file", shell=True)
+        print(dataSommario)
+        subprocess.call("awk -F '\t' '$4>80 { print $0 }' " + IRIDA_DIR + metadataRow[14] + " | tail -n +2 > vir_tab_file", shell=True)
         subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 > amr_tab_file", shell=True)
         amr_tab = openFileAsTable('amr_tab_file')
         vir_tab = openFileAsTable('vir_tab_file')
