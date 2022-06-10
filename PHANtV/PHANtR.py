@@ -183,7 +183,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
         pdf.cell(25)
         j = 1
         for cellVir in rowVir:
-            if j = 1:
+            if j == 1:
                 pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
             else:
                 pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
