@@ -252,10 +252,10 @@ def __main__():
         os.mkdir('reports')
 
     report_list = open(args.phantr_list, 'w')
-    report_list.write("Il file reports.zip può essere scaricato mediante il pulsante con i tre punti accanto a 'Scarica Tutti i File'\n")
+    report_list.write("Il file reports.zip puo' essere scaricato mediante il pulsante con i tre punti accanto a 'Scarica Tutti i File'\n")
     report_list.write("Il file reports.zip contiene i rapporti di:\n")
     for metadataRow in metadata:
-        report_list.write(metadataRow[14] + "\n")
+        report_list.write(metadataRow[0] + "\n")
         subprocess.call("awk -F '\t' '$2>80 && $4>80 { print $0 }' " + IRIDA_DIR + metadataRow[14] + " | tail -n +2 > vir_tab_file", shell=True)
         subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 > amr_tab_file", shell=True)
         amr_tab = openFileAsTable('amr_tab_file')
