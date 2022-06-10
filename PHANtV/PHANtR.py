@@ -195,13 +195,13 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.ln(10)
     pdf.set_font("helvetica", "B", 10)
     line_height = pdf.font_size * 1.5
-    col_width = pdf.epw / 10  # distribute content evenly
+    col_width = pdf.epw / 8  # distribute content evenly
     pdf.set_fill_color(r=150) 
     pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(2*col_width, 2*line_height, dataAMRHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, 2*line_height, dataAMRHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataAMRHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
@@ -217,17 +217,6 @@ def writePdf(dataSommario, dataAMR, dataVir):
             pdf.multi_cell(col_width, line_height, cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
         pdf.ln(line_height)
         i = i + 1
-
-    # pdf.set_fill_color(r=220)
-    # pdf.set_font("helvetica", "", 10)
-    # pdf.multi_cell(col_width, 2*line_height, dataAMR[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    # pdf.multi_cell(col_width, 2*line_height, dataAMR[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    # pdf.multi_cell(col_width, 2*line_height, dataAMR[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    # pdf.multi_cell(col_width, 2*line_height, dataAMR[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    # pdf.multi_cell(2*col_width, line_height, dataAMR[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    # pdf.multi_cell(col_width, 2*line_height, dataAMR[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    # pdf.multi_cell(col_width, 2*line_height, dataAMR[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    # pdf.multi_cell(col_width, 2*line_height, dataAMR[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
 
     pdf.ln(30)
     pdf.set_font("helvetica", "B", 11)
@@ -254,13 +243,11 @@ def __main__():
         os.mkdir('reports')
 
     for metadataRow in metadata:
-        dataSommario = metadataRow[0:14]
-        print(dataSommario)
-        subprocess.call("awk -F '\t' '$4>80 { print $0 }' " + IRIDA_DIR + metadataRow[14] + " | tail -n +2 > vir_tab_file", shell=True)
+        subprocess.call("awk -F '\t' '$2>80 && $4>80 { print $0 }' " + IRIDA_DIR + metadataRow[14] + " | tail -n +2 > vir_tab_file", shell=True)
         subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 > amr_tab_file", shell=True)
         amr_tab = openFileAsTable('amr_tab_file')
         vir_tab = openFileAsTable('vir_tab_file')
-        writePdf(dataSommario, amr_tab, vir_tab)
+        writePdf(metadataRow, amr_tab, vir_tab)
     shutil.make_archive('irida_reports', format='zip', root_dir='reports')
     shutil.copyfile('irida_reports.zip', args.phantr_reports)
 
