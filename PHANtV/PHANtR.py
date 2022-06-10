@@ -181,8 +181,13 @@ def writePdf(dataSommario, dataAMR, dataVir):
             pdf.set_fill_color(r=220) 
             pdf.set_font("helvetica", "", 10)
         pdf.cell(25)
+        j = 1
         for cellVir in rowVir:
-            pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
+            if j = 1:
+                pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
+            else:
+                pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
+            j = j + 1
         pdf.ln(line_height)
         i = i + 1
 
@@ -216,7 +221,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
             pdf.set_fill_color(r=220) 
             pdf.set_font("helvetica", "", 10)
         for cellAMR in rowAMR:
-            pdf.multi_cell(col_width, line_height, cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
+            pdf.multi_cell(col_width, line_height, cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
         pdf.ln(line_height)
         i = i + 1
 
