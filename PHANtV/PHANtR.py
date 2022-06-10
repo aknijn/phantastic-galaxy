@@ -193,15 +193,16 @@ def writePdf(dataSommario, dataAMR, dataVir):
 
     pdf.ln(2)
     pdf.set_font("helvetica", "", 10)
+    pdf.cell(25)
     pdf.write(8, "*=nome del gene_allele_Acc. Number NCBI")
     
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
-    pdf.cell(120)
+    pdf.cell(90)
     pdf.write(8, "Determinanti di antibiotico resistenza")
     pdf.ln(10)
     pdf.set_font("helvetica", "B", 10)
-    line_height = pdf.font_size * 1.5
+    line_height = pdf.font_size * 1.1
     col_width = pdf.epw / 8  # distribute content evenly
     pdf.set_fill_color(r=150) 
     pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
@@ -225,7 +226,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
         pdf.ln(line_height)
         i = i + 1
 
-    pdf.ln(30)
+    pdf.ln(20)
     pdf.set_font("helvetica", "B", 11)
     pdf.write(8, "Roma " + datetime.date.today().strftime("%d/%m/%Y"))
     pdf.ln(12)
@@ -238,6 +239,7 @@ def __main__():
     parser.add_argument('--input_files', dest='input_files', help='phants filenames')
     parser.add_argument('--species', dest='species', help='species')
     parser.add_argument('--user', dest='user', help='user')
+    parser.add_argument('--phantr_list', dest='phantr_list', help='phantr reports list')
     parser.add_argument('--phantr_reports', dest='phantr_reports', help='phantr reports zip file')
     args = parser.parse_args()
     if args.species == "Shiga toxin-producing Escherichia coli":
@@ -249,12 +251,17 @@ def __main__():
     if not os.path.exists('reports'):
         os.mkdir('reports')
 
+    report_list = open(args.phantr_list, 'w')
+    report_list.write("Il file reports.zip può essere scaricato mediante il pulsante con i tre punti accanto a 'Scarica Tutti i File'\n")
+    report_list.write("Il file reports.zip contiene i rapporti di:\n")
     for metadataRow in metadata:
+        report_list.write(metadataRow[14] + "\n")
         subprocess.call("awk -F '\t' '$2>80 && $4>80 { print $0 }' " + IRIDA_DIR + metadataRow[14] + " | tail -n +2 > vir_tab_file", shell=True)
         subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 > amr_tab_file", shell=True)
         amr_tab = openFileAsTable('amr_tab_file')
         vir_tab = openFileAsTable('vir_tab_file')
         writePdf(metadataRow, amr_tab, vir_tab)
+    report_list.close()
     shutil.make_archive('irida_reports', format='zip', root_dir='reports')
     shutil.copyfile('irida_reports.zip', args.phantr_reports)
 
