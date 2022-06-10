@@ -125,14 +125,14 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.ln(10)
     pdf.set_font("helvetica", "B", 10)
     line_height = pdf.font_size * 1.5
-    col_width = pdf.epw / 12  # distribute content evenly
+    col_width = pdf.epw / 11  # distribute content evenly
     pdf.set_fill_color(r=150)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    #pdf.multi_cell(col_width, line_height, dataSommarioHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommarioHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.set_font("helvetica", "BI", 10)
@@ -149,7 +149,7 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.multi_cell(col_width, line_height, dataSommario[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommario[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommario[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    #pdf.multi_cell(col_width, line_height, dataSommario[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommario[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, line_height, dataSommario[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.set_font("helvetica", "I", 10)
