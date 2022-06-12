@@ -20,20 +20,20 @@
             "name": "Input dataset collection",
             "outputs": [],
             "position": {
-                "bottom": 471.6000061035156,
+                "bottom": 867.1000061035156,
                 "height": 30.600006103515625,
-                "left": 463.5666809082031,
-                "right": 563.5666809082031,
-                "top": 441,
+                "left": 516,
+                "right": 616,
+                "top": 836.5,
                 "width": 100,
-                "x": 463.5666809082031,
-                "y": 441
+                "x": 516,
+                "y": 836.5
             },
             "tool_id": null,
             "tool_state": "{\"optional\": false, \"collection_type\": \"list:paired\"}",
             "tool_version": null,
             "type": "data_collection_input",
-            "uuid": "3cf7f22b-187b-46e0-8176-290700d44f5c",
+            "uuid": "ce7da40d-28da-4c70-9fa4-069432a82354",
             "workflow_outputs": []
         },
         "1": {
@@ -65,14 +65,14 @@
                 }
             ],
             "position": {
-                "bottom": 981.1999969482422,
+                "bottom": 1376.6999969482422,
                 "height": 107.19999694824219,
-                "left": 741.9666748046875,
-                "right": 841.9666748046875,
-                "top": 874,
+                "left": 794.4000244140625,
+                "right": 894.4000244140625,
+                "top": 1269.5,
                 "width": 100,
-                "x": 741.9666748046875,
-                "y": 874
+                "x": 794.4000244140625,
+                "y": 1269.5
             },
             "post_job_actions": {
                 "HideDatasetActionphanta_contigs": {
@@ -95,7 +95,7 @@
             "tool_state": "{\"TrueCoverage\": {\"skipTrueCoverage\": \"false\", \"__current_case__\": 0, \"trueConfigFile\": \"\"}, \"genomeSize\": \"5.0\", \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"skipEstimatedCoverage\": \"false\", \"species\": \"\", \"token\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "2.3",
             "type": "tool",
-            "uuid": "1e3d8938-bb00-4f04-af01-0effc64bbb99",
+            "uuid": "9ef6386b-402a-4068-a30e-a99689ecdb45",
             "workflow_outputs": []
         },
         "2": {
@@ -144,14 +144,14 @@
                 }
             ],
             "position": {
-                "bottom": 121.39999389648438,
+                "bottom": 516.8999938964844,
                 "height": 178.39999389648438,
-                "left": 1030.36669921875,
-                "right": 1130.36669921875,
-                "top": -57,
+                "left": 1082.800048828125,
+                "right": 1182.800048828125,
+                "top": 338.5,
                 "width": 100,
-                "x": 1030.36669921875,
-                "y": -57
+                "x": 1082.800048828125,
+                "y": 338.5
             },
             "post_job_actions": {
                 "HideDatasetActionamrgenes": {
@@ -179,7 +179,7 @@
             "tool_state": "{\"input_fasta\": {\"__class__\": \"RuntimeValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"RuntimeValue\"}, \"region\": \"\", \"species\": \"\", \"year\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "2.3",
             "type": "tool",
-            "uuid": "7ea51124-be62-4758-8ef5-2cf43638065f",
+            "uuid": "8e183f3e-a0ec-4fbb-83d3-7005463f690c",
             "workflow_outputs": []
         },
         "3": {
@@ -223,14 +223,14 @@
                 }
             ],
             "position": {
-                "bottom": 542.8000030517578,
+                "bottom": 938.3000030517578,
                 "height": 203.8000030517578,
-                "left": 1030.36669921875,
-                "right": 1130.36669921875,
-                "top": 339,
+                "left": 1082.800048828125,
+                "right": 1182.800048828125,
+                "top": 734.5,
                 "width": 100,
-                "x": 1030.36669921875,
-                "y": 339
+                "x": 1082.800048828125,
+                "y": 734.5
             },
             "post_job_actions": {
                 "HideDatasetActionamrgenes": {
@@ -263,7 +263,7 @@
             "tool_state": "{\"input_fasta\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"region\": \"\", \"species\": \"\", \"token\": \"\", \"year\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "2.3",
             "type": "tool",
-            "uuid": "5e52c758-6cdc-4bb6-81b8-09cd02d0ea55",
+            "uuid": "ddf91446-da86-4df6-a92b-1207124eb650",
             "workflow_outputs": []
         },
         "4": {
@@ -287,14 +287,14 @@
                 }
             ],
             "position": {
-                "bottom": 846.3999938964844,
+                "bottom": 1241.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1030.36669921875,
-                "right": 1130.36669921875,
-                "top": 790,
+                "left": 1082.800048828125,
+                "right": 1182.800048828125,
+                "top": 1185.5,
                 "width": 100,
-                "x": 1030.36669921875,
-                "y": 790
+                "x": 1082.800048828125,
+                "y": 1185.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionoutput": {
@@ -327,12 +327,12 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "15856f0e-3755-46df-bb80-481cd4c504a1",
+            "uuid": "42f09ba3-0ad4-4182-a3a1-ece8fb43f57d",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "output",
-                    "uuid": "916f72a7-6381-4470-b0a6-9d505c702575"
+                    "uuid": "5cc1e8f4-834e-4abd-8117-64e17d6d9b5e"
                 }
             ]
         },
@@ -357,14 +357,14 @@
                 }
             ],
             "position": {
-                "bottom": 1002.3999938964844,
+                "bottom": 1397.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1030.36669921875,
-                "right": 1130.36669921875,
-                "top": 946,
+                "left": 1082.800048828125,
+                "right": 1182.800048828125,
+                "top": 1341.5,
                 "width": 100,
-                "x": 1030.36669921875,
-                "y": 946
+                "x": 1082.800048828125,
+                "y": 1341.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionoutput": {
@@ -392,12 +392,12 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "2a816fd4-ea69-4da6-968e-15610e5dec49",
+            "uuid": "d3f4be62-f232-46ea-8e17-e47dff082921",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "output",
-                    "uuid": "66f2f9d8-58c8-46c3-8992-547826c0df28"
+                    "uuid": "38bb5fee-da79-4a77-bb74-8ac0a4653f33"
                 }
             ]
         },
@@ -434,14 +434,14 @@
                 }
             ],
             "position": {
-                "bottom": 1206.8000030517578,
+                "bottom": 1602.3000030517578,
                 "height": 142.8000030517578,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": 1064,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 1459.5,
                 "width": 100,
-                "x": 1358.7666015625,
-                "y": 1064
+                "x": 1411.199951171875,
+                "y": 1459.5
             },
             "post_job_actions": {
                 "HideDatasetActionphantclm_allele": {
@@ -466,10 +466,10 @@
                 }
             },
             "tool_id": "phantc-lm",
-            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"token\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "2.3",
             "type": "tool",
-            "uuid": "0929d61c-4c48-4b6f-82a8-cf3f45949213",
+            "uuid": "5d9748c4-a9ce-4e6e-af32-f91925a504ee",
             "workflow_outputs": []
         },
         "7": {
@@ -493,14 +493,14 @@
                 }
             ],
             "position": {
-                "bottom": 1617.3999938964844,
+                "bottom": 2012.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1995.566650390625,
-                "right": 2095.566650390625,
-                "top": 1561,
+                "left": 2048,
+                "right": 2148,
+                "top": 1956.5,
                 "width": 100,
-                "x": 1995.566650390625,
-                "y": 1561
+                "x": 2048,
+                "y": 1956.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -519,7 +519,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "71028ddb-cfa1-47c3-8297-0545885e3654",
+            "uuid": "af51ab5a-9427-49aa-9ee2-04afa33c0823",
             "workflow_outputs": []
         },
         "8": {
@@ -530,11 +530,11 @@
             "input_connections": {
                 "input_list": {
                     "id": 2,
-                    "output_name": "virulotypes"
+                    "output_name": "phanttlm_out"
                 }
             },
             "inputs": [],
-            "label": "Virulotyping-Lm",
+            "label": "Typing-Lm",
             "name": "Collapse Collection",
             "outputs": [
                 {
@@ -543,16 +543,21 @@
                 }
             ],
             "position": {
-                "bottom": 157.39999389648438,
+                "bottom": -55.100006103515625,
                 "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": 101,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": -111.5,
                 "width": 100,
-                "x": 1358.7666015625,
-                "y": 101
+                "x": 1411.199951171875,
+                "y": -111.5
             },
             "post_job_actions": {
+                "DeleteIntermediatesActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "DeleteIntermediatesAction",
+                    "output_name": "output"
+                },
                 "HideDatasetActionoutput": {
                     "action_arguments": {},
                     "action_type": "HideDatasetAction",
@@ -569,7 +574,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "cbabafb0-856e-4a1f-8962-068df12342d2",
+            "uuid": "d548ceb2-3c74-4748-9634-b2db21fbf574",
             "workflow_outputs": []
         },
         "9": {
@@ -593,14 +598,14 @@
                 }
             ],
             "position": {
-                "bottom": -146.60000610351562,
+                "bottom": 248.89999389648438,
                 "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": -203,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 192.5,
                 "width": 100,
-                "x": 1358.7666015625,
-                "y": -203
+                "x": 1411.199951171875,
+                "y": 192.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -619,7 +624,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "54ed2ccb-0e23-4119-a1db-beaa74dc2c13",
+            "uuid": "58634fab-8d70-4cc0-87df-6a85ae0e716b",
             "workflow_outputs": []
         },
         "10": {
@@ -627,6 +632,56 @@
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
             "id": 10,
+            "input_connections": {
+                "input_list": {
+                    "id": 2,
+                    "output_name": "virulotypes"
+                }
+            },
+            "inputs": [],
+            "label": "Virulotyping-Lm",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 552.8999938964844,
+                "height": 56.399993896484375,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 496.5,
+                "width": 100,
+                "x": 1411.199951171875,
+                "y": 496.5
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "123c0d47-01d7-4a81-ae92-0142c337e5b1",
+            "workflow_outputs": []
+        },
+        "11": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 11,
             "input_connections": {
                 "input_list": {
                     "id": 2,
@@ -648,14 +703,14 @@
                 }
             ],
             "position": {
-                "bottom": 461.3999938964844,
+                "bottom": 856.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": 405,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 800.5,
                 "width": 100,
-                "x": 1358.7666015625,
-                "y": 405
+                "x": 1411.199951171875,
+                "y": 800.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -674,62 +729,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"RuntimeValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "749c97ae-57a1-405d-a791-a44dd6245268",
-            "workflow_outputs": []
-        },
-        "11": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 11,
-            "input_connections": {
-                "input_list": {
-                    "id": 2,
-                    "output_name": "phanttlm_out"
-                }
-            },
-            "inputs": [],
-            "label": "Typing-Lm",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": -450.6000061035156,
-                "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": -507,
-                "width": 100,
-                "x": 1358.7666015625,
-                "y": -507
-            },
-            "post_job_actions": {
-                "DeleteIntermediatesActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "DeleteIntermediatesAction",
-                    "output_name": "output"
-                },
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "dc324beb-7719-4c63-8cb5-956cce300374",
+            "uuid": "9e2dc068-6b51-438e-a16b-ca013e61f28d",
             "workflow_outputs": []
         },
         "12": {
@@ -737,106 +737,6 @@
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
             "id": 12,
-            "input_connections": {
-                "input_list": {
-                    "id": 3,
-                    "output_name": "amrgenes"
-                }
-            },
-            "inputs": [],
-            "label": "AMRgenes-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 5.399993896484375,
-                "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": -51,
-                "width": 100,
-                "x": 1358.7666015625,
-                "y": -51
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "ad61e6be-a29c-49e8-94a0-199af752cff4",
-            "workflow_outputs": []
-        },
-        "13": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 13,
-            "input_connections": {
-                "input_list": {
-                    "id": 3,
-                    "output_name": "virulotypes"
-                }
-            },
-            "inputs": [],
-            "label": "Virulotyping-Ec",
-            "name": "Collapse Collection",
-            "outputs": [
-                {
-                    "name": "output",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 309.3999938964844,
-                "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": 253,
-                "width": 100,
-                "x": 1358.7666015625,
-                "y": 253
-            },
-            "post_job_actions": {
-                "HideDatasetActionoutput": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "output"
-                }
-            },
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "tool_shed_repository": {
-                "changeset_revision": "90981f86000f",
-                "name": "collapse_collections",
-                "owner": "nml",
-                "tool_shed": "toolshed.g2.bx.psu.edu"
-            },
-            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "5.1.0",
-            "type": "tool",
-            "uuid": "546cdb2b-4d67-42ac-995d-545f14031c7d",
-            "workflow_outputs": []
-        },
-        "14": {
-            "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
-            "errors": null,
-            "id": 14,
             "input_connections": {
                 "input_list": {
                     "id": 3,
@@ -853,14 +753,14 @@
                 }
             ],
             "position": {
-                "bottom": -298.6000061035156,
+                "bottom": 96.89999389648438,
                 "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": -355,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 40.5,
                 "width": 100,
-                "x": 1358.7666015625,
-                "y": -355
+                "x": 1411.199951171875,
+                "y": 40.5
             },
             "post_job_actions": {
                 "DeleteIntermediatesActionoutput": {
@@ -884,7 +784,107 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "a0ee9f59-8a4a-42be-b83e-d7dd8bf897e9",
+            "uuid": "9ebb560b-fb85-489f-8dda-b232611e52b4",
+            "workflow_outputs": []
+        },
+        "13": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 13,
+            "input_connections": {
+                "input_list": {
+                    "id": 3,
+                    "output_name": "amrgenes"
+                }
+            },
+            "inputs": [],
+            "label": "AMRgenes-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 400.8999938964844,
+                "height": 56.399993896484375,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 344.5,
+                "width": 100,
+                "x": 1411.199951171875,
+                "y": 344.5
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "e4dfc9a9-c562-4918-991b-765d332aa56f",
+            "workflow_outputs": []
+        },
+        "14": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 14,
+            "input_connections": {
+                "input_list": {
+                    "id": 3,
+                    "output_name": "virulotypes"
+                }
+            },
+            "inputs": [],
+            "label": "Virulotyping-Ec",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 704.8999938964844,
+                "height": 56.399993896484375,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 648.5,
+                "width": 100,
+                "x": 1411.199951171875,
+                "y": 648.5
+            },
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "94edfe5e-484a-4e5c-95d6-91a4b931e514",
             "workflow_outputs": []
         },
         "15": {
@@ -913,14 +913,14 @@
                 }
             ],
             "position": {
-                "bottom": 613.3999938964844,
+                "bottom": 1008.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": 557,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 952.5,
                 "width": 100,
-                "x": 1358.7666015625,
-                "y": 557
+                "x": 1411.199951171875,
+                "y": 952.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -939,7 +939,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"RuntimeValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "25b36631-f649-4a11-8345-d97e21364a0f",
+            "uuid": "59219d39-d0ba-4a63-879f-719bfbbc7435",
             "workflow_outputs": []
         },
         "16": {
@@ -979,14 +979,14 @@
                 }
             ],
             "position": {
-                "bottom": 867,
+                "bottom": 1262.5,
                 "height": 158,
-                "left": 1358.7666015625,
-                "right": 1458.7666015625,
-                "top": 709,
+                "left": 1411.199951171875,
+                "right": 1511.199951171875,
+                "top": 1104.5,
                 "width": 100,
-                "x": 1358.7666015625,
-                "y": 709
+                "x": 1411.199951171875,
+                "y": 1104.5
             },
             "post_job_actions": {
                 "HideDatasetActionphantcec_allele": {
@@ -1014,7 +1014,7 @@
             "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"serotype\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"token\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "2.3",
             "type": "tool",
-            "uuid": "f660e2e7-1d21-48de-ab58-7f45a3356953",
+            "uuid": "0fa93272-d738-4201-91aa-8e259170f31a",
             "workflow_outputs": []
         },
         "17": {
@@ -1038,14 +1038,14 @@
                 }
             ],
             "position": {
-                "bottom": 629.3999938964844,
+                "bottom": 1024.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 573,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 968.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 573
+                "x": 1769.5999755859375,
+                "y": 968.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1064,7 +1064,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "164a90a3-e0c0-47a0-ac0e-36412f589e2e",
+            "uuid": "1fec38db-b91a-4ad3-b97b-e8bdec3fa86e",
             "workflow_outputs": []
         },
         "18": {
@@ -1088,14 +1088,14 @@
                 }
             ],
             "position": {
-                "bottom": 933.3999938964844,
+                "bottom": 1328.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 877,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 1272.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 877
+                "x": 1769.5999755859375,
+                "y": 1272.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1114,7 +1114,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "64242705-3ce0-4b07-89d9-83f549ed969e",
+            "uuid": "02738c50-b495-40c5-abc0-7f41573749f5",
             "workflow_outputs": []
         },
         "19": {
@@ -1138,14 +1138,14 @@
                 }
             ],
             "position": {
-                "bottom": 1237.3999938964844,
+                "bottom": 1632.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 1181,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 1576.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 1181
+                "x": 1769.5999755859375,
+                "y": 1576.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1164,7 +1164,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "fdb95e3d-2361-4abe-bdbd-de35f0f2fff8",
+            "uuid": "79d7a1c3-9b7b-42b0-9c4f-f556fa9c626b",
             "workflow_outputs": []
         },
         "20": {
@@ -1188,14 +1188,14 @@
                 }
             ],
             "position": {
-                "bottom": 1541.3999938964844,
+                "bottom": 1936.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 1485,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 1880.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 1485
+                "x": 1769.5999755859375,
+                "y": 1880.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1214,7 +1214,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "56b78c6f-7027-4a9d-8f06-5a683e1ab228",
+            "uuid": "bcbf5ec4-a268-42aa-97a4-b606b984648e",
             "workflow_outputs": []
         },
         "21": {
@@ -1225,6 +1225,59 @@
             "input_connections": {
                 "input1": {
                     "id": 12,
+                    "output_name": "output"
+                },
+                "queries_0|input2": {
+                    "id": 8,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": "Typing",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 73.89999389648438,
+                "height": 61.399993896484375,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 12.5,
+                "width": 100,
+                "x": 1769.5999755859375,
+                "y": 12.5
+            },
+            "post_job_actions": {
+                "DeleteIntermediatesActionout_file1": {
+                    "action_arguments": {},
+                    "action_type": "DeleteIntermediatesAction",
+                    "output_name": "out_file1"
+                },
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "ec1a79e0-5b72-4abf-aad5-7516159f3d9c",
+            "workflow_outputs": []
+        },
+        "22": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 22,
+            "input_connections": {
+                "input1": {
+                    "id": 13,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
@@ -1242,14 +1295,14 @@
                 }
             ],
             "position": {
-                "bottom": -110.60000610351562,
+                "bottom": 284.8999938964844,
                 "height": 61.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": -172,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 223.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": -172
+                "x": 1769.5999755859375,
+                "y": 223.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1271,27 +1324,27 @@
             "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
-            "uuid": "64513082-3706-4126-b639-c4c81fb94bd2",
+            "uuid": "b9f72c52-34e3-4313-b157-64127c690712",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "c968dbda-31fb-4a25-ae41-ed77c5289b70"
+                    "uuid": "62b32599-bddc-4e3d-a2cb-8ccf23e6017f"
                 }
             ]
         },
-        "22": {
+        "23": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 22,
+            "id": 23,
             "input_connections": {
                 "input1": {
-                    "id": 13,
+                    "id": 14,
                     "output_name": "output"
                 },
                 "queries_0|input2": {
-                    "id": 8,
+                    "id": 10,
                     "output_name": "output"
                 }
             },
@@ -1305,14 +1358,14 @@
                 }
             ],
             "position": {
-                "bottom": 158.39999389648438,
+                "bottom": 553.8999938964844,
                 "height": 61.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 97,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 492.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 97
+                "x": 1769.5999755859375,
+                "y": 492.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1339,67 +1392,14 @@
             "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
-            "uuid": "0f1c891e-0d61-4e1f-8ef9-4c9d0003d6ea",
+            "uuid": "11015340-f8f0-4e77-8f48-71811d29c1a0",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "8738e1c4-2580-4d20-8483-68b1879c79d8"
+                    "uuid": "c0262326-aca6-4380-9530-93223f79b91f"
                 }
             ]
-        },
-        "23": {
-            "annotation": "",
-            "content_id": "cat1",
-            "errors": null,
-            "id": 23,
-            "input_connections": {
-                "input1": {
-                    "id": 14,
-                    "output_name": "output"
-                },
-                "queries_0|input2": {
-                    "id": 11,
-                    "output_name": "output"
-                }
-            },
-            "inputs": [],
-            "label": "Typing",
-            "name": "Concatenate datasets",
-            "outputs": [
-                {
-                    "name": "out_file1",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": -321.6000061035156,
-                "height": 61.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": -383,
-                "width": 100,
-                "x": 1717.1666259765625,
-                "y": -383
-            },
-            "post_job_actions": {
-                "DeleteIntermediatesActionout_file1": {
-                    "action_arguments": {},
-                    "action_type": "DeleteIntermediatesAction",
-                    "output_name": "out_file1"
-                },
-                "HideDatasetActionout_file1": {
-                    "action_arguments": {},
-                    "action_type": "HideDatasetAction",
-                    "output_name": "out_file1"
-                }
-            },
-            "tool_id": "cat1",
-            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "1.0.0",
-            "type": "tool",
-            "uuid": "2f5b4ac4-1ad6-43ae-b54d-a92535f3ce86",
-            "workflow_outputs": []
         },
         "24": {
             "annotation": "",
@@ -1412,7 +1412,7 @@
                     "output_name": "output"
                 },
                 "queries_0|input2": {
-                    "id": 10,
+                    "id": 11,
                     "output_name": "output"
                 }
             },
@@ -1431,14 +1431,14 @@
                 }
             ],
             "position": {
-                "bottom": 320.3999938964844,
+                "bottom": 715.8999938964844,
                 "height": 61.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 259,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 654.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 259
+                "x": 1769.5999755859375,
+                "y": 654.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1453,6 +1453,11 @@
                     "action_type": "DeleteIntermediatesAction",
                     "output_name": "out_file1"
                 },
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {},
+                    "action_type": "HideDatasetAction",
+                    "output_name": "out_file1"
+                },
                 "RenameDatasetActionout_file1": {
                     "action_arguments": {
                         "newname": "phantastic_seq.tab"
@@ -1465,14 +1470,8 @@
             "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
-            "uuid": "9b316279-63db-4d96-93bc-5672a0eea1e5",
-            "workflow_outputs": [
-                {
-                    "label": null,
-                    "output_name": "out_file1",
-                    "uuid": "88904cdf-d5c4-4a50-ba6b-cdac11d1810f"
-                }
-            ]
+            "uuid": "b0cb845c-6fe9-4b0c-9b32-7b4a093119e7",
+            "workflow_outputs": []
         },
         "25": {
             "annotation": "",
@@ -1495,14 +1494,14 @@
                 }
             ],
             "position": {
-                "bottom": 477.3999938964844,
+                "bottom": 872.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 421,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 816.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 421
+                "x": 1769.5999755859375,
+                "y": 816.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1521,7 +1520,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "cee5e43d-5c0b-4b35-934a-0fd001f03891",
+            "uuid": "f6102a63-40e6-4eb4-b9da-c6400108e8a3",
             "workflow_outputs": []
         },
         "26": {
@@ -1545,14 +1544,14 @@
                 }
             ],
             "position": {
-                "bottom": 781.3999938964844,
+                "bottom": 1176.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 725,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 1120.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 725
+                "x": 1769.5999755859375,
+                "y": 1120.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1571,7 +1570,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "b83b14a6-dd94-44cd-bf30-44966033b78a",
+            "uuid": "bfa72f63-ff62-4522-a053-aca9fc8adf47",
             "workflow_outputs": []
         },
         "27": {
@@ -1595,14 +1594,14 @@
                 }
             ],
             "position": {
-                "bottom": 1085.3999938964844,
+                "bottom": 1480.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 1029,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 1424.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 1029
+                "x": 1769.5999755859375,
+                "y": 1424.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1621,7 +1620,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "f871e3fe-126f-4540-a5a1-4c152cb1cfb3",
+            "uuid": "0e26dd8f-c19a-46fd-8f7b-4dd93d00473d",
             "workflow_outputs": []
         },
         "28": {
@@ -1645,14 +1644,14 @@
                 }
             ],
             "position": {
-                "bottom": 1389.3999938964844,
+                "bottom": 1784.8999938964844,
                 "height": 56.399993896484375,
-                "left": 1717.1666259765625,
-                "right": 1817.1666259765625,
-                "top": 1333,
+                "left": 1769.5999755859375,
+                "right": 1869.5999755859375,
+                "top": 1728.5,
                 "width": 100,
-                "x": 1717.1666259765625,
-                "y": 1333
+                "x": 1769.5999755859375,
+                "y": 1728.5
             },
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -1671,7 +1670,7 @@
             "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "5.1.0",
             "type": "tool",
-            "uuid": "3a02ade3-a0f6-4daa-887d-3ed35b813af9",
+            "uuid": "8eaaf337-09ad-495c-a564-ece191a5a8af",
             "workflow_outputs": []
         },
         "29": {
@@ -1699,14 +1698,14 @@
                 }
             ],
             "position": {
-                "bottom": 513.3999938964844,
+                "bottom": 908.8999938964844,
                 "height": 61.399993896484375,
-                "left": 1995.566650390625,
-                "right": 2095.566650390625,
-                "top": 452,
+                "left": 2048,
+                "right": 2148,
+                "top": 847.5,
                 "width": 100,
-                "x": 1995.566650390625,
-                "y": 452
+                "x": 2048,
+                "y": 847.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1733,12 +1732,12 @@
             "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
-            "uuid": "8ed61628-daa7-4034-b107-4c98a0e1058c",
+            "uuid": "57106b8f-d16c-4304-a14e-e1e3f3e52a5a",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "cb7e6c42-65a8-4552-b220-d00f125af7bb"
+                    "uuid": "48a3f24a-d793-4b31-8d5f-13b25aadfc6c"
                 }
             ]
         },
@@ -1767,14 +1766,14 @@
                 }
             ],
             "position": {
-                "bottom": 817.3999938964844,
+                "bottom": 1212.8999938964844,
                 "height": 61.399993896484375,
-                "left": 1995.566650390625,
-                "right": 2095.566650390625,
-                "top": 756,
+                "left": 2048,
+                "right": 2148,
+                "top": 1151.5,
                 "width": 100,
-                "x": 1995.566650390625,
-                "y": 756
+                "x": 2048,
+                "y": 1151.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1796,12 +1795,12 @@
             "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
-            "uuid": "2631f53a-66d7-4e9a-b711-9bf9a457859d",
+            "uuid": "5672e3b3-a451-49e7-a906-59e70f5b0608",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "7dc9a21a-65d1-46d9-9cfd-00616a6adc3f"
+                    "uuid": "f882fdcc-3be9-4e87-b684-0301529ccb9e"
                 }
             ]
         },
@@ -1830,14 +1829,14 @@
                 }
             ],
             "position": {
-                "bottom": 1109.3999938964844,
+                "bottom": 1504.8999938964844,
                 "height": 61.399993896484375,
-                "left": 1995.566650390625,
-                "right": 2095.566650390625,
-                "top": 1048,
+                "left": 2048,
+                "right": 2148,
+                "top": 1443.5,
                 "width": 100,
-                "x": 1995.566650390625,
-                "y": 1048
+                "x": 2048,
+                "y": 1443.5
             },
             "post_job_actions": {
                 "HideDatasetActionout_file1": {
@@ -1850,7 +1849,7 @@
             "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
-            "uuid": "5a8e6529-3f69-456d-b03c-6782adf41b3e",
+            "uuid": "1cae3c80-2bc5-40e4-a383-4efdcccccbae",
             "workflow_outputs": []
         },
         "32": {
@@ -1878,14 +1877,14 @@
                 }
             ],
             "position": {
-                "bottom": 1425.3999938964844,
+                "bottom": 1820.8999938964844,
                 "height": 61.399993896484375,
-                "left": 1995.566650390625,
-                "right": 2095.566650390625,
-                "top": 1364,
+                "left": 2048,
+                "right": 2148,
+                "top": 1759.5,
                 "width": 100,
-                "x": 1995.566650390625,
-                "y": 1364
+                "x": 2048,
+                "y": 1759.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1907,12 +1906,12 @@
             "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
-            "uuid": "ce5065c6-e892-4bf1-9104-caade30bb52e",
+            "uuid": "0716f938-035b-42ea-944f-159cfd882d54",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "42ae0b74-934f-4527-927e-62f910347c77"
+                    "uuid": "f087bc6c-8ebb-4afe-b41b-0a8946d60490"
                 }
             ]
         },
@@ -1931,7 +1930,7 @@
                     "output_name": "out_file1"
                 },
                 "phantt_json": {
-                    "id": 23,
+                    "id": 21,
                     "output_name": "out_file1"
                 }
             },
@@ -1945,14 +1944,14 @@
                 }
             ],
             "position": {
-                "bottom": 483.6000061035156,
+                "bottom": 879.1000061035156,
                 "height": 76.60000610351562,
-                "left": 2283.966796875,
-                "right": 2383.966796875,
-                "top": 407,
+                "left": 2336.39990234375,
+                "right": 2436.39990234375,
+                "top": 802.5,
                 "width": 100,
-                "x": 2283.966796875,
-                "y": 407
+                "x": 2336.39990234375,
+                "y": 802.5
             },
             "post_job_actions": {
                 "ChangeDatatypeActionphantastic_type": {
@@ -1974,12 +1973,12 @@
             "tool_state": "{\"phanta_json\": {\"__class__\": \"ConnectedValue\"}, \"phantc_json\": {\"__class__\": \"ConnectedValue\"}, \"phantt_json\": {\"__class__\": \"ConnectedValue\"}, \"token\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "2.3",
             "type": "tool",
-            "uuid": "09e59288-c728-41dc-af38-b70196cde602",
+            "uuid": "d37851c1-8636-4f57-931d-99b23aff85c4",
             "workflow_outputs": [
                 {
                     "label": null,
                     "output_name": "phantastic_type",
-                    "uuid": "1ded1918-17d1-4a41-b3a1-2dab82f40c9f"
+                    "uuid": "94c67fbb-f4f7-403f-9ba9-e1ce4ada0582"
                 }
             ]
         }
@@ -1987,6 +1986,6 @@
     "tags": [
         "IRIDA"
     ],
-    "uuid": "092416ba-5b29-4e1c-904b-e11dec0e6ee9",
-    "version": 6
+    "uuid": "023a2ac1-38f8-4987-8a6a-2013ad27467f",
+    "version": 12
 }
