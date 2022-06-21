@@ -254,6 +254,9 @@ def __main__():
     report_list = open(args.phantr_list, 'w')
     report_list.write("Il file reports.zip puo' essere scaricato mediante il pulsante con i tre punti accanto a 'Scarica Tutti i File'\n")
     report_list.write("Il file reports.zip contiene i rapporti di:\n")
+    if args.species != "Shiga toxin-producing Escherichia coli":
+        report_list.write("Non e' ancora previsto la creazione di report per questa specie\n")
+    
     for metadataRow in metadata:
         report_list.write(metadataRow[0] + "\n")
         subprocess.call("awk -F '\t' '$2>80 && $4>80 { print $0 }' " + IRIDA_DIR + metadataRow[14] + " | tail -n +2 > vir_tab_file", shell=True)
