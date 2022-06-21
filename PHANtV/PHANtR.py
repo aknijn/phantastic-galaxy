@@ -254,7 +254,7 @@ def __main__():
     report_list = open(args.phantr_list, 'w')
     report_list.write("Il file reports.zip puo' essere scaricato mediante il pulsante con i tre punti accanto a 'Scarica Tutti i File'\n")
     report_list.write("Il file reports.zip contiene i rapporti di:\n")
-    if args.species != "Shiga toxin-producing Escherichia coli":
+    if args.species != "Escherichia coli":
         report_list.write("Non e' ancora previsto la creazione di report per questa specie\n")
     
     for metadataRow in metadata:
