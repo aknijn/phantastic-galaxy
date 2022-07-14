@@ -21,6 +21,7 @@ my ($input1,
     $python) = @ARGV;
 
 # Run program
+if (index($input1, '.fasta') >= 0) { $input1 = "NULL" }
 my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
 my $result = runLisSero();
