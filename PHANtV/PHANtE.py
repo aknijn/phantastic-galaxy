@@ -23,7 +23,10 @@ TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def getMetadata(inputfiles, inuser, inspecies):
     config = configparser.ConfigParser()
-    config.read(TOOL_DIR + '/../phantastic.conf')
+    configFile = TOOL_DIR + '/../phantastic.conf'
+    if inspecies == 'Coronavirus':
+        configFile = TOOL_DIR + '/../recovery.conf'
+    config.read(configFile)
     dbhost = config['db']['host']
     dbdatabase = config['db']['database']
     dbuser = config['db']['user']
