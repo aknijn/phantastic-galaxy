@@ -37,8 +37,19 @@ sub runMentaLiST {
     my $files_id = getIdFilesString(@inputs);
     createAllelesFile($files_id);
     if ($useNames eq "true") { substituteCodesByNames($files_id); }
-    # copy allele profiles in allele matrix file
-    copy("cgMLST.tmp",$phantv_am);
+    # copy filtered allele profiles in allele matrix file (columns with INF, LNF, ecc. are removed)
+    my $cmd = q( awk -F"\t" '{(NR>1)}{for(i=2;i<=NF;i++){if ($i ~ /^0$|[a-zA-Z+]+/){print i}}}' cgMLST.tmp | sort | uniq > cgMLST.nocols );
+    system($cmd);
+    open my $tf, '<', 'cgMLST.nocols';
+    chomp(my @noCols = <$tf>);
+    close $tf;
+    my $noColsString = join ',', @noCols;
+	if ($noColsString eq "") {
+        copy("cgMLST.tmp",$phantv_am);
+    } else {
+        my $cmd2 = "cut --complement -f" . $noColsString . " cgMLST.tmp > " . $phantv_am;
+        system($cmd2);
+    }
     # calculate distance matrix from allele profiles
     my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantv_dm");
     # calculate tree from distance matrix
