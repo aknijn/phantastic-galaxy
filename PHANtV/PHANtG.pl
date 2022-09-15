@@ -47,10 +47,12 @@ sub runGrapeTree {
     if ($noColsString eq "") {
         copy("cgMLST.tmp",$phantg_am);
     } else {
-        my $cmd2 = "cut --complement -f" . $noColsString . " cgMLST.tmp > " . $phantg_am;
-        system($cmd2);
+        $cmd = "cut --complement -f" . $noColsString . " cgMLST.tmp > " . $phantg_am;
+        system($cmd);
     }
     # calculate tree from allele profiles
+    $cmd = q( ln -s $(dirname $(which grapetree))/../lib/python3.8/site-packages/grapetree/grapetree.py grapetree.py );
+    system($cmd);
     my $result = system("python grapetree.py -p $phantg_am -m MSTreeV2 > $phantg_tree");
     return 0;
 }
@@ -161,7 +163,7 @@ sub createMetadataFile {
     my $sql;
 
     if ($species eq "Escherichia coli") {
-        $sql = "select * from v_grapetree_listeria where files_id IN ($files_id)";
+        $sql = "select * from v_grapetree_ecoli where files_id IN ($files_id)";
     } else {
         if ($species eq "Listeria monocytogenes") {
             $sql = "select * from v_grapetree_listeria where files_id IN ($files_id)";
@@ -190,17 +192,17 @@ sub createMetadataFile {
 sub createGrapeTreeLink {
     # copy $phantg_metadata & $phantg_tree to a shared path visible by GrapeTree on the server vizapp.iss.it
     my $grape_path = "/gfs/vizapp/grapetree/";
-	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-	$year = 1900 + $year;
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+    $year = 1900 + $year;
     my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
-    my $grape_path_year = $grape_path + $year;
-	# create the path if it doesn't exist yet
-	if ( !-d $grape_path_year) { make_path $grape_path_year or die "Failed to create path: $grape_path_year"; }
-	# create unique filenames
-    my $grape_metadata = $year + "/ISS_" + $stamp + ".tsv";
-	my $grape_tree = $year + "/ISS_" + $stamp + ".nwk";
-    copy($phantg_metadata,$grape_path + $grape_metadata);
-    copy($phantg_tree,$grape_path + $grape_tree);
+    my $grape_path_year = $grape_path . $year;
+    # create the path if it doesn't exist yet
+    if ( !-d $grape_path_year) { make_path $grape_path_year or die "Failed to create path: $grape_path_year"; }
+    # create unique filenames
+    my $grape_metadata = $year . "/ISS_" . $stamp . ".tsv";
+    my $grape_tree = $year . "/ISS_" . $stamp . ".nwk";
+    copy($phantg_metadata,$grape_path . $grape_metadata);
+    copy($phantg_tree,$grape_path . $grape_tree);
     # create the html file linking the tree and metadata files
     open my $of, '>', "$phantg_grapetree" or die "Cannot open $phantg_grapetree: $!";
     print $of "<!DOCTYPE html><html><body>\n";
