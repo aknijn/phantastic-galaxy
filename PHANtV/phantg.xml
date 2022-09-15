@@ -1,0 +1,43 @@
+<tool id="phantg" name="PHANtG" version="1.0">
+    <description>Grapetree</description>
+    <requirements>
+        <requirement type="package" version="3.8">python</requirement>
+        <requirement type="package" version="5.26">perl</requirement>
+        <requirement type="package" version="1.642">perl-dbi</requirement>
+        <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
+        <requirement type="package" version="1.3.4">pandas</requirement>
+        <requirement type="package" version="2.28.1">requests</requirement>
+        <requirement type="package" version="2.1">grapetree</requirement>
+    </requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+    perl
+      $__tool_directory__/PHANtG.pl
+      $phantg_filenames
+      '$species'
+      $phantg_am
+      $phantg_metadata
+      $phantg_tree
+      $phantg_grapetree
+]]>
+    </command>
+
+    <inputs>
+        <param name="phantg_filenames" format="tabular" type="data" label="filenames" />
+        <param name="species" type="text" label="Species" />
+   </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data name="phantg_am" format="tabular" label="${tool.name} on ${on_string}: allele matrix" ></data>
+        <data name="phantg_metadata" format="tabular" label="${tool.name} on ${on_string}: metadati" ></data>
+        <data name="phantg_tree" format="nwk" label="${tool.name} on ${on_string}: tree" ></data>
+        <data name="phantg_grapetree" format="html" label="${tool.name} on ${on_string}: grapetree" ></data>
+   </outputs>
+</tool>
