@@ -176,11 +176,11 @@ sub createMetadataFile {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "$phantg_metadata" or die "Cannot open $phantg_metadata: $!";
-    if ($species eq "Escherichia coli") { print $if "Campione\tRegione\tAnno\tAntigen_O\tAntigen_H\tCluster_id\teae\tehxA\tMLST_ST\tQC\tstx1\tstx2\tstx_subtype\n"; } 
-    else { if ($species eq "Listeria monocytogenes") { print $if "Campione\tRegione\tAmplicons\tAnno\tCluster_id\tMLST_CC\tMLST_Lineage\tQC\tSeroGroup\tSeroType\n"; } }
+    if ($species eq "Escherichia coli") { print $if "Campione\tRegione\tAnno\tSorgente\tOrigene isolato\n"; } 
+    else { if ($species eq "Listeria monocytogenes") { print $if "Campione\tRegione\tAnno\tSorgente\tOrigene isolato\n"; } }
     while (my @row = $sth->fetchrow_array) { 
-      if ($species eq "Escherichia coli") { print $if "$row[1]\t$row[10]\t$row[2]\t$row[3]\t$row[4]\t$row[5]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[11]\t$row[12]\t$row[13]\n"; } 
-      else { if ($species eq "Listeria monocytogenes") { print $if "$row[1]\t$row[8]\t$row[2]\t$row[3]\t$row[4]\t$row[5]\t$row[6]\t$row[7]\t$row[9]\t$row[10]\n"; } }
+      if ($species eq "Escherichia coli") { print $if "$row[1]\t$row[2]\t$row[3]\t$row[4]\t$row[5]\n"; } 
+      else { if ($species eq "Listeria monocytogenes") { print $if "$row[1]\t$row[2]\t$row[3]\t$row[4]\t$row[5]\n"; } }
     }       
     close $if;
 
