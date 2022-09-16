@@ -199,8 +199,8 @@ sub createGrapeTreeLink {
     # create the path if it doesn't exist yet
     if ( !-d $grape_path_year) { make_path $grape_path_year or die "Failed to create path: $grape_path_year"; }
     # create unique filenames
-    my $grape_metadata = $year . "/ISS_" . $stamp . ".tsv";
-    my $grape_tree = $year . "/ISS_" . $stamp . ".nwk";
+    my $grape_metadata = substr($stamp,0,6) . "/ISS_" . $stamp . ".tsv";
+    my $grape_tree = substr($stamp,0,6) . "/ISS_" . $stamp . ".nwk";
     copy($phantg_metadata,$grape_path . $grape_metadata);
     copy($phantg_tree,$grape_path . $grape_tree);
     # create the html file linking the tree and metadata files
