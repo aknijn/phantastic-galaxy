@@ -195,7 +195,7 @@ sub createGrapeTreeLink {
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     $year = 1900 + $year;
     my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
-    my $grape_path_year = $grape_path . $year;
+    my $grape_path_year = $grape_path . substr($stamp,0,6);
     # create the path if it doesn't exist yet
     if ( !-d $grape_path_year) { make_path $grape_path_year or die "Failed to create path: $grape_path_year"; }
     # create unique filenames
