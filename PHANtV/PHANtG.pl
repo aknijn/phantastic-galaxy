@@ -176,8 +176,8 @@ sub createMetadataFile {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "$phantg_metadata" or die "Cannot open $phantg_metadata: $!";
-    if ($species eq "Escherichia coli") { print $if "Campione\tRegione\tAnno\tSorgente\tOrigene isolato\n"; } 
-    else { if ($species eq "Listeria monocytogenes") { print $if "Campione\tRegione\tAnno\tSorgente\tOrigene isolato\n"; } }
+    if ($species eq "Escherichia coli") { print $if "Campione\tRegione\tAnno\tSorgente\tOrigine isolato\n"; } 
+    else { if ($species eq "Listeria monocytogenes") { print $if "Campione\tRegione\tAnno\tSorgente\tOrigine isolato\n"; } }
     while (my @row = $sth->fetchrow_array) { 
       if ($species eq "Escherichia coli") { print $if "$row[1]\t$row[2]\t$row[3]\t$row[4]\t$row[5]\n"; } 
       else { if ($species eq "Listeria monocytogenes") { print $if "$row[1]\t$row[2]\t$row[3]\t$row[4]\t$row[5]\n"; } }
