@@ -204,9 +204,12 @@ sub createGrapeTreeLink {
     copy($phantg_metadata,$grape_path . $grape_metadata);
     copy($phantg_tree,$grape_path . $grape_tree);
     # create the html file linking the tree and metadata files
+    my $strUrl = "https://irida.iss.it/grapetree/?tree=$grape_tree&metadata=$grape_metadata";
     open my $of, '>', "$phantg_grapetree" or die "Cannot open $phantg_grapetree: $!";
-    print $of "<!DOCTYPE html><html><body>\n";
-    print $of "<strong><a href=\"https:\/\/irida.iss.it\/grapetree\/?tree=$grape_tree\&metadata=$grape_metadata\">visualizza albero filogenetico<\/a><\/strong>\n";
+    print $of "<!DOCTYPE html><html><head>";
+    print $of "<meta http-equiv=\"refresh\" content=\"0; URL=$strUrl\" />\n";
+    print $of "</head><body>\n";
+    print $of "<strong><a href=\"$strUrl\">visualizza albero filogenetico<\/a><\/strong>\n";
     print $of "<\/body><\/html>\n";
     close $of;
 }
