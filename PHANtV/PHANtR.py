@@ -159,7 +159,8 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.multi_cell(col_width, line_height, dataSommario[11], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(line_height)
     pdf.set_font("helvetica", "", 10)
-    pdf.write(8, "(*)=subtype con identità >95% e <100%")
+    if "(*)" in dataSommario[9]:
+        pdf.write(8, "(*)=subtype con identità >95% e <100%")
 
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
