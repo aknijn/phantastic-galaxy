@@ -48,6 +48,7 @@ def get_hash_from_number(locus_hash_number_file, allele_number):
     # get the allele hash from the corresponding allele number
     with open(locus_hash_number_file) as locus_hashes_numbers:
       for allele_hash_number in locus_hashes_numbers:
+        hash = 0
         hash, number = allele_hash_number.split('\t')
         if number.rstrip() == allele_number:
           return hash
