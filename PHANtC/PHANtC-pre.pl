@@ -25,6 +25,7 @@ if ($species eq "Shiga toxin-producing Escherichia coli") { $species = "Escheric
 my $idFastqs = getIdFiles($input);
 createAllelesFile($idFastqs);
 substituteCodesByNames($idFastqs);
+move("cgMLST.tmp",$output);
 exit(0);
 
 # Obtain idFiles
