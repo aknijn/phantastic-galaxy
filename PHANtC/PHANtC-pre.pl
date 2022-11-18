@@ -42,10 +42,10 @@ sub createAllelesFile {
     my ($files_id) = @_;
     my $sql = "select allele_strain from v_mlst_ecoli_files_id where files_id = -1";
     if ($species eq "Escherichia coli") {
-        $sql = "select allele_strain from v_mlst_ecoli_files_id where files_id IN ($idFastqs)";
+        $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union select allele_strain from v_mlst_ecoli_files_id where files_id IN ($idFastqs)";
     } else {
         if ($species eq "Listeria monocytogenes") {
-            $sql = "select allele_strain from v_mlst_listeria_files_id where files_id IN ($idFastqs)";
+            $sql = "select allele_strain from mlst_listeria where sample_code='FILE' union select allele_strain from v_mlst_listeria_files_id where files_id IN ($idFastqs)";
         }
     }
 
