@@ -88,15 +88,21 @@ def __main__():
             schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST"
         else:
             schemadirectory = "/gfs/data-flow/Chewie-NS"
-
+    outputdirectory = "outputdirectory"
+    profilefile = "cgMLST.tmp"
     # elaborate_fastafile for all fasta files in the directory
+    if not os.path.isdir(outputdirectory):
+      try:
+        os.mkdir(outputdirectory)
+      except OSError:
+        print ("Creation of the directory %s failed" % path)
     for file in os.listdir(schemadirectory):
       if file.endswith(".fasta"):
-        elaborate_fastafile(schemadirectory, file, "outputdirectory")
+        elaborate_fastafile(schemadirectory, file, outputdirectory)
     # create a profile file with hashes instead of the assigned numbers
     shutil.copyfile(args.input, "cgMLST.tmp")
-    elaborate_sample("cgMLST.tmp", "outputdirectory", "outputdirectory")
-    shutil.copyfile("outputdirectory/cgMLST.tmp", args.hashprofiles)
+    elaborate_sample(profilefile, outputdirectory, outputdirectory)
+    shutil.copyfile(outputdirectory+"/"+profilefile, args.hashprofiles)
 
 if __name__ == "__main__":
     __main__()
