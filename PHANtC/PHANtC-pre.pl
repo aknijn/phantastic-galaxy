@@ -25,7 +25,8 @@ if ($species eq "Shiga toxin-producing Escherichia coli") { $species = "Escheric
 my $idFastqs = getIdFiles($input);
 createAllelesFile($idFastqs);
 substituteCodesByNames($idFastqs);
-move("cgMLST.tmp",$output);
+adjustHeader();
+move("cgMLST_header.tmp",$output);
 exit(0);
 
 # Obtain idFiles
@@ -88,4 +89,19 @@ sub substituteCodesByNames {
     system($cmd);
     move("cgMLST.tmp","cgMLST.tmp.OLD");
     move("cgMLST.tmp2","cgMLST.tmp");
+}
+
+# write the header in the EFSA way
+sub adjustHeader {
+    system("head -n 1 cgMLST.tmp > cgMLST_1.tmp");
+    my $cmd = "echo ERROR";
+    if ($species eq "Escherichia coli") {
+        $cmd = q( awk 'BEGIN{FS="\t"; OFS=FS}{ for(i=2;i<=NF;i++){ $i = "INNUENDO_wgMLST-"$i".fasta" }}1' cgMLST_1.tmp > cgMLST_header.tmp );
+    } else {
+        if ($species eq "Listeria monocytogenes") {
+            $cmd = q( awk 'BEGIN{FS="\t"; OFS=FS}{ for(i=2;i<=NF;i++){ $i = "Pasteur_cgMLST-"$i".fasta" }}1' cgMLST_1.tmp > cgMLST_header.tmp );
+        }
+    }	
+    system($cmd);
+    system("tail -n 1 cgMLST.tmp >> cgMLST_header.tmp");
 }
