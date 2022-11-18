@@ -56,6 +56,7 @@ sub createAllelesFile {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "cgMLST.tmp" or die "Cannot open cgMLST.tmp: $!";
+	print $if "FILE\t";
     while (my @row = $sth->fetchrow_array) { 
       print $if "$row[0]\n";
     }       
@@ -76,6 +77,7 @@ sub substituteCodesByNames {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "code2name.tmp" or die "Cannot open code2name.tmp: $!";
+	print $if "FILE\tFILE\n";
     while (my @row = $sth->fetchrow_array) { 
       print $if "$row[0]\t$row[1]\n";
     }       
@@ -103,5 +105,5 @@ sub adjustHeader {
         }
     }	
     system($cmd);
-    system("tail -n 1 cgMLST.tmp >> cgMLST_header.tmp");
+    system("tail -n +2 cgMLST.tmp >> cgMLST_header.tmp");
 }
