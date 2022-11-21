@@ -50,7 +50,7 @@ def get_hash_from_number(locus_hash_number_file, allele_number):
       for allele_hash_number in locus_hashes_numbers:
         hash = 0
         hash, number = allele_hash_number.split('\t')
-        if number.rstrip() == allele_number:
+        if number.rstrip() == allele_number or number.rstrip() == '*' + allele_number:
           return hash
 
 def elaborate_sample(samplefile, schemadirectory, outputdirectory):
