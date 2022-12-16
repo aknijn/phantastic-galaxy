@@ -195,8 +195,8 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
     pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, line_height, dataAMRHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    pdf.multi_cell(col_width, line_height, dataAMRHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(3*line_height)
     for rowAMR in dataAMR:
         if (i % 2) == 0:
