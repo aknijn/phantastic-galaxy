@@ -26,6 +26,8 @@ dataVirHeader = ["#gene*", "percentage gene coverage", "gene mean read coverage"
 dataAMRHeader = ["Start","Stop","Strand","Gene symbol","Product","Resistance","% Coverage of reference sequence","% Identity to reference sequence"]
 
 class PDF(FPDF):
+
+class PDF_STEC(FPDF):
     def header(self):
         # Rendering logos:
         self.image(TOOL_DIR + "/logo_sinistra.png", 20, 8, 26)
@@ -39,6 +41,37 @@ class PDF(FPDF):
         self.cell(18)
         self.set_font("helvetica", "BI", 12)
         self.cell(30, 10, "E. coli", align="C")
+        # Performing a line break:
+        self.ln(10)
+        self.cell(120)
+        self.set_font("helvetica", "I", 8)
+        self.cell(30, 1, "Dipartimento di Sicurezza Alimentare, Nutrizione e Sanità Pubblica Veterinaria", align="C")
+        self.ln(4)
+        self.cell(120)
+        self.cell(30, 1, "Reparto di Sicurezza microbiologica degli alimenti e malattie a trasmissione alimentare", align="C")
+        self.ln(6)
+        self.cell(120)
+        self.set_font("helvetica", "B", 12)
+        self.cell(30, 1, "Istituto Superiore di Sanità", align="C")
+        self.line(x1=10, y1=36, x2=290, y2=36)
+        self.ln(10)
+
+    def footer(self):
+        self.set_y(-15)
+        self.set_font("helvetica", "I", 8)
+        self.cell(0, 10, f"Page {self.page_no()} di {{nb}}", align="R")
+
+class PDF_LIST(FPDF):
+    def header(self):
+        # Rendering logos:
+        self.image(TOOL_DIR + "/logo_sinistra.png", 20, 8, 26)
+        self.image(TOOL_DIR + "/logo_destra.png", 250, 8,26)
+        # Setting font
+        self.set_font("helvetica", "B", 12)
+        # Moving cursor to the right:
+        self.cell(120)
+        # Printing title:
+        self.cell(30, 10, "Sorveglianza Listeriosi", align="C")
         # Performing a line break:
         self.ln(10)
         self.cell(120)
@@ -108,9 +141,15 @@ def getMetadata(inputfiles, inuser, inspecies):
     else:
         cnx.close()
 
-def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR, dataVir):
+def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR, dataVir):
     numColumns = len(dataSommarioHeader)
-    pdf = PDF(orientation="landscape")
+    if inspecies == "Escherichia coli":
+        pdf = PDF_STEC(orientation="landscape")
+    elif inspecies == "Listeria monocytogenes":
+        pdf = PDF_LIST(orientation="landscape")
+    else:
+        pdf = PDF(orientation="landscape")
+    
     pdf.set_fill_color(r=116, g=183, b=46) 
     pdf.add_page()
     pdf.set_font("helvetica", "B", 14)
@@ -253,7 +292,7 @@ def __main__():
         subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[numColumns + 3] + " | tail -n +2 > amr_tab_file", shell=True)
         amr_tab = openFileAsTable('amr_tab_file')
         vir_tab = openFileAsTable('vir_first_tab_file')
-        writePdf(metadataRow, dataSommarioHeader, dataSommarioHeaderFormat, amr_tab, vir_tab)
+        writePdf(args.species, metadataRow, dataSommarioHeader, dataSommarioHeaderFormat, amr_tab, vir_tab)
     report_list.close()
     shutil.make_archive('irida_reports', format='zip', root_dir='reports')
     shutil.copyfile('irida_reports.zip', args.phantr_reports)
