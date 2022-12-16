@@ -187,13 +187,13 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
     pdf.ln(10)
     pdf.set_font("helvetica", "B", 10)
     line_height = pdf.font_size * 1.1
-    line_height_header_list = [3*line_height, 3*line_height, 3*line_height, 3*line_height, 3*line_height, 3*line_height, line_height, line_height, ]
-    line_height_cells_list = [2*line_height, 2*line_height, 2*line_height, 2*line_height, line_height, 2*line_height, 2*line_height, 2*line_height, ]
-    col_width = pdf.epw / 8  # distribute content evenly
-    col_width_list = [0.6*col_width, 0.6*col_width, 0.6*col_width, col_width, 2.6*col_width, 0.6*col_width, col_width, col_width, ]
+    line_height_list = [3*line_height, 3*line_height, 3*line_height, 3*line_height, 3*line_height, 3*line_height, line_height, line_height]
+    col_width = pdf.epw / 8  # distribute columns
+    col_width_list = [0.6*col_width, 0.6*col_width, 0.6*col_width, col_width, 2.6*col_width, 0.6*col_width, col_width, col_width]
+    col_align_list = ["CENTER", "CENTER", "CENTER", "CENTER", "LEFT", "CENTER", "CENTER", "CENTER"]
     pdf.set_fill_color(r=150) 
     for i in range(8):
-        pdf.multi_cell(col_width_list[i], line_height_header_list[i], dataAMRHeader[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+        pdf.multi_cell(col_width_list[i], line_height_list[i], dataAMRHeader[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(3*line_height)
     i = 0
     for rowAMR in dataAMR:
@@ -205,9 +205,9 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
             pdf.set_font("helvetica", "", 10)
         j = 0
         for cellAMR in rowAMR:
-            pdf.multi_cell(col_width_list[j], line_height_cells_list[j], cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
+            pdf.multi_cell(col_width_list[j], 2*line_height, cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align=col_align_list[j], fill=True)
             j += 1
-        pdf.ln(3*line_height)
+        pdf.ln(2*line_height)
         i += 1
 
     pdf.ln(20)
