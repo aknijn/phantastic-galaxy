@@ -92,7 +92,6 @@ def getMetadata(inputfiles, inuser, inspecies):
         sql = (sql_species + " WHERE (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     elif inspecies == "Listeria monocytogenes":
         sql_species = "SELECT ID_ceppo,Anno,QC_status,MLST_ST,MLST_CC,MLST_Lineage,Serogroup,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_listeria"
-        ID ceppo - Anno - QC_status - MLST_ST - MLST_CC - MLST_Lineage - Serogroup
         sql = (sql_species + " WHERE (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     else:
         sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli WHERE files_id IN ('0')"
