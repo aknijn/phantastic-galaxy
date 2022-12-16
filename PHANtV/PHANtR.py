@@ -254,7 +254,8 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     pdf.write(8, "Roma " + datetime.date.today().strftime("%d/%m/%Y"))
     pdf.ln(12)
     pdf.cell(30)
-    pdf.image(TOOL_DIR + "/firme.png", w=200)
+    if inspecies == "Escherichia coli" or inspecies == "Listeria monocytogenes":
+        pdf.image(TOOL_DIR + "/firme.png", w=200)
     pdf.output('reports/report_' + dataSommario[0] + '.pdf')
 
 def __main__():
