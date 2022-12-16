@@ -22,7 +22,6 @@ from fpdf import FPDF
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 IRIDA_DIR = '/gfs/irida-phantastic/data/output/'
-dataSommarioHeader = ("ID ceppo","Anno","Antigen_O","Antigen_H","QC_status","Regione","MLST_ST","stx1","stx2","stx_subtype","eae","ehxA")
 dataVirHeader = ("#gene*", "percentage gene coverage", "gene mean read coverage", "percentage gene identity")
 dataAMRHeader = ("Start","Stop","Strand","Gene symbol","Product","Resistance","% Coverage of reference sequence","% Identity to reference sequence")
 
@@ -89,10 +88,14 @@ def getMetadata(inputfiles, inuser, inspecies):
     files_id = ",".join(idfiles)
 
     if inspecies == "Escherichia coli":
-        sql_species = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,Regione,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli"
+        sql_species = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli"
+        sql = (sql_species + " WHERE (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
+    elif inspecies == "Listeria monocytogenes":
+        sql_species = "SELECT ID_ceppo,Anno,QC_status,MLST_ST,MLST_CC,MLST_Lineage,Serogroup,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_listeria"
+        ID ceppo - Anno - QC_status - MLST_ST - MLST_CC - MLST_Lineage - Serogroup
         sql = (sql_species + " WHERE (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     else:
-        sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,Regione,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli WHERE files_id IN ('0')"
+        sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli WHERE files_id IN ('0')"
 
     try:
         cnx = mysql.connector.connect(**config)
@@ -106,7 +109,8 @@ def getMetadata(inputfiles, inuser, inspecies):
     else:
         cnx.close()
 
-def writePdf(dataSommario, dataAMR, dataVir):
+def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR, dataVir):
+    numColumns = len(dataSommarioHeader)
     pdf = PDF(orientation="landscape")
     pdf.set_fill_color(r=116, g=183, b=46) 
     pdf.add_page()
@@ -115,9 +119,9 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.cell(280, 10 , "Report di sequenziamento genomico di isolati batterici", fill=True, align="C")
     pdf.ln(20)
     pdf.set_font("helvetica", "B", 12)
-    pdf.write(8, "Data dell'analisi: " + str(dataSommario[12]))
+    pdf.write(8, "Data dell'analisi: " + str(dataSommario[numColumns]))
     pdf.ln(8)
-    pdf.write(8, "Copertura del file: " + str(dataSommario[13]) + "X")
+    pdf.write(8, "Copertura del file: " + str(dataSommario[numColumns + 1]) + "X")
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(120)
@@ -125,41 +129,19 @@ def writePdf(dataSommario, dataAMR, dataVir):
     pdf.ln(10)
     pdf.set_font("helvetica", "B", 10)
     line_height = pdf.font_size * 1.5
-    col_width = pdf.epw / 11  # distribute content evenly
+    col_width = pdf.epw / numColumns  # distribute content evenly
     pdf.set_fill_color(r=150)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    #pdf.multi_cell(col_width, line_height, dataSommarioHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.set_font("helvetica", "BI", 10)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[8], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[9], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[10], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommarioHeader[11], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-
+    for i in range(len(dataSommarioHeader)):
+        pdf.set_font("helvetica", "B" + dataSommarioHeaderFormat[i], 10)
+        pdf.multi_cell(col_width, line_height, dataSommarioHeader[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(line_height)
     pdf.set_fill_color(r=220)
-    pdf.set_font("helvetica", "", 10)
-    pdf.multi_cell(col_width, line_height, dataSommario[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    #pdf.multi_cell(col_width, line_height, dataSommario[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.set_font("helvetica", "BI", 10)
-    pdf.multi_cell(col_width, line_height, dataSommario[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[8], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[9], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[10], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataSommario[11], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    for i in range(len(dataSommarioHeader)):
+        pdf.set_font("helvetica", dataSommarioHeaderFormat[i], 10)
+        pdf.multi_cell(col_width, line_height, dataSommario[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(line_height)
     pdf.set_font("helvetica", "", 10)
-    if "(*)" in dataSommario[9]:
+    if "(*)" in dataSommario[8]:
         pdf.write(8, "(*)=subtype con identità >95% e <100%")
 
     pdf.ln(20)
@@ -247,8 +229,14 @@ def __main__():
     args = parser.parse_args()
     if args.species == "Shiga toxin-producing Escherichia coli":
         args.species = "Escherichia coli"
-    if args.species == "Coronavirus":
-        args.species = "SARS-CoV-2"
+        dataSommarioHeader = ("ID ceppo","Anno","Antigen_O","Antigen_H","QC_status","MLST_ST","stx1","stx2","stx_subtype","eae","ehxA")
+        dataSommarioHeaderFormat = ("","","","","","","I","I","I","I","I")
+    elif args.species == "Listeria monocytogenes":
+        dataSommarioHeader = ("ID ceppo","Anno","QC_status","MLST_ST","MLST_CC","MLST_Lineage","Serogroup")
+        dataSommarioHeaderFormat = ("","","","","","","")
+    else:
+        dataSommarioHeader = ("ID ceppo")
+        dataSommarioHeaderFormat = ("")
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
 
     if not os.path.exists('reports'):
@@ -258,16 +246,16 @@ def __main__():
     report_list.write("Il file reports.zip puo' essere scaricato mediante il pulsante con i tre punti accanto a 'Scarica Tutti i File'\n")
     report_list.write("Il file reports.zip contiene i rapporti di:\n")
     if args.species != "Escherichia coli":
-        report_list.write("Non e' ancora previsto la creazione di report per questa specie\n")
-    
+        report_list.write("Non e' ancora previsto la creazione di report per questo patogeno\n")
+    numColumns = len(dataSommarioHeader)
     for metadataRow in metadata:
         report_list.write(metadataRow[0] + "\n")
-        subprocess.call("awk -F '\t' '$2>80 { print $0 }' " + IRIDA_DIR + metadataRow[14] + " | tail -n +2 > vir_tab_file", shell=True)
+        subprocess.call("awk -F '\t' '$2>80 { print $0 }' " + IRIDA_DIR + metadataRow[numColumns + 2] + " | tail -n +2 > vir_tab_file", shell=True)
         subprocess.call("sort -k2rn -k4rn -k3rn vir_tab_file | awk '{ if (!seen[substr($1,0,index($1, \"_\"))]++) print $0}' > vir_first_tab_file", shell=True)
-        subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[15] + " | tail -n +2 > amr_tab_file", shell=True)
+        subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + IRIDA_DIR + metadataRow[numColumns + 3] + " | tail -n +2 > amr_tab_file", shell=True)
         amr_tab = openFileAsTable('amr_tab_file')
         vir_tab = openFileAsTable('vir_first_tab_file')
-        writePdf(metadataRow, amr_tab, vir_tab)
+        writePdf(metadataRow, dataSommarioHeader, dataSommarioHeaderFormat, amr_tab, vir_tab)
     report_list.close()
     shutil.make_archive('irida_reports', format='zip', root_dir='reports')
     shutil.copyfile('irida_reports.zip', args.phantr_reports)
