@@ -165,13 +165,13 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
             pdf.set_fill_color(r=220) 
             pdf.set_font("helvetica", "", 10)
         pdf.cell(25)
-        j = 1
+        j = 0
         for cellVir in rowVir:
-            if j == 1:
+            if j == 0:
                 pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
             else:
                 pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
-            j += 1
+            j = 1
         pdf.ln(line_height)
         i += 1
 
@@ -202,8 +202,10 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
         else:
             pdf.set_fill_color(r=220) 
             pdf.set_font("helvetica", "", 10)
+        j = 0
         for cellAMR in rowAMR:
-            pdf.multi_cell(col_width_list[i], line_height_list[i], cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
+            pdf.multi_cell(col_width_list[j], line_height_list[j], cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
+            j += 1
         pdf.ln(3*line_height)
         i += 1
 
