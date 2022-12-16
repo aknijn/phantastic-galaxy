@@ -134,7 +134,7 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
         pdf.set_font("helvetica", "B" + dataSommarioHeaderFormat[i], 10)
         pdf.multi_cell(col_width, line_height, dataSommarioHeader[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(line_height)
-    pdf.set_fill_color(r=220)
+    pdf.set_fill_color(r=255)
     for i in range(len(dataSommarioHeader)):
         pdf.set_font("helvetica", dataSommarioHeaderFormat[i], 10)
         pdf.multi_cell(col_width, line_height, dataSommario[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
@@ -151,7 +151,7 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
     line_height = pdf.font_size * 1.1
     pdf.cell(25)
     col_width = (pdf.epw - 50)/ 4  # distribute content evenly
-    i=1
+    i = 0
     pdf.set_fill_color(r=150)
     pdf.set_font("helvetica", "B", 10)
     for cellVirHeader in dataVirHeader:
@@ -171,9 +171,9 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
                 pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, fill=True)
             else:
                 pdf.multi_cell(col_width, line_height, cellVir, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
-            j = j + 1
+            j += 1
         pdf.ln(line_height)
-        i = i + 1
+        i += 1
 
     pdf.ln(2)
     pdf.set_font("helvetica", "", 10)
@@ -187,17 +187,14 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
     pdf.ln(10)
     pdf.set_font("helvetica", "B", 10)
     line_height = pdf.font_size * 1.1
+    line_height_list = [3*line_height, 3*line_height, 3*line_height, 3*line_height, 3*line_height, 3*line_height, line_height, line_height, ]
     col_width = pdf.epw / 8  # distribute content evenly
+    col_width_list = [0.6*col_width, 0.6*col_width, 0.6*col_width, col_width, 2.6*col_width, 0.6*col_width, col_width, col_width, ]
     pdf.set_fill_color(r=150) 
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[0], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[1], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[2], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[3], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[4], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, 3*line_height, dataAMRHeader[5], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataAMRHeader[6], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
-    pdf.multi_cell(col_width, line_height, dataAMRHeader[7], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
+    for i in range(8):
+        pdf.multi_cell(col_width_list[i], line_height_list[i], dataAMRHeader[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(3*line_height)
+    i = 0
     for rowAMR in dataAMR:
         if (i % 2) == 0:
             pdf.set_fill_color(r=255) 
@@ -206,9 +203,9 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
             pdf.set_fill_color(r=220) 
             pdf.set_font("helvetica", "", 10)
         for cellAMR in rowAMR:
-            pdf.multi_cell(col_width, line_height, cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
-        pdf.ln(line_height)
-        i = i + 1
+            pdf.multi_cell(col_width_list[i], line_height_list[i], cellAMR, border=1, new_x="RIGHT", new_y="TOP", max_line_height=pdf.font_size, align="CENTER", fill=True)
+        pdf.ln(3*line_height)
+        i += 1
 
     pdf.ln(20)
     pdf.set_font("helvetica", "B", 11)
