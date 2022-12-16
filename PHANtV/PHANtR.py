@@ -26,6 +26,10 @@ dataVirHeader = ["#gene*", "percentage gene coverage", "gene mean read coverage"
 dataAMRHeader = ["Start","Stop","Strand","Gene symbol","Product","Resistance","% Coverage of reference sequence","% Identity to reference sequence"]
 
 class PDF(FPDF):
+    def footer(self):
+        self.set_y(-15)
+        self.set_font("helvetica", "I", 8)
+        self.cell(0, 10, f"Page {self.page_no()} di {{nb}}", align="R")
 
 class PDF_STEC(FPDF):
     def header(self):
@@ -149,7 +153,7 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
         pdf = PDF_LIST(orientation="landscape")
     else:
         pdf = PDF(orientation="landscape")
-    
+
     pdf.set_fill_color(r=116, g=183, b=46) 
     pdf.add_page()
     pdf.set_font("helvetica", "B", 14)
@@ -218,7 +222,7 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     pdf.set_font("helvetica", "", 10)
     pdf.cell(25)
     pdf.write(8, "*=nome del gene_allele_Acc. Number NCBI")
-    
+
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(90)
