@@ -140,8 +140,9 @@ def writePdf(dataSommario, dataSommarioHeader, dataSommarioHeaderFormat, dataAMR
         pdf.multi_cell(col_width, line_height, dataSommario[i], border=1, new_x="RIGHT", new_y="TOP", align="CENTER", fill=True)
     pdf.ln(line_height)
     pdf.set_font("helvetica", "", 10)
-    if "(*)" in dataSommario[8]:
-        pdf.write(8, "(*)=subtype con identità >95% e <100%")
+    if dataSommarioHeader[8] == "stx_subtype":
+        if "(*)" in dataSommario[8]:
+            pdf.write(8, "(*)=subtype con identità >95% e <100%")
 
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
