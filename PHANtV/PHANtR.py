@@ -22,8 +22,8 @@ from fpdf import FPDF
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 IRIDA_DIR = '/gfs/irida-phantastic/data/output/'
-dataVirHeader = ("#gene*", "percentage gene coverage", "gene mean read coverage", "percentage gene identity")
-dataAMRHeader = ("Start","Stop","Strand","Gene symbol","Product","Resistance","% Coverage of reference sequence","% Identity to reference sequence")
+dataVirHeader = ["#gene*", "percentage gene coverage", "gene mean read coverage", "percentage gene identity"]
+dataAMRHeader = ["Start","Stop","Strand","Gene symbol","Product","Resistance","% Coverage of reference sequence","% Identity to reference sequence"]
 
 class PDF(FPDF):
     def header(self):
@@ -226,16 +226,15 @@ def __main__():
     parser.add_argument('--phantr_list', dest='phantr_list', help='phantr reports list')
     parser.add_argument('--phantr_reports', dest='phantr_reports', help='phantr reports zip file')
     args = parser.parse_args()
-    if args.species == "Shiga toxin-producing Escherichia coli":
-        args.species = "Escherichia coli"
-        dataSommarioHeader = ("ID ceppo","Anno","Antigen_O","Antigen_H","QC_status","MLST_ST","stx1","stx2","stx_subtype","eae","ehxA")
-        dataSommarioHeaderFormat = ("","","","","","","I","I","I","I","I")
+    if args.species == "Escherichia coli":
+        dataSommarioHeader = ["ID ceppo","Anno","Antigen_O","Antigen_H","QC_status","MLST_ST","stx1","stx2","stx_subtype","eae","ehxA"]
+        dataSommarioHeaderFormat = ["","","","","","","I","I","I","I","I"]
     elif args.species == "Listeria monocytogenes":
-        dataSommarioHeader = ("ID ceppo","Anno","QC_status","MLST_ST","MLST_CC","MLST_Lineage","Serogroup")
-        dataSommarioHeaderFormat = ("","","","","","","")
+        dataSommarioHeader = ["ID ceppo","Anno","QC_status","MLST_ST","MLST_CC","MLST_Lineage","Serogroup"]
+        dataSommarioHeaderFormat = ["","","","","","",""]
     else:
-        dataSommarioHeader = ("ID ceppo")
-        dataSommarioHeaderFormat = ("")
+        dataSommarioHeader = ["ID ceppo"]
+        dataSommarioHeaderFormat = [""]
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
 
     if not os.path.exists('reports'):
