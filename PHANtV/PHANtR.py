@@ -244,7 +244,7 @@ def __main__():
     report_list = open(args.phantr_list, 'w')
     report_list.write("Il file reports.zip puo' essere scaricato mediante il pulsante con i tre punti accanto a 'Scarica Tutti i File'\n")
     report_list.write("Il file reports.zip contiene i rapporti di:\n")
-    if args.species != "Escherichia coli":
+    if args.species != "Escherichia coli" and args.species != "Listeria monocytogenes":
         report_list.write("Non e' ancora previsto la creazione di report per questo patogeno\n")
     numColumns = len(dataSommarioHeader)
     for metadataRow in metadata:
