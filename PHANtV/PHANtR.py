@@ -75,7 +75,7 @@ class PDF_LIST(FPDF):
         # Moving cursor to the right:
         self.cell(120)
         # Printing title:
-        self.cell(30, 10, "Sorveglianza Listeriosi", align="C")
+        self.cell(30, 10, "Sorveglianza Genomica Listeriosi", align="C")
         # Performing a line break:
         self.ln(10)
         self.cell(120)
