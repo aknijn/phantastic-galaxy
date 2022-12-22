@@ -61,18 +61,17 @@ def sequence_data(sample, reference_file, bam_file, outdir, threads, length_extr
     return run_successfully, sample_data, consensus_files, consensus_sequences
 
 
-def determine_general_statistics(sample_data, minimum_gene_coverage, minimum_gene_identity):
+def determine_general_statistics(outdir, sample_data, minimum_gene_coverage, minimum_gene_identity):
     print('Writing report file')
     number_absent_genes = 0
     number_genes_multiple_alleles = 0
     mean_sample_coverage = 0
-
-    with open('output_dir/rematch/rematchModule_report.txt', 'wt') as writer:
+    with open(os.path.join(outdir, 'rematchModule_report.txt'), 'wt') as writer:
         writer.write('\t'.join(['#gene', 'percentage_gene_coverage', 'gene_mean_read_coverage', 'percentage_gene_low_coverage', 'number_positions_multiple_alleles', 'percentage_gene_identity']) + '\n')
         for i in range(1, len(sample_data) + 1):
             writer.write('\t'.join([sample_data[i]['header'], str(round(sample_data[i]['gene_coverage'], 2)), str(round(sample_data[i]['gene_mean_read_coverage'], 2)), str(round(sample_data[i]['gene_low_coverage'], 2)), str(sample_data[i]['gene_number_positions_multiple_alleles']), str(round(sample_data[i]['gene_identity'], 2))]) + '\n')
-
-            if sample_data[i]['gene_coverage'] < minimum_gene_coverage or sample_data[i]['gene_identity'] < minimum_gene_identity:
+            if sample_data[i]['gene_coverage'] < minimum_gene_coverage or \
+                    sample_data[i]['gene_identity'] < minimum_gene_identity:
                 number_absent_genes += 1
             else:
                 mean_sample_coverage += sample_data[i]['gene_mean_read_coverage']
@@ -85,12 +84,12 @@ def determine_general_statistics(sample_data, minimum_gene_coverage, minimum_gen
             mean_sample_coverage = 0
 
         writer.write('\n'.join(['#general', '>number_absent_genes', str(number_absent_genes), '>number_genes_multiple_alleles', str(number_genes_multiple_alleles), '>mean_sample_coverage', str(round(mean_sample_coverage, 2))]) + '\n')
-
         print('\n'.join([str('number_absent_genes: ' + str(number_absent_genes)),
-                     str('number_genes_multiple_alleles: ' + str(number_genes_multiple_alleles)),
-                     str('mean_sample_coverage: ' + str(round(mean_sample_coverage, 2)))]) + '\n')
+                         str('number_genes_multiple_alleles: ' + str(number_genes_multiple_alleles)),
+                         str('mean_sample_coverage: ' + str(round(mean_sample_coverage, 2)))]) + '\n')
 
     return number_absent_genes, number_genes_multiple_alleles, mean_sample_coverage
+
 
 module_timer = functools.partial(utils.timer, name='Module ReMatCh')
 
@@ -109,7 +108,7 @@ def run_rematch(rematch, outdir, reference_file, bam_file, threads, length_extra
 
     if run_successfully:
         number_absent_genes, number_genes_multiple_alleles, mean_sample_coverage = \
-            determine_general_statistics(sample_data=sample_data, minimum_gene_coverage=minimum_gene_coverage,
+            determine_general_statistics(outdir, sample_data=sample_data, minimum_gene_coverage=minimum_gene_coverage,
                                          minimum_gene_identity=minimum_gene_identity)
 
     if not debug_mode_true:
