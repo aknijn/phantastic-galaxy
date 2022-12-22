@@ -23,6 +23,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+2020-01-13 ISS
+In order to use the module within the EURL_WGS_Typer pipeline with a 
+different virulence database for E coli, mapping against the 
+typing_rules.tab was deactivated.
 """
 
 import argparse
@@ -101,25 +106,6 @@ def set_reference(species, outdir, script_path, trueCoverage):
 
     return reference_file, trueCoverage_file, trueCoverage_sequences, trueCoverage_headers, trueCoverage_config, \
            typing_file, typing_sequences, typing_headers, typing_rules, typing_config
-
-
-def confirm_genes_fasta_rules(typing_fasta_headers, typing_rules_file):
-    with open(typing_rules_file, 'rt') as reader:
-        genes = []
-        for line in reader:
-            line = line.splitlines()[0]
-            if len(line) > 0:
-                line = line.split('\t')
-                if line[0].startswith('#'):
-                    genes = line[1:]
-                    break
-        missing_genes = []
-        for gene in genes:
-            if gene.lower() not in typing_fasta_headers:
-                missing_genes.append(gene)
-        if len(missing_genes) > 0:
-            sys.exit('The following genes required for typing are not present in typing fasta'
-                     ' file: {missing_genes}'.format(missing_genes=', '.join(missing_genes)))
 
 
 def index_fasta_samtools(fasta, region_None, region_outfile_none, print_comand_True):
@@ -364,8 +350,6 @@ def main():
         set_reference(args.species, args.outdir, script_path, args.trueCoverage)
     original_reference_file = str(reference_file)
 
-    #confirm_genes_fasta_rules(typing_headers, typing_rules)
-
     run_successfully, bam_file = mapping_reads(args.fastq, reference_file, args.threads, args.outdir, False, 1)
     if run_successfully:
         rematch_dir = os.path.join(args.outdir, 'rematch', '')
@@ -467,6 +451,7 @@ def main():
                 config['minimum_gene_coverage'] = args.minGeneCoverage
             if args.minGeneIdentity is not None:
                 config['minimum_gene_identity'] = args.minGeneIdentity
+
             runtime, run_successfully, sample_data_general, data_by_gene = \
                 run_rematch.run_rematch(rematch, rematch_dir, reference_file, bam_file, args.threads,
                                         config['length_extra_seq'], config['minimum_depth_presence'],
@@ -478,9 +463,6 @@ def main():
                     args.minGeneDepth = sample_data_general['mean_sample_coverage'] / 3 if \
                                         sample_data_general['mean_sample_coverage'] / 3 > 15 else \
                                         15
-
-                #_, _, _ = typing.typing(data_by_gene, typing_rules, config['minimum_gene_coverage'],
-                #                        config['minimum_gene_identity'], args.minGeneDepth, args.outdir)
             else:
                 clean_pathotyping_folder(args.outdir, original_reference_file, args.debug)
                 _ = utils.runTime(start_time)
