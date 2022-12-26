@@ -63,14 +63,14 @@ def sequence_data(sample, reference_file, bam_file, outdir, threads, length_extr
 
 def determine_general_statistics(outdir, sample_data, minimum_gene_coverage, minimum_gene_identity):
     print('Writing report file')
+    print(sample_data)
     number_absent_genes = 0
     number_genes_multiple_alleles = 0
     mean_sample_coverage = 0
     with open(os.path.join(outdir, 'rematchModule_report.txt'), 'wt') as writer:
         writer.write('\t'.join(['#gene', 'percentage_gene_coverage', 'gene_mean_read_coverage', 'percentage_gene_low_coverage', 'number_positions_multiple_alleles', 'percentage_gene_identity']) + '\n')
         for i in range(1, len(sample_data) + 1):
-            writer.write(sample_data[i]['header']+'\n')
-            #writer.write('\t'.join([sample_data[i]['header'], str(round(sample_data[i]['gene_coverage'], 2)), str(round(sample_data[i]['gene_mean_read_coverage'], 2)), str(round(sample_data[i]['gene_low_coverage'], 2)), str(sample_data[i]['gene_number_positions_multiple_alleles']), str(round(sample_data[i]['gene_identity'], 2))]) + '\n')
+            writer.write('\t'.join([sample_data[i]['header'], str(round(sample_data[i]['gene_coverage'], 2)), str(round(sample_data[i]['gene_mean_read_coverage'], 2)), str(round(sample_data[i]['gene_low_coverage'], 2)), str(sample_data[i]['gene_number_positions_multiple_alleles']), str(round(sample_data[i]['gene_identity'], 2))]) + '\n')
             if sample_data[i]['gene_coverage'] < minimum_gene_coverage or \
                     sample_data[i]['gene_identity'] < minimum_gene_identity:
                 number_absent_genes += 1
