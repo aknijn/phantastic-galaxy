@@ -78,7 +78,7 @@ def determine_general_statistics(outdir, sample_data, minimum_gene_coverage, min
                     mean_sample_coverage += sample_data[i]['gene_mean_read_coverage']
                     if sample_data[i]['gene_number_positions_multiple_alleles'] > 0:
                         number_genes_multiple_alleles += 1
-            except IndexError:
+            except KeyError:
                 print('no sample_data', str(i))
 
         if len(sample_data) - number_absent_genes > 0:
