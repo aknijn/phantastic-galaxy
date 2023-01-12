@@ -41,7 +41,7 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Escherichia_coli.trn -g $chewiedir/ecoli/ecoli_INNUENDO_wgMLST/ --gl $chewiedir/ecoli/Ecoli_cgMLST_ns_ids.txt";
+    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Escherichia_coli.trn -g $chewiedir/ecoli/ecoli_INNUENDO_wgMLST/ --gl $chewiedir/ecoli/Ecoli_cgMLST_ns_ids.txt";
     my $result = system("$newpath; $python");
     return 0;
 }
@@ -73,9 +73,9 @@ sub prepareEnvironment {
 
 # Collect output to database
 sub collectOutput{
-    my @alleles = glob "output_dir/results_*/results_alleles.tsv";
+    my @alleles = glob "output_dir/results_alleles_hashed.tsv";
     if (@alleles == 1) {
-      open(my $if_in, $alleles[0]) or die "Could not read from results_alleles.tsv, program halting.";
+      open(my $if_in, $alleles[0]) or die "Could not read from results_alleles_hashed.tsv, program halting.";
       <$if_in>;
       my $allele_line = <$if_in>;
       chomp $allele_line;
@@ -106,7 +106,7 @@ sub collectOutput{
 
 # Collect output with statistics, save the number of genes mapped, the total number of loci and the relative number of mapped genes
 sub collectStatistics{
-    my @statistics = glob "output_dir/results_*/results_statistics.tsv";
+    my @statistics = glob "output_dir/results_statistics.tsv";
     if (@statistics == 1) { 
       move($statistics[0], $phantcec_allele) ;
       open(my $if_st, '<', $phantcec_allele) or die "Could not read from results_statistics.tsv, program halting.";
@@ -122,7 +122,7 @@ sub collectStatistics{
     return 0;
 }
 
-# Obtain allele profiles from db and write to temp file
+# Obtain allele profiles from db with allele_coverage>79,9% and write to temp file
 sub createAllelesFile {
     open(my $if, $serotype_file) or die "Could not read from serotype_file, program halting.";
     my $serotype = <$if>;
@@ -141,19 +141,19 @@ sub createAllelesFile {
                select allele_strain from v_mlst_ecoli where permille_loci>799 and Antigen_O = '$serotype'";
     }
     # connect to MySQL database
-    my %attr = ( PrintError=>0, RaiseError=>1);
-    my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
-    my $sth = $dbh->prepare($sql);
-    $sth->execute();
+    my %attr2 = ( PrintError=>0, RaiseError=>1);
+    my $dbh2 = DBI->connect($dsn,$user,$pwd,\%attr2);
+    my $sth2 = $dbh2->prepare($sql);
+    $sth2->execute();
 
     open my $of, '>', "cgMLST.tmp" or die "Cannot open cgMLST.tmp: $!";
-    while(my @row = $sth->fetchrow_array()){
+    while(my @row = $sth2->fetchrow_array()){
       print $of "$row[0]\n"
     }       
     close $of;
 
-    $sth->finish();
+    $sth2->finish();
     # disconnect from the MySQL database
-    $dbh->disconnect();
+    $dbh2->disconnect();
     return 0;
 }
