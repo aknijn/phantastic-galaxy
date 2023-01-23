@@ -93,10 +93,6 @@ version_kraken_global = None
 def main():
     version = '4.2.2'
     args = utils.parseArguments(version)
-    ###ISS###
-    os.system("ln -s $(readlink -e $(which trimmomatic)).jar trimmomatic-0.38.jar")
-    os.system("ln -s $(readlink -e $(which pilon)).jar pilon-1.23.jar")
-    ###ISS###
 
     general_start_time = time.time()
     time_str = time.strftime("%Y%m%d-%H%M%S")
