@@ -87,7 +87,7 @@ def __main__():
       else:
           # TRIMMING
           subprocess.call("ln -s " + args.input1 + " fastq_in.fastqsanger", shell=True)
-          os.system("ln -s " + os.popen("which trimmomatic.jar").read().strip() + " trimmomatic.jar")
+          os.system("ln -s $(readlink -e $(which trimmomatic)).jar trimmomatic.jar")
           subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar SE -threads ${GALAXY_SLOTS:-6} -phred33 fastq_in.fastqsanger input_1.fq SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:55", shell=True)
       # ASSEMBLY
       strSequencer = ""

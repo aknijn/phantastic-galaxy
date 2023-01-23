@@ -13,6 +13,8 @@
         <requirement type="package" version="3.15">spades</requirement>
         <requirement type="package" version="1.23">pilon</requirement>
         <requirement type="package" version="5.0.2">quast</requirement>
+        <requirement type="package" version="2020.2">tbb</requirement>
+        <requirement type="package">ncurses</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>
