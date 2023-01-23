@@ -109,10 +109,9 @@ sub collectStatistics{
     if (@statistics == 1) { 
       move($statistics[0], $phantclm_allele) ;
       open(my $if_st, '<', $phantclm_allele) or die "Could not read from results_statistics.tsv, program halting.";
-      my $lastline;
-      $lastline = $_, while (<$if_st>);
-      chomp $lastline;
-      my @keys = split( /\t/, $lastline );
+      <$if_st>;
+      my $statistics_line = <$if_st>;
+      my @keys = split( /\t/, $statistics_line );
       $sampleGenesMapped = $keys[1];
       $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]);
       $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
