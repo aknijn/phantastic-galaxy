@@ -104,8 +104,8 @@ sub collectOutput{
 
 # Collect output with statistics, save the number of genes mapped, the total number of loci and the relative number of mapped genes
 sub collectStatistics{
-    move("output_dir/results_statistics.tsv", $phantclm_allele) ;
-    open(my $if_st, '<', $phantclm_allele) or die "Could not read from results_statistics.tsv, program halting.";
+    move("output_dir/results_statistics.tsv", $phantcec_allele) ;
+    open(my $if_st, '<', $phantcec_allele) or die "Could not read from results_statistics.tsv, program halting.";
     <$if_st>;
     my $statistics_line = <$if_st>;
     chomp $statistics_line;
