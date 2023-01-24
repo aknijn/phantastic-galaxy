@@ -76,8 +76,9 @@ sub collectOutput{
     <$if_in>;
     my $allele_line = <$if_in>;
     chomp $allele_line;
-    # remove INF- from newly inferred alleles and .fasta from the filename
+    # remove INF- from newly inferred alleles, substitute - with 0 and remove .fasta from the filename
     $allele_line =~ s/INF-//ig;
+    $allele_line =~ s/-/0/ig;
     $allele_line =~ s/.fasta//ig;
     close $if_in;
 
