@@ -53,7 +53,7 @@ sub runAlleleObserver {
     # calculate distance matrix from allele profiles
     my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantv_dm");
     # calculate tree from distance matrix
-    system("$scriptdir/scripts/mentalist_tree $phantv_dm > $phantv_tree");
+    system("python $scriptdir/scripts/mentalist_tree.py $phantv_dm > $phantv_tree");
     return 0;
 }
 
