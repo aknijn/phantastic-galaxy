@@ -162,7 +162,7 @@ class StecDb:
         dbdatabase = config['dbmssql']['database']
         dbusername = config['dbmssql']['username']
         dbpassword = config['dbmssql']['password']
-        self._conn = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+dbserver+';DATABASE='+dbdatabase+';ENCRYPT=yes;UID='+dbusername+';PWD='+ dbpassword))
+        self._conn = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+dbserver+';DATABASE='+dbdatabase+';ENCRYPT=yes;UID='+dbusername+';PWD='+ dbpassword)
         self._cursor  = self._conn.cursor(buffered=True)
 
     def __enter__(self):
