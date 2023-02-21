@@ -4,8 +4,7 @@
         <requirement type="package" version="3.8">python</requirement>
         <requirement type="package" version="8.0">mysql-connector-python</requirement>
         <requirement type="package" version="4.0.34">pyodbc</requirement>
-        <requirement type="package">biopython</requirement>
-        <requirement type="package">hashlib</requirement>
+        <requirement type="package" version="1.81">biopython</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>
