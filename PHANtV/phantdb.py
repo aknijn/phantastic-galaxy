@@ -145,6 +145,7 @@ class IridaDb:
         row = self.fetchone()
         return str(row[0])
         
+    def user_in_role(self, username, userrole):
         sql = 'SELECT email,name from user_group_member \
           INNER JOIN user on(user.id=user_group_member.user_id) \
           INNER JOIN user_group on(user_group.id=user_group_member.group_id) WHERE email="%s" and name="%s"'
