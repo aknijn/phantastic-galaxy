@@ -17,7 +17,7 @@ import csv
 import shutil
 import subprocess
 import json
-import hashlib
+from md5hash import scan
 from phantdb import IridaDb
 
 # Obtain file_id from file path
@@ -33,11 +33,7 @@ def create_allelicprofile_file(allele_database, sample_code, sample_name, phante
         allelicprofile_file.write(allelicprofile_row)
 
 def md5(fname):
-    hash_md5 = hashlib.md5()
-    with open(fname, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+    return scan(fname).lower()
 
 def get_experimental_data(inspecies, sample_name, fastq1, fastq2):
     if inspecies == 'Shiga toxin-producing Escherichia coli':
