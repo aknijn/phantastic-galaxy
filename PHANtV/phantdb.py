@@ -144,6 +144,13 @@ class IridaDb:
         self.execute(sql, (file_id,))
         row = self.fetchone()
         return str(row[0])
+        
+    def user_in_role(self, username, userrole):
+        sql = "select email,name from user_group_member \
+          INNER JOIN user on(user.id=user_group_member.user_id) \
+          INNER JOIN user_group on(user_group.id=user_group_member.group_id) WHERE email=? and name=?"
+        number_of_rows = self.execute(sql, (username, userrole,))
+        return number_of_rows > 0   
 
 class StecDb:
     def __init__(self, species):
