@@ -26,9 +26,9 @@ def get_file_id(filename):
     return split_filename[5]
 
 def create_allelicprofile_file(allele_database, sample_code, sample_name, phantefsa_allelicprofile):
-    allelicprofile = allele_database.allele_strain(sampleCode)
+    allelicprofile = allele_database.allele_strain(sample_code)
     allelicprofile_row = allelicprofile[0]
-    allelicprofile_row.replace(sampleCode, sampleName, 1)
+    allelicprofile_row.replace(sample_code, sample_name, 1)
     with open(phantefsa_allelicprofile, "w") as allelicprofile_file:
         allelicprofile_file.write(allelicprofile_row)
 
