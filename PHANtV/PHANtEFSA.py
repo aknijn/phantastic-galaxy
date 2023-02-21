@@ -244,7 +244,7 @@ def main():
     else:
         EFSA_ROLE = "XXXX"
     iridadb = IridaDb(args.species)
-    if iridadb.user_in_role(args.user.replace("__at__", "@"), EFSA_ROLE)
+    if iridadb.user_in_role(args.user.replace("__at__", "@"), EFSA_ROLE):
         with open(args.input_files, 'r') as f:
             content = f.readlines()
         idfiles = [get_file_id(x.rstrip('\n')) for x in content]
