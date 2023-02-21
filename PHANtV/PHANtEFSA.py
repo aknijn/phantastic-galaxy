@@ -190,7 +190,7 @@ def get_epidemiological_data(inspecies, sampleName):
     stecdb = StecDb(args.species)
     metadata = stecdb.metadata_for_efsa(file_ids)
     #sample_name, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampling_matrix_code, sampling_matrix_free_text, isolId, YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling)
-    meta_row = metadata[0]:
+    meta_row = metadata[0]
     # create json string
     epiData = '{'
     epiData = ''.join((epiData, '"localRawReadId": "', sample_name, '",'))
