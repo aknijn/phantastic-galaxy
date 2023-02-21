@@ -80,7 +80,7 @@ def get_ecoli_type_values(phantastic_type):
         read_mean_length = phantastic_type_dict['read1_mean_length']
         q30_rate = phantastic_type_dict['q30_rate']
         total_bases = phantastic_type_dict['total_bases']
-        serotype = phantastic_type_dict['serotype_o'] + ":" phantastic_type_dict['serotype_h']
+        serotype = phantastic_type_dict['serotype_o'] + ":" + phantastic_type_dict['serotype_h']
     return (coverage, read_mean_length, q30_rate, total_bases, serotype)
 
 def get_assembly_statistics(phantastic_aq):
