@@ -97,9 +97,9 @@ class IridaDb:
     def metadata_for_efsa(self, fileIds):
         if self.species == 'Shiga toxin-producing Escherichia coli':
             #sample_id, sample_code, sample_name, fastq1, fastq2, phantastic_type, phantastic_aq, phantastic_seq, phantastic_vir
-            sql = "SELECT sample.id as sampleId, metadata_entry.value as sampleCode, sampleName, CONCAT(?,sf_1.file_path) AS fastq1, \
-              CONCAT(?,sf_2.file_path) AS fastq2, CONCAT(?,MAX(aof_type.file_path)) AS phantastic_type, CONCAT(?,MAX(aof_aq.file_path)) \
-              AS phantastic_aq,CONCAT(?,MAX(aof_seq.file_path)) AS phantastic_seq, CONCAT(?,MAX(aof_vir.file_path))) AS phantastic_vir \
+            sql = "SELECT sample.id as sampleId, metadata_entry.value as sampleCode, sampleName, CONCAT(%s,sf_1.file_path) AS fastq1, \
+              CONCAT(%s,sf_2.file_path) AS fastq2, CONCAT(%s,MAX(aof_type.file_path)) AS phantastic_type, CONCAT(%s,MAX(aof_aq.file_path)) \
+              AS phantastic_aq,CONCAT(%s,MAX(aof_seq.file_path)) AS phantastic_seq, CONCAT(%s,MAX(aof_vir.file_path))) AS phantastic_vir \
               FROM sample JOIN metadata_entry on(metadata_entry.sample_id = sample.id) JOIN sample_sequencingobject on(sample.id = \
               sample_sequencingobject.sample_id) JOIN sample_sequencingobject AS sso on(sample.id = sso.sample_id) JOIN sequence_file_pair_files \
               AS sfpf on(sso.sequencingobject_id = sfpf.pair_id) JOIN v_sequence_file_pair_files_1 as sfpf_1 on(sfpf.pair_id = sfpf_1.pair_id) \
@@ -113,25 +113,25 @@ class IridaDb:
               on(asub.analysis_id = aofm_vir.analysis_id) JOIN analysis_output_file AS aof_vir on(aofm_vir.analysisOutputFilesMap_id = aof_vir.id) \
               WHERE metadata_entry.field_id=8 AND aofm_type.analysis_output_file_key = 'phantastic_type' AND aofm_aq.analysis_output_file_key = \
               'phantastic_aq' AND aofm_seq.analysis_output_file_key = 'seqtype' AND aofm_vir.analysis_output_file_key = 'virulotypes' AND \
-              sfpf.files_id IN (?) group by sample.id"
+              sfpf.files_id IN (%s) group by sample.id"
         else:
-            sql = "SELECT * FROM sample WHERE sampleName=? AND sampleName=? AND sampleName=? AND sampleName=? AND sampleName=? AND sampleName=? AND id=? LIMIT 0"
+            sql = "SELECT * FROM sample WHERE sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND id=%s LIMIT 0"
         return self.query(sql, (self.sequence_path, self.sequence_path, self.output_path, self.output_path, self.output_path, self.output_path, fileIds))
 
     def allele_strain(self, sampleCode):
         if self.species == 'Shiga toxin-producing Escherichia coli':
-            sql = "SELECT allele_strain FROM mlst_ecoli WHERE sample_code=?"
+            sql = "SELECT allele_strain FROM mlst_ecoli WHERE sample_code=%s"
         elif self.species == "Listeria monocytogenes":
-            sql = "SELECT allele_strain FROM mlst_listeria WHERE sample_code=?"
+            sql = "SELECT allele_strain FROM mlst_listeria WHERE sample_code=%s"
         else:
-            sql = "SELECT * FROM allele_strain WHERE sample_code=? LIMIT 0"
+            sql = "SELECT * FROM allele_strain WHERE sample_code=%s LIMIT 0"
         return self.query(sql, (sampleCode))
 
     def update_externalId(self, analyticalPipelineRunId, sampleId):
         if inspecies == 'Shiga toxin-producing Escherichia coli':
-            sql = "UPDATE sample SET externalId=? WHERE id=?"
+            sql = "UPDATE sample SET externalId=%s WHERE id=%s"
         else:
-            sql = "SELECT * FROM sample WHERE externalId=? AND id=? LIMIT 0"
+            sql = "SELECT * FROM sample WHERE externalId=%s AND id=%s LIMIT 0"
         self.execute(sql, (analyticalPipelineRunId, sampleId))
  
     def get_singleend_coverage(self, file_id):
@@ -140,7 +140,7 @@ class IridaDb:
           INNER JOIN  qc_entry  AS so on sso.sequencingObject_id = so.sequencingObject_id \
           INNER JOIN project_sample AS ps on sso.sample_id = ps.sample_id \
           INNER JOIN project AS p on ps.project_id = p.id \
-          WHERE genome_size>0 AND sfpf.files_id = ?"
+          WHERE genome_size>0 AND sfpf.files_id = %s"
         self.execute(sql, (file_id))
         row = self.fetchone()
         return str(row[0])
@@ -148,7 +148,7 @@ class IridaDb:
     def user_in_role(self, username, userrole):
         sql = "select email,name from user_group_member \
           INNER JOIN user on(user.id=user_group_member.user_id) \
-          INNER JOIN user_group on(user_group.id=user_group_member.group_id) WHERE email=? and name=?"
+          INNER JOIN user_group on(user_group.id=user_group_member.group_id) WHERE email=%s and name=%s"
         number_of_rows = self.execute(sql, (username, userrole))
         return number_of_rows > 0   
 
@@ -215,7 +215,7 @@ class StecDb:
         if self.species == 'Shiga toxin-producing Escherichia coli':
             #sample_name, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampling_matrix_code, sampling_matrix_free_text, isolId, YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling)
             sql = "SELECT ISS_ID, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampMatCode, '', isolId, \
-              YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling) FROM Samples WHERE ISS_ID=?"
+              YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling) FROM Samples WHERE ISS_ID=%s"
         else:
-            sql = "SELECT * FROM Samples WHERE ISS_ID=? TOP 0"
-        return self.query(sql, (sample_name,))
+            sql = "SELECT * FROM Samples WHERE ISS_ID=%s TOP 0"
+        return self.query(sql, (sample_name))
