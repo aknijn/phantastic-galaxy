@@ -151,7 +151,7 @@ class IridaDb:
           INNER JOIN user_group on(user_group.id=user_group_member.group_id) WHERE email="%s" and name="%s"'
         self.execute(sql, (username, userrole))
         row = self.fetchone()
-        print(username, userrole)
+        print(sql % (username, userrole))
         return row[0] > 0
 
 class StecDb:
