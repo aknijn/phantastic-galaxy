@@ -29,14 +29,14 @@ class IridaDb:
         dbdatabase = config['db']['database']
         dbuser = config['db']['user']
         dbpassword = config['db']['password']
+        self._sequence_path = config['fs']['sequence_path']
+        self._output_path = config['fs']['output_path']
         config = {
             'user': dbuser, 
             'password': dbpassword, 
             'host': dbhost, 
             'database': dbdatabase
         }
-        self._sequence_path = config['fs']['sequence_path']
-        self._output_path = config['fs']['output_path']
         try:
             self._conn = mysql.connector.connect(**config)
             self._cursor  = self._conn.cursor(buffered=True)
