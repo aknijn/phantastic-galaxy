@@ -97,23 +97,23 @@ class IridaDb:
     def metadata_for_efsa(self, fileIds):
         if self.species == 'Shiga toxin-producing Escherichia coli':
             #sample_id, sample_code, sample_name, fastq1, fastq2, phantastic_type, phantastic_aq, phantastic_seq, phantastic_vir
-            sql = "SELECT sample.id as sampleId, metadata_entry.value as sampleCode, sampleName, CONCAT(?,sf_1.file_path) AS fastq1, " +
-              "CONCAT(?,sf_2.file_path) AS fastq2, CONCAT(?,MAX(aof_type.file_path)) AS phantastic_type, CONCAT(?,MAX(aof_aq.file_path)) " +
-              "AS phantastic_aq,CONCAT(?,MAX(aof_seq.file_path)) AS phantastic_seq, CONCAT(?,MAX(aof_vir.file_path))) AS phantastic_vir " +
-              "FROM sample JOIN metadata_entry on(metadata_entry.sample_id = sample.id) JOIN sample_sequencingobject on(sample.id = " +
-              "sample_sequencingobject.sample_id) JOIN sample_sequencingobject AS sso on(sample.id = sso.sample_id) JOIN sequence_file_pair_files " +
-              "AS sfpf on(sso.sequencingobject_id = sfpf.pair_id) JOIN v_sequence_file_pair_files_1 as sfpf_1 on(sfpf.pair_id = sfpf_1.pair_id) " +
-              "JOIN v_sequence_file_pair_files_2 as sfpf_2 on(sfpf.pair_id = sfpf_2.pair_id) JOIN sequence_file AS sf_1 on(sfpf_1.files_id = sf_1.id) " +
-              "JOIN sequence_file AS sf_2 on(sfpf_2.files_id = sf_2.id) JOIN analysis_submission_sequencing_object AS asso on(sfpf.pair_id = " +
-              "asso.sequencing_object_id) JOIN analysis_submission AS asub on(asso.analysis_submission_id = asub.id) JOIN analysis_output_file_map AS " +
-              "aofm_type on(asub.analysis_id = aofm_type.analysis_id) JOIN analysis_output_file AS aof_type on(aofm_type.analysisOutputFilesMap_id = " +
-              "aof_type.id) JOIN analysis_output_file_map AS aofm_aq on(asub.analysis_id = aofm_aq.analysis_id) JOIN analysis_output_file AS aof_aq " +
-              "on(aofm_aq.analysisOutputFilesMap_id = aof_aq.id) JOIN analysis_output_file_map AS aofm_seq on(asub.analysis_id = aofm_seq.analysis_id) " +
-              "JOIN analysis_output_file AS aof_seq on(aofm_seq.analysisOutputFilesMap_id = aof_seq.id) JOIN analysis_output_file_map AS aofm_vir " +
-              "on(asub.analysis_id = aofm_vir.analysis_id) JOIN analysis_output_file AS aof_vir on(aofm_vir.analysisOutputFilesMap_id = aof_vir.id) " +
-              "WHERE metadata_entry.field_id=8 AND aofm_type.analysis_output_file_key = 'phantastic_type' AND aofm_aq.analysis_output_file_key = " +
-              "'phantastic_aq' AND aofm_seq.analysis_output_file_key = 'seqtype' AND aofm_vir.analysis_output_file_key = 'virulotypes' AND " +
-              "sfpf.files_id IN (?) group by sample.id"
+            sql = "SELECT sample.id as sampleId, metadata_entry.value as sampleCode, sampleName, CONCAT(?,sf_1.file_path) AS fastq1, \
+              CONCAT(?,sf_2.file_path) AS fastq2, CONCAT(?,MAX(aof_type.file_path)) AS phantastic_type, CONCAT(?,MAX(aof_aq.file_path)) \
+              AS phantastic_aq,CONCAT(?,MAX(aof_seq.file_path)) AS phantastic_seq, CONCAT(?,MAX(aof_vir.file_path))) AS phantastic_vir \
+              FROM sample JOIN metadata_entry on(metadata_entry.sample_id = sample.id) JOIN sample_sequencingobject on(sample.id = \
+              sample_sequencingobject.sample_id) JOIN sample_sequencingobject AS sso on(sample.id = sso.sample_id) JOIN sequence_file_pair_files \
+              AS sfpf on(sso.sequencingobject_id = sfpf.pair_id) JOIN v_sequence_file_pair_files_1 as sfpf_1 on(sfpf.pair_id = sfpf_1.pair_id) \
+              JOIN v_sequence_file_pair_files_2 as sfpf_2 on(sfpf.pair_id = sfpf_2.pair_id) JOIN sequence_file AS sf_1 on(sfpf_1.files_id = sf_1.id) \
+              JOIN sequence_file AS sf_2 on(sfpf_2.files_id = sf_2.id) JOIN analysis_submission_sequencing_object AS asso on(sfpf.pair_id = \
+              asso.sequencing_object_id) JOIN analysis_submission AS asub on(asso.analysis_submission_id = asub.id) JOIN analysis_output_file_map AS \
+              aofm_type on(asub.analysis_id = aofm_type.analysis_id) JOIN analysis_output_file AS aof_type on(aofm_type.analysisOutputFilesMap_id = \
+              aof_type.id) JOIN analysis_output_file_map AS aofm_aq on(asub.analysis_id = aofm_aq.analysis_id) JOIN analysis_output_file AS aof_aq \
+              on(aofm_aq.analysisOutputFilesMap_id = aof_aq.id) JOIN analysis_output_file_map AS aofm_seq on(asub.analysis_id = aofm_seq.analysis_id) \
+              JOIN analysis_output_file AS aof_seq on(aofm_seq.analysisOutputFilesMap_id = aof_seq.id) JOIN analysis_output_file_map AS aofm_vir \
+              on(asub.analysis_id = aofm_vir.analysis_id) JOIN analysis_output_file AS aof_vir on(aofm_vir.analysisOutputFilesMap_id = aof_vir.id) \
+              WHERE metadata_entry.field_id=8 AND aofm_type.analysis_output_file_key = 'phantastic_type' AND aofm_aq.analysis_output_file_key = \
+              'phantastic_aq' AND aofm_seq.analysis_output_file_key = 'seqtype' AND aofm_vir.analysis_output_file_key = 'virulotypes' AND \
+              sfpf.files_id IN (?) group by sample.id"
         else:
             sql = "SELECT * FROM sample LIMIT 0"
         return self.query(sql, (self.sequence_path, self.sequence_path, self.output_path, self.output_path, self.output_path, self.output_path, fileIds,))
@@ -135,12 +135,12 @@ class IridaDb:
         self.execute(sql, (analyticalPipelineRunId, sampleId,))
  
     def get_singleend_coverage(self, file_id):
-        sql = "SELECT total_bases/genome_size FROM sequence_file_pair_files AS sfpf " +
-          "INNER JOIN sample_sequencingobject AS sso on sfpf.pair_id = sso.sequencingobject_id " +
-          "INNER JOIN  qc_entry  AS so on sso.sequencingObject_id = so.sequencingObject_id " +
-          "INNER JOIN project_sample AS ps on sso.sample_id = ps.sample_id " +
-          "INNER JOIN project AS p on ps.project_id = p.id " +
-          "WHERE genome_size>0 AND sfpf.files_id = ?"
+        sql = "SELECT total_bases/genome_size FROM sequence_file_pair_files AS sfpf \
+          INNER JOIN sample_sequencingobject AS sso on sfpf.pair_id = sso.sequencingobject_id \
+          INNER JOIN  qc_entry  AS so on sso.sequencingObject_id = so.sequencingObject_id \
+          INNER JOIN project_sample AS ps on sso.sample_id = ps.sample_id \
+          INNER JOIN project AS p on ps.project_id = p.id \
+          WHERE genome_size>0 AND sfpf.files_id = ?"
         self.execute(sql, (file_id,))
         row = self.fetchone()
         return str(row[0])
@@ -207,8 +207,8 @@ class StecDb:
     def metadata_for_efsa(self, sample_name):
         if self.species == 'Shiga toxin-producing Escherichia coli':
             #sample_name, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampling_matrix_code, sampling_matrix_free_text, isolId, YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling)
-            sql = "SELECT ISS_ID, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampMatCode, '', isolId, " +
-              "YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling) FROM Samples WHERE ISS_ID='?'"
+            sql = "SELECT ISS_ID, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampMatCode, '', isolId, \
+              YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling) FROM Samples WHERE ISS_ID='?'"
         else:
             sql = "SELECT * FROM Samples TOP 0"
         return self.query(sql, (sample_name,))
