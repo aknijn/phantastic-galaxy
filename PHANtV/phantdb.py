@@ -149,9 +149,9 @@ class IridaDb:
         sql = 'SELECT COUNT(*) from user_group_member \
           INNER JOIN user on(user.id=user_group_member.user_id) \
           INNER JOIN user_group on(user_group.id=user_group_member.group_id) WHERE email="%s" and name="%s"'
-        self.execute(sql, (username, userrole))
+        self.execute(sql, (username, userrole,))
         row = self.fetchone()
-        print(sql % (username, userrole))
+        print(row[0])
         return row[0] > 0
 
 class StecDb:
