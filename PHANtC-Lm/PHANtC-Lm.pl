@@ -40,7 +40,7 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Listeria_monocytogenes.trn -g $chewiedir/listeria/lmonocytogenes_Pasteur_cgMLST/";
+    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Listeria_monocytogenes.trn -g $chewiedir/listeria/lmonocytogenes_Pasteur_cgMLST_ORIG/";
     my $result = system("$newpath; $python");
     return 0;
 }

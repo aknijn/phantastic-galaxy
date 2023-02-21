@@ -79,16 +79,11 @@ def __main__():
     args = parser.parse_args()
 
     if args.species == "Shiga toxin-producing Escherichia coli":
-        thisSpecies = "Escherichia coli"
-    else:
-        thisSpecies = args.species
-    if thisSpecies == "Escherichia coli":
         schemadirectory = "/gfs/data-flow/Chewie-NS/ecoli/ecoli_INNUENDO_wgMLST"
+    elif args.species == "Listeria monocytogenes":
+        schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST"
     else:
-        if thisSpecies == "Listeria monocytogenes":
-            schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST"
-        else:
-            schemadirectory = "/gfs/data-flow/Chewie-NS"
+        schemadirectory = "/gfs/data-flow/Chewie-NS"
     outputdirectory = "outputdirectory"
     profilefile = "cgMLST.tmp"
     # elaborate_fastafile for all fasta files in the directory
