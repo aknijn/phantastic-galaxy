@@ -77,7 +77,7 @@ def get_experimental_data(inspecies, sample_name, fastq1, fastq2):
     expData = ''.join((expData, '}'))
     return expData
 
-def get_ecoli_type_values(phantastic_type)
+def get_ecoli_type_values(phantastic_type):
     with open(phantastic_type, "rb") as phantastic_type_json:
         phantastic_type_dict = json.load(phantastic_type_json)
         coverage = phantastic_type_dict['coverage']
@@ -87,7 +87,7 @@ def get_ecoli_type_values(phantastic_type)
         serotype = phantastic_type_dict['serotype_o'] + ":" phantastic_type_dict['serotype_h']
     return (coverage, read_mean_length, q30_rate, total_bases, serotype)
 
-def get_assembly_statistics(phantastic_aq)
+def get_assembly_statistics(phantastic_aq):
     with open(phantastic_aq, "rb") as phantastic_aq_file:
         phantastic_aq_text = phantastic_aq_file.read().splitlines()
     n50_contigs = phantastic_aq_text[10].split("\t")[1]
@@ -95,7 +95,7 @@ def get_assembly_statistics(phantastic_aq)
     number_of_contigs = phantastic_aq_text[5].split("\t")[1]
     return (n50_contigs, genome_size, number_of_contigs)
 
-def get_predicted_pathotype(phantastic_vir)
+def get_predicted_pathotype(phantastic_vir):
     # Filter the genes of interest taking care of stx1 and stx2 subtypes
     subprocess.call("awk '{ if (/stx1._|stx2._/ && substr($1, length($1)-1,1)==\"_\" && $2>50) print substr($1, 1, index($1, \"_\")-2) substr($1, length($1),1),$2,$3,$4}' phantastic_vir.tab > virulotype_shortlist")
     subprocess.call("awk '{ if (/stx1._|stx2._/ && substr($1, length($1)-1,1)!=\"_\" && $2>50) print substr($1, 1, index($1, \"_\")-2) \"?\",$2,$3,$4}' phantastic_vir.tab >> virulotype_shortlist")
@@ -106,7 +106,7 @@ def get_predicted_pathotype(phantastic_vir)
         virurep.replace("aaic","aaiC")
         return virurep
 
-def get_mlst_sequencetype(phantastic_seq)
+def get_mlst_sequencetype(phantastic_seq):
     with open(phantastic_seq) as phantastic_seq_file:
         phantastic_seq_dict = csv.DictReader(phantastic_seq_file)
     return phantastic_seq_dict
