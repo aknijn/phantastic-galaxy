@@ -148,6 +148,8 @@ def get_typing_data(inspecies, sample_name, fastq1, fastq2, phantastic_type, pha
     typeData = ''.join((typeData, ' "Software": "patho_typing",'))
     typeData = ''.join((typeData, '"GeneList": ['))
     i = 0
+    stx1_subtype = ''
+    stx2_subtype = ''
     for row in virulence_genes:
         i += 1
         gene = [str(col).rstrip() for col in row.split('\t')]
@@ -159,13 +161,21 @@ def get_typing_data(inspecies, sample_name, fastq1, fastq2, phantastic_type, pha
             typeData = ''.join((typeData, '},'))
         else:
             typeData = ''.join((typeData, '}'))
+        if "stx1" in gene[0]:
+            stx1_subtype = ','.join((stx1_subtype, gene[0]))
+        if "stx2" in gene[0]:
+            stx2_subtype = ','.join((stx2_subtype, gene[0]))
+    if stx1_subtype == '':
+        stx1_subtype = 'NT'
+    if stx2_subtype == '':
+        stx2_subtype = 'NT'
     typeData = ''.join((typeData, ']'))
     typeData = ''.join((typeData, '},'))
     typeData = ''.join((typeData, '"PredictedSerotype": {'))
     typeData = ''.join((typeData, '"Serotype": "', serotype, '",'))
     typeData = ''.join((typeData, '"Software": "PHANtAsTiC V2.1"'))
     typeData = ''.join((typeData, '},'))
-    typeData = ''.join((typeData, '"PredictedStxType": "NT:stx2e",'))xxxxxxxxxxxxxxxxxxxxxxxxxxx
+    typeData = ''.join((typeData, '"PredictedStxType": "' + ':'.join((stx1_subtype, stx2_subtype)) + '",'))
     typeData = ''.join((typeData, '"MLSTSequenceType": {'))
     typeData = ''.join((typeData, '"ST": ', mlst_dict.get("ST"), ','))
     typeData = ''.join((typeData, '"Software": "mlst V2.16.1",'))
