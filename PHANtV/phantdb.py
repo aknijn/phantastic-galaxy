@@ -116,7 +116,8 @@ class IridaDb:
               sfpf.files_id IN (%s) group by sample.id"
         else:
             sql = "SELECT * FROM sample WHERE sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND id=%s LIMIT 0"
-        return self.query(sql, (self.sequence_path, self.sequence_path, self.output_path, self.output_path, self.output_path, self.output_path, fileIds))
+        str_sql = sql % (username, userrole)
+        return self.query(str_sql)
 
     def allele_strain(self, sampleCode):
         if self.species == 'Shiga toxin-producing Escherichia coli':
@@ -151,7 +152,6 @@ class IridaDb:
         str_sql = sql % (username, userrole)
         self.execute(str_sql)
         row = self.fetchone()
-        print(row)
         return row[0] > 0
 
 class StecDb:
