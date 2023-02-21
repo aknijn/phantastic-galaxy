@@ -126,7 +126,7 @@ class IridaDb:
             sql = "SELECT allele_strain FROM mlst_listeria WHERE sample_code=%s"
         else:
             sql = "SELECT * FROM allele_strain WHERE sample_code=%s LIMIT 0"
-        return self.query(sql, (sampleCode))
+        return self.query(sql, (sampleCode,))
 
     def update_externalId(self, analyticalPipelineRunId, sampleId):
         if inspecies == 'Shiga toxin-producing Escherichia coli':
@@ -142,7 +142,7 @@ class IridaDb:
           INNER JOIN project_sample AS ps on sso.sample_id = ps.sample_id \
           INNER JOIN project AS p on ps.project_id = p.id \
           WHERE genome_size>0 AND sfpf.files_id = %s"
-        self.execute(sql, (file_id))
+        self.execute(sql, (file_id,))
         row = self.fetchone()
         return str(row[0])
         
