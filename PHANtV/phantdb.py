@@ -13,10 +13,10 @@ class IridaDb:
         self._species = species
         if species == 'Shiga toxin-producing Escherichia coli':
             self._configFile = TOOL_DIR + '/../phantastic.conf'
-            self._allele_header_file = TOOL_DIR + '/ecoli.tsv'
+            self._allele_header_file = TOOL_DIR + '/data/ecoli.tsv'
         elif species == "Listeria monocytogenes":
             self._configFile = TOOL_DIR + '/../phantastic.conf'
-            self._allele_header_file = TOOL_DIR + '/listeria.tsv'
+            self._allele_header_file = TOOL_DIR + '/data/listeria.tsv'
         elif species == "SARS-CoV-2":
             self._configFile = TOOL_DIR + '/../recovery.conf'
             self._allele_header_file = ''
@@ -117,7 +117,6 @@ class IridaDb:
         else:
             sql = "SELECT * FROM sample WHERE sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND id=%s LIMIT 0"
         str_sql = sql % (self.sequence_path, self.sequence_path, self.output_path, self.output_path, self.output_path, self.output_path, fileIds)
-        print(str_sql)
         return self.query(str_sql)
 
     def allele_strain(self, sampleCode):
