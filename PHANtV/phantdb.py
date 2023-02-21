@@ -99,7 +99,7 @@ class IridaDb:
             #sample_id, sample_code, sample_name, fastq1, fastq2, phantastic_type, phantastic_aq, phantastic_seq, phantastic_vir
             sql = "SELECT sample.id as sampleId, metadata_entry.value as sampleCode, sampleName, CONCAT(%s,sf_1.file_path) AS fastq1, \
               CONCAT(%s,sf_2.file_path) AS fastq2, CONCAT(%s,MAX(aof_type.file_path)) AS phantastic_type, CONCAT(%s,MAX(aof_aq.file_path)) \
-              AS phantastic_aq,CONCAT(%s,MAX(aof_seq.file_path)) AS phantastic_seq, CONCAT(%s,MAX(aof_vir.file_path))) AS phantastic_vir \
+              AS phantastic_aq,CONCAT(%s,MAX(aof_seq.file_path)) AS phantastic_seq, CONCAT(%s,MAX(aof_vir.file_path)) AS phantastic_vir \
               FROM sample JOIN metadata_entry on(metadata_entry.sample_id = sample.id) JOIN sample_sequencingobject on(sample.id = \
               sample_sequencingobject.sample_id) JOIN sample_sequencingobject AS sso on(sample.id = sso.sample_id) JOIN sequence_file_pair_files \
               AS sfpf on(sso.sequencingobject_id = sfpf.pair_id) JOIN v_sequence_file_pair_files_1 as sfpf_1 on(sfpf.pair_id = sfpf_1.pair_id) \
