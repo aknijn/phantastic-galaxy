@@ -116,7 +116,7 @@ class IridaDb:
               sfpf.files_id IN (%s) group by sample.id"
         else:
             sql = "SELECT * FROM sample WHERE sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND sampleName=%s AND id=%s LIMIT 0"
-        str_sql = sql % (username, userrole)
+        str_sql = sql % (self.sequence_path, self.sequence_path, self.output_path, self.output_path, self.output_path, self.output_path, fileIds)
         return self.query(str_sql)
 
     def allele_strain(self, sampleCode):
