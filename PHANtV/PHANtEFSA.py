@@ -194,7 +194,7 @@ def get_epidemiological_data(inspecies, sampleName):
     # create json string
     epiData = '{'
     epiData = ''.join((epiData, '"localRawReadId": "', sample_name, '",'))
-    epiData = ''.join((epiData, '"SampleData": {"sampling_local_id": ', meta_row[1], '",'))
+    epiData = ''.join((epiData, '"samplingData": {"sampling_local_id": ', meta_row[1], '",'))
     epiData = ''.join((epiData, '"programme_type_id": null,'))
     epiData = ''.join((epiData, '"programme_info_id": null,'))
     epiData = ''.join((epiData, '"sampler_id": "', meta_row[2], '",'))
@@ -208,7 +208,7 @@ def get_epidemiological_data(inspecies, sampleName):
     epiData = ''.join((epiData, '"sampling_matrix_code": "', meta_row[10], '",'))
     epiData = ''.join((epiData, '"sampling_matrix_free_text": "', meta_row[11], '",'))
     epiData = ''.join((epiData, '},'))
-    epiData = ''.join((epiData, '"IsolateData": {'))
+    epiData = ''.join((epiData, '"isolationData": {'))
     epiData = ''.join((epiData, '"isolation_local_id": "', meta_row[12], '",'))
     epiData = ''.join((epiData, '"isolation_year": ', meta_row[13], ','))
     epiData = ''.join((epiData, '"isolation_month": ', meta_row[13], ','))
