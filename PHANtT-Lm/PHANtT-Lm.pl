@@ -41,7 +41,7 @@ sub runLisSero {
 
 # Run MLST
 sub runMLST {
-    system("mlst --legacy --scheme lmonocytogenes " . $inputf . " | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci");
+    system("mlst --legacy --scheme listeria_2 " . $inputf . " | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci");
     copy("mlstsevenloci",$seqtype) or die "Could not copy mlstsevenloci, program halting.";
     return 0;
 }
