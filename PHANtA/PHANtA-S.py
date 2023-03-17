@@ -29,7 +29,7 @@ def get_coverage(inputfile):
     with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
         return iridadb.get_singleend_coverage(file_id)
 
-def get_fastp(json_file)
+def get_fastp(json_file):
     with open(json_file, "rb") as fastp_json:
         fastp_dict = json.load(fastp_json)
         read_mean_length = fastp_dict['summary']['after_filtering']['read1_mean_length']
