@@ -4,7 +4,6 @@ import sys
 import os
 import mysql.connector
 from mysql.connector import errorcode
-import pyodbc 
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -153,71 +152,3 @@ class IridaDb:
         self.execute(str_sql)
         row = self.fetchone()
         return row[0] > 0
-
-class StecDb:
-    def __init__(self, species):
-        self._species = species
-        if species == 'Shiga toxin-producing Escherichia coli':
-            self._configFile = TOOL_DIR + '/../phantastic.conf'
-        elif species == "Listeria monocytogenes":
-            self._configFile = TOOL_DIR + '/../phantastic.conf'
-        elif species == "SARS-CoV-2":
-            self._configFile = TOOL_DIR + '/../recovery.conf'
-        else:
-            self._configFile = TOOL_DIR + '/../default.conf'
-        config = configparser.ConfigParser()
-        config.read(self._configFile)
-        dbserver = config['dbmssql']['server']
-        dbdatabase = config['dbmssql']['database']
-        dbusername = config['dbmssql']['username']
-        dbpassword = config['dbmssql']['password']
-        self._conn = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+dbserver+';DATABASE='+dbdatabase+';ENCRYPT=yes;UID='+dbusername+';PWD='+ dbpassword)
-        self._cursor  = self._conn.cursor(buffered=True)
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
-
-    @property
-    def connection(self):
-        return self._conn
-
-    @property
-    def cursor(self):
-        return self._cursor
-
-    @property
-    def species(self):
-        return self._species
-
-    def commit(self):
-        self.connection.commit()
-
-    def close(self, commit=True):
-        if commit:
-            self.commit()
-        self.connection.close()
-
-    def execute(self, sql, params=None):
-        self.cursor.execute(sql, params or ())
-
-    def fetchall(self):
-        return self.cursor.fetchall()
-
-    def fetchone(self):
-        return self.cursor.fetchone()
-
-    def query(self, sql, params=None):
-        self.cursor.execute(sql, params or ())
-        return self.fetchall()
-
-    def metadata_for_efsa(self, sample_name):
-        if self.species == 'Shiga toxin-producing Escherichia coli':
-            #sample_name, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampling_matrix_code, sampling_matrix_free_text, isolId, YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling)
-            sql = "SELECT ISS_ID, sampId, sampPoint, sampCountry, origCountry, sampArea, sampY, sampM, sampD, sampMatCode, '', isolId, \
-              YEAR(DateOfSampling), MONTH(DateOfSampling), DAY(DateOfSampling) FROM Samples WHERE ISS_ID=%s"
-        else:
-            sql = "SELECT * FROM Samples WHERE ISS_ID=%s TOP 0"
-        return self.query(sql, (sample_name))
