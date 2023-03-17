@@ -18,7 +18,7 @@ import shutil
 import subprocess
 import json
 from md5hash import scan
-from ...phantdb import IridaDb
+from ..phantdb import IridaDb
 
 # Obtain file_id from file path
 def get_file_id(filename):
