@@ -44,7 +44,7 @@ def __main__():
     # if filename ends with .dat a fastq.gz file was decomrpessed
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         # FASTQ
-        subprocess.call("ln -s " + args.input1 + " input_1.fq", shell=True)
+        subprocess.call("ln -s " + args.input1 + " fastq_in.fastqsanger", shell=True)
         if float(get_coverage(args.input_id)) < 100:
             # NO TRIMMING
             subprocess.call("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 0 -t 0 -l 5 --cut_front_window_size 0 --cut_front_mean_quality 1 --cut_tail_window_size 0 --cut_tail_mean_quality 1")
