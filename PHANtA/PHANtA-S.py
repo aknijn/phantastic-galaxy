@@ -78,9 +78,9 @@ def __main__():
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         report.write("{\"coverage\": \"" + str(get_coverage(args.input_id)) + "\",")
         (read_mean_length, q30_rate, total_bases) = get_fastp('fastp.json')
-        report.write("\"read_mean_length\": \"" + read_mean_length + "\",")
-        report.write("\"q30_rate\": \"" + q30_rate + "\",")
-        report.write("\"total_bases\": \"" + total_bases + "\"}")
+        report.write("\"read_mean_length\": \"" + str(read_mean_length) + "\",")
+        report.write("\"q30_rate\": \"" + str(q30_rate) + "\",")
+        report.write("\"total_bases\": \"" + str(total_bases) + "\"}")
     else:
         report.write("{\"coverage\": \"ND\"}")
     report.close()
