@@ -19,15 +19,9 @@ from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Obtain file_id from file path
-def get_file_id(filename):
-    split_filename = filename.split("/")
-    return split_filename[5]
-
-def get_coverage(inputfile):
-    file_id = get_file_id(inputfile)
+def get_coverage(input_id):
     with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
-        return iridadb.get_singleend_coverage(file_id)
+        return iridadb.get_singleend_coverage(input_id[2:])
 
 def get_fastp(json_file):
     with open(json_file, "rb") as fastp_json:
@@ -50,7 +44,7 @@ def __main__():
     # if filename ends with .dat a fastq.gz file was decomrpessed
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         # FASTQ
-        if float(get_coverage(args.input1)) < 100:
+        if float(get_coverage(args.input_id)) < 100:
             # NO TRIMMING
             subprocess.call("ln -s " + args.input1 + " input_1.fq", shell=True)
             subprocess.call("fastp --thread 4 -i fastq_in.fastqsanger")
@@ -83,7 +77,7 @@ def __main__():
     #report_data["coverage"] = getCoverage(args.input1)
     #report.write(json.dumps(report_data))
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
-        report.write("{\"coverage\": \"" + str(get_coverage(args.input1)) + "\",")
+        report.write("{\"coverage\": \"" + str(get_coverage(args.input_id)) + "\",")
         (read_mean_length, q30_rate, total_bases) = get_fastp('fastp.json')
         report.write("\"read_mean_length\": \"" + read_mean_length + "\",")
         report.write("\"q30_rate\": \"" + q30_rate + "\",")
