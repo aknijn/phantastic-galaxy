@@ -91,7 +91,3 @@ sub runQUAST {
     system("mv outputdir/report.tsv $quast");
     return 0;
 }
-
-
-
-

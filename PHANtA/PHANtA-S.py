@@ -47,7 +47,8 @@ def __main__():
     parser.add_argument('--quast', dest='quast', help='quast')
     args = parser.parse_args()
 
-    if args.input1.endswith(".fastq"):
+    # if filename ends with .dat a fastq.gz file was decomrpessed
+    if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         # FASTQ
         if float(get_coverage(args.input1)) < 100:
             # NO TRIMMING
@@ -81,7 +82,7 @@ def __main__():
     # write JSON (json.dumps => TypeError: Decimal is not JSON serializable)
     #report_data["coverage"] = getCoverage(args.input1)
     #report.write(json.dumps(report_data))
-    if args.input1.endswith(".fastq"):
+    if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         report.write("{\"coverage\": \"" + str(get_coverage(args.input1)) + "\",")
         (read_mean_length, q30_rate, total_bases) = get_fastp('fastp.json')
         report.write("\"read_mean_length\": \"" + read_mean_length + "\",")
