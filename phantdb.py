@@ -12,16 +12,16 @@ class IridaDb:
     def __init__(self, species):
         self._species = species
         if species == 'Shiga toxin-producing Escherichia coli':
-            self._configFile = TOOL_DIR + '/../phantastic.conf'
+            self._configFile = 'phantastic.conf'
             self._allele_header_file = TOOL_DIR + '/data/ecoli.tsv'
         elif species == "Listeria monocytogenes":
-            self._configFile = TOOL_DIR + '/../phantastic.conf'
+            self._configFile = 'phantastic.conf'
             self._allele_header_file = TOOL_DIR + '/data/listeria.tsv'
         elif species == "SARS-CoV-2":
-            self._configFile = TOOL_DIR + '/../recovery.conf'
+            self._configFile = 'recovery.conf'
             self._allele_header_file = ''
         else:
-            self._configFile = TOOL_DIR + '/../default.conf'
+            self._configFile = 'default.conf'
             self._allele_header_file = ''
         config = configparser.ConfigParser()
         config.read(self._configFile)
@@ -158,13 +158,13 @@ class StecDb:
     def __init__(self, species):
         self._species = species
         if species == 'Shiga toxin-producing Escherichia coli':
-            self._configFile = TOOL_DIR + '/../phantastic.conf'
+            self._configFile = 'phantastic.conf'
         elif species == "Listeria monocytogenes":
-            self._configFile = TOOL_DIR + '/../phantastic.conf'
+            self._configFile = 'phantastic.conf'
         elif species == "SARS-CoV-2":
-            self._configFile = TOOL_DIR + '/../recovery.conf'
+            self._configFile = 'recovery.conf'
         else:
-            self._configFile = TOOL_DIR + '/../default.conf'
+            self._configFile = 'default.conf'
         config = configparser.ConfigParser()
         config.read(self._configFile)
         dbserver = config['dbmssql']['server']
