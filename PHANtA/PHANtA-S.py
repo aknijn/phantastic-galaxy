@@ -15,7 +15,7 @@ import shutil
 import subprocess
 import json
 import datetime
-from ..phantdb import IridaDb
+from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
