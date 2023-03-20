@@ -24,7 +24,10 @@
     </stdio>
     <command>
 <![CDATA[
-    $output_pc = $input_pc
+    #for $key in $output_pc.keys()#
+    echo "identifier is $key" > "$output_pc[$key]";
+    #end for#
+    echo 'ensure not empty';
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
         python
         $__tool_directory__/PHANtA-S.py  
