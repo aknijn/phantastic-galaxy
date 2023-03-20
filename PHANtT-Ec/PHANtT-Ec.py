@@ -43,7 +43,7 @@ def __main__():
     # if fastq.gz was uploaded then filename of decompressed reads ends with .dat
     inputFastq = args.input1.endswith(".fastq") or args.input1.endswith(".dat")
     if args.input2:
-        subprocess.call("ln -s " + args.input2 + " inp ut_2.fq", shell=True)
+        subprocess.call("ln -s " + args.input2 + " input_2.fq", shell=True)
     # AMRGENES (only if fastq are provided)
     if inputFastq:
         subprocess.call("abricate --db resfinder input.fasta > " + args.amrgenes, shell=True)
