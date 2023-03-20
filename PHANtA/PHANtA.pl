@@ -61,8 +61,7 @@ sub collectOutput{
 
 sub getCoverage{
     my @trueCoverage_files = glob "output_dir/*/trueCoverage_report.txt";
-	my $trueCoverage_file = @trueCoverage_files[0];
-    open(my $fh, '<', $trueCoverage_file) or die "Could not open file '$trueCoverage_file' $!";
+    open(my $fh, '<', $trueCoverage_files[0]) or die "Could not open file '$trueCoverage_files[0]' $!";
     my $lastline;
     $lastline = $_, while (<$fh>);
     chomp $lastline;
