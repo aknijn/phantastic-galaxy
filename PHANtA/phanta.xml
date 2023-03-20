@@ -24,8 +24,6 @@
     </stdio>
     <command>
 <![CDATA[
-    echo "$output_pc.forward.name";
-    echo "$output_pc.reverse.name";
     cat ${input_pc.forward} > ${output_pc.forward} &&
     cat ${input_pc.reverse} > ${output_pc.reverse} &&
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
