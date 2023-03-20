@@ -95,8 +95,8 @@
     <outputs>
 	    <collection name="output_pc" type="paired" label="${tool.name} on ${on_string}: fastq collection" structured_like="input_pc" inherit_format="true" />
         <collection name="output_pc2" type="paired">
-              <element name="forward" value="simple_line.fastq" />
-              <element name="reverse" value="dummy.fastq" />
+              <element name="forward"><element name="simple_line.fastq" /></element>
+              <element name="reverse"><element name="dummy.fastq" /></element>
         </collection>
         <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
         <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
