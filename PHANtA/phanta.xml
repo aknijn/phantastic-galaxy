@@ -27,8 +27,8 @@
     #for $key in $output_pc.keys()#
     echo "identifier is $key" > "$output_pc[$key]";
     #end for#
-    echo "identifier is name" > "$output_pc['forward']['name']";
     echo 'ensure not empty';
+	#set $output_pc = $input_pc#
     cat ${input_pc.forward} > ${output_pc.forward} &&
     cat ${input_pc.reverse} > ${output_pc.reverse} &&
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
