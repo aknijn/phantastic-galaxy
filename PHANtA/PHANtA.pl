@@ -76,7 +76,7 @@ sub getFastp{
         open my $fh, "<", $fname or die $!;
         <$fh>;                                 
     };
-    my $json = from_json($txt);
+    my $json = decode_json(".dat")($txt);
     my $read_mean_length = "$json->{summary}->{after_filtering}->{read1_mean_length}";
     my $q30_rate = "$json->{summary}->{after_filtering}->{q30_rate}";
     my $total_bases = "$json->{summary}->{after_filtering}->{total_bases}";
