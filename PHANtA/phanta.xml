@@ -25,9 +25,7 @@
     <command>
 <![CDATA[
     echo "$output_pc.forward.name";
-    echo "$output_pc2.forward.name";
     echo "$output_pc.reverse.name";
-    echo "$output_pc2.reverse.name";
     cat ${input_pc.forward} > ${output_pc.forward} &&
     cat ${input_pc.reverse} > ${output_pc.reverse} &&
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
@@ -93,10 +91,9 @@
 
     <!-- define outputs -->
     <outputs>
-	    <collection name="output_pc" type="paired" label="${tool.name} on ${on_string}: fastq collection" structured_like="input_pc" inherit_format="true" />
-        <collection name="output_pc2" type="paired">
-              <data name="forward" value="value.fastq" label="simple_line.fastq" />
-              <data name="reverse"  value="dummy2.fastq" label="dummy.fastq" />
+        <collection name="output_pc" type="paired">
+            <data name="forward" label="${input_pc.forward.name}" />
+            <data name="reverse" label="${input_pc.reverse.name}" />
         </collection>
         <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
         <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
