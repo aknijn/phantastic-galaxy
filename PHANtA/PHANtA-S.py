@@ -52,7 +52,7 @@ def __main__():
             # TRIMMING
             subprocess.call("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 3 -t 3 -l 55 --cut_front_window_size 5 --cut_front_mean_quality 20 --cut_tail_window_size 5 --cut_tail_mean_quality 20", shell=True)
         # ASSEMBLY
-        strSequencer = ""
+        str_sequencer = ""
         # check if the file is ION Torrent
         with open('input_1.fq', 'r') as fq:
             if fq.readline().count(':') == 2:
