@@ -24,6 +24,7 @@
     </stdio>
     <command>
 <![CDATA[
+    $output_pc = $input_pc
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
         python
         $__tool_directory__/PHANtA-S.py  
@@ -87,6 +88,7 @@
 
     <!-- define outputs -->
     <outputs>
+        <collection name="output_pc" type="paired"  format="fastqsanger" label="Paired-end FASTQ collection" />
         <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
         <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
         <data format="tsv" name="phanta_quast" label="${tool.name} on ${on_string}: report" />
