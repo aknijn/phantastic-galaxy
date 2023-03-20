@@ -24,10 +24,8 @@
     </stdio>
     <command>
 <![CDATA[
-    cat ${input_pc.forward} > ${output_pc.forward} &&
-	$output_pc.forward.name = $input_pc.forward.name &&
-    cat ${input_pc.reverse} > ${output_pc.reverse} &&
-	$output_pc.reverse.name = $input_pc.reverse.name &&
+	#set $output_pc.forward = $input_pc.forward
+	#set $output_pc.reverse = $input_pc.reverse
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
         python
         $__tool_directory__/PHANtA-S.py  
