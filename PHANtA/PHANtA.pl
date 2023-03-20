@@ -50,7 +50,7 @@ sub collectOutput{
     # JSON
     my $coverage = getCoverage();
 	my ($read_mean_length, $q30_rate, $total_bases) = getFastp();
-    open($fh, '>', $json) or die "Could not open file '$json' $!";
+    open(my $fh, '>', $json) or die "Could not open file '$json' $!";
     print $fh "{\"coverage\": \"$coverage\",";
     print $fh "\"read_mean_length\": \"$read_mean_length\",";
     print $fh "\"q30_rate\": \"$q30_rate\",";
