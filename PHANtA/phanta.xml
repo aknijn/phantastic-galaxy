@@ -88,7 +88,7 @@
 
     <!-- define outputs -->
     <outputs>
-        <collection name="output_pc" type="paired"  format="fastqsanger" label="Paired-end FASTQ collection" />
+	    <collection name="output_pc" type="paired" label="${tool.name} on ${on_string}: fastq collection" structured_like="input_pc" inherit_format="true" />
         <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
         <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
         <data format="tsv" name="phanta_quast" label="${tool.name} on ${on_string}: report" />
