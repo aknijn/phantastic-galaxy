@@ -45,6 +45,9 @@ def compare_alleles(allele_1, allele_2):
   elif 'PLOT' in allele_1 or 'PLOT' in allele_2:
     # partial allele found
     comparison = 0
+  elif 'LOTSC' in allele_1 or 'LOTSC' in allele_2:
+    # partial allele found
+    comparison = 0
   elif 'NIPH' in allele_1 or 'NIPH' in allele_2:
     # partial allele found
     comparison = 0
@@ -53,6 +56,9 @@ def compare_alleles(allele_1, allele_2):
     comparison = 0
   elif 'ASM' in allele_1 or 'ASM' in allele_2:
     # partial allele found
+    comparison = 0
+  elif 'PAMA' in allele_1 or 'PAMA' in allele_2:
+    # matches several loci
     comparison = 0
   elif 'ERROR' in allele_1 or 'ERROR' in allele_2:
     # allele not found
