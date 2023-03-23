@@ -109,7 +109,7 @@ sub collectStatistics{
     my $statistics_line = <$if_st>;
     chomp $statistics_line;
     my @keys = split( /\t/, $statistics_line );
-    $sampleGenesMapped = $keys[1];
+    $sampleGenesMapped = int($keys[1]) + int($keys[2]);
     $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]) + int($keys[8]) + int($keys[9]) + int($keys[10]) + int($keys[11]);
     $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
     close $if_st;      
