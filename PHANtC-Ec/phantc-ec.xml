@@ -2,7 +2,7 @@
     <description>Clustering by chewBBACA for Escherichia coli</description>
     <requirements>
         <requirement type="package" version="3.11">python</requirement>
-        <requirement type="package" version="3.0.0">chewbbaca</requirement>
+        <requirement type="package" version="3.1.2">chewbbaca</requirement>
         <requirement type="package" version="5.26">perl</requirement>
         <requirement type="package" version="1.642">perl-dbi</requirement>
         <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
