@@ -37,8 +37,8 @@ sub runAlleleObserver {
     my $files_id = getIdFilesString(@inputs);
     createAllelesFile($files_id);
     if ($useNames eq "true") { substituteCodesByNames($files_id); }
-    # copy filtered allele profiles in allele matrix file (columns with INF, LNF, ecc. are removed)
-    my $cmd = q( awk -F"\t" '{(NR>1)}{for(i=2;i<=NF;i++){if ($i ~ /^0$|[a-zA-Z+]+/){print i}}}' cgMLST.tmp | sort | uniq > cgMLST.nocols );
+    # copy filtered allele profiles in allele matrix file (columns with 0 are removed)
+    my $cmd = q( awk -F"\t" '{for(i=2;i<=NF;i++){if ($i == 0){print i}}}' cgMLST.tmp | sort | uniq > cgMLST.nocols );
     system($cmd);
     open my $tf, '<', 'cgMLST.nocols';
     chomp(my @noCols = <$tf>);
