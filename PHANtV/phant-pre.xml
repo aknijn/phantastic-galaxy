@@ -11,7 +11,7 @@
     #if str( $input_pc.forward.name[0:15] ) == "fileForwardList":
       cat $input_pc.forward > $phants_filename
     #else:
-      #if str( $phants_filename.name[-3:] ) == ".gz":
+      #if str( $phants_filename.name[-3:] ) == "zzz.gz":
         echo '$phants_filename.name' > $phants_filename 
       #else:
         echo '$input_pc.forward' > $phants_filename
