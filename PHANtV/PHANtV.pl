@@ -108,7 +108,7 @@ sub createAllelesFile {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "cgMLST.tmp" or die "Cannot open cgMLST.tmp: $!";
-	print $if "FILE\t";
+	# print $if "FILE\t";
     while (my @row = $sth->fetchrow_array) { 
       print $if "$row[0]\n";
     }       
