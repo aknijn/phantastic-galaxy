@@ -50,7 +50,7 @@ sub runAlleleObserver {
         my $cmd2 = "cut --complement -f" . $noColsString . " cgMLST.tmp > " . $phantv_am;
         system($cmd2);
     }
-    # calculate distance matrix from allele profiles
+    # calculate distance matrix from allele profiles (non-filtered version because the differences are calculated pairwise)
     my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantv_dm");
     # calculate tree from distance matrix
     system("python $scriptdir/scripts/mentalist_tree.py $phantv_dm > $phantv_tree");

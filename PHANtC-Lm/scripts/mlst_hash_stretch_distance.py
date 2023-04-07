@@ -27,40 +27,7 @@ def compare_alleles(allele_1, allele_2):
   # compare alleles, return 1 if different, 0 if equal or not to be compared
   if allele_1 == allele_2:
     comparison = 0
-  elif allele_1 == 0 or allele_2 == 0:
-    # allele not found
-    comparison = 0
-  elif allele_1 == 'N' or allele_2 == 'N':
-    # new allele inferred
-    comparison = 0
-  elif '+' in allele_1 or '+' in allele_2:
-    # partial allele found
-    comparison = 0
-  elif 'INF' in allele_1 or 'INF' in allele_2:
-    # new allele inferred
-    comparison = 0
-  elif 'LNF' in allele_1 or 'LNF' in allele_2:
-    # allele not found
-    comparison = 0
-  elif 'PLOT' in allele_1 or 'PLOT' in allele_2:
-    # partial allele found
-    comparison = 0
-  elif 'LOTSC' in allele_1 or 'LOTSC' in allele_2:
-    # partial allele found
-    comparison = 0
-  elif 'NIPH' in allele_1 or 'NIPH' in allele_2:
-    # partial allele found
-    comparison = 0
-  elif 'ALM' in allele_1 or 'ALM' in allele_2:
-    # partial allele found
-    comparison = 0
-  elif 'ASM' in allele_1 or 'ASM' in allele_2:
-    # partial allele found
-    comparison = 0
-  elif 'PAMA' in allele_1 or 'PAMA' in allele_2:
-    # matches several loci
-    comparison = 0
-  elif 'ERROR' in allele_1 or 'ERROR' in allele_2:
+  elif allele_1 == '0' or allele_2 == '0':
     # allele not found
     comparison = 0
   else:
