@@ -11,7 +11,11 @@
     #if str( $input_pc.forward.name[0:15] ) == "fileForwardList":
       cat $input_pc.forward > $phants_filename
     #else:
-      echo '$input_pc.forward' > $phants_filename
+      #if str( $phants_filename.name[-3:] ) == ".gz":
+        echo '$phants_filename.name' > $phants_filename 
+      #else:
+        echo '$input_pc.forward' > $phants_filename
+      #end if
     #end if
 ]]>
     </command>
@@ -21,6 +25,6 @@
     </inputs>
 
     <outputs>
-        <data name="phants_filename" format="tabular" label="${input_pc.forward}" ></data>
+        <data name="phants_filename" format="tabular" label="${input_pc.forward.name}" ></data>
    </outputs>
 </tool>
