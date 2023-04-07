@@ -21,6 +21,6 @@
     </inputs>
 
     <outputs>
-        <data name="phants_filename" format="tabular" label="filename" ></data>
+        <data name="phants_filename" format="tabular" label="${input_pc.forward.name}" ></data>
    </outputs>
 </tool>
