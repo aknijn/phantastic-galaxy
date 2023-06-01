@@ -190,7 +190,7 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
 
     pdf.ln(20)
     pdf.set_font("helvetica", "BU", 14)
-    pdf.cell(120)
+    pdf.cell(100)
     pdf.write(8, "Virulotipo")
     pdf.ln(10)
     line_height = pdf.font_size * 1.1
