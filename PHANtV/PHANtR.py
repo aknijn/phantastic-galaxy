@@ -159,7 +159,7 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     pdf.set_font("helvetica", "B", 14)
     #pdf.cell(10)
     pdf.cell(280, 10 , "Report di sequenziamento genomico di isolati batterici", fill=True, align="C")
-    pdf.ln(10)
+    pdf.ln(20)
     pdf.set_font("helvetica", "B", 12)
     pdf.write(8, "Codice interno del campione: " + str(dataSommario[numColumns + 4]))
     pdf.ln(8)
@@ -226,6 +226,12 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     pdf.write(8, "*=nome del gene_allele_Acc. Number NCBI")
 
     pdf.ln(10)
+    with pdf.offset_rendering() as dummy:
+        # check if title and table header cause page break
+        dummy.ln(68)
+    if dummy.page_break_triggered:
+        # We trigger a page break manually beforehand:
+        pdf.add_page()
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(90)
     pdf.write(8, "Determinanti di antibiotico resistenza")
