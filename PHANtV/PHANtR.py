@@ -279,13 +279,13 @@ def __main__():
     parser.add_argument('--phantr_reports', dest='phantr_reports', help='phantr reports zip file')
     args = parser.parse_args()
     if args.species == "Escherichia coli":
-        dataSommarioHeader = ["ID ceppo","Anno","Antigen O","Antigen H","QC_status","MLST ST","stx1","stx2","stx subtype","eae","ehxA"]
+        dataSommarioHeader = ["ID ceppo ISS","Anno","Antigen O","Antigen H","QC_status","MLST ST","stx1","stx2","stx subtype","eae","ehxA"]
         dataSommarioHeaderFormat = ["","","","","","","I","I","I","I","I"]
     elif args.species == "Listeria monocytogenes":
-        dataSommarioHeader = ["ID ceppo","Anno","QC status","MLST ST","MLST CC","MLST Lineage","Serogroup"]
+        dataSommarioHeader = ["ID ceppo ISS","Anno","QC status","MLST ST","MLST CC","MLST Lineage","Serogroup"]
         dataSommarioHeaderFormat = ["","","","","","",""]
     else:
-        dataSommarioHeader = ["ID ceppo"]
+        dataSommarioHeader = ["ID ceppo ISS"]
         dataSommarioHeaderFormat = [""]
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
 
