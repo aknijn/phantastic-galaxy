@@ -188,7 +188,7 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     if len(dataSommarioHeader) > 8 and dataSommarioHeader[8] == "stx_subtype" and "(*)" in dataSommario[8]:
         pdf.write(8, "(*)=subtype con identità >95% e <100%")
 
-    pdf.ln(15)
+    pdf.ln(10)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(120)
     pdf.write(8, "Virulotipo")
@@ -225,7 +225,7 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     pdf.cell(25)
     pdf.write(8, "*=nome del gene_allele_Acc. Number NCBI")
 
-    pdf.ln(15)
+    pdf.ln(10)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(90)
     pdf.write(8, "Determinanti di antibiotico resistenza")
