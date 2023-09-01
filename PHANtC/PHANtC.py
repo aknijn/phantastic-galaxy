@@ -60,10 +60,13 @@ def get_number_from_hash(locus_hash_number_file, allele_hash):
     # get the allele number from the corresponding allele hash
     with open(locus_hash_number_file) as locus_hashes_numbers:
       for allele_hash_number in locus_hashes_numbers:
-        number = "LNF"
         hash, number = allele_hash_number.split('\t')
         if hash == allele_hash:
-          return number.rstrip()
+          if hash = None:
+            ret_number = "LNF"
+          else:
+            ret_number = number.rstrip()
+          return ret_number
 
 
 def elaborate_sample(samplefile, schemadirectory, outputdirectory):
