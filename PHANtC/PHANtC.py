@@ -109,7 +109,7 @@ def __main__():
       if file.endswith(".fasta"):
         elaborate_fastafile(schemadirectory, file, outputdirectory)
     # create a profile file with assigned numbers instead of the hashes
-    shutil.copyfile(args.input, "cgMLST.tmp")
+    shutil.copyfile(args.input, profilefile)
     elaborate_sample(profilefile, outputdirectory, outputdirectory)
     shutil.copyfile(outputdirectory+"/"+profilefile, args.hashprofiles)
 
