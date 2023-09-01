@@ -62,7 +62,7 @@ def get_number_from_hash(locus_hash_number_file, allele_hash):
       for allele_hash_number in locus_hashes_numbers:
         hash, number = allele_hash_number.split('\t')
         if hash == allele_hash:
-          if hash = None:
+          if number == None:
             ret_number = "LNF"
           else:
             ret_number = number.rstrip()
