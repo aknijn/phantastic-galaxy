@@ -86,6 +86,7 @@ def elaborate_sample(samplefile, schemadirectory, outputdirectory):
 
 def __main__():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--species', dest='species', help='sample species')
     parser.add_argument('--input', dest='input', help='samples')
     parser.add_argument('--hashprofiles', dest='hashprofiles', help='CRC32 hashes MLST profiles')
     args = parser.parse_args()
