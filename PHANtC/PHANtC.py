@@ -61,11 +61,8 @@ def get_number_from_hash(locus_hash_number_file, allele_hash):
     with open(locus_hash_number_file) as locus_hashes_numbers:
       for allele_hash_number in locus_hashes_numbers:
         hash, number = allele_hash_number.split('\t')
-        ret_number = "LNF"
         if hash == allele_hash:
-          ret_number = number.rstrip()
-        return ret_number
-
+          return number.rstrip()
 
 def elaborate_sample(samplefile, schemadirectory, outputdirectory):
   # a sample file was given, substitute the allele numbers with the allele sequence hashes
@@ -81,7 +78,7 @@ def elaborate_sample(samplefile, schemadirectory, outputdirectory):
       unhashed_sample.write(line_sample[0].rstrip())
       for i in range(1, numcols):
         unhashed_sample.write('\t')
-        unhashed_sample.write(get_number_from_hash(os.path.join(schemadirectory, header_sample[i].rstrip()[:-6] + "_hash_number.txt"), line_sample[i].rstrip()))
+        unhashed_sample.write(str(get_number_from_hash(os.path.join(schemadirectory, header_sample[i].rstrip()[:-6] + "_hash_number.txt"), line_sample[i].rstrip()) or 'LNF'))
       unhashed_sample.write('\n')
       line_sample = sample.readline().split('\t')
 
