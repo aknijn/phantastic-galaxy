@@ -89,10 +89,10 @@ def __main__():
     parser.add_argument('--hashprofiles', dest='hashprofiles', help='CRC32 hashes MLST profiles')
     args = parser.parse_args()
 
-    if args.species == "Shiga toxin-producing Escherichia coli":
-        schemadirectory = "/gfs/data-flow/Chewie-NS/ecoli/ecoli_INNUENDO_wgMLST"
+    if args.species == "Escherichia coli":
+        schemadirectory = "/gfs/data-flow/Chewie-NS/ecoli/ecoli_INNUENDO_wgMLST_ORIG"
     elif args.species == "Listeria monocytogenes":
-        schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST"
+        schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST_ORIG"
     else:
         schemadirectory = "/gfs/data-flow/Chewie-NS"
     outputdirectory = "outputdirectory"
