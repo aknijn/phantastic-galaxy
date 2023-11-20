@@ -79,11 +79,11 @@ def main():
 
     args = parser.parse_args()
     if args.species == 'Coronavirus':
-        csv_header = ['id','NomeCampione','DataCampione','DataArrivoCampione','DataCaricamento','CodiceInterno','Descrizione','QC','Regione','Provincia','OrigineIsolato','FasciaEta','NumeroVaccinazioni','DataUltimaVaccinazione','Ospedale','Laboratorio','Ospedalizzato','TerapiaIntensiva','Reinfetto','Immunodepresso','PaeseEsteroAttenzionato','CampioneCasuale','Lineage','Clade','ORF1ab','Spike','ORF3a','E-protein','M-protein','ORF6','ORF7a','ORF7b','ORF8','N-protein','ORF10','Variante','Sequenza','N_consensus','Coverage']
+        csv_header = ['id','NomeCampione','DataCampione','DataArrivoCampione','DataCaricamento','CodiceInterno','CodiceGISAID','Descrizione','QC','Regione','Provincia','OrigineIsolato','FasciaEta','NumeroVaccinazioni','DataUltimaVaccinazione','Ospedale','Laboratorio','Ospedalizzato','TerapiaIntensiva','Reinfetto','Immunodepresso','PaeseEsteroAttenzionato','CampioneCasuale','CampioneFlash','Lineage','Clade','ORF1ab','Spike','ORF3a','E-protein','M-protein','ORF6','ORF7a','ORF7b','ORF8','N-protein','ORF10','Variante','Sequenza','N_consensus','Coverage']
     elif args.species == 'Escherichia coli':
-        csv_header = ['id','NomeCampione','DataCampione','DataArrivoCampione','DataCaricamento','CodiceInterno','Descrizione','QC','Regione','Provincia','Comune','OrigineIsolato','Ospedale','Laboratorio','CondizioneClinica','Antigen_O','Antigen_H','MLST_ST','stx1','stx2','stx_subtype','eae','ehxa','Virulotipi','cgMLST_genes_mapped','Cluster_Id','Coverage']
+        csv_header = ['id','NomeCampione','DataCampione','DataArrivoCampione','DataCaricamento','CodiceInterno','CodiceEFSA','Descrizione','QC','Regione','Provincia','Comune','OrigineIsolato','Ospedale','Laboratorio','CondizioneClinica','Antigen_O','Antigen_H','MLST_ST','stx1','stx2','stx_subtype','eae','ehxa','Virulotipi','cgMLST_genes_mapped','Cluster_Id','Coverage']
     elif args.species == 'Listeria monocytogenes':
-        csv_header = ['id','NomeCampione','DataCampione','DataArrivoCampione','DataCaricamento','CodiceInterno','Descrizione','QC','Regione','Provincia','Comune','OrigineIsolato','Ospedale','Laboratorio','Serogroup','Serotype','Amplicons','MLST_ST','MLST_CC','MLST_Lineage','cgMLST_genes_mapped','Cluster_Id','Coverage']
+        csv_header = ['id','NomeCampione','DataCampione','DataArrivoCampione','DataCaricamento','CodiceInterno','CodiceISS','Descrizione','QC','Regione','Provincia','Comune','OrigineIsolato','Ospedale','Laboratorio','Serogroup','Serotype','Amplicons','MLST_ST','MLST_CC','MLST_Lineage','cgMLST_genes_mapped','Cluster_Id','Coverage']
     else:
         csv_header = []
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
