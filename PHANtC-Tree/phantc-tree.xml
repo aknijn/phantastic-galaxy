@@ -1,0 +1,28 @@
+<tool id="phantc-tree" name="PHANtC-Tree" version="2.5">
+    <description>Clustering</description>
+    <requirements>
+        <requirement type="package" version="3.11">python</requirement>
+    </requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+    python $__tool_directory__/mlst_hash_stretch_distance.py -i $cgMLST -o $phantclm_dm
+    python $__tool_directory__/mentalist_tree $phantclm_dm > $phantclm_tree
+]]>
+    </command>
+
+    <inputs>
+        <param name="cgMLST" format="tsv" type="data" multiple="true" label="cgMLST file" />
+    </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data format="nwk" name="phantclm_tree" label="${tool.name} on ${on_string}: clustering" ></data>
+        <data format="tsv" name="phantclm_dm" label="${tool.name} on ${on_string}: distance matrix" ></data>
+   </outputs>
+</tool>

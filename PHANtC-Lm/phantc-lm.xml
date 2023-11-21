@@ -1,4 +1,4 @@
-<tool id="phantc-lm" name="PHANtC-Lm" version="2.4">
+<tool id="phantc-lm" name="PHANtC-Lm" version="2.5">
     <description>Clustering by chewBBACA for Listeria monocytogenes</description>
     <requirements>
         <requirement type="package" version="3.11">python</requirement>
@@ -26,13 +26,11 @@
           $input_id
           $phantclm_allele
           $phantclm_json
-          $phantclm_tree
-          $phantclm_dm
+          $cgMLST
     #else
         touch $phantclm_allele
         touch $phantclm_json
-        touch $phantclm_tree
-        touch $phantclm_dm
+        touch $cgMLST
     #end if
 ]]>
     </command>
@@ -47,7 +45,6 @@
     <outputs>
         <data format="tsv" name="phantclm_allele" label="${tool.name} on ${on_string}: allele calls" ></data>
         <data format="json" name="phantclm_json" label="${tool.name} on ${on_string}: allele filter" ></data>
-        <data format="nwk" name="phantclm_tree" label="${tool.name} on ${on_string}: clustering" ></data>
-        <data format="tsv" name="phantclm_dm" label="${tool.name} on ${on_string}: distance matrix" ></data>
+        <data format="tsv" name="cgMLST" label="${tool.name} on ${on_string}: cgMLST matrix" ></data>
    </outputs>
 </tool>

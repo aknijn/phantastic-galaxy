@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-## A wrapper script to call chewBBACA and MentaLiST (only tree part)
+## A wrapper script to call chewBBACA
 use strict;
 use warnings;
 use Cwd;
@@ -15,8 +15,7 @@ my ($input1,
     $serotype_file,
     $phantcec_allele,
     $phantcec_json,
-    $phantcec_tree,
-    $phantcec_dm) = @ARGV;
+    $cgMLST) = @ARGV;
 
 # Run program
 my $chewiedir = '/gfs/data-flow/Chewie-NS';
@@ -26,14 +25,12 @@ my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
 my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
-my $sampleGenesMapped = "0";
-my $cgLociNumber = 0;
 my $permille_loci = 0;
 prepareEnvironment($input1,$input1_name,"input_dir");
 runChewBBACA();
 collectStatistics();
 collectOutput();
-runMentaLiST();
+createAllelesFile();
 exit(0);
 
 # Run chewBBACA
@@ -43,19 +40,6 @@ sub runChewBBACA {
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
     my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Escherichia_coli.trn -g $chewiedir/ecoli/ecoli_INNUENDO_wgMLST_ORIG/ --gl $chewiedir/ecoli/Ecoli_cgMLST_ns_ids.txt";
     my $result = system("$newpath; $python");
-    return 0;
-}
-
-# Run runMentaLiST, only the tree part
-sub runMentaLiST {
-    createAllelesFile();
-    open my $of, '>', $phantcec_json or die "Cannot open json: $!";
-    print $of "{\"core_genome_schema_size\": $cgLociNumber, \"sample_genes_mapped\": $sampleGenesMapped}";
-    close $of;
-    # calc distance matrix from database
-    my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantcec_dm");
-    # calc tree from distance matrix
-    system("python $scriptdir/scripts/mentalist_tree $phantcec_dm > $phantcec_tree");
     return 0;
 }
 
@@ -104,6 +88,8 @@ sub collectOutput{
 
 # Collect output with statistics, save the number of genes mapped, the total number of loci and the relative number of mapped genes
 sub collectStatistics{
+    my $sampleGenesMapped = "0";
+    my $cgLociNumber = 0;
     move("output_dir/results_statistics.tsv", $phantcec_allele) ;
     open(my $if_st, '<', $phantcec_allele) or die "Could not read from results_statistics.tsv, program halting.";
     <$if_st>;
@@ -114,6 +100,9 @@ sub collectStatistics{
     $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]) + int($keys[8]) + int($keys[9]) + int($keys[10]) + int($keys[11]);
     $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
     close $if_st;      
+    open my $of, '>', $phantcec_json or die "Cannot open json: $!";
+    print $of "{\"core_genome_schema_size\": $cgLociNumber, \"sample_genes_mapped\": $sampleGenesMapped}";
+    close $of;
     return 0;
 }
 
@@ -150,5 +139,6 @@ sub createAllelesFile {
     $sth2->finish();
     # disconnect from the MySQL database
     $dbh2->disconnect();
+	copy("cgMLST.tmp",$cgMLST);
     return 0;
 }

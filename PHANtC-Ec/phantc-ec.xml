@@ -1,4 +1,4 @@
-<tool id="phantc-ec" name="PHANtC-Ec" version="2.4">
+<tool id="phantc-ec" name="PHANtC-Ec" version="2.5">
     <description>Clustering by chewBBACA for Escherichia coli</description>
     <requirements>
         <requirement type="package" version="3.11">python</requirement>
@@ -24,13 +24,11 @@
           $serotype
           $phantcec_allele
           $phantcec_json
-          $phantcec_tree
-          $phantcec_dm
+          $cgMLST
     #else
         touch $phantcec_allele
         touch $phantcec_json
-        touch $phantcec_tree
-        touch $phantcec_dm
+        touch $cgMLST
     #end if
 ]]>
     </command>
@@ -46,7 +44,6 @@
     <outputs>
         <data format="tsv" name="phantcec_allele" label="${tool.name} on ${on_string}: allele calls" ></data>
         <data format="json" name="phantcec_json" label="${tool.name} on ${on_string}: allele filter" ></data>
-        <data format="nwk" name="phantcec_tree" label="${tool.name} on ${on_string}: clustering" ></data>
-        <data format="tsv" name="phantcec_dm" label="${tool.name} on ${on_string}: distance matrix" ></data>
+        <data format="tsv" name="cgMLST" label="${tool.name} on ${on_string}: cgMLST matrix" ></data>
    </outputs>
 </tool>
