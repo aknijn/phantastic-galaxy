@@ -1,15 +1,12 @@
-<tool id="phantc-lm" name="PHANtC-Lm" version="2.3">
+<tool id="phantc-lm" name="PHANtC-Lm" version="2.4">
     <description>Clustering by chewBBACA for Listeria monocytogenes</description>
     <requirements>
-        <requirement type="package" version="3.8">python</requirement>
-        <requirement type="package" version="2.8.5">chewbbaca</requirement>
+        <requirement type="package" version="3.11">python</requirement>
+        <requirement type="package" version="3.1.2">chewbbaca</requirement>
         <requirement type="package" version="5.26">perl</requirement>
         <requirement type="package" version="1.642">perl-dbi</requirement>
         <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
         <requirement type="package" version="4.58">perl-config-simple</requirement>
-        <requirement type="package" version="2.11.0">blast</requirement>
-        <requirement type="package" version="2.6.3">prodigal</requirement>
-        <requirement type="package" version="3.6.0">r</requirement>
     </requirements>
     <environment_variables>
         <environment_variable name="HOME">/home/galaxy</environment_variable>

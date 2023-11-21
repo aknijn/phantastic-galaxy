@@ -56,7 +56,7 @@ sub createAllelesFile {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "cgMLST.tmp" or die "Cannot open cgMLST.tmp: $!";
-	print $if "FILE\t";
+	# print $if "FILE\t";
     while (my @row = $sth->fetchrow_array) { 
       print $if "$row[0]\n";
     }       
@@ -98,10 +98,10 @@ sub adjustHeader {
     system("head -n 1 cgMLST.tmp > cgMLST_1.tmp");
     my $cmd = "echo ERROR";
     if ($species eq "Escherichia coli") {
-        $cmd = q( awk 'BEGIN{FS="\t"; OFS=FS}{ for(i=2;i<=NF;i++){ $i = "INNUENDO_wgMLST-"$i".fasta" }}1' cgMLST_1.tmp > cgMLST_header.tmp );
+        $cmd = q( awk 'BEGIN{FS="\t"; OFS=FS}{ for(i=2;i<=NF;i++){ $i = $i".fasta" }}1' cgMLST_1.tmp > cgMLST_header.tmp );
     } else {
         if ($species eq "Listeria monocytogenes") {
-            $cmd = q( awk 'BEGIN{FS="\t"; OFS=FS}{ for(i=2;i<=NF;i++){ $i = "Pasteur_cgMLST-"$i".fasta" }}1' cgMLST_1.tmp > cgMLST_header.tmp );
+            $cmd = q( awk 'BEGIN{FS="\t"; OFS=FS}{ for(i=2;i<=NF;i++){ $i = $i".fasta" }}1' cgMLST_1.tmp > cgMLST_header.tmp );
         }
     }	
     system($cmd);

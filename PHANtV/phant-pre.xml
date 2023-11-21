@@ -17,7 +17,7 @@
     </command>
 
     <inputs>
-        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" />
+        <param name="input_pc" type="data_collection" format="fastqsanger,fastqsanger.gz" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" />
     </inputs>
 
     <outputs>

@@ -3,7 +3,7 @@
     <requirements>
         <requirement type="package" version="3.7">python</requirement>
         <requirement type="package" version="8.0">mysql-connector-python</requirement>
-        <requirement type="package" version="2.5.4"> fpdf2</requirement>
+        <requirement type="package" version="2.5.4">fpdf2</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>

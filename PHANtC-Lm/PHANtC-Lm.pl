@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-## A wrapper script to call MentaLiST
+## A wrapper script to call chewBBACA and MentaLiST (only tree part)
 use strict;
 use warnings;
 use Cwd;
@@ -40,7 +40,7 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Listeria_monocytogenes.trn -g $chewiedir/listeria/lmonocytogenes_Pasteur_cgMLST/";
+    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Listeria_monocytogenes.trn -g $chewiedir/listeria/lmonocytogenes_Pasteur_cgMLST_ORIG/";
     my $result = system("$newpath; $python");
     return 0;
 }
@@ -72,56 +72,51 @@ sub prepareEnvironment {
 
 # Collect output to database
 sub collectOutput{
-    my @alleles = glob "output_dir/results_*/results_alleles.tsv";
-    if (@alleles == 1) {
-      open(my $if_in, $alleles[0]) or die "Could not read from results_alleles.tsv, program halting.";
-      <$if_in>;
-      my $allele_line = <$if_in>;
-      chomp $allele_line;
-      # remove INF- from newly inferred alleles
-      $allele_line =~ s/INF-//ig;
-      $allele_line =~ s/.fasta//ig;
-      close $if_in;
+    open(my $if_in, '<', "output_dir/results_alleles_hashed.tsv") or die "Could not read from results_alleles_hashed.tsv, program halting.";
+    <$if_in>;
+    my $allele_line = <$if_in>;
+    chomp $allele_line;
+    # remove INF- from newly inferred alleles, substitute - with 0 and remove .fasta from the filename
+    $allele_line =~ s/INF-//ig;
+    $allele_line =~ s/-/0/ig;
+    $allele_line =~ s/.fasta//ig;
+    close $if_in;
 
-      my $sql_insert = "insert into mlst_listeria (sample_code) values (?)";
-      my $sql_update = "update mlst_listeria set permille_loci=?, allele_strain=? where sample_code=?";
-      # connect to MySQL database
-      my %attr = ( PrintError=>0, RaiseError=>0);
-      my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
-      my $sth_insert = $dbh->prepare($sql_insert);
-      $sth_insert->execute($input1_name);
-      my $sth_update = $dbh->prepare($sql_update);
-      $sth_update->bind_param( 1, $permille_loci );
-      $sth_update->bind_param( 2, $allele_line );
-      $sth_update->bind_param( 3, $input1_name );
-      $sth_update->execute();
-      $sth_insert->finish();
-      $sth_update->finish();
-      # disconnect from the MySQL database
-      $dbh->disconnect();
-    }
+    my $sql_insert = "insert into mlst_listeria (sample_code) values (?)";
+    my $sql_update = "update mlst_listeria set permille_loci=?, allele_strain=? where sample_code=?";
+    # connect to MySQL database
+    my %attr = ( PrintError=>0, RaiseError=>0);
+    my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
+    my $sth_insert = $dbh->prepare($sql_insert);
+    $sth_insert->execute($input1_name);
+    my $sth_update = $dbh->prepare($sql_update);
+    $sth_update->bind_param( 1, $permille_loci );
+    $sth_update->bind_param( 2, $allele_line );
+    $sth_update->bind_param( 3, $input1_name );
+    $sth_update->execute();
+    $sth_insert->finish();
+    $sth_update->finish();
+    # disconnect from the MySQL database
+    $dbh->disconnect();
     return 0;
 }
 
 # Collect output with statistics, save the number of genes mapped, the total number of loci and the relative number of mapped genes
 sub collectStatistics{
-    my @statistics = glob "output_dir/results_*/results_statistics.tsv";
-    if (@statistics == 1) { 
-      move($statistics[0], $phantclm_allele) ;
-      open(my $if_st, '<', $phantclm_allele) or die "Could not read from results_statistics.tsv, program halting.";
-      my $lastline;
-      $lastline = $_, while (<$if_st>);
-      chomp $lastline;
-      my @keys = split( /\t/, $lastline );
-      $sampleGenesMapped = $keys[1];
-      $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]);
-      $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
-      close $if_st;      
-    }
+    move("output_dir/results_statistics.tsv", $phantclm_allele) ;
+    open(my $if_st, '<', $phantclm_allele) or die "Could not read from results_statistics.tsv, program halting.";
+    <$if_st>;
+    my $statistics_line = <$if_st>;
+    chomp $statistics_line;
+    my @keys = split( /\t/, $statistics_line );
+    $sampleGenesMapped = int($keys[1]) + int($keys[2]);
+    $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]) + int($keys[8]) + int($keys[9]) + int($keys[10]) + int($keys[11]);
+    $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
+    close $if_st;      
     return 0;
 }
 
-# Obtain alleles from db with allele_coverage>79,9% and write to temp file
+# Obtain allele profiles from db with allele_coverage>79,9% and write to temp file
 sub createAllelesFile {
     my $sql = "select allele_strain from mlst_listeria where sample_code='FILE' union
                 select allele_strain from mlst_listeria where permille_loci>799";
@@ -131,11 +126,11 @@ sub createAllelesFile {
     my $sth2 = $dbh2->prepare($sql);
     $sth2->execute();
 
-    open my $if, '>', "cgMLST.tmp" or die "Cannot open cgMLST.tmp: $!";
+    open my $of, '>', "cgMLST.tmp" or die "Cannot open cgMLST.tmp: $!";
     while(my @row = $sth2->fetchrow_array()){
-      print $if "$row[0]\n"
+      print $of "$row[0]\n"
     }       
-    close $if;
+    close $of;
 
     $sth2->finish();
     # disconnect from the MySQL database

@@ -6,7 +6,7 @@ use Cwd;
 use English;
 use File::Copy;
 use File::Basename;
-use IO::Compress::Gzip qw(gzip $GzipError) ;
+use JSON::XS;
 
 # Parse arguments
 my ($fastq1,
@@ -28,8 +28,8 @@ exit 0;
 
 # Run PHANtA
 sub runPHANtA {
-    gzip $fastq1 => "fastq_1.fastq.gz" or die "gzip failed: $GzipError\n";
-    gzip $fastq2 => "fastq_2.fastq.gz" or die "gzip failed: $GzipError\n";
+	# TRIMMING
+    system("fastp --thread 4 -i $fastq1 -o fastq_1.fastq.gz -I $fastq2 -O fastq_2.fastq.gz -f 3 -t 3 -F 3 -T 3 -l 55 --cut_front_window_size 5 --cut_front_mean_quality 20 --cut_tail_window_size 5 --cut_tail_mean_quality 20");
     my $rematchdir = "$scriptdir/../ReMatCh";
     my $mode = 0744;
     chmod $mode, "$rematchdir/rematch.py";
@@ -47,20 +47,40 @@ sub collectOutput{
     chomp $line;
     move($line, $polished_fasta);
     close $if;
-    # COVERAGE
-    my @trueCoverage_files = glob "output_dir/*/trueCoverage_report.txt";
-    foreach my $trueCoverage_file (@trueCoverage_files)
-    {
-      open(my $fh, '<', $trueCoverage_file) or die "Could not open file '$trueCoverage_file' $!";
-      my $lastline;
-      $lastline = $_, while (<$fh>);
-      chomp $lastline;
-      close($fh);
-      open($fh, '>', $json) or die "Could not open file '$json' $!";
-      print $fh "{\"coverage\": \"$lastline\"}";
-      close($fh);
-    }
+    # JSON
+    my $coverage = getCoverage();
+	my ($read_mean_length, $q30_rate, $total_bases) = getFastp();
+    open(my $fh, '>', $json) or die "Could not open file '$json' $!";
+    print $fh "{\"coverage\": \"$coverage\",";
+    print $fh "\"read_mean_length\": \"$read_mean_length\",";
+    print $fh "\"q30_rate\": \"$q30_rate\",";
+    print $fh "\"total_bases\": \"$total_bases\"}";
+    close($fh);
     return 0;
+}
+
+sub getCoverage{
+    my @trueCoverage_files = glob "output_dir/*/trueCoverage_report.txt";
+    open(my $fh, '<', $trueCoverage_files[0]) or die "Could not open file '$trueCoverage_files[0]' $!";
+    my $lastline;
+    $lastline = $_, while (<$fh>);
+    chomp $lastline;
+    close($fh);
+    return $lastline;
+}
+
+sub getFastp{
+    my $fname = 'fastp.json';
+    my $txt   = do {                             
+        local $/;                              
+        open my $fh, "<", $fname or die $!;
+        <$fh>;                                 
+    };
+    my $json = decode_json($txt);
+    my $read_mean_length = "$json->{summary}->{after_filtering}->{read1_mean_length}";
+    my $q30_rate = "$json->{summary}->{after_filtering}->{q30_rate}";
+    my $total_bases = "$json->{summary}->{after_filtering}->{total_bases}";
+	return $read_mean_length, $q30_rate, $total_bases;
 }
 
 # Run QUAST
@@ -70,7 +90,3 @@ sub runQUAST {
     system("mv outputdir/report.tsv $quast");
     return 0;
 }
-
-
-
-

@@ -9,10 +9,12 @@
         <requirement type="package" version="2.3.4">bowtie2</requirement>
         <requirement type="package" version="1.3.1">samtools</requirement>
         <requirement type="package" version="1.3.1">bcftools</requirement>
-        <requirement type="package" version="0.38">trimmomatic</requirement>
+        <requirement type="package" version="0.23.2">fastp</requirement>
         <requirement type="package" version="3.15">spades</requirement>
         <requirement type="package" version="1.23">pilon</requirement>
         <requirement type="package" version="5.0.2">quast</requirement>
+        <requirement type="package" version="2020.2">tbb</requirement>
+        <requirement type="package">ncurses</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>
@@ -22,6 +24,8 @@
     </stdio>
     <command>
 <![CDATA[
+    cat ${input_pc.forward} > ${output_pc.forward} &&
+    cat ${input_pc.reverse} > ${output_pc.reverse} &&
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
         python
         $__tool_directory__/PHANtA-S.py  
@@ -53,10 +57,7 @@
               --doNotUseProvidedSoftware
               --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$TrueCoverage.trueConfigFile
               --skipFastQC
-              --trimSlidingWindow 5:20
-              --trimLeading 3
-              --trimTrailing 3
-              --trimMinLength 55
+			  --skipTrimmomatic
               --spadesMaxMemory 14
               --spadesMinCoverageAssembly 2
               --spadesMinKmerCovContigs 2
@@ -88,6 +89,10 @@
 
     <!-- define outputs -->
     <outputs>
+        <collection name="output_pc" type="paired">
+            <data name="forward" label="${input_pc.forward.name}" />
+            <data name="reverse" label="${input_pc.reverse.name}" />
+        </collection>
         <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
         <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
         <data format="tsv" name="phanta_quast" label="${tool.name} on ${on_string}: report" />

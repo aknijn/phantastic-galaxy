@@ -37,8 +37,8 @@ sub runAlleleObserver {
     my $files_id = getIdFilesString(@inputs);
     createAllelesFile($files_id);
     if ($useNames eq "true") { substituteCodesByNames($files_id); }
-    # copy filtered allele profiles in allele matrix file (columns with INF, LNF, ecc. are removed)
-    my $cmd = q( awk -F"\t" '{(NR>1)}{for(i=2;i<=NF;i++){if ($i ~ /^0$|[a-zA-Z+]+/){print i}}}' cgMLST.tmp | sort | uniq > cgMLST.nocols );
+    # copy filtered allele profiles in allele matrix file (columns with 0 are removed)
+    my $cmd = q( awk -F"\t" '{for(i=2;i<=NF;i++){if ($i == 0){print i}}}' cgMLST.tmp | sort | uniq > cgMLST.nocols );
     system($cmd);
     open my $tf, '<', 'cgMLST.nocols';
     chomp(my @noCols = <$tf>);
@@ -50,7 +50,7 @@ sub runAlleleObserver {
         my $cmd2 = "cut --complement -f" . $noColsString . " cgMLST.tmp > " . $phantv_am;
         system($cmd2);
     }
-    # calculate distance matrix from allele profiles
+    # calculate distance matrix from allele profiles (non-filtered version because the differences are calculated pairwise)
     my $result = system("python $scriptdir/scripts/mlst_hash_stretch_distance.py -i cgMLST.tmp -o $phantv_dm");
     # calculate tree from distance matrix
     system("python $scriptdir/scripts/mentalist_tree.py $phantv_dm > $phantv_tree");
@@ -108,7 +108,7 @@ sub createAllelesFile {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "cgMLST.tmp" or die "Cannot open cgMLST.tmp: $!";
-	print $if "FILE\t";
+	# print $if "FILE\t";
     while (my @row = $sth->fetchrow_array) { 
       print $if "$row[0]\n";
     }       

@@ -53,22 +53,33 @@ def get_hash_from_number(locus_hash_number_file, allele_number):
         if number.rstrip() == allele_number or number.rstrip() == '*' + allele_number:
           return hash
 
+def get_number_from_hash(locus_hash_number_file, allele_hash):
+  if allele_hash == "0" or allele_hash == "-":
+    return "0"
+  else:
+    # get the allele number from the corresponding allele hash
+    with open(locus_hash_number_file) as locus_hashes_numbers:
+      for allele_hash_number in locus_hashes_numbers:
+        hash, number = allele_hash_number.split('\t')
+        if hash == allele_hash:
+          return number.rstrip()
+
 def elaborate_sample(samplefile, schemadirectory, outputdirectory):
   # a sample file was given, substitute the allele numbers with the allele sequence hashes
   samplefilename = os.path.basename(samplefile)
-  with open(samplefile) as sample, open(os.path.join(outputdirectory, samplefilename), "w") as hashed_sample:
+  with open(samplefile) as sample, open(os.path.join(outputdirectory, samplefilename), "w") as unhashed_sample:
     line_sample = sample.readline()
     header_sample = line_sample.split('\t')
     numcols = len(header_sample)
-    hashed_sample.write(line_sample)
+    unhashed_sample.write(line_sample)
     hashed_allele = [None] * numcols
     line_sample = sample.readline().split('\t')
     while len(line_sample[0]) > 0:
-      hashed_sample.write(line_sample[0].rstrip())
+      unhashed_sample.write(line_sample[0].rstrip())
       for i in range(1, numcols):
-        hashed_sample.write('\t')
-        hashed_sample.write(get_hash_from_number(os.path.join(schemadirectory, header_sample[i].rstrip()[:-6] + "_hash_number.txt"), line_sample[i].rstrip()))
-      hashed_sample.write('\n')
+        unhashed_sample.write('\t')
+        unhashed_sample.write(str(get_number_from_hash(os.path.join(schemadirectory, header_sample[i].rstrip()[:-6] + "_hash_number.txt"), line_sample[i].rstrip()) or 'LNF'))
+      unhashed_sample.write('\n')
       line_sample = sample.readline().split('\t')
 
 def __main__():
@@ -78,17 +89,12 @@ def __main__():
     parser.add_argument('--hashprofiles', dest='hashprofiles', help='CRC32 hashes MLST profiles')
     args = parser.parse_args()
 
-    if args.species == "Shiga toxin-producing Escherichia coli":
-        thisSpecies = "Escherichia coli"
+    if args.species == "Escherichia coli":
+        schemadirectory = "/gfs/data-flow/Chewie-NS/ecoli/ecoli_INNUENDO_wgMLST_ORIG"
+    elif args.species == "Listeria monocytogenes":
+        schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST_ORIG"
     else:
-        thisSpecies = args.species
-    if thisSpecies == "Escherichia coli":
-        schemadirectory = "/gfs/data-flow/Chewie-NS/ecoli/ecoli_INNUENDO_wgMLST"
-    else:
-        if thisSpecies == "Listeria monocytogenes":
-            schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST"
-        else:
-            schemadirectory = "/gfs/data-flow/Chewie-NS"
+        schemadirectory = "/gfs/data-flow/Chewie-NS"
     outputdirectory = "outputdirectory"
     profilefile = "cgMLST.tmp"
     # elaborate_fastafile for all fasta files in the directory
@@ -100,12 +106,10 @@ def __main__():
     for file in os.listdir(schemadirectory):
       if file.endswith(".fasta"):
         elaborate_fastafile(schemadirectory, file, outputdirectory)
-    # create a profile file with hashes instead of the assigned numbers
-    shutil.copyfile(args.input, "cgMLST.tmp")
+    # create a profile file with assigned numbers instead of the hashes
+    shutil.copyfile(args.input, profilefile)
     elaborate_sample(profilefile, outputdirectory, outputdirectory)
     shutil.copyfile(outputdirectory+"/"+profilefile, args.hashprofiles)
 
 if __name__ == "__main__":
     __main__()
-
-

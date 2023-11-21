@@ -125,13 +125,13 @@ def getMetadata(inputfiles, inuser, inspecies):
     files_id = ",".join(idfiles)
 
     if inspecies == "Escherichia coli":
-        sql_species = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli"
+        sql_species = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab,CodInterno FROM v_report_ecoli"
         sql = (sql_species + " WHERE (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     elif inspecies == "Listeria monocytogenes":
-        sql_species = "SELECT ID_ceppo,Anno,QC_status,MLST_ST,MLST_CC,MLST_Lineage,Serogroup,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_listeria"
+        sql_species = "SELECT ID_ceppo,Anno,QC_status,MLST_ST,MLST_CC,MLST_Lineage,Serogroup,DataCampione,Copertura,vir_tab,amr_tab,CodInterno FROM v_report_listeria"
         sql = (sql_species + " WHERE (email = '" + inuser + "' or right('" + inuser + "',7)='@iss.it') and files_id in (" + files_id + ") group by files_id")
     else:
-        sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab FROM v_report_ecoli WHERE files_id IN ('0')"
+        sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab,CodInterno FROM v_report_ecoli WHERE files_id IN ('0')"
 
     try:
         cnx = mysql.connector.connect(**config)
@@ -161,10 +161,12 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     pdf.cell(280, 10 , "Report di sequenziamento genomico di isolati batterici", fill=True, align="C")
     pdf.ln(20)
     pdf.set_font("helvetica", "B", 12)
-    pdf.write(8, "Data dell'analisi: " + str(dataSommario[numColumns]))
+    pdf.write(8, "Codice interno del campione: " + str(dataSommario[numColumns + 4]))
     pdf.ln(8)
     pdf.write(8, "Copertura del file: " + str(dataSommario[numColumns + 1]) + "X")
-    pdf.ln(20)
+    pdf.ln(8)
+    pdf.write(8, "Data dell'analisi: " + str(dataSommario[numColumns]))
+    pdf.ln(10)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(120)
     pdf.write(8, "Sommario")
@@ -186,7 +188,7 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     if len(dataSommarioHeader) > 8 and dataSommarioHeader[8] == "stx_subtype" and "(*)" in dataSommario[8]:
         pdf.write(8, "(*)=subtype con identità >95% e <100%")
 
-    pdf.ln(20)
+    pdf.ln(10)
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(120)
     pdf.write(8, "Virulotipo")
@@ -223,7 +225,13 @@ def writePdf(inspecies, dataSommario, dataSommarioHeader, dataSommarioHeaderForm
     pdf.cell(25)
     pdf.write(8, "*=nome del gene_allele_Acc. Number NCBI")
 
-    pdf.ln(20)
+    pdf.ln(10)
+    with pdf.offset_rendering() as dummy:
+        # check if title and table header cause page break
+        dummy.ln(68)
+    if dummy.page_break_triggered:
+        # We trigger a page break manually beforehand:
+        pdf.add_page()
     pdf.set_font("helvetica", "BU", 14)
     pdf.cell(90)
     pdf.write(8, "Determinanti di antibiotico resistenza")
@@ -271,13 +279,13 @@ def __main__():
     parser.add_argument('--phantr_reports', dest='phantr_reports', help='phantr reports zip file')
     args = parser.parse_args()
     if args.species == "Escherichia coli":
-        dataSommarioHeader = ["ID ceppo","Anno","Antigen_O","Antigen_H","QC_status","MLST_ST","stx1","stx2","stx_subtype","eae","ehxA"]
+        dataSommarioHeader = ["ID ceppo ISS","Anno","Antigen O","Antigen H","QC_status","MLST ST","stx1","stx2","stx subtype","eae","ehxA"]
         dataSommarioHeaderFormat = ["","","","","","","I","I","I","I","I"]
     elif args.species == "Listeria monocytogenes":
-        dataSommarioHeader = ["ID ceppo","Anno","QC_status","MLST_ST","MLST_CC","MLST_Lineage","Serogroup"]
+        dataSommarioHeader = ["ID ceppo ISS","Anno","QC status","MLST ST","MLST CC","MLST Lineage","Serogroup"]
         dataSommarioHeaderFormat = ["","","","","","",""]
     else:
-        dataSommarioHeader = ["ID ceppo"]
+        dataSommarioHeader = ["ID ceppo ISS"]
         dataSommarioHeaderFormat = [""]
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
 
