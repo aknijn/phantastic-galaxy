@@ -1,9 +1,9 @@
-<tool id="phantt-pre" name="PHANtT-pre" version="2.3">
+<tool id="phantt-pre" name="PHANtT-pre" version="3.0">
     <description>Preparation for multivirulotyper</description>
     <requirements>
-        <requirement type="package" version="5.26">perl</requirement>
-        <requirement type="package" version="1.642">perl-dbi</requirement>
-        <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
+        <requirement type="package" version="5.32">perl</requirement>
+        <requirement type="package" version="1.643">perl-dbi</requirement>
+        <requirement type="package" version="4.050">perl-dbd-mysql</requirement>
         <requirement type="package" version="4.58">perl-config-simple</requirement>
     </requirements>
     <!-- basic error handling -->

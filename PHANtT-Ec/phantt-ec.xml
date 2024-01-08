@@ -1,19 +1,19 @@
-<tool id="phantt-ec" name="PHANtT-Ec" version="2.3">
+<tool id="phantt-ec" name="PHANtT-Ec" version="3.0">
     <description>Typing for Escherichia coli</description>
     <requirements>
-        <requirement type="package" version="3.7">python</requirement>
+        <requirement type="package" version="3.11">python</requirement>
         <requirement type="package" version="5.26.2">perl</requirement>
         <requirement type="package" version="1.7">perl-bioperl</requirement>
         <requirement type="package" version="0.39">trimmomatic</requirement>
         <requirement type="package" version="3.15">spades</requirement>
-        <requirement type="package" version="2.4">skesa</requirement>
-        <requirement type="package" version="3.8">muscle</requirement>
-        <requirement type="package" version="2.3.4">bowtie2</requirement>
-        <requirement type="package" version="2020.2">tbb</requirement>
+        <requirement type="package" version="2.5">skesa</requirement>
+        <requirement type="package" version="5.1">muscle</requirement>
+        <requirement type="package" version="2.5.2">bowtie2</requirement>
         <requirement type="package" version="1.3.1">samtools</requirement>
         <requirement type="package" version="1.3.1">bcftools</requirement>
-        <requirement type="package" version="2.16.1">mlst</requirement>
+        <requirement type="package" version="2.23">mlst</requirement>
 		<requirement type="package" version="1.0.1">abricate</requirement>
+        <requirement type="package" version="2.7.5">fpdf2</requirement>
     </requirements>
     <environment_variables>
         <environment_variable name="HOME">/home/galaxy</environment_variable>
@@ -26,7 +26,7 @@
 <![CDATA[
     #if $species == "Escherichia coli":
         python
-        $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --serotype $serotype --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
+        $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --serotype $serotype --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype  --samplereport $samplereport
             #if str( $input_pc.forward.name ) != "dummy.fastq":
                 -1 ${input_pc.forward}
                 #if str( $input_pc.reverse.name ) != "dummy.fastq":
@@ -41,6 +41,7 @@
         touch $virulotypes
         touch $amrgenes
         touch $seqtype
+		touch $samplereport
     #end if
 ]]>
     </command>
@@ -56,10 +57,11 @@
 
     <!-- define outputs -->
     <outputs>
-        <data name="serotype" format="txt" label="${tool.name} on ${on_string}: serotype" />
+        <data name="serogroupo" format="txt" label="${tool.name} on ${on_string}: serogroup O" />
         <data name="phanttec_json" format="json" label="${tool.name} on ${on_string}: typing" />
         <data name="virulotypes" format="tabular" label="${tool.name} on ${on_string}: virulotypes" />
         <data name="amrgenes" format="tabular" label="${tool.name} on ${on_string}: amrgenes" />
         <data name="seqtype" format="tabular" label="${tool.name} on ${on_string}: sequence type" />
+        <data name="samplereport" format="pdf" label="${tool.name} on ${on_string}: sample report" />
     </outputs>
 </tool>

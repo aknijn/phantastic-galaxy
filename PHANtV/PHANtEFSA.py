@@ -36,7 +36,7 @@ def md5(fname):
     return scan(fname).lower()
 
 def get_experimental_data(inspecies, sample_name, fastq1, fastq2):
-    if inspecies == 'Shiga toxin-producing Escherichia coli':
+    if inspecies == 'Escherichia coli':
         isolate_specie_code = "RF-00003072-PAR"
     elif inspecies == 'Listeria monocytogenes':
         isolate_specie_code = "RF-00000251-MCG"
@@ -108,7 +108,7 @@ def get_mlst_sequencetype(phantastic_seq):
     return phantastic_seq_dict
 
 def get_typing_data(inspecies, sample_name, fastq1, fastq2, phantastic_type, phantastic_aq, phantastic_seq, phantastic_vir, predicted_serotype):
-    if inspecies == "Shiga toxin-producing Escherichia coli":
+    if inspecies == "Escherichia coli":
         (coverage, read_mean_length, q30_rate, total_bases, serotype) = get_ecoli_type_values(phantastic_type)
     (n50_contigs, genome_size, number_of_contigs) = get_assembly_statistics(phantastic_aq)
     virulence_genes = get_predicted_pathotype(phantastic_vir)
@@ -239,7 +239,7 @@ def main():
     parser.add_argument('--phantefsa_apiresponses', dest='phantefsa_apiresponses', help='phantefsa_apiresponses')
 
     args = parser.parse_args()
-    if args.species == "Shiga toxin-producing Escherichia coli":
+    if args.species == "Escherichia coli":
         EFSA_ROLE = "EURL STEC"
     else:
         EFSA_ROLE = "XXXX"

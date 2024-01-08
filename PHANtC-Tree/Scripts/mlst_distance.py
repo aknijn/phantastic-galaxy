@@ -54,7 +54,7 @@ def mlst_distance(mlst):
   
 def main(argv):
   input = ''
-  strusage = 'mlst-hash-distance.py -i <input.tsv> -o <output.tsv>\n'
+  strusage = 'mlst_distance.py -i <input.tsv> -o <output.tsv>\n'
   numloci = 0
   try:
     opts, args = getopt.getopt(argv,"hi:o:",["input=","output="])

@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+############################################################################
+# Istituto Superiore di Sanita'
+# European Union Reference Laboratory (EU-RL) for Escherichia coli, including Verotoxigenic E. coli (VTEC)
+# Developer: Arnold Knijn arnold.knijn@iss.it
+############################################################################
+"""
+
+import argparse
+import sys
+import os
+import shutil
+import subprocess
+import json
+import datetime
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
+from phantpdf import SampleReport
+
+TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def openFileAsTable(filename):
+    with open(filename) as table_in:
+        table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
+    return table_data
+
+def getAmplicons(sero_typing_tab):
+    strAmplicon = "-"
+    for i in [3,4,5,6,2]:
+        if sero_typing_tab[1][i] == "FULL":
+            strAmplicon += "," + sero_typing_tab[0][i]
+    return strAmplicon.replace("-,", "")
+
+def getCCandLineage(mlst_ST):
+    strCC = "?"
+    strLineage = "?"
+    lst_types = openFileAsTable(TOOL_DIR + "/data/lmonocytogenes.txt")
+    for lst_type in lst_types:
+        if (mlst_ST == lst_type[0]):
+            strCC = lst_type[8]
+            strLineage = lst_type[9]
+            break
+    return strCC, strLineage
+
+def __main__():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-1', '--input1', dest='input1', help='forward or single-end reads file in Sanger FASTQ format')
+    parser.add_argument('-2', '--input2', dest='input2', help='reverse reads file in Sanger FASTQ format')
+    parser.add_argument('--fasta', dest='fasta', help='fasta input file')
+    parser.add_argument('--input_id', dest='input_id', help='sample id')
+    parser.add_argument('--region', dest='region', help='region')
+    parser.add_argument('--year', dest='year', help='year')
+    parser.add_argument('--output', dest='output', help='output report json file')
+    parser.add_argument('--virulotypes', dest='virulotypes', help='strain virulotypes')
+    parser.add_argument('--amrgenes', dest='amrgenes', help='strain AMR genes')
+    parser.add_argument('--seqtype', dest='seqtype', help='MLST 7 genes')
+    parser.add_argument('--samplereport', dest='samplereport', help='sample report')
+    args = parser.parse_args()
+
+    subprocess.call("ln -s " + args.fasta + " input.fasta", shell=True)
+    subprocess.call("ln -s " + args.input1 + " input_1.fq", shell=True)
+    # if fastq.gz was uploaded then filename of decompressed reads ends with .dat
+    inputFastq = args.input1.endswith(".fastq") or args.input1.endswith(".dat")
+    if args.input2:
+        subprocess.call("ln -s " + args.input2 + " input_2.fq", shell=True)
+    # AMRGENES (only if fastq are provided)
+    if inputFastq:
+        subprocess.call("abricate --db ncbi input.fasta > " + args.amrgenes, shell=True)
+    else:
+        subprocess.call("touch " + args.amrgenes, shell=True)
+    # VIRULOTYPER (only if fastq are provided)
+    if inputFastq:
+        if args.input2:
+            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Listeria monocytogenes -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+        else:
+            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Listeria monocytogenesi -f input_1.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+        subprocess.call("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > virulotyper", shell=True)
+    else:
+        subprocess.call("touch virulotyper", shell=True)
+    # SEQUENCETYPER
+    subprocess.call("mlst --legacy --scheme listeria_2 input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci", shell=True)
+    subprocess.call("cat mlstsevenloci > " + args.seqtype, shell=True)
+    sequence_typing = openFileAsTable("mlstsevenloci")
+    # LISSEROTYPER
+    subprocess.call("python LisSero.py input.fasta > output_tab", shell=True)
+    sero_typing = openFileAsTable("output_tab")
+
+    try:
+        report_data = {}
+        report = open(args.output, 'w')
+        # write JSON
+        report_data["information_name"] = args.input_id
+        report_data["region"] = args.region
+        report_data["year"] = args.year
+        # write results
+        if len(sero_typing) == 0:
+            report_data["serotype_serogroup"] = "?"
+        else:
+            report_data["serotype_serogroup"] = sero_typing[1][1]
+        if len(sero_typing) == 0:
+            report_data["serotype_amplicons"] = "?"
+        else:
+            report_data["serotype_amplicons"] = getAmplicons(sero_typing)
+        report_data["mlst_CC"] = "?"
+        report_data["mlst_lineage"] = "?"
+        if len(sequence_typing) < 2:
+            report_data["mlst_ST"] = "ST?"
+        elif sequence_typing[1][1] == "failed":
+            report_data["mlst_ST"] = "ST?"
+        elif sequence_typing[1][0] == "-":
+            report_data["mlst_ST"] = "ST?"
+        else:
+            report_data["mlst_ST"] = "ST" + sequence_typing[1][0]
+            report_data["mlst_CC"], report_data["mlst_lineage"] = getCCandLineage(sequence_typing[1][0])
+        subprocess.call("cat virulotyper > " + args.virulotypes, shell=True)
+        subprocess.call("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
+        
+        if inputFastq:
+            with open('virulotyper_all') as viruall:
+                virulotypes_all = viruall.readline().strip() 
+        else:
+            virulotypes_all = "ND"
+        report_data["virulotypes_all"] = virulotypes_all.replace(", ,", ",")
+
+        sequence_qc_result = True
+        if "?" in sequence_typing or "-" in sequence_typing:
+            sequence_qc_result = False
+        if sequence_qc_result:
+            report_data['qc_status'] = "Passed"
+            report_data['qc_messages'] = "Passed."
+        else:
+            report_data['qc_status'] = "Failed"
+            report_data['qc_messages'] = "Accepted for outbreak investigation."
+    finally:
+        report.write(json.dumps(report_data))
+        report.close()
+    # create sample report
+    sampleReport = SampleReport("Listeria monocytogenes")
+    metadataRow = [report_data["information_name"],report_data["year"],report_data['qc_status'],report_data["mlst_ST"],report_data["mlst_CC"],report_data["mlst_lineage"],
+                   report_data["serotype_serogroup"]]
+    sampleReport.writePdf(metadataRow, args.amrgenes, args.virulotypes, args.samplereport)
+    sampleReport.close()
+
+if __name__ == "__main__":
+    __main__()
+
+

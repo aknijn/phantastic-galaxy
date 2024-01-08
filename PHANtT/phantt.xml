@@ -1,7 +1,7 @@
-<tool id="phantt" name="PHANtT" version="2.3">
+<tool id="phantt" name="PHANtT" version="3.0">
     <description>Multivirulotyper</description>
     <requirements>
-        <requirement type="package" version="3.7">python</requirement>
+        <requirement type="package" version="3.11">python</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>

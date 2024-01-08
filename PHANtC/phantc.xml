@@ -1,7 +1,7 @@
-<tool id="phantc" name="PHANtC" version="2.3">
-    <description>CRC32 MLST hasher</description>
+<tool id="phantc" name="PHANtC" version="3.0">
+    <description>CRC32 MLST dehasher</description>
     <requirements>
-        <requirement type="package" version="3.7">python</requirement>
+        <requirement type="package" version="3.11">python</requirement>
         <requirement type="package">biopython</requirement>
         <requirement type="package">zlib</requirement>
     </requirements>
@@ -21,10 +21,10 @@
 
     <inputs>
         <param name="species" type="text" label="Species" />
-        <param name="phantc_samples" format="tabular" type="data" label="sample names - allele profile" />
+        <param name="phantc_samples" format="tabular" type="data" label="sample names - CRC32 allele profile" />
     </inputs>
 
     <outputs>
-        <data name="hashprofiles" format="tabular" label="${tool.name} on ${on_string}: CRC32 allele profiles" ></data>
+        <data name="hashprofiles" format="tabular" label="${tool.name} on ${on_string}: allele profiles" ></data>
     </outputs>
 </tool>

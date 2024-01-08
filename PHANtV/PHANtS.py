@@ -9,15 +9,14 @@
 """
 
 import argparse
-import configparser
 import sys
 import os
 import datetime
 import fileinput
-import mysql.connector
-from mysql.connector import errorcode
 import pandas as pd
 import numpy as np
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
+from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,45 +29,15 @@ def getIdFile(filename):
     splitFilename = filename.split("/")
     return splitFilename[5]
 
-def getMetadata(inputfiles, species):
-    config = configparser.ConfigParser()
-    config.read(TOOL_DIR + '/../phantastic.conf')
-    dbhost = config['db']['host']
-    dbdatabase = config['db']['database']
-    dbuser = config['db']['user']
-    dbpassword = config['db']['password']
-    config = {
-        'user': dbuser,
-        'password': dbpassword,
-        'host': dbhost,
-        'database': dbdatabase
-    }
-
+def getMetadata(inputfiles, inspecies):
+    iridaDb = IridaDb(inspecies)
     with open(inputfiles, 'r') as f:
         content = f.readlines()
     idfiles = [getIdFile(x.rstrip('\n')) for x in content]
     files_id = ",".join(idfiles)
-
-    if species == "Escherichia coli":
-        sql = ("SELECT Anno,MLST,QC,Regione,Sero,SeroT,Stx12,StxSub,Eae FROM v_summary_ecoli WHERE files_id IN (" + files_id + ")")
-    elif species == "Listeria monocytogenes":
-        sql = ("SELECT Anno,MLST,QC,Regione,Sero,SeroT,Stx12,StxSub,Eae FROM v_summary_listeria WHERE files_id IN (" + files_id + ")")
-    elif species == "SARS-CoV-2":
-        sql = ("SELECT Anno,MLST,QC,Regione,Sero,SeroT,Stx12,StxSub,Eae FROM v_summary_sarscov2 WHERE files_id IN (" + files_id + ")")
-    else:
-        sql = ("SELECT Anno,MLST,QC,Regione,Sero,SeroT,Stx12,StxSub,Eae FROM v_summary_ecoli WHERE files_id IN (" + files_id + ")")
-
-    try:
-        cnx = mysql.connector.connect(**config)
-        cursor = cnx.cursor(buffered=True)
-        cursor.execute(sql)
-        records = pd.DataFrame(cursor.fetchall(),columns=['Anno','MLST','QC','Regione','Sero','SeroT','Stx12','StxSub','Eae'])
-        cursor.close()
-        return records
-    except mysql.connector.Error as err:
-        print(err)
-    else:
-        cnx.close()
+    records = pd.DataFrame(iridaDb.metadata_for_summary(inuser, files_id),columns=['Anno','MLST','QC','Regione','Sero','SeroT','Stx12','StxSub','Eae'])
+    iridaDb.close()
+    return records
 
 def getPassedFailed(dataframe):
     numPassed = 0
@@ -305,14 +274,10 @@ def __main__():
     parser.add_argument('--phants_stat', dest='phants_stat', help='phants stat report html file')
     parser.add_argument('--phants_trend', dest='phants_trend', help='phants trend report csv file')
     args = parser.parse_args()
-    if args.species == "Shiga toxin-producing Escherichia coli":
-        args.species = "Escherichia coli"
-    if args.species == "Coronavirus":
-        args.species = "SARS-CoV-2"
     metadata = getMetadata(args.input_files, args.species)
     # write csv
     dfpivot = pd.pivot_table(metadata,index=["MLST"], columns='Anno', values='QC', aggfunc=len, fill_value=0)
-    if args.species == "SARS-CoV-2":
+    if args.species == "Coronavirus":
         dfpivot = dfpivot.rename_axis("Lineage")
     dfpivot.to_csv(args.phants_trend) 
     # write html
@@ -322,7 +287,7 @@ def __main__():
         if args.species == "Escherichia coli":
             insertFile(TOOL_DIR + "/report_head_stec.html", report)
         else:
-            if args.species == "SARS-CoV-2":
+            if args.species == "Coronavirus":
                 insertFile(TOOL_DIR + "/report_head_sc2.html", report)
                 report.write(getTable(metadata))
                 report.write("</td></tr></table>\n")
@@ -339,7 +304,7 @@ def __main__():
         report.write(getPassedFailed(metadata))
         report.write(getRegionYear(metadata))
         report.write(getST(metadata))
-        if args.species == "SARS-CoV-2":
+        if args.species == "Coronavirus":
             report.write(getRegionLineage(metadata))
             report.write(getRegionMutations(metadata))
             report.write(getRegionStx12(metadata))
@@ -379,7 +344,7 @@ def __main__():
             else:
                 insertFile(TOOL_DIR + "/report_tail_stec2.html", report)
         else:
-            if args.species == "SARS-CoV-2":
+            if args.species == "Coronavirus":
                 insertFile(TOOL_DIR + "/report_tail_sc2.html", report)
             else:
                 insertFile(TOOL_DIR + "/report_tail.html", report)

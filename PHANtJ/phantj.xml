@@ -1,7 +1,7 @@
-<tool id="phantj" name="PHANtJ" version="2.3">
+<tool id="phantj" name="PHANtJ" version="3.0">
     <description>Create json file from analysis results</description>
     <requirements>
-        <requirement type="package" version="3.7">python</requirement>
+        <requirement type="package" version="3.11">python</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>

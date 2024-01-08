@@ -1,0 +1,51 @@
+<tool id="phantc-treeec" name="PHANtC-TreeEc" version="3.0">
+    <description>Clustering</description>
+    <requirements>
+        <requirement type="package" version="3.11">python</requirement>
+        <requirement type="package" version="5.32">perl</requirement>
+        <requirement type="package" version="1.643">perl-dbi</requirement>
+        <requirement type="package" version="4.050">perl-dbd-mysql</requirement>
+        <requirement type="package" version="4.58">perl-config-simple</requirement>
+	</requirements>
+    <!-- basic error handling -->
+    <stdio>
+        <!-- Assume anything other than zero is an error -->
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+        <exit_code range=":-1" level="fatal" description="Tool exception" />
+    </stdio>
+    <command>
+<![CDATA[
+    #if $species == "Escherichia coli":
+        perl 
+        $__tool_directory__/PHANtC-TreeEc.pl
+		  '${",".join(map(str, $input1))}'
+          $input_id
+		  $metadata_json
+          $phantcec_tree
+          $phantcec_dm
+          $phantcec_grapetree
+		  $phantcec_cluster
+    #else
+        touch $phantcec_tree
+        touch $phantcec_dm
+		touch $phantec_grapetree
+		touch $phantcec_cluster
+    #end if
+]]>
+    </command>
+
+    <inputs>
+        <param name="input1" format="fasta" type="data" multiple="true" label="fasta file" />
+        <param name="input_id" type="text" label="IRIDA sample code" />
+        <param name="metadata_json" format="txt" type="data" label="metadata_json" />
+        <param name="species" type="text" label="Expected species name" />
+    </inputs>
+
+    <!-- define outputs -->
+    <outputs>
+        <data format="nwk" name="phantcec_tree" label="${tool.name} on ${on_string}: phylogeny" ></data>
+        <data format="tsv" name="phantcec_dm" label="${tool.name} on ${on_string}: distance matrix" ></data>
+        <data format="html" name="phantec_grapetree" label="${tool.name} on ${on_string}: grapetree" ></data>
+        <data format="tsv" name="phantcec_cluster" label="${tool.name} on ${on_string}: clusters" ></data>
+   </outputs>
+</tool>

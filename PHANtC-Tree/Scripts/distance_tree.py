@@ -8,7 +8,7 @@ import Bio.Phylo
 from Bio.Phylo.TreeConstruction import DistanceMatrix, DistanceTreeConstructor
 
 def usage():
-  print("usage: mentalist_tree <input.tsv>\n")
+  print("usage: distance_tree <input.tsv>\n")
 
 def process_input_matrix(input_matrix):
     """ Converts an array-of-arrays containting sample IDs and distances

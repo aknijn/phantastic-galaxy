@@ -15,6 +15,8 @@ import shutil
 import subprocess
 import json
 import datetime
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
+from phantpdf import SampleReport
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -31,11 +33,12 @@ def __main__():
     parser.add_argument('--input_id', dest='input_id', help='sample id')
     parser.add_argument('--region', dest='region', help='region')
     parser.add_argument('--year', dest='year', help='year')
-    parser.add_argument('--serotype', dest='serotype', help='strain serotype')
+    parser.add_argument('--serogroupo', dest='serogroupo', help='strain serogroup O')
     parser.add_argument('--output', dest='output', help='output report json file')
     parser.add_argument('--virulotypes', dest='virulotypes', help='strain virulotypes')
     parser.add_argument('--amrgenes', dest='amrgenes', help='strain AMR genes')
     parser.add_argument('--seqtype', dest='seqtype', help='MLST 7 genes')
+    parser.add_argument('--samplereport', dest='samplereport', help='sample report')
     args = parser.parse_args()
 
     subprocess.call("ln -s " + args.fasta + " input.fasta", shell=True)
@@ -108,7 +111,7 @@ def __main__():
             report_data["serotype_o"] = "O?"
         else:
             report_data["serotype_o"] = sero_typing_o[0][0][sero_typing_o[0][0].rfind("O"):]
-        subprocess.call("echo " + report_data["serotype_o"] + " > " + args.serotype, shell=True)
+        subprocess.call("echo " + report_data["serotype_o"] + " > " + args.serogroupo, shell=True)
         if len(sero_typing_h) == 0:
             report_data["serotype_h"] = "H?"
         else:
@@ -197,6 +200,13 @@ def __main__():
     finally:
         report.write(json.dumps(report_data))
         report.close()
+    # create sample report
+    sampleReport = SampleReport("Escherichia coli")
+    metadataRow = [report_data["information_name"],report_data["year"],report_data["serotype_o"],report_data["serotype_h"],report_data['qc_status'],
+                   report_data["mlst_ST"],report_data["virulotype_stx1"],report_data["virulotype_stx2"],report_data["shigatoxin_subtype"],
+                   report_data["virulotype_eae"],report_data["virulotype_ehxa"]]
+    sampleReport.writePdf(metadataRow, args.amrgenes, args.virulotypes, args.samplereport)
+    sampleReport.close()
 
 if __name__ == "__main__":
     __main__()
