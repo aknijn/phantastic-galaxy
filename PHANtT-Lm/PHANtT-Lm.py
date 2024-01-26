@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import json
 import datetime
+from pathlib import Path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
 from phantpdf import SampleReport
 
@@ -58,32 +59,31 @@ def __main__():
     parser.add_argument('--samplereport', dest='samplereport', help='sample report')
     args = parser.parse_args()
 
-    subprocess.call("ln -s " + args.fasta + " input.fasta", shell=True)
-    subprocess.call("ln -s " + args.input1 + " input_1.fq", shell=True)
+    os.symlink(args.fasta, 'input.fasta')
+    os.symlink(args.input1, 'input_1.fq')
     # if fastq.gz was uploaded then filename of decompressed reads ends with .dat
     inputFastq = args.input1.endswith(".fastq") or args.input1.endswith(".dat")
     if args.input2:
-        subprocess.call("ln -s " + args.input2 + " input_2.fq", shell=True)
+        os.symlink(args.input2, 'input_2.fq')
     # AMRGENES (only if fastq are provided)
     if inputFastq:
-        subprocess.call("abricate --db ncbi input.fasta > " + args.amrgenes, shell=True)
+        subprocess.run("abricate --db ncbi input.fasta > " + args.amrgenes, shell=True)
     else:
-        subprocess.call("touch " + args.amrgenes, shell=True)
+        Path(args.amrgenes).touch()
     # VIRULOTYPER (only if fastq are provided)
     if inputFastq:
         if args.input2:
-            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Listeria monocytogenes -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+            subprocess.run("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Listeria monocytogenes -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
         else:
-            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Listeria monocytogenesi -f input_1.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
-        subprocess.call("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > virulotyper", shell=True)
+            subprocess.run("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Listeria monocytogenesi -f input_1.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+        subprocess.run("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > virulotyper", shell=True)
     else:
-        subprocess.call("touch virulotyper", shell=True)
+        Path("virulotyper").touch()
     # SEQUENCETYPER
-    subprocess.call("mlst --legacy --scheme listeria_2 input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci", shell=True)
-    subprocess.call("cat mlstsevenloci > " + args.seqtype, shell=True)
-    sequence_typing = openFileAsTable("mlstsevenloci")
+    subprocess.run("mlst --legacy --scheme listeria_2 input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
+    sequence_typing = openFileAsTable(args.seqtype)
     # LISSEROTYPER
-    subprocess.call("python LisSero.py input.fasta > output_tab", shell=True)
+    subprocess.run("python LisSero.py input.fasta > output_tab", shell=True)
     sero_typing = openFileAsTable("output_tab")
 
     try:
@@ -113,8 +113,8 @@ def __main__():
         else:
             report_data["mlst_ST"] = "ST" + sequence_typing[1][0]
             report_data["mlst_CC"], report_data["mlst_lineage"] = getCCandLineage(sequence_typing[1][0])
-        subprocess.call("cat virulotyper > " + args.virulotypes, shell=True)
-        subprocess.call("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
+        subprocess.run("cat virulotyper > " + args.virulotypes, shell=True)
+        subprocess.run("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
         
         if inputFastq:
             with open('virulotyper_all') as viruall:

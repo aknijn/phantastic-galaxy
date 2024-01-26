@@ -9,7 +9,6 @@
 """
 
 import configparser
-import sys
 import os
 import mysql.connector
 from mysql.connector import errorcode
@@ -20,13 +19,15 @@ TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 class IridaDb:
     def __init__(self, species):
         self._species = species
-        if species == 'Escherichia coli':
+        if species == 'Escherichia coli' or species == 'Shiga toxin-producing Escherichia coli':
+            self._species = 'Escherichia coli'
             self._configFile = TOOL_DIR + '/../phantastic.conf'
             self._allele_header_file = TOOL_DIR + '/data/ecoli.tsv'
         elif species == "Listeria monocytogenes":
             self._configFile = TOOL_DIR + '/../phantastic.conf'
             self._allele_header_file = TOOL_DIR + '/data/listeria.tsv'
-        elif species == "Coronavirus":
+        elif species == "Coronavirus" or species == "SARS-CoV-2":
+            self._species = 'Coronavirus'
             self._configFile = TOOL_DIR + '/../recovery.conf'
             self._allele_header_file = ''
         else:

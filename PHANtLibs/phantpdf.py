@@ -48,9 +48,9 @@ class SampleReport:
         return self._dataSommarioHeader
 
     def writePdf(self, inSommario, inAMR, inVir, inReportFile):
-        subprocess.call("awk -F '\t' '$2>80 { print $0 }' " + inVir + " | tail -n +2 > vir_tab_file", shell=True)
-        subprocess.call("sort -k2rn -k4rn -k3rn vir_tab_file | awk '{ if (!seen[substr($1,0,index($1, \"_\"))]++) print $0}' > vir_first_tab_file", shell=True)
-        subprocess.call("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + inAMR + " | tail -n +2 > amr_tab_file", shell=True)
+        subprocess.run("awk -F '\t' '$2>80 { print $0 }' " + inVir + " | tail -n +2 > vir_tab_file", shell=True)
+        subprocess.run("sort -k2rn -k4rn -k3rn vir_tab_file | awk '{ if (!seen[substr($1,0,index($1, \"_\"))]++) print $0}' > vir_first_tab_file", shell=True)
+        subprocess.run("awk -F '\t' '{ print $3 FS $4 FS $5 FS $6 FS $14 FS $5 FS $10 FS $11 }' " + inAMR + " | tail -n +2 > amr_tab_file", shell=True)
         dataAMR = openFileAsTable('amr_tab_file')
         dataVir = openFileAsTable('vir_first_tab_file')
 

@@ -18,6 +18,8 @@ import shutil
 import subprocess
 import json
 from md5hash import scan
+from pathlib import Path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
 from phantdb import IridaDb
 
 # Obtain file_id from file path
@@ -93,10 +95,10 @@ def get_assembly_statistics(phantastic_aq):
 
 def get_predicted_pathotype(phantastic_vir):
     # Filter the genes of interest taking care of stx1 and stx2 subtypes
-    subprocess.call("awk '{ if (/stx1._|stx2._/ && substr($1, length($1)-1,1)==\"_\" && $2>50) print substr($1, 1, index($1, \"_\")-2) substr($1, length($1),1),$2,$3,$4}' phantastic_vir.tab > virulotype_shortlist")
-    subprocess.call("awk '{ if (/stx1._|stx2._/ && substr($1, length($1)-1,1)!=\"_\" && $2>50) print substr($1, 1, index($1, \"_\")-2) \"?\",$2,$3,$4}' phantastic_vir.tab >> virulotype_shortlist")
-    subprocess.call("awk '{ if (/eae_|aat_|aggr_|aaic_/ && $2>50) print substr($1, 1, index($1, \"_\")-1),$2,$3,$4}' phantastic_vir.tab >> virulotype_shortlist")
-    subprocess.call("sort -n -r -k2,2 -k4,4 -k3,3 virulotype_shortlist | awk !seen[$1]++ {print $1,$2,$4}' > virulotyper_rep", shell=True)
+    subprocess.run("awk '{ if (/stx1._|stx2._/ && substr($1, length($1)-1,1)==\"_\" && $2>50) print substr($1, 1, index($1, \"_\")-2) substr($1, length($1),1),$2,$3,$4}' phantastic_vir.tab > virulotype_shortlist")
+    subprocess.run("awk '{ if (/stx1._|stx2._/ && substr($1, length($1)-1,1)!=\"_\" && $2>50) print substr($1, 1, index($1, \"_\")-2) \"?\",$2,$3,$4}' phantastic_vir.tab >> virulotype_shortlist")
+    subprocess.run("awk '{ if (/eae_|aat_|aggr_|aaic_/ && $2>50) print substr($1, 1, index($1, \"_\")-1),$2,$3,$4}' phantastic_vir.tab >> virulotype_shortlist")
+    subprocess.run("sort -n -r -k2,2 -k4,4 -k3,3 virulotype_shortlist | awk !seen[$1]++ {print $1,$2,$4}' > virulotyper_rep", shell=True)
     with open('virulotyper_rep') as virurep:
         virurep.replace("aggr","aggR")
         virurep.replace("aaic","aaiC")
@@ -256,7 +258,7 @@ def main():
             payload_data = {}
             payloads = open(args.phantefsa_payloads, 'w')
             shutil.copyfile(iridadb.allele_header_file, args.phantefsa_allelicprofiles)
-            subprocess.call("touch " + args.phantefsa_apiresponses, shell=True)
+            Path(args.phantefsa_apiresponses).touch()
             if metadata:
                 # Upload each sample to the EFSA WGS database
                 for meta_row in metadata:
@@ -265,7 +267,7 @@ def main():
                     shutil.copyfile(iridadb.allele_header_file, allelicprofile)
                     create_allelicprofile_file(iridadb, meta_row[1], meta_row[2], allelicprofile)
                     # save result in the cumulative allelicprofiles file
-                    subprocess.call("tail -n 1 " + allelicprofile + " >> " + args.phantefsa_allelicprofiles, shell=True)
+                    subprocess.run("tail -n 1 " + allelicprofile + " >> " + args.phantefsa_allelicprofiles, shell=True)
                     # obtain the json data for the three parts that will be fused into one payload file
                     payload = meta_row[2] + ".json"
                     experimental_data = get_experimental_data(args.species, meta_row[2], meta_row[3], meta_row[4])
@@ -280,14 +282,14 @@ def main():
                     call_upload_results_allelicprofile(allelicprofile, analyticalPipelineRunId, apiresponse)
                     iridadb.update_externalId(analyticalPipelineRunId, meta_row[0])
                     # save response data in the cumulative apiresponses file
-                    subprocess.call("echo ================================================= >> " + args.phantefsa_apiresponses, shell=True)
-                    subprocess.call("echo " + meta_row[2] + " >> " + args.phantefsa_apiresponses, shell=True)
-                    subprocess.call("cat " + apiresponse + " >> " + args.phantefsa_apiresponses, shell=True)
+                    subprocess.run("echo ================================================= >> " + args.phantefsa_apiresponses, shell=True)
+                    subprocess.run("echo " + meta_row[2] + " >> " + args.phantefsa_apiresponses, shell=True)
+                    subprocess.run("cat " + apiresponse + " >> " + args.phantefsa_apiresponses, shell=True)
         finally:
             payloads.write("[" + json.dumps(payload_data) + "]")
             payloads.close()
     else:
-        subprocess.call("echo 'Utente non autorizzato' > " + args.phantefsa_apiresponses, shell=True)
+        subprocess.run("echo 'Utente non autorizzato' > " + args.phantefsa_apiresponses, shell=True)
     iridadb.close()
 
 if __name__ == "__main__":

@@ -11,7 +11,6 @@
 import sys, getopt
 import os
 
-
 def mlst_calls(call_file):
   # return a MLST call matrix, with samples on the rows and loci on the columns.
   # header row is excluded and last two columns (CC, clonal_complex) are excluded
