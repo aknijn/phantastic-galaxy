@@ -12,11 +12,25 @@ use Config::Simple;
 # Parse arguments
 my ($input1,
     $input1_name,
-    $phantcec_allele,
-    $phantcec_json) = @ARGV;
+	$species,
+    $phantcchew_allele,
+    $phantcchew_json) = @ARGV;
 
 # Run program
 my $chewiedir = '/gfs/data-flow/Chewie-NS';
+my $python = "";
+if ($species eq "Listeria monocytogenes") {
+    my $ptfdir = "$chewiedir/prodigal_training_files/Listeria_monocytogenes.trn";
+	my $cgmlstdir = "$chewiedir/listeria/lmonocytogenes_Pasteur_cgMLST_ORIG/";
+	$python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $ptfdir -g $cgmlstdir";
+}
+elsif ($species eq "Escherichia coli") {
+	my $ptfdir = "$chewiedir/prodigal_training_files/Escherichia_coli.trn";
+	my $wgmlstdir = "$chewiedir/ecoli/ecoli_INNUENDO_wgMLST_ORIG/";
+	my $cgmlstfilter = "$chewiedir/ecoli/Ecoli_cgMLST_ns_ids.txt";
+    $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $ptfdir -g $wgmlstdir --gl $cgmlstfilter";
+}
+
 my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
 my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
@@ -35,7 +49,6 @@ sub runChewBBACA {
     my $allelecalldir = "$scriptdir/allelecall";
     my $utilsdir = "$scriptdir/utils";
     my $newpath = "PATH=$ENV{PATH}:$allelecalldir:$utilsdir";
-    my $python = "chewBBACA.py AlleleCall -o output_dir -i input_dir --cpu 4 --hash-profiles crc32 --no-inferred --bsr 0.6 --ptf $chewiedir/prodigal_training_files/Escherichia_coli.trn -g $chewiedir/ecoli/ecoli_INNUENDO_wgMLST_ORIG/ --gl $chewiedir/ecoli/Ecoli_cgMLST_ns_ids.txt";
     my $result = system("$newpath; $python");
     return 0;
 }
@@ -64,8 +77,17 @@ sub collectOutput{
     $allele_line =~ s/.fasta//ig;
     close $if_in;
 
-    my $sql_insert = "insert into mlst_ecoli (sample_code) values (?)";
-    my $sql_update = "update mlst_ecoli set permille_loci=?, allele_strain=? where sample_code=?";
+    my $sql_insert = "";
+    my $sql_update = "";
+    if ($species eq "Listeria monocytogenes") {
+        $sql_insert = "insert into mlst_listeria (sample_code) values (?)";
+        $sql_update = "update mlst_listeria set permille_loci=?, allele_strain=? where sample_code=?";
+    }
+    elsif ($species eq "Escherichia coli") {
+        $sql_insert = "insert into mlst_ecoli (sample_code) values (?)";
+        $sql_update = "update mlst_ecoli set permille_loci=?, allele_strain=? where sample_code=?";
+    }
+
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>0);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
@@ -85,8 +107,8 @@ sub collectOutput{
 
 # Collect output with statistics, save the number of genes mapped, the total number of loci and the relative number of mapped genes
 sub collectStatistics{
-    move("output_dir/results_statistics.tsv", $phantcec_allele) ;
-    open(my $if_st, '<', $phantcec_allele) or die "Could not read from results_statistics.tsv, program halting.";
+    move("output_dir/results_statistics.tsv", $phantcchew_allele) ;
+    open(my $if_st, '<', $phantcchew_allele) or die "Could not read from results_statistics.tsv, program halting.";
     <$if_st>;
     my $statistics_line = <$if_st>;
     chomp $statistics_line;
@@ -95,7 +117,7 @@ sub collectStatistics{
     my $cgLociNumber = int($keys[1]) + int($keys[2]) + int($keys[3]) + int($keys[4]) + int($keys[5]) + int($keys[6]) + int($keys[7]) + int($keys[8]) + int($keys[9]) + int($keys[10]) + int($keys[11]);
     $permille_loci = int((int($sampleGenesMapped)/$cgLociNumber)*1000 + 0.5);
     close $if_st;      
-    open my $of, '>', $phantcec_json or die "Cannot open json: $!";
+    open my $of, '>', $phantcchew_json or die "Cannot open json: $!";
     print $of "{\"core_genome_schema_size\": $cgLociNumber, \"sample_genes_mapped\": $sampleGenesMapped}";
     close $of;
     return 0;

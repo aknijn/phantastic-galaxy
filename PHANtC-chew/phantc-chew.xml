@@ -1,5 +1,5 @@
-<tool id="phantc-ec" name="PHANtC-Ec" version="3.0">
-    <description>Clustering by chewBBACA for Escherichia coli</description>
+<tool id="phantc-chew" name="PHANtC-chew" version="3.0">
+    <description>Clustering by chewBBACA</description>
     <requirements>
         <requirement type="package" version="3.11">python</requirement>
         <requirement type="package" version="3.3.1">chewbbaca</requirement>
@@ -16,26 +16,30 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $species == "Escherichia coli":
-        perl 
-        $__tool_directory__/PHANtC-Ec.pl
+    #if $species == "Escherichia coli" or $species == "Listeria monocytogenes":
+        perl
+        $__tool_directory__/PHANtC-chew.pl
+          '${",".join(map(str, $input1))}'
           $input_id
-          $phantcec_allele
-          $phantcec_json
+		  $species
+          $phantcchew_allele
+          $phantcchew_json
     #else
-        touch $phantcec_allele
-        touch $phantcec_json
+        touch $phantcchew_allele
+        touch $phantcchew_json
     #end if
 ]]>
     </command>
 
     <inputs>
+        <param name="input1" format="fasta" type="data" multiple="true" label="fasta file" />
         <param name="input_id" type="text" label="IRIDA sample code" />
+        <param name="species" type="text" label="species name" />
     </inputs>
 
     <!-- define outputs -->
     <outputs>
-        <data format="tsv" name="phantcec_allele" label="${tool.name} on ${on_string}: allele calls" ></data>
-        <data format="json" name="phantcec_json" label="${tool.name} on ${on_string}: allele filter" ></data>
+        <data format="tsv" name="phantcchew_allele" label="${tool.name} on ${on_string}: allele calls" ></data>
+        <data format="json" name="phantcchew_json" label="${tool.name} on ${on_string}: allele filter" ></data>
    </outputs>
 </tool>
