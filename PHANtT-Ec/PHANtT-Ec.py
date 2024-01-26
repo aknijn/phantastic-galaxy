@@ -34,7 +34,6 @@ def __main__():
     parser.add_argument('--input_id', dest='input_id', help='sample id')
     parser.add_argument('--region', dest='region', help='region')
     parser.add_argument('--year', dest='year', help='year')
-    parser.add_argument('--serogroupo', dest='serogroupo', help='strain serogroup O')
     parser.add_argument('--output', dest='output', help='output report json file')
     parser.add_argument('--virulotypes', dest='virulotypes', help='strain virulotypes')
     parser.add_argument('--amrgenes', dest='amrgenes', help='strain AMR genes')
@@ -111,7 +110,6 @@ def __main__():
             report_data["serotype_o"] = "O?"
         else:
             report_data["serotype_o"] = sero_typing_o[0][0][sero_typing_o[0][0].rfind("O"):]
-        subprocess.run("echo " + report_data["serotype_o"] + " > " + args.serogroupo, shell=True)
         if len(sero_typing_h) == 0:
             report_data["serotype_h"] = "H?"
         else:
