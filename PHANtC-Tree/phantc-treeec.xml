@@ -20,7 +20,6 @@
     #if $contamination_str == "No" and $species == "Escherichia coli":
         perl 
         $__tool_directory__/PHANtC-TreeEc.pl
-		  '${",".join(map(str, $input1))}'
           $input_id
 		  $metadata_json
           $phantcec_tree
@@ -37,7 +36,6 @@
     </command>
 
     <inputs>
-        <param name="input1" format="fasta" type="data" multiple="true" label="fasta file" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="metadata_json" format="txt" type="data" label="metadata_json" />
         <param name="species" type="text" label="Expected species name" />
