@@ -14,6 +14,7 @@ import json
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--phantq_json', dest='phantq_json', help='phantq_json')
     parser.add_argument('--phanta_json', dest='phanta_json', help='phanta_json')
     parser.add_argument('--phantt_json', dest='phantt_json', help='phantt_json')
     parser.add_argument('--phantc_json', dest='phantc_json', help='phantc_json')
@@ -24,6 +25,8 @@ def main():
         report_data = {}
         report = open(args.phantastic_json, 'w')
         # merge JSON files into one
+        with open(args.phantq_json, "rb") as phantq_infile:
+            report_data.update(json.load(phantq_infile))
         with open(args.phanta_json, "rb") as phanta_infile:
             report_data.update(json.load(phanta_infile))
         with open(args.phantt_json, "rb") as phantt_infile:

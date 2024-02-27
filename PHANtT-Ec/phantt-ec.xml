@@ -24,7 +24,9 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $species == "Escherichia coli":
+    #import subprocess
+    #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
+    #if $contamination_str == "No" and $species == "Escherichia coli":
         python
         $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype  --samplereport $samplereport
             #if str( $input_pc.forward.name ) != "dummy.fastq":
@@ -52,6 +54,7 @@
         <param name="region" type="text" label="Sample Region" />
         <param name="year" type="text" label="Sample Year" />
         <param name="species" type="text" label="species name" />
+        <param name="contamination" format="txt" type="data" label="Contamination" />
     </inputs>
 
     <!-- define outputs -->

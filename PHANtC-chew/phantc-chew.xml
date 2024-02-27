@@ -16,12 +16,14 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $species == "Escherichia coli" or $species == "Listeria monocytogenes":
+    #import subprocess
+    #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
+    #if $contamination_str == "No" and ($species == "Escherichia coli" or $species == "Listeria monocytogenes"):
         perl
         $__tool_directory__/PHANtC-chew.pl
           '${",".join(map(str, $input1))}'
           $input_id
-		  $species
+          $species
           $phantcchew_allele
           $phantcchew_json
     #else
@@ -35,6 +37,7 @@
         <param name="input1" format="fasta" type="data" multiple="true" label="fasta file" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="species" type="text" label="species name" />
+        <param name="contamination" format="txt" type="data" label="Contamination" />
     </inputs>
 
     <!-- define outputs -->

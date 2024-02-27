@@ -43,7 +43,7 @@ def __main__():
     parser.add_argument('--quast', dest='quast', help='quast')
     args = parser.parse_args()
 
-    # if filename ends with .dat a fastq.gz file was decomrpessed
+    # if filename ends with .dat a fastq.gz file was decompressed
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         # FASTQ
         #subprocess.run("ln -s " + args.input1 + " fastq_in.fastqsanger", shell=True)

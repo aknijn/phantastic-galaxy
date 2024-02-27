@@ -12,11 +12,12 @@
     <command>
 <![CDATA[
     python 
-      $__tool_directory__/PHANtJ.py --phanta_json $phanta_json --phantt_json $phantt_json --phantc_json $phantc_json --phantastic_json $phantastic_type
+      $__tool_directory__/PHANtJ.py --phantq_json $phantq_json --phanta_json $phanta_json --phantt_json $phantt_json --phantc_json $phantc_json --phantastic_json $phantastic_type
 ]]>
     </command>
 
     <inputs>
+        <param name="phantq_json" format="txt" type="data" label="phantq_json" />
         <param name="phanta_json" format="txt" type="data" label="phanta_json" />
         <param name="phantt_json" format="txt" type="data" label="phantt_json" />
         <param name="phantc_json" format="txt" type="data" label="phantc_json" />

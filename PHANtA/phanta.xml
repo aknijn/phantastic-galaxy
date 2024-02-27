@@ -23,51 +23,57 @@
     </stdio>
     <command>
 <![CDATA[
-    cat ${input_pc.forward} > ${output_pc.forward} &&
-    cat ${input_pc.reverse} > ${output_pc.reverse} &&
-    #if str( $input_pc.reverse.name ) == "dummy.fastq":
-        python
-        $__tool_directory__/PHANtA-S.py  
-            --input1 ${input_pc.forward}
-            --genomeSize $genomeSize
-            --input_id $input_id
-            --contigs $phanta_contigs
-            --json $phanta_json
-            --quast $phanta_quast
-    #else
-        #if str( $input_pc.forward.name ) == "dummy.fastq":
+    #import subprocess
+    #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
+    #if $contamination_str == "No":
+        #if str( $input_pc.reverse.name ) == "dummy.fastq":
             python
             $__tool_directory__/PHANtA-S.py  
-                --input1 ${input_pc.reverse}
+                --input1 ${input_pc.forward}
                 --genomeSize $genomeSize
                 --input_id $input_id
                 --contigs $phanta_contigs
                 --json $phanta_json
                 --quast $phanta_quast
         #else
-            perl
-            $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
-              "python $__tool_directory__/PHANtA.py
-              -s '$species'
-              -g $genomeSize
-              -f fastq_1.fastq.gz fastq_2.fastq.gz
-              -o output_dir
-              --threads \${GALAXY_SLOTS:-4}
-              --doNotUseProvidedSoftware
-              --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$TrueCoverage.trueConfigFile
-              --skipFastQC
-			  --skipTrimmomatic
-              --spadesMaxMemory 14
-              --spadesMinCoverageAssembly 2
-              --spadesMinKmerCovContigs 2
-              --spadesDefaultKmers
-              --spadesMinContigsLength 100
-              --skipMLST
-              --noGitInfo
-              --doNotSearchAdapters
-              --estimatedMinimumCoverage 10
-              "
+            #if str( $input_pc.forward.name ) == "dummy.fastq":
+                python
+                $__tool_directory__/PHANtA-S.py  
+                    --input1 ${input_pc.reverse}
+                    --genomeSize $genomeSize
+                    --input_id $input_id
+                    --contigs $phanta_contigs
+                    --json $phanta_json
+                    --quast $phanta_quast
+            #else
+                perl
+                $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
+                  "python $__tool_directory__/PHANtA.py
+                  -s '$species'
+                  -g $genomeSize
+                  -f fastq_1.fastq.gz fastq_2.fastq.gz
+                  -o output_dir
+                  --threads \${GALAXY_SLOTS:-4}
+                  --doNotUseProvidedSoftware
+                  --trueConfigFile $__tool_directory__/modules/trueCoverage_rematch/$trueConfigFile
+                  --skipFastQC
+                  --skipTrimmomatic
+                  --spadesMaxMemory 14
+                  --spadesMinCoverageAssembly 2
+                  --spadesMinKmerCovContigs 2
+                  --spadesDefaultKmers
+                  --spadesMinContigsLength 100
+                  --skipMLST
+                  --noGitInfo
+                  --doNotSearchAdapters
+                  --estimatedMinimumCoverage 10
+                  "
+            #end if
         #end if
+    #else
+        touch $phanta_contigs
+        touch $phanta_json
+        touch $phanta_quast
     #end if
 ]]>
     </command>
@@ -77,21 +83,12 @@
         <param name="genomeSize" type="float" value="5.0" label="Expected genome size in Mb" help="Float" />
         <param name="input_pc" type="data_collection"  format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Must be of datatype &quot;fastqsanger&quot;" optional="false" />
         <param name="input_id" type="text" label="IRIDA sample code" />
-        <param name="skipEstimatedCoverage" type="boolean" truevalue="true" falsevalue="false" checked="False" label="Do not estimate coverage depth based on number of sequenced nucleotides and expected genome size" />
-        <conditional name="TrueCoverage">
-            <param name="skipTrueCoverage" type="boolean" truevalue="true" falsevalue="false" checked="False" label="Do not run trueCoverage_ReMatCh analysis" />
-            <when value="false">
-                <param name="trueConfigFile" type="text" label="File species.config with trueCoverage_ReMatCh settings" />
-            </when>
-        </conditional>
+        <param name="trueConfigFile" type="text" label="File species.config with trueCoverage_ReMatCh settings" />
+        <param name="contamination" format="txt" type="data" label="Contamination" />
    </inputs>
 
     <!-- define outputs -->
     <outputs>
-        <collection name="output_pc" type="paired">
-            <data name="forward" label="${input_pc.forward.name}" />
-            <data name="reverse" label="${input_pc.reverse.name}" />
-        </collection>
         <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
         <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
         <data format="tsv" name="phanta_quast" label="${tool.name} on ${on_string}: report" />

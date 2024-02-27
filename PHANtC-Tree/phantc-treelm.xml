@@ -15,7 +15,9 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $species == "Listeria monocytogenes":
+    #import subprocess
+    #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
+    #if $contamination_str == "No" and $species == "Listeria monocytogenes":
         perl 
         $__tool_directory__/PHANtC-TreeLm.pl
           $input_id
@@ -37,6 +39,7 @@
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="metadata_json" format="txt" type="data" label="metadata_json" />
         <param name="species" type="text" label="Expected species name" />
+        <param name="contamination" format="txt" type="data" label="Contamination" />
     </inputs>
 
     <!-- define outputs -->
