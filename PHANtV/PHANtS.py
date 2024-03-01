@@ -35,7 +35,7 @@ def getMetadata(inputfiles, inspecies):
         content = f.readlines()
     idfiles = [getIdFile(x.rstrip('\n')) for x in content]
     files_id = ",".join(idfiles)
-    records = pd.DataFrame(iridaDb.metadata_for_summary(inuser, files_id),columns=['Anno','MLST','QC','Regione','Sero','SeroT','Stx12','StxSub','Eae'])
+    records = pd.DataFrame(iridaDb.metadata_for_summary(files_id),columns=['Anno','MLST','QC','Regione','Sero','SeroT','Stx12','StxSub','Eae'])
     iridaDb.close()
     return records
 
