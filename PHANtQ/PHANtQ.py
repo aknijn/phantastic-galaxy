@@ -21,7 +21,7 @@ def __main__():
     args = parser.parse_args()
 
     strContamination = 'No'
-    subprocess.run("kmerfinder.py  -i " + args.input + " -db /gfs/data-flow/KmerFinder/bacteria/bacteria.ATG -tax /gfs/data-flow/KmerFinder/bacteria/bacteria.tax -o output", shell=True))
+    subprocess.run("kmerfinder.py  -i " + args.input + " -db /gfs/data-flow/KmerFinder/bacteria/bacteria.ATG -tax /gfs/data-flow/KmerFinder/bacteria/bacteria.tax -o output", shell=True)
     with open('output/results.txt', 'r') as table_in:
         table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
     if len(table_data[0]) == 19:
