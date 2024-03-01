@@ -46,7 +46,7 @@
     <outputs>
         <data format="nwk" name="phantcec_tree" label="${tool.name} on ${on_string}: phylogeny" ></data>
         <data format="tsv" name="phantcec_dm" label="${tool.name} on ${on_string}: distance matrix" ></data>
-        <data format="html" name="phantec_grapetree" label="${tool.name} on ${on_string}: grapetree" ></data>
+        <data format="txt" name="phantec_grapetree" label="${tool.name} on ${on_string}: grapetree" ></data>
         <data format="tsv" name="phantcec_cluster" label="${tool.name} on ${on_string}: clusters" ></data>
    </outputs>
 </tool>
