@@ -13,15 +13,15 @@
 <![CDATA[
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
         ln -fs ${input_pc.forward} $input_id &&
-        #set $input_files = $input_id &&
+        #set $input_files = $input_id
     #else
         #if str( $input_pc.forward.name ) == "dummy.fastq":
             ln -fs ${input_pc.reverse} $input_id &&
-            #set $input_files = $input_id &&
+            #set $input_files = $input_id
         #else
             ln -fs ${input_pc.forward} $input_id + "_R1" &&
             ln -fs ${input_pc.reverse} $input_id + "_R2" &&
-            #set $input_files = $input_id + "_R1 " + $input_id + "_R2" &&
+            #set $input_files = $input_id + "_R1 " + $input_id + "_R2"
         #end if
     #end if
 
