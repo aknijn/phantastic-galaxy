@@ -80,7 +80,7 @@ def __main__():
         shutil.copy(args.input1, "input.fasta")
         Path("shigatoxin_fc").touch()
     # SEQUENCETYPER
-    subprocess.run("mlst --legacy --scheme ecoli_4 input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
+    subprocess.run("mlst --legacy --scheme ecoli_achtman_4 input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
     sequence_typing = openFileAsTable(args.seqtype)
     # SEROTYPER O&H
     if inputFastq:
