@@ -28,7 +28,7 @@
     python
     $__tool_directory__/PHANtQ.py  
         --input $input_files
-        --species $species
+        --species '$species'
         --contamination_json $phantq_json
         --contamination_txt $phantq_contamination
 ]]>

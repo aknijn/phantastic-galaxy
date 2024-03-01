@@ -23,7 +23,7 @@
         $__tool_directory__/PHANtC-chew.pl
           '${",".join(map(str, $input1))}'
           $input_id
-          $species
+          '$species'
           $phantcchew_allele
           $phantcchew_json
     #else
