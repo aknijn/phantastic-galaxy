@@ -16,7 +16,7 @@ def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', dest='input', help='input file(s)')
     parser.add_argument('--species', dest='species', help='species')
-    parser.add_argument('--contamination_json', dest='contamination', help='contamination_json')
+    parser.add_argument('--contamination_json', dest='contamination_json', help='contamination_json')
     parser.add_argument('--contamination_txt', dest='contamination_txt', help='contamination_txt')
     args = parser.parse_args()
 
