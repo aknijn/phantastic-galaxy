@@ -21,10 +21,6 @@ from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def getIdFile(filename):
-    splitFilename = filename.split("/")
-    return splitFilename[5]
-    
 def get_coverage(input_id):
     with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
         return iridadb.get_singleend_coverage(input_id[2:])
@@ -52,7 +48,7 @@ def __main__():
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         # FASTQ
         os.symlink(args.input1, 'fastq_in.fastqsanger')
-        str_coverage = str(get_coverage(getIdFile(args.input1)))
+        str_coverage = str(get_coverage(args.input_id))
         if float(str_coverage) < 100:
             # NO TRIMMING
             subprocess.run("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 0 -t 0 -l 5 --cut_front_window_size 0 --cut_front_mean_quality 1 --cut_tail_window_size 0 --cut_tail_mean_quality 1", shell=True)
