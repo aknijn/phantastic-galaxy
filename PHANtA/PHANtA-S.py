@@ -21,6 +21,10 @@ from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
+def getIdFile(filename):
+    splitFilename = filename.split("/")
+    return splitFilename[5]
+    
 def get_coverage(input_id):
     with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
         return iridadb.get_singleend_coverage(input_id[2:])
@@ -43,13 +47,13 @@ def __main__():
     parser.add_argument('--quast', dest='quast', help='quast')
     args = parser.parse_args()
 
+    str_coverage = "ND"
     # if filename ends with .dat a fastq.gz file was decompressed
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
         # FASTQ
-        #subprocess.run("ln -s " + args.input1 + " fastq_in.fastqsanger", shell=True)
-        #subprocess.run(['ln', '-s', args.input1, 'fastq_in.fastqsanger'])
         os.symlink(args.input1, 'fastq_in.fastqsanger')
-        if float(get_coverage(args.input_id)) < 100:
+        str_coverage = str(get_coverage(getIdFile(args.input1)))
+        if float(str_coverage) < 100:
             # NO TRIMMING
             subprocess.run("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 0 -t 0 -l 5 --cut_front_window_size 0 --cut_front_mean_quality 1 --cut_tail_window_size 0 --cut_tail_mean_quality 1", shell=True)
         else:
@@ -80,7 +84,7 @@ def __main__():
     #report_data["coverage"] = getCoverage(args.input1)
     #report.write(json.dumps(report_data))
     if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
-        report.write("{\"coverage\": \"" + str(get_coverage(args.input_id)) + "\",")
+        report.write("{\"coverage\": \"" + str_coverage + "\",")
         (read_mean_length, q30_rate, total_bases) = get_fastp('fastp.json')
         report.write("\"read_mean_length\": \"" + str(read_mean_length) + "\",")
         report.write("\"q30_rate\": \"" + str(q30_rate) + "\",")

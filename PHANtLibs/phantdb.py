@@ -151,7 +151,7 @@ class IridaDb:
     def get_singleend_coverage(self, file_id):
         sql = "SELECT total_bases/genome_size FROM sequence_file_pair_files AS sfpf \
           INNER JOIN sample_sequencingobject AS sso on sfpf.pair_id = sso.sequencingobject_id \
-          INNER JOIN  qc_entry  AS so on sso.sequencingObject_id = so.sequencingObject_id \
+          INNER JOIN qc_entry  AS so on sso.sequencingObject_id = so.sequencingObject_id \
           INNER JOIN project_sample AS ps on sso.sample_id = ps.sample_id \
           INNER JOIN project AS p on ps.project_id = p.id \
           WHERE genome_size>0 AND sfpf.files_id = %s"
