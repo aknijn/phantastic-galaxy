@@ -60,7 +60,7 @@ def __main__():
         Path("virulotyper").touch()
     # SHIGATOXIN TYPER (only if fastq are provided)
     if inputFastq:
-        os.symlink(os.popen("which trimmomatic.jar").read().strip(), 'trimmomatic.jar')
+        os.symlink(os.popen("which trimmomatic").read().strip()+".jar", 'trimmomatic.jar')
         if args.input2:
             # TRIMMING
             subprocess.run("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar PE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq input_2.fq trimmed1 trimmed1unpaired trimmed2 trimmed2unpaired SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:36", shell=True)
