@@ -155,7 +155,7 @@ class IridaDb:
           INNER JOIN project_sample AS ps on sso.sample_id = ps.sample_id \
           INNER JOIN project AS p on ps.project_id = p.id \
           WHERE genome_size>0 AND sso.sample_id = %s"
-        self.execute(sql, (file_id,))
+        self.execute(sql, (sample_id,))
         row = self.fetchone()
         return str(row[0])
         
