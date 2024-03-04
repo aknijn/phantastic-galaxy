@@ -27,7 +27,7 @@
     #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
     #if $contamination_str == "No" and $species == "Listeria monocytogenes":
         python
-        $__tool_directory__/PHANtT-Lm.py --fasta ${input_fasta} --output $phanttlm_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype  --samplereport $samplereport
+        $__tool_directory__/PHANtT-Lm.py --fasta ${input_fasta} --output $phanttlm_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
             #if str( $input_pc.forward.name ) != "dummy.fastq":
                 -1 ${input_pc.forward}
                 #if str( $input_pc.reverse.name ) != "dummy.fastq":
@@ -41,7 +41,6 @@
         touch $virulotypes
         touch $amrgenes
         touch $seqtype
-		touch $samplereport
     #end if
 
 ]]>
@@ -62,6 +61,5 @@
         <data name="virulotypes" format="tabular" label="${tool.name} on ${on_string}: virulotypes" />
         <data name="amrgenes" format="tabular" label="${tool.name} on ${on_string}: amrgenes" />
         <data name="seqtype" format="tabular" label="${tool.name} on ${on_string}: sequence type" />
-        <data name="samplereport" format="pdf" label="${tool.name} on ${on_string}: sample report" />
    </outputs>
 </tool>

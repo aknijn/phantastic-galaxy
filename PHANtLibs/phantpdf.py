@@ -69,7 +69,7 @@ class SampleReport:
         pdf.cell(280, 10 , "Report di sequenziamento genomico di isolati batterici", fill=True, align="C")
         pdf.ln(20)
         pdf.set_font("helvetica", "B", 12)
-        pdf.write(8, "Codice interno del campione: " + str(dataSommario[numColumns + 4]))
+        pdf.write(8, "Codice interno del campione: " + str(dataSommario[numColumns + 2]))
         pdf.ln(8)
         pdf.write(8, "Copertura del file: " + str(dataSommario[numColumns + 1]) + "X")
         pdf.ln(8)

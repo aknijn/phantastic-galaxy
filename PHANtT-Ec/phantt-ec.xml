@@ -13,7 +13,6 @@
         <requirement type="package" version="1.3.1">bcftools</requirement>
         <requirement type="package" version="2.23">mlst</requirement>
 		<requirement type="package" version="1.0.1">abricate</requirement>
-        <requirement type="package" version="2.7.5">fpdf2</requirement>
     </requirements>
     <environment_variables>
         <environment_variable name="HOME">/home/galaxy</environment_variable>
@@ -28,7 +27,7 @@
     #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
     #if $contamination_str == "No" and $species == "Escherichia coli":
         python
-        $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype  --samplereport $samplereport
+        $__tool_directory__/PHANtT-Ec.py --fasta ${input_fasta} --output $phanttec_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
             #if str( $input_pc.forward.name ) != "dummy.fastq":
                 -1 ${input_pc.forward}
                 #if str( $input_pc.reverse.name ) != "dummy.fastq":
@@ -42,7 +41,6 @@
         touch $virulotypes
         touch $amrgenes
         touch $seqtype
-		touch $samplereport
     #end if
 ]]>
     </command>
@@ -63,6 +61,5 @@
         <data name="virulotypes" format="tabular" label="${tool.name} on ${on_string}: virulotypes" />
         <data name="amrgenes" format="tabular" label="${tool.name} on ${on_string}: amrgenes" />
         <data name="seqtype" format="tabular" label="${tool.name} on ${on_string}: sequence type" />
-        <data name="samplereport" format="pdf" label="${tool.name} on ${on_string}: sample report" />
     </outputs>
 </tool>

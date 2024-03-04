@@ -16,8 +16,6 @@ import subprocess
 import json
 import datetime
 from pathlib import Path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
-from phantpdf import SampleReport
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -135,12 +133,6 @@ def __main__():
     finally:
         report.write(json.dumps(report_data))
         report.close()
-    # create sample report
-    sampleReport = SampleReport("Listeria monocytogenes")
-    metadataRow = [report_data["information_name"],report_data["year"],report_data['qc_status'],report_data["mlst_ST"],report_data["mlst_CC"],report_data["mlst_lineage"],
-                   report_data["serotype_serogroup"]]
-    sampleReport.writePdf(metadataRow, args.amrgenes, args.virulotypes, args.samplereport)
-    sampleReport.close()
 
 if __name__ == "__main__":
     __main__()

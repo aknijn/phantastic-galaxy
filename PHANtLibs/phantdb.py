@@ -163,13 +163,13 @@ class IridaDb:
     def metadata_for_report(self, user, fileIds):
         sql_where = " WHERE (email = %s or %s='@iss.it') and files_id in (%s) group by files_id"
         if self._species == "Escherichia coli":
-            sql_species = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab,CodInterno FROM v_report_ecoli"
+            sql_species = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,CodInterno,vir_tab,amr_tab FROM v_report_ecoli"
             sql = sql_species + sql_where
         elif self._species == "Listeria monocytogenes":
-            sql_species = "SELECT ID_ceppo,Anno,QC_status,MLST_ST,MLST_CC,MLST_Lineage,Serogroup,DataCampione,Copertura,vir_tab,amr_tab,CodInterno FROM v_report_listeria"
+            sql_species = "SELECT ID_ceppo,Anno,QC_status,MLST_ST,MLST_CC,MLST_Lineage,Serogroup,DataCampione,Copertura,CodInterno,vir_tab,amr_tab FROM v_report_listeria"
             sql = sql_species + sql_where
         else:
-            sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,vir_tab,amr_tab,CodInterno FROM v_report_ecoli " + sql_where + " LIMIT 0"
+            sql = "SELECT ID_ceppo,Anno,Antigen_O,Antigen_H,QC_status,MLST_ST,stx1,stx2,stx_subtype,eae,ehxA,DataCampione,Copertura,CodInterno,vir_tab,amr_tab FROM v_report_ecoli " + sql_where + " LIMIT 0"
         str_sql = sql % (user, user[-7:], fileIds)
         return self.query(str_sql)
 

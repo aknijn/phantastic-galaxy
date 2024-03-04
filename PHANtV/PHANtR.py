@@ -57,7 +57,7 @@ def __main__():
     numColumns = len(sampleReport.dataSommarioHeader)
     for metadataRow in metadata:
         report_list.write(metadataRow[0] + "\n")
-        sampleReport.writePdf(metadataRow, IRIDA_DIR + metadataRow[numColumns + 3], IRIDA_DIR + metadataRow[numColumns + 2], 'reports/report_' + metadataRow[0] + '.pdf')
+        sampleReport.writePdf(metadataRow, IRIDA_DIR + metadataRow[numColumns + 4], IRIDA_DIR + metadataRow[numColumns + 3], 'reports/report_' + metadataRow[0] + '.pdf')
     report_list.close()
     shutil.make_archive('irida_reports', format='zip', root_dir='reports')
     shutil.copyfile('irida_reports.zip', args.phantr_reports)

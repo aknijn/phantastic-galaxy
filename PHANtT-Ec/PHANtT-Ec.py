@@ -16,8 +16,6 @@ import subprocess
 import json
 import datetime
 from pathlib import Path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
-from phantpdf import SampleReport
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -38,7 +36,6 @@ def __main__():
     parser.add_argument('--virulotypes', dest='virulotypes', help='strain virulotypes')
     parser.add_argument('--amrgenes', dest='amrgenes', help='strain AMR genes')
     parser.add_argument('--seqtype', dest='seqtype', help='MLST 7 genes')
-    parser.add_argument('--samplereport', dest='samplereport', help='sample report')
     args = parser.parse_args()
 
     os.symlink(args.fasta, 'input.fasta')
@@ -198,13 +195,6 @@ def __main__():
     finally:
         report.write(json.dumps(report_data))
         report.close()
-    # create sample report
-    sampleReport = SampleReport("Escherichia coli")
-    metadataRow = [report_data["information_name"],report_data["year"],report_data["serotype_o"],report_data["serotype_h"],report_data['qc_status'],
-                   report_data["mlst_ST"],report_data["virulotype_stx1"],report_data["virulotype_stx2"],report_data["shigatoxin_subtype"],
-                   report_data["virulotype_eae"],report_data["virulotype_ehxa"]]
-    sampleReport.writePdf(metadataRow, args.amrgenes, args.virulotypes, args.samplereport)
-    sampleReport.close()
 
 if __name__ == "__main__":
     __main__()
