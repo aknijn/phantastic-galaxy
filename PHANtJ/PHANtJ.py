@@ -46,7 +46,10 @@ def main():
         phantastic_type.write("[" + json.dumps(report_data) + "]")
         phantastic_type.close()
 
-    sample_date = args.sampledate[8:9] + "/" + args.sampledate[5:6] + "/" + args.sampledate[0:3]
+    if len(args.sampledate) < 10:
+        sample_date = args.sampledate
+    else:
+        sample_date = args.sampledate[8:9] + "/" + args.sampledate[5:6] + "/" + args.sampledate[0:3]
     # create sample report
     if report_data["information_name"]
         sampleReport = SampleReport(args.species)
