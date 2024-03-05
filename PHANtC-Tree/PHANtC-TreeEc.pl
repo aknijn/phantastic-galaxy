@@ -55,7 +55,7 @@ sub readJsonFile {
 
 # Obtain metadata from db not present in json file
 sub getSampleMetadata {
-    my $sql = "select collectionDate,isolate,isolationSource from sample where id=$sample_id";
+    my $sql = "select collectionDate,IFNULL(isolate,''),IFNULL(isolationSource,'') from sample where id=$sample_id";
     my $metadata_db;
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
@@ -105,7 +105,7 @@ sub createAllelesFile {
 
 # Obtain metadata from db and write to output file
 sub createMetadataFile {
-    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Antigen_O,Antigen_H,MLST,stx1,stx2,stxsub,eae,ehxa from v_grapetree_opendata where Antigen_O ='$antigen_o'";
+    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Antigen_O,Antigen_H,MLST,stx1,stx2,stxsub,eae,ehxa from v_ecoli_opendata where Antigen_O ='$antigen_o'";
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
