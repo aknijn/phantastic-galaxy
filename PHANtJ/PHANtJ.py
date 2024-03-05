@@ -51,7 +51,7 @@ def main():
     else:
         sample_date = args.sampledate[8:9] + "/" + args.sampledate[5:6] + "/" + args.sampledate[0:3]
     # create sample report
-    if report_data["information_name"]
+    if "contaminated" not in report_data["qc_messages"]:
         sampleReport = SampleReport(args.species)
         if args.species == "Escherichia coli":
             metadataRow = [report_data["information_name"],report_data["year"],report_data["serotype_o"],report_data["serotype_h"],report_data['qc_status'],
