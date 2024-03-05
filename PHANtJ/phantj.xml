@@ -20,8 +20,8 @@
 		--phantc_json $phantc_json
 		--virulotypes $virulotypes
 		--amrgenes $amrgenes
-		--species $species
-		--strain $strain
+		--species '$species'
+		--strain '$strain'
 		--sampledate $sampledate
 		--phantastic_type $phantastic_type  
 	    --samplereport $samplereport
