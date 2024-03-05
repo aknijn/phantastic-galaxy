@@ -75,7 +75,7 @@ sub getSampleMetadata {
 sub createAllelesFile {
     my $sql;
     # If the serogroup is known, retrieve allele profiles only from those samples, if O? then from all
-    if ($antigeno eq 'O?') {
+    if ($antigen_o eq 'O?') {
         $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
                select allele_strain from mlst_ecoli where permille_loci>799";
     }
@@ -83,7 +83,7 @@ sub createAllelesFile {
     {
         $sql = "select allele_strain from mlst_ecoli where sample_code='FILE' union
                select allele_strain from mlst_ecoli where sample_code='$sample_code' union
-               select allele_strain from v_mlst_ecoli where permille_loci>799 and Antigen_O = '$antigeno'";
+               select allele_strain from v_mlst_ecoli where permille_loci>799 and Antigen_O = '$antigen_o'";
     }
     # connect to MySQL database
     my %attr2 = ( PrintError=>0, RaiseError=>1);
@@ -105,7 +105,7 @@ sub createAllelesFile {
 
 # Obtain metadata from db and write to output file
 sub createMetadataFile {
-    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Antigen_O,Antigen_H,MLST,stx1,stx2,stxsub,eae,ehxa from v_grapetree_opendata where Antigen_O ='$antigeno'";
+    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Antigen_O,Antigen_H,MLST,stx1,stx2,stxsub,eae,ehxa from v_grapetree_opendata where Antigen_O ='$antigen_o'";
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
