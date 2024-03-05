@@ -19,15 +19,17 @@
             ln -fs ${input_pc.reverse} $input_id &&
             #set $input_files = $input_id
         #else
-            ln -fs ${input_pc.forward} str($input_id) + "_R1" &&
-            ln -fs ${input_pc.reverse} str($input_id) + "_R2" &&
-            #set $input_files = str($input_id) + "_R1 " + str($input_id) + "_R2"
+            #set $input_file1 = str($input_id) + "_R1"
+			#set $input_file2 = str($input_id) + "_R2"
+            ln -fs ${input_pc.forward} $input_file1 &&
+            ln -fs ${input_pc.reverse} $input_file2 &&
+            #set $input_files = $input_file1 + " " + $input_file2
         #end if
     #end if
 
     python
     $__tool_directory__/PHANtQ.py  
-        --input $input_files
+        --input '$input_files'
         --species '$species'
         --contamination_json $phantq_json
         --contamination_txt $phantq_contamination
