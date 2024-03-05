@@ -60,7 +60,7 @@ def main():
     # create sample report
     if "contaminated" not in report_data["qc_messages"]:
         sampleReport = SampleReport(args.species)
-        str_coverage = report_data["coverage"].split('.)[0]
+        str_coverage = report_data["coverage"].split('.')[0]
         if args.species == "Escherichia coli":
             metadataRow = [report_data["information_name"],report_data["year"],report_data["serotype_o"],report_data["serotype_h"],report_data['qc_status'],
                        report_data["mlst_ST"],report_data["virulotype_stx1"],report_data["virulotype_stx2"],report_data["shigatoxin_subtype"],
