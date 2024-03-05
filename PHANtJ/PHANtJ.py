@@ -68,11 +68,8 @@ def main():
             metadataRow = [report_data["information_name"],report_data["year"],report_data['qc_status'],report_data["mlst_ST"],report_data["mlst_CC"],report_data["mlst_lineage"],
                        report_data["serotype_serogroup"],sample_date,report_data["coverage"],args.strain]
         sampleReport.writePdf(metadataRow, args.amrgenes, args.virulotypes, args.samplereport)
-        sampleReport.close()
     else:
         Path(args.samplereport).touch()
-
-
 
 if __name__ == "__main__":
     main()
