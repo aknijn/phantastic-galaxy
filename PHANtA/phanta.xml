@@ -24,6 +24,9 @@
     </stdio>
     <command>
 <![CDATA[
+    #import subprocess
+    #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
+    #if $contamination_str == "No":
         #if str( $input_pc.reverse.name ) == "dummy.fastq":
             python
             $__tool_directory__/PHANtA-S.py  
@@ -68,7 +71,11 @@
                   "
             #end if
         #end if
-
+    #else
+        touch $phanta_contigs
+        touch $phanta_json
+        touch $phanta_quast
+    #end if
 ]]>
     </command>
 
