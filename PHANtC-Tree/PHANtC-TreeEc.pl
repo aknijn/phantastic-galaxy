@@ -126,7 +126,7 @@ sub createMetadataFile {
 # Run ReporTree
 sub runReporTree {
     # calc distance matrix and minimum spanning tree
-    my $result = system("python reportree.py -a cgMLST.tsv -m phantcec_metadata.tsv --analysis grapetree -thr 4,7,15");
+    my $result = system("python $scriptdir/reportree.py -a cgMLST.tsv -m phantcec_metadata.tsv --analysis grapetree -thr 4,7,15");
     copy("ReporTree_dist_hamming.tsv", $phantcec_dm);
     copy("ReporTree.nwk", $phantcec_tree);
     copy("ReporTree_partitions.tsv", $phantcec_cluster);
