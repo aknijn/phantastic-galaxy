@@ -37,14 +37,18 @@ def main():
     try:
         phantastic_type = open(args.phantastic_type, 'w')
         # merge JSON files into one
-        with open(args.phantq_json, "rb") as phantq_infile:
-            report_data.update(json.load(phantq_infile))
-        with open(args.phanta_json, "rb") as phanta_infile:
-            report_data.update(json.load(phanta_infile))
-        with open(args.phantt_json, "rb") as phantt_infile:
-            report_data.update(json.load(phantt_infile))
-        with open(args.phantc_json, "rb") as phantc_infile:
-            report_data.update(json.load(phantc_infile))
+        if os.path.getsize((args.phantq_json) != 0:
+            with open(args.phantq_json, "rb") as phantq_infile:
+                report_data.update(json.load(phantq_infile))
+        if os.path.getsize((args.phanta_json) != 0:
+            with open(args.phanta_json, "rb") as phanta_infile:
+                report_data.update(json.load(phanta_infile))
+        if os.path.getsize((args.phantt_json) != 0:
+            with open(args.phantt_json, "rb") as phantt_infile:
+                report_data.update(json.load(phantt_infile))
+        if os.path.getsize((args.phantc_json) != 0:
+            with open(args.phantc_json, "rb") as phantc_infile:
+                report_data.update(json.load(phantc_infile))
     finally:
         phantastic_type.write("[" + json.dumps(report_data) + "]")
         phantastic_type.close()
