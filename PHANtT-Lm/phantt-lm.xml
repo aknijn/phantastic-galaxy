@@ -25,7 +25,7 @@
 <![CDATA[
     #import subprocess
     #set $contamination_str = $subprocess.check_output(['cat', str($contamination)])
-    #if $contamination_str == "No" and $species == "Listeria monocytogenes":
+    #if $contamination_str[0] == "No" and $species == "Listeria monocytogenes":
         python
         $__tool_directory__/PHANtT-Lm.py --fasta ${input_fasta} --output $phanttlm_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
             #if str( $input_pc.forward.name ) != "dummy.fastq":
