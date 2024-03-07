@@ -17,7 +17,7 @@
     <command>
 <![CDATA[
     #import subprocess
-    #set $contamination_str = $subprocess.getoutput('cat ' + str($contamination))
+    #set $contamination_str = subprocess.getoutput('cat ' + str($contamination))
     #if $contamination_str == "No" and ($species == "Escherichia coli" or $species == "Listeria monocytogenes"):
         perl
         $__tool_directory__/PHANtC-chew.pl
