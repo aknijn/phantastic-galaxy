@@ -16,8 +16,8 @@
     <command>
 <![CDATA[
     #import subprocess
-    #set $contamination_str = $subprocess.check_output(['cat', str($contamination)])
-    #if $contamination_str[0] == "No" and $species == "Escherichia coli":
+    #set $contamination_str = $subprocess.getoutput(['cat', str($contamination)])
+    #if $contamination_str == "No" and $species == "Escherichia coli":
         perl 
         $__tool_directory__/PHANtC-TreeEc.pl
           $input_id
