@@ -85,7 +85,7 @@
         <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Must be of datatype &quot;fastqsanger&quot;" optional="false" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="trueConfigFile" type="text" label="File species.config with trueCoverage_ReMatCh settings" />
-        <param name="contamination" format="txt" type="data" label="Contamination" />
+        <param name="contamination" format="txt" type="data" multiple="true" label="Contamination" />
    </inputs>
 
     <!-- define outputs -->
