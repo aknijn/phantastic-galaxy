@@ -26,20 +26,20 @@
 <![CDATA[
     #import os
     #if os.stat( str($contamination) ).st_size == 0:
-        #if str( $input_pc.reverse.name ) == "dummy.fastq":
+        #if str( $input_reverse.name ) == "dummy.fastq":
             python
             $__tool_directory__/PHANtA-S.py  
-                --input1 ${input_pc.forward}
+                --input1 $input_forward
                 --genomeSize $genomeSize
                 --input_id $input_id
                 --contigs $phanta_contigs
                 --json $phanta_json
                 --quast $phanta_quast
         #else
-            #if str( $input_pc.forward.name ) == "dummy.fastq":
+            #if str( $input_forward.name ) == "dummy.fastq":
                 python
                 $__tool_directory__/PHANtA-S.py  
-                    --input1 ${input_pc.reverse}
+                    --input1 $input_reverse
                     --genomeSize $genomeSize
                     --input_id $input_id
                     --contigs $phanta_contigs
@@ -47,7 +47,7 @@
                     --quast $phanta_quast
             #else
                 perl
-                $__tool_directory__/PHANtA.pl ${input_pc.forward} ${input_pc.reverse} $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
+                $__tool_directory__/PHANtA.pl $input_forward $input_reverse $input_id $genomeSize $phanta_contigs $phanta_json $phanta_quast
                   "python $__tool_directory__/PHANtA.py
                   -s '$species'
                   -g $genomeSize
@@ -81,10 +81,11 @@
     <inputs>
         <param name="species" type="text" label="species name" />
         <param name="genomeSize" type="float" value="5.0" label="Expected genome size in Mb" help="Float" />
-        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" optional="false" />
+        <param name="input_forward" type="data" format="fastqsanger" label="Paired-end FASTQ forward" optional="false" />
+        <param name="input_reverse" type="data" format="fastqsanger" label="Paired-end FASTQ reverse" optional="false" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="trueConfigFile" type="text" label="File species.config with trueCoverage_ReMatCh settings" />
-        <param name="contamination" format="json" type="data" multiple="true" label="Contamination" />
+        <param name="contamination" format="json" type="data" label="Contamination" />
    </inputs>
 
     <!-- define outputs -->

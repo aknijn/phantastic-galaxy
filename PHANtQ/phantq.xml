@@ -11,6 +11,8 @@
     </stdio>
     <command>
 <![CDATA[
+    cat ${input_pc.forward} > $phantq_forward &&
+    cat ${input_pc.reverse} > $phantq_reverse &&
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
         ln -fs ${input_pc.forward} $input_id &&
         #set $input_files = $input_id
@@ -44,5 +46,7 @@
     <!-- define outputs -->
     <outputs>
         <data format="json" name="phantq_json" label="${tool.name} on ${on_string}: contamination check" />
+        <data format="fastqsanger" name="phantq_forward" label="${tool.name} on ${on_string}: forward" />
+        <data format="fastqsanger" name="phantq_reverse" label="${tool.name} on ${on_string}: reverse" />
    </outputs>
 </tool>
