@@ -24,9 +24,8 @@
     </stdio>
     <command>
 <![CDATA[
-    #import subprocess
-    #set $contamination_str = subprocess.getoutput('cat ' + str($contamination))
-    #if $contamination_str == "No":
+    #import os
+    #if os.stat( str($contamination) ).st_size == 0:
         #if str( $input_pc.reverse.name ) == "dummy.fastq":
             python
             $__tool_directory__/PHANtA-S.py  
@@ -85,7 +84,7 @@
         <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Must be of datatype &quot;fastqsanger&quot;" optional="false" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="trueConfigFile" type="text" label="File species.config with trueCoverage_ReMatCh settings" />
-        <param name="contamination" format="txt" type="data" multiple="true" label="Contamination" />
+        <param name="contamination" format="json" type="data" multiple="true" label="Contamination" />
    </inputs>
 
     <!-- define outputs -->

@@ -27,9 +27,17 @@ my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
 my $sample_id = substr($sample_code,2);
 my ($antigen_o, $sample_metadata) = readJsonFile();
-createAllelesFile();
-createMetadataFile();
-runReporTree();
+if $sample_metadata eq "ND" {
+    my $fh;
+    open $fh, '>', $phantcec_tree and close $fh or die "Failed to create $phantcec_tree: $!\n";
+    open $fh, '>', $phantcec_dm and close $fh or die "Failed to create $phantcec_dm: $!\n";
+    open $fh, '>', $phantcec_grapetree and close $fh or die "Failed to create $phantcec_grapetree: $!\n";
+    open $fh, '>', $phantcec_cluster and close $fh or die "Failed to create $phantcec_cluster: $!\n";
+} else {
+    createAllelesFile();
+    createMetadataFile();
+    runReporTree();
+}
 exit(0);
 
 # obtain metadata from json file
@@ -37,20 +45,26 @@ sub readJsonFile {
     open my $jf, '<', $metadata_json or die "Can't open file $!";
     read $jf, my $json_text, -s $jf;
     chomp($json_text);
+    my $metadata = "ND";
+    my $antigen_o = "ND";
     my $json_var = decode_json substr($json_text,1,-1);
-    my $sequence = $json_var->{information_name};
-    my $region = $json_var->{region};
-    my $country = "Italy";
-    my $date_condizioneclinica_origine = getSampleMetadata();
-    my $antigen_o = $json_var->{serotype_o};
-    my $antigen_h = $json_var->{serotype_h};
-    my $mlst_st = $json_var->{mlst_ST};
-    my $stx1 = $json_var->{virulotype_stx1};
-    my $stx2 = $json_var->{virulotype_stx2};
-    my $stxsubtype = $json_var->{shigatoxin_subtype};
-    my $eae = $json_var->{virulotype_eae};
-    my $ehxa = $json_var->{virulotype_ehxa};
-    return ($antigen_o, join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $antigen_o, $antigen_h, $mlst_st, $stx1, $stx2, $stxsubtype, $eae, $ehxa));
+    my $contaminated = $json_var->{qc_messages};
+    if (index($contaminated, "contaminated") != -1) {
+        my $sequence = $json_var->{information_name};
+        my $region = $json_var->{region};
+        my $country = "Italy";
+        my $date_condizioneclinica_origine = getSampleMetadata();
+        $antigen_o = $json_var->{serotype_o};
+        my $antigen_h = $json_var->{serotype_h};
+        my $mlst_st = $json_var->{mlst_ST};
+        my $stx1 = $json_var->{virulotype_stx1};
+        my $stx2 = $json_var->{virulotype_stx2};
+        my $stxsubtype = $json_var->{shigatoxin_subtype};
+        my $eae = $json_var->{virulotype_eae};
+        my $ehxa = $json_var->{virulotype_ehxa};
+        $metadata = join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $antigen_o, $antigen_h, $mlst_st, $stx1, $stx2, $stxsubtype, $eae, $ehxa)
+    }
+    return ($antigen_o, $metadata);
 }
 
 # Obtain metadata from db not present in json file

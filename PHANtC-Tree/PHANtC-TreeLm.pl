@@ -27,9 +27,17 @@ my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
 my $sample_id = substr($sample_code,2);
 my $sample_metadata = readJsonFile();
-createAllelesFile();
-createMetadataFile();
-runReporTree();
+if $sample_metadata eq "ND" {
+    my $fh;
+    open $fh, '>', $phantclm_tree and close $fh or die "Failed to create $phantclm_tree: $!\n";
+    open $fh, '>', $phantclm_dm and close $fh or die "Failed to create $phantclm_dm: $!\n";
+    open $fh, '>', $phantclm_grapetree and close $fh or die "Failed to create $phantclm_grapetree: $!\n";
+    open $fh, '>', $phantclm_cluster and close $fh or die "Failed to create $phantclm_cluster: $!\n";
+} else {
+    createAllelesFile();
+    createMetadataFile();
+    runReporTree();
+}
 exit(0);
 
 # obtain metadata from json file
@@ -37,17 +45,22 @@ sub readJsonFile {
     open my $jf, '<', $metadata_json or die "Can't open file $!";
     read $jf, my $json_text, -s $jf;
     chomp($json_text);
+    my $metadata = "ND";
     my $json_var = decode_json substr($json_text,1,-1);
-    my $sequence = $json_var->{information_name};
-    my $region = $json_var->{region};
-    my $country = "Italy";
-    my $date_condizioneclinica_origine = getSampleMetadata();
-    my $serogroup = $json_var->{serotype_serogroup};
-    my $amplicons = $json_var->{serotype_amplicons};
-    my $mlst_st = $json_var->{mlst_ST};
-    my $mlst_cc = $json_var->{mlst_CC};
-    my $mlst_lineage = $json_var->{mlst_lineage};
-    return join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage);
+    my $contaminated = $json_var->{qc_messages};
+    if (index($contaminated, "contaminated") != -1) {
+        my $sequence = $json_var->{information_name};
+        my $region = $json_var->{region};
+        my $country = "Italy";
+        my $date_condizioneclinica_origine = getSampleMetadata();
+        my $serogroup = $json_var->{serotype_serogroup};
+        my $amplicons = $json_var->{serotype_amplicons};
+        my $mlst_st = $json_var->{mlst_ST};
+        my $mlst_cc = $json_var->{mlst_CC};
+        my $mlst_lineage = $json_var->{mlst_lineage};
+		$metadata = join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage)
+	}
+    return $metadata;
 }
 
 # Obtain metadata from db not present in json file

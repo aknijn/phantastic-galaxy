@@ -17,7 +17,6 @@ def __main__():
     parser.add_argument('--input', dest='input', help='input file(s)')
     parser.add_argument('--species', dest='species', help='species')
     parser.add_argument('--contamination_json', dest='contamination_json', help='contamination_json')
-    parser.add_argument('--contamination_txt', dest='contamination_txt', help='contamination_txt')
     args = parser.parse_args()
 
     strContamination = 'No'
@@ -35,9 +34,6 @@ def __main__():
         report_data['qc_messages'] = "Sample contaminated with " + strContamination
         report_json.write(json.dumps(report_data))
     report_json.close()
-    report_txt = open(args.contamination_txt, 'w')
-    report_txt.write(strContamination)
-    report_txt.close()
 
 if __name__ == "__main__":
     __main__()

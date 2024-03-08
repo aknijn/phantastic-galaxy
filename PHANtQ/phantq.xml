@@ -45,6 +45,5 @@
     <!-- define outputs -->
     <outputs>
         <data format="json" name="phantq_json" label="${tool.name} on ${on_string}: contamination check" />
-        <data format="txt" name="phantq_contamination" label="${tool.name} on ${on_string}: contamination txt" />
    </outputs>
 </tool>
