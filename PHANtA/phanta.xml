@@ -26,7 +26,7 @@
 <![CDATA[
     #import os
     #if os.stat( str($contamination) ).st_size == 0:
-        #if str( $input_reverse.name ) == "dummy.fastq":
+        #if os.stat( str($input_reverse) ).st_size < 10:
             python
             $__tool_directory__/PHANtA-S.py  
                 --input1 $input_forward
@@ -36,7 +36,7 @@
                 --json $phanta_json
                 --quast $phanta_quast
         #else
-            #if str( $input_forward.name ) == "dummy.fastq":
+            #if os.stat( str($input_forward) ).st_size < 10:
                 python
                 $__tool_directory__/PHANtA-S.py  
                     --input1 $input_reverse

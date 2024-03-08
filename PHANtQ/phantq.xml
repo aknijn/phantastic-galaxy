@@ -12,9 +12,7 @@
     <command>
 <![CDATA[
     cat ${input_pc.forward} > $phantq_forward &&
-	$phantq_forward.name = $input_pc.forward.name &&
     cat ${input_pc.reverse} > $phantq_reverse &&
-	$phantq_reverse.name = $input_pc.reverse.name &&
     #if str( $input_pc.reverse.name ) == "dummy.fastq":
         ln -fs ${input_pc.forward} $input_id &&
         #set $input_files = $input_id
