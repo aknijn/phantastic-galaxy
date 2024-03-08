@@ -81,7 +81,7 @@
     <inputs>
         <param name="species" type="text" label="species name" />
         <param name="genomeSize" type="float" value="5.0" label="Expected genome size in Mb" help="Float" />
-        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Must be of datatype &quot;fastqsanger&quot;" optional="false" />
+        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" optional="false" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="trueConfigFile" type="text" label="File species.config with trueCoverage_ReMatCh settings" />
         <param name="contamination" format="json" type="data" multiple="true" label="Contamination" />
@@ -89,8 +89,8 @@
 
     <!-- define outputs -->
     <outputs>
-        <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: assembly" />
-        <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" ></data>
-        <data format="tsv" name="phanta_quast" label="${tool.name} on ${on_string}: report" />
+        <data format="fasta" name="phanta_contigs" label="${tool.name} on ${on_string}: contigs" />
+        <data format="json" name="phanta_json" label="${tool.name} on ${on_string}: coverage" />
+        <data format="tsv" name="phanta_quast" label="${tool.name} on ${on_string}: quast" />
    </outputs>
 </tool>
