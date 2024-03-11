@@ -36,6 +36,7 @@ if ($sample_metadata eq "ND") {
     createAllelesFile();
     createMetadataFile();
     runReporTree();
+    createGrapeTreeLink();
 }
 exit(0);
 
@@ -57,8 +58,8 @@ sub readJsonFile {
         my $mlst_st = $json_var->{mlst_ST};
         my $mlst_cc = $json_var->{mlst_CC};
         my $mlst_lineage = $json_var->{mlst_lineage};
-		$metadata = join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage)
-	}
+        $metadata = join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage)
+    }
     return $metadata;
 }
 

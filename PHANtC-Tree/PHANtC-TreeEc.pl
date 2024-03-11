@@ -36,6 +36,7 @@ if ($sample_metadata eq "ND") {
     createAllelesFile();
     createMetadataFile();
     runReporTree();
+    createGrapeTreeLink();
 }
 exit(0);
 
