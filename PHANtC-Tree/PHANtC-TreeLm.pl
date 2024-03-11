@@ -28,10 +28,10 @@ my $pwd = $cfg->param('db.password');
 my $sample_id = substr($sample_code,2);
 my $sample_metadata = readJsonFile();
 if ($sample_metadata eq "ND") {
-    open my $fh1, '>', $phantclm_tree and close $fh1 or die "Failed to create file: $!\n";
-    open my $fh2, '>', $phantclm_dm and close $fh2 or die "Failed to create my : $!\n";
-    open my $fh3, '>', $phantclm_grapetree and close $fh3 or die "Failed to create my : $!\n";
-    open my $fh4, '>', $phantclm_cluster and close $fh4 or die "Failed to create my : $!\n";
+    open my FILEHANDLE, '>', $phantclm_tree and close FILEHANDLE or die "Failed to create file: $!\n";
+    open my FILEHANDLE, '>', $phantclm_dm and close FILEHANDLE or die "Failed to create my : $!\n";
+    open my FILEHANDLE, '>', $phantclm_grapetree and close FILEHANDLE or die "Failed to create my : $!\n";
+    open my FILEHANDLE, '>', $phantclm_cluster and close FILEHANDLE or die "Failed to create my : $!\n";
 } else {
     createAllelesFile();
     createMetadataFile();
