@@ -26,7 +26,7 @@ def openFileAsTable(filename):
 
 def get_filetype(input_file):
     filetype = "error"
-    with open('myfile.txt') as infile:
+    with open(input_file) as infile:
         for line in infile:
             if line in ['\n', '\r\n']:
                 continue
