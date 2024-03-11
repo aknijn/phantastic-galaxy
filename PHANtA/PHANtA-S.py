@@ -21,6 +21,24 @@ from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
+def get_filetype(input_file):
+    filetype = "error"
+    with open('myfile.txt') as infile:
+        for line in infile:
+            if line in ['\n', '\r\n']:
+                continue
+            elif line[0] == '@':
+                filetype = "fastq"
+                break
+            elif line[0] == '>':
+                filetype = "fasta"
+                break
+            else:
+                filetype = "other"
+                break
+    return filetype
+
+
 def get_coverage(input_id):
     with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
         return iridadb.get_singleend_coverage(input_id[2:])
@@ -44,8 +62,10 @@ def __main__():
     args = parser.parse_args()
 
     str_coverage = "ND"
-    # if filename ends with .dat a fastq.gz file was decompressed
-    if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
+    is_fastq = False
+    if get_filetype(args.input1) == "fastq":
+        is_fastq = True
+    if is_fastq:
         # FASTQ
         os.symlink(args.input1, 'fastq_in.fastqsanger')
         str_coverage = str(get_coverage(args.input_id))
@@ -79,7 +99,7 @@ def __main__():
     # write JSON (json.dumps => TypeError: Decimal is not JSON serializable)
     #report_data["coverage"] = getCoverage(args.input1)
     #report.write(json.dumps(report_data))
-    if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
+    if is_fastq:
         report.write("{\"coverage\": \"" + str_coverage + "\",")
         (read_mean_length, q30_rate, total_bases) = get_fastp('fastp.json')
         report.write("\"read_mean_length\": \"" + str(read_mean_length) + "\",")

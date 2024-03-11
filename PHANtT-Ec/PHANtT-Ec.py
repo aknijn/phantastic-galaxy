@@ -24,6 +24,23 @@ def openFileAsTable(filename):
         table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
     return table_data
 
+def get_filetype(input_file):
+    filetype = "error"
+    with open('myfile.txt') as infile:
+        for line in infile:
+            if line in ['\n', '\r\n']:
+                continue
+            elif line[0] == '@':
+                filetype = "fastq"
+                break
+            elif line[0] == '>':
+                filetype = "fasta"
+                break
+            else:
+                filetype = "other"
+                break
+    return filetype
+
 def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument('-1', '--input1', dest='input1', help='forward or single-end reads file in Sanger FASTQ format')
@@ -40,17 +57,18 @@ def __main__():
 
     os.symlink(args.fasta, 'input.fasta')
     os.symlink(args.input1, 'input_1.fq')
-    # if fastq.gz was uploaded then filename of decompressed reads ends with .dat
-    inputFastq = args.input1.endswith(".fastq") or args.input1.endswith(".dat")
+    is_fastq = False
+    if get_filetype(args.input1) == "fastq":
+        is_fastq = True
     if args.input2:
         os.symlink(args.input2, 'input_2.fq')
     # AMRGENES (only if fastq are provided)
-    if inputFastq:
+    if is_fastq:
         subprocess.run("abricate --db resfinder input.fasta > " + args.amrgenes, shell=True)
     else:
         Path(args.amrgenes).touch()
     # VIRULOTYPER (only if fastq are provided)
-    if inputFastq:
+    if is_fastq:
         if args.input2:
             subprocess.run("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
         else:
@@ -59,7 +77,7 @@ def __main__():
     else:
         Path("virulotyper").touch()
     # SHIGATOXIN TYPER (only if fastq are provided)
-    if inputFastq:
+    if is_fastq:
         os.symlink(os.popen("which trimmomatic").read().strip()+".jar", 'trimmomatic.jar')
         if args.input2:
             # TRIMMING
@@ -80,7 +98,7 @@ def __main__():
     subprocess.run("mlst --legacy --scheme ecoli_achtman_4 input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
     sequence_typing = openFileAsTable(args.seqtype)
     # SEROTYPER O&H
-    if inputFastq:
+    if is_fastq:
         if args.input2:
             subprocess.run("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
         else:
@@ -123,7 +141,7 @@ def __main__():
         subprocess.run("sort virulotyper | awk '/eae_|stx1._|stx2._|ehxa_/ && $2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_rep", shell=True)
         subprocess.run("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
         
-        if inputFastq:
+        if is_fastq:
             with open('virulotyper_rep') as virurep:
                 virulotype_eae = "-"
                 virulotype_ehxa = "-"
@@ -154,7 +172,7 @@ def __main__():
 
         shigatoxin_typing = openFileAsTable("shigatoxin_fc")
         if len(shigatoxin_typing) == 0:
-            if inputFastq:
+            if is_fastq:
                 str_shigatoxin_subtype = "No subtype match found"
             else:
                 str_shigatoxin_subtype = "ND"

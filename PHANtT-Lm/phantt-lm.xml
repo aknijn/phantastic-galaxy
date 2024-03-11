@@ -27,21 +27,20 @@
     #if os.stat( str($contamination) ).st_size == 0 and $species == "Listeria monocytogenes":
         python
         $__tool_directory__/PHANtT-Lm.py --fasta $input_fasta --output $phanttlm_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
-            if os.stat( str($input_forward) ).st_size > 10:
-                -1 $input_forward
-                if os.stat( str($input_reverse) ).st_size > 10:
-                    -2 $input_reverse
-                #end if
-            #else
-                -1 $input_reverse
+        #if os.stat( str($input_forward) ).st_size > 10:
+            -1 $input_forward
+            #if os.stat( str($input_reverse) ).st_size > 10:
+                -2 $input_reverse
             #end if
+        #else
+            -1 $input_reverse
+        #end if
     #else
         touch $phanttlm_json
         touch $virulotypes
         touch $amrgenes
         touch $seqtype
     #end if
-
 ]]>
     </command>
 
@@ -56,10 +55,10 @@
         <param name="contamination" format="json" type="data" label="Contamination" />
     </inputs>
 
-   <outputs>
+    <outputs>
         <data name="phanttlm_json" format="json" label="${tool.name} on ${on_string}: typing" />
         <data name="virulotypes" format="tabular" label="${tool.name} on ${on_string}: virulotypes" />
         <data name="amrgenes" format="tabular" label="${tool.name} on ${on_string}: amrgenes" />
         <data name="seqtype" format="tabular" label="${tool.name} on ${on_string}: sequence type" />
-   </outputs>
+    </outputs>
 </tool>
