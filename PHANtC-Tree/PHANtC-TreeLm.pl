@@ -47,7 +47,7 @@ sub readJsonFile {
     my $metadata = "ND";
     my $json_var = decode_json substr($json_text,1,-1);
     my $contaminated = $json_var->{qc_messages};
-    if (index($contaminated, "contaminated") != -1) {
+    if (index($contaminated, "contaminated") == -1) {
         my $sequence = $json_var->{information_name};
         my $region = $json_var->{region};
         my $country = "Italy";
