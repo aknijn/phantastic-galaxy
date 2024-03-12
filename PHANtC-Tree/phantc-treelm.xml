@@ -35,7 +35,7 @@
 
     <inputs>
         <param name="input_id" type="text" label="IRIDA sample code" />
-        <param name="metadata_json" format="txt" type="data" label="metadata_json" />
+        <param name="metadata_json" format="json" type="data" label="metadata_json" />
         <param name="species" type="text" label="Expected species name" />
     </inputs>
 

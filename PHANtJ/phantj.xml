@@ -29,12 +29,12 @@
     </command>
 
     <inputs>
-        <param name="phantq_json" format="txt" type="data" label="phantq_json" />
-        <param name="phanta_json" format="txt" type="data" label="phanta_json" />
-        <param name="phantt_json" format="txt" type="data" label="phantt_json" />
-        <param name="phantc_json" format="txt" type="data" label="phantc_json" />
-        <param name="virulotypes" format="txt" type="data" label="virulotypes" />
-        <param name="amrgenes" format="txt" type="data" label="amrgenes" />
+        <param name="phantq_json" format="json" type="data" label="phantq_json" />
+        <param name="phanta_json" format="json" type="data" label="phanta_json" />
+        <param name="phantt_json" format="json" type="data" label="phantt_json" />
+        <param name="phantc_json" format="json" type="data" label="phantc_json" />
+        <param name="virulotypes" format="tsv" type="data" label="virulotypes" />
+        <param name="amrgenes" format="tsv" type="data" label="amrgenes" />
         <param name="species" type="text" label="species name" />
         <param name="strain" type="text" label="strain" />
         <param name="sampledate" type="text" label="sampledate" />

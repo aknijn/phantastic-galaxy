@@ -57,8 +57,8 @@
 
     <outputs>
         <data name="phanttlm_json" format="json" label="${tool.name} on ${on_string}: typing" />
-        <data name="virulotypes" format="tabular" label="${tool.name} on ${on_string}: virulotypes" />
-        <data name="amrgenes" format="tabular" label="${tool.name} on ${on_string}: amrgenes" />
-        <data name="seqtype" format="tabular" label="${tool.name} on ${on_string}: sequence type" />
+        <data name="virulotypes" format="tsv" label="${tool.name} on ${on_string}: virulotypes" />
+        <data name="amrgenes" format="tsv" label="${tool.name} on ${on_string}: amrgenes" />
+        <data name="seqtype" format="tsv" label="${tool.name} on ${on_string}: sequence type" />
     </outputs>
 </tool>
