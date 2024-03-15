@@ -42,7 +42,7 @@ exit(0);
 
 sub getLatLong() {
 	# Italian coordinates
-	my $inRegion = @_; 
+	my $inRegion = shift;
 	my $lat = "42.833333";
     my $long = "12.833333";
     if ($inRegion eq "Piemonte") { $lat = "45.066667"; $long = "7.700000"; }
