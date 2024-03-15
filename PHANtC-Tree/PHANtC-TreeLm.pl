@@ -40,7 +40,7 @@ if ($sample_metadata eq "ND") {
 }
 exit(0);
 
-sub getLatLong(inRegion) {
+sub getLatLong() {
 	# Italian coordinates
 	my $inRegion = @_; 
 	my $lat = "42.833333";
