@@ -40,6 +40,34 @@ if ($sample_metadata eq "ND") {
 }
 exit(0);
 
+sub getLatLong(inRegion) {
+	# Italian coordinates
+	my ($lat, $long) = "42.833333", "12.833333";
+    switch(inRegion) {
+        case ("Piemonte") {$lat = "45.066667"; $long = "7.700000"; }
+        case ("Valle d'Aosta") {$lat = "45.737222"; $long = "7.320556"; }
+        case ("Lombardia") {$lat = "45.464161"; $long = "9.190336"; }
+        case ("Trentino-Alto Adige"; $long = "46.066667") {$lat = "11.116667"; }
+        case ("Veneto") {$lat = "45.439722"; $long = "12.331944"; }
+        case ("Friuli-Venezia Giulia"; $long = "45.636111") {$lat = "13.804167"; }
+        case ("Liguria") {$lat = "44.411156"; $long = "8.932661"; }
+        case ("Emilia-Romagna") {$lat = "44.493889"; $long = "11.342778"; }
+        case ("Toscana") {$lat = "43.771389"; $long = "11.254167"; }
+        case ("Umbria") {$lat = "43.112100"; $long = "12.388800"; }
+        case ("Marche") {$lat = "43.616667"; $long = "13.516667"; }
+        case ("Lazio") {$lat = "41.893056"; $long = "12.482778"; }
+        case ("Abruzzo") {$lat = "42.354008"; $long = "13.391992"; }
+        case ("Molise") {$lat = "41.561000"; $long = "14.668400"; }
+        case ("Campania") {$lat = "40.833333"; $long = "14.250000"; }
+        case ("Puglia") {$lat = "41.125278"; $long = "16.866667"; }
+        case ("Basilicata") {$lat = "40.633333"; $long = "15.800000"; }
+        case ("Calabria") {$lat = "38.910000"; $long = "16.587500"; }
+        case ("Sicilia") {$lat = "38.115556"; $long = "13.361389"; }
+        case ("Sardegna") {$lat = "39.216667"; $long = "9.116667"); }
+    }
+	return ($lat, $long);
+}
+
 # obtain metadata from json file
 sub readJsonFile {
     open my $jf, '<', $metadata_json or die "Can't open file $!";
@@ -58,7 +86,8 @@ sub readJsonFile {
         my $mlst_st = $json_var->{mlst_ST};
         my $mlst_cc = $json_var->{mlst_CC};
         my $mlst_lineage = $json_var->{mlst_lineage};
-        $metadata = join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage)
+		my ($latitude, $longitude) = getLatLong($region);
+        $metadata = join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage, $latitude, $longitude)
     }
     return $metadata;
 }
@@ -105,17 +134,17 @@ sub createAllelesFile {
 
 # Obtain metadata from db and write to output file
 sub createMetadataFile {
-    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Serogroup,Amplicons,MLST_ST,MLST_CC,MLST_Lineage from v_listeria_opendata";
+    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Serogroup,Amplicons,MLST_ST,MLST_CC,MLST_Lineage,latitude,longitude from v_listeria_opendata";
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "phantclm_metadata.tsv" or die "Cannot open phantclm_metadata.tsv: $!";
-    print $if "sequence\tregion\tcountry\tdate\tCondizioneClinica\tOrigine\tSerogroup\tAmplicons\tMLST ST\tMLST CC\tlineage\n";
+    print $if "sequence\tregion\tcountry\tdate\tCondizioneClinica\tOrigine\tSerogroup\tAmplicons\tMLST ST\tMLST CC\tlineage\tlatitude\tlongitude\n";
     print $if "$sample_metadata\n";
     while (my @row = $sth->fetchrow_array) { 
-      print $if "$row[0]\t$row[1]\tItaly\t$row[2]\t$row[3]\t$row[4]\t$row[5]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\n";
+      print $if "$row[0]\t$row[1]\tItaly\t$row[2]\t$row[3]\t$row[4]\t$row[5]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\n";
     }
     close $if;
     $sth->finish();

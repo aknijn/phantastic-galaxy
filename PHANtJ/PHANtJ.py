@@ -58,17 +58,19 @@ def main():
     else:
         sample_date = args.sampledate[8:10] + "/" + args.sampledate[5:7] + "/" + args.sampledate[0:4]
     # create sample report
-    if "contaminated" not in report_data["qc_messages"]:
+    if "contaminated" not in report_data["qc_messages"] and (report_data["information_name"][0] == "H" or report_data["information_name"][0] == "V"):
         sampleReport = SampleReport(args.species)
         str_coverage = report_data["coverage"].split('.')[0]
         if args.species == "Escherichia coli":
             metadataRow = [report_data["information_name"],report_data["year"],report_data["serotype_o"],report_data["serotype_h"],report_data['qc_status'],
                        report_data["mlst_ST"],report_data["virulotype_stx1"],report_data["virulotype_stx2"],report_data["shigatoxin_subtype"],
                        report_data["virulotype_eae"],report_data["virulotype_ehxa"],sample_date,str_coverage,args.strain]
-        else:
+        elif args.species == "Listeria monocytogenes":
             metadataRow = [report_data["information_name"],report_data["year"],report_data['qc_status'],report_data["mlst_ST"],report_data["mlst_CC"],report_data["mlst_lineage"],
                        report_data["serotype_serogroup"],sample_date,str_coverage,args.strain]
         sampleReport.writePdf(metadataRow, args.amrgenes, args.virulotypes, args.samplereport)
+        else:
+            Path(args.samplereport).touch()
     else:
         Path(args.samplereport).touch()
 
