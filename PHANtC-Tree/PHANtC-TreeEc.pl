@@ -25,7 +25,7 @@ my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
 my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
-my $sample_id = split('_*', $sample_code)[1];
+my (undef, $sample_id) = split('_', $sample_code);
 my ($antigen_o, $sample_metadata) = readJsonFile();
 if ($sample_metadata eq "ND") {
     open FILEHANDLE, '>', $phantcec_tree and close FILEHANDLE or die "Failed to create file: $!\n";
