@@ -47,9 +47,9 @@ sub getLatLong(inRegion) {
     if ("Piemonte") {$lat = "45.066667"; $long = "7.700000"; }
     if ("Valle d'Aosta") {$lat = "45.737222"; $long = "7.320556"; }
     if ("Lombardia") {$lat = "45.464161"; $long = "9.190336"; }
-    if ("Trentino-Alto Adige"; $long = "46.066667") {$lat = "11.116667"; }
+    if ("Trentino-Alto Adige") {$lat = "11.116667"; $long = "46.066667"; }
     if ("Veneto") {$lat = "45.439722"; $long = "12.331944"; }
-    if ("Friuli-Venezia Giulia"; $long = "45.636111") {$lat = "13.804167"; }
+    if ("Friuli-Venezia Giulia") {$lat = "13.804167"; $long = "45.636111"; }
     if ("Liguria") {$lat = "44.411156"; $long = "8.932661"; }
     if ("Emilia-Romagna") {$lat = "44.493889"; $long = "11.342778"; }
     if ("Toscana") {$lat = "43.771389"; $long = "11.254167"; }
