@@ -42,28 +42,29 @@ exit(0);
 
 sub getLatLong(inRegion) {
 	# Italian coordinates
-	my ($lat, $long) = "42.833333", "12.833333";
-
-    if ("Piemonte") { $lat = "45.066667"; $long = "7.700000"; }
-    if ("Valle d'Aosta") { $lat = "45.737222"; $long = "7.320556"; }
-    if ("Lombardia") { $lat = "45.464161"; $long = "9.190336"; }
-    if ("Trentino-Alto Adige") { $lat = "11.116667"; $long = "46.066667"; }
-    if ("Veneto") { $lat = "45.439722"; $long = "12.331944"; }
-    if ("Friuli-Venezia Giulia") { $lat = "13.804167"; $long = "45.636111"; }
-    if ("Liguria") { $lat = "44.411156"; $long = "8.932661"; }
-    if ("Emilia-Romagna") { $lat = "44.493889"; $long = "11.342778"; }
-    if ("Toscana") { $lat = "43.771389"; $long = "11.254167"; }
-    if ("Umbria") { $lat = "43.112100"; $long = "12.388800"; }
-    if ("Marche") { $lat = "43.616667"; $long = "13.516667"; }
-    if ("Lazio") { $lat = "41.893056"; $long = "12.482778"; }
-    if ("Abruzzo") { $lat = "42.354008"; $long = "13.391992"; }
-    if ("Molise") { $lat = "41.561000"; $long = "14.668400"; }
-    if ("Campania") { $lat = "40.833333"; $long = "14.250000"; }
-    if ("Puglia") { $lat = "41.125278"; $long = "16.866667"; }
-    if ("Basilicata") { $lat = "40.633333"; $long = "15.800000"; }
-    if ("Calabria") { $lat = "38.910000"; $long = "16.587500"; }
-    if ("Sicilia") { $lat = "38.115556"; $long = "13.361389"; }
-    if ("Sardegna") { $lat = "39.216667"; $long = "9.116667"; }
+	my $inRegion = @_; 
+	my $lat = "42.833333";
+    my $long = "12.833333";
+    if ($inRegion eq "Piemonte") { $lat = "45.066667"; $long = "7.700000"; }
+    if ($inRegion eq "Valle d'Aosta") { $lat = "45.737222"; $long = "7.320556"; }
+    if ($inRegion eq "Lombardia") { $lat = "45.464161"; $long = "9.190336"; }
+    if ($inRegion eq "Trentino-Alto Adige") { $lat = "11.116667"; $long = "46.066667"; }
+    if ($inRegion eq "Veneto") { $lat = "45.439722"; $long = "12.331944"; }
+    if ($inRegion eq "Friuli-Venezia Giulia") { $lat = "13.804167"; $long = "45.636111"; }
+    if ($inRegion eq "Liguria") { $lat = "44.411156"; $long = "8.932661"; }
+    if ($inRegion eq "Emilia-Romagna") { $lat = "44.493889"; $long = "11.342778"; }
+    if ($inRegion eq "Toscana") { $lat = "43.771389"; $long = "11.254167"; }
+    if ($inRegion eq "Umbria") { $lat = "43.112100"; $long = "12.388800"; }
+    if ($inRegion eq "Marche") { $lat = "43.616667"; $long = "13.516667"; }
+    if ($inRegion eq "Lazio") { $lat = "41.893056"; $long = "12.482778"; }
+    if ($inRegion eq "Abruzzo") { $lat = "42.354008"; $long = "13.391992"; }
+    if ($inRegion eq "Molise") { $lat = "41.561000"; $long = "14.668400"; }
+    if ($inRegion eq "Campania") { $lat = "40.833333"; $long = "14.250000"; }
+    if ($inRegion eq "Puglia") { $lat = "41.125278"; $long = "16.866667"; }
+    if ($inRegion eq "Basilicata") { $lat = "40.633333"; $long = "15.800000"; }
+    if ($inRegion eq "Calabria") { $lat = "38.910000"; $long = "16.587500"; }
+    if ($inRegion eq "Sicilia") { $lat = "38.115556"; $long = "13.361389"; }
+    if ($inRegion eq "Sardegna") { $lat = "39.216667"; $long = "9.116667"; }
 	return ($lat, $long);
 }
 
