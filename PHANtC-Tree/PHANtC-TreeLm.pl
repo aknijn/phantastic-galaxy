@@ -43,28 +43,27 @@ exit(0);
 sub getLatLong(inRegion) {
 	# Italian coordinates
 	my ($lat, $long) = "42.833333", "12.833333";
-    switch(inRegion) {
-        case ("Piemonte") {$lat = "45.066667"; $long = "7.700000"; }
-        case ("Valle d'Aosta") {$lat = "45.737222"; $long = "7.320556"; }
-        case ("Lombardia") {$lat = "45.464161"; $long = "9.190336"; }
-        case ("Trentino-Alto Adige"; $long = "46.066667") {$lat = "11.116667"; }
-        case ("Veneto") {$lat = "45.439722"; $long = "12.331944"; }
-        case ("Friuli-Venezia Giulia"; $long = "45.636111") {$lat = "13.804167"; }
-        case ("Liguria") {$lat = "44.411156"; $long = "8.932661"; }
-        case ("Emilia-Romagna") {$lat = "44.493889"; $long = "11.342778"; }
-        case ("Toscana") {$lat = "43.771389"; $long = "11.254167"; }
-        case ("Umbria") {$lat = "43.112100"; $long = "12.388800"; }
-        case ("Marche") {$lat = "43.616667"; $long = "13.516667"; }
-        case ("Lazio") {$lat = "41.893056"; $long = "12.482778"; }
-        case ("Abruzzo") {$lat = "42.354008"; $long = "13.391992"; }
-        case ("Molise") {$lat = "41.561000"; $long = "14.668400"; }
-        case ("Campania") {$lat = "40.833333"; $long = "14.250000"; }
-        case ("Puglia") {$lat = "41.125278"; $long = "16.866667"; }
-        case ("Basilicata") {$lat = "40.633333"; $long = "15.800000"; }
-        case ("Calabria") {$lat = "38.910000"; $long = "16.587500"; }
-        case ("Sicilia") {$lat = "38.115556"; $long = "13.361389"; }
-        case ("Sardegna") {$lat = "39.216667"; $long = "9.116667"); }
-    }
+
+    if ("Piemonte") {$lat = "45.066667"; $long = "7.700000"; }
+    if ("Valle d'Aosta") {$lat = "45.737222"; $long = "7.320556"; }
+    if ("Lombardia") {$lat = "45.464161"; $long = "9.190336"; }
+    if ("Trentino-Alto Adige"; $long = "46.066667") {$lat = "11.116667"; }
+    if ("Veneto") {$lat = "45.439722"; $long = "12.331944"; }
+    if ("Friuli-Venezia Giulia"; $long = "45.636111") {$lat = "13.804167"; }
+    if ("Liguria") {$lat = "44.411156"; $long = "8.932661"; }
+    if ("Emilia-Romagna") {$lat = "44.493889"; $long = "11.342778"; }
+    if ("Toscana") {$lat = "43.771389"; $long = "11.254167"; }
+    if ("Umbria") {$lat = "43.112100"; $long = "12.388800"; }
+    if ("Marche") {$lat = "43.616667"; $long = "13.516667"; }
+    if ("Lazio") {$lat = "41.893056"; $long = "12.482778"; }
+    if ("Abruzzo") {$lat = "42.354008"; $long = "13.391992"; }
+    if ("Molise") {$lat = "41.561000"; $long = "14.668400"; }
+    if ("Campania") {$lat = "40.833333"; $long = "14.250000"; }
+    if ("Puglia") {$lat = "41.125278"; $long = "16.866667"; }
+    if ("Basilicata") {$lat = "40.633333"; $long = "15.800000"; }
+    if ("Calabria") {$lat = "38.910000"; $long = "16.587500"; }
+    if ("Sicilia") {$lat = "38.115556"; $long = "13.361389"; }
+    if ("Sardegna") {$lat = "39.216667"; $long = "9.116667"); }
 	return ($lat, $long);
 }
 
