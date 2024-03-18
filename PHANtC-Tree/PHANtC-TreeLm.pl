@@ -177,7 +177,7 @@ sub createGrapeTreeLink {
     copy("phantclm_metadata.tsv",$grape_path . $grape_metadata);
     copy($phantclm_tree,$grape_path . $grape_tree);
     # create the html file linking the tree and metadata files
-    my $strUrl = "https://irida.iss.it/grapetree/?tree=$grape_tree&metadata=$grape_metadata";
+    my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata";;
     open my $of, '>', "$phantclm_grapetree" or die "Cannot open $phantclm_grapetree: $!";
     print $of "<!DOCTYPE html><html><head>";
     print $of "<meta http-equiv=\"refresh\" content=\"0; URL=$strUrl\" />\n";
