@@ -41,7 +41,7 @@ def get_filetype(input_file):
 
 def get_coverage(input_id):
     with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
-        return iridadb.get_singleend_coverage(input_id[2:])
+        return iridadb.get_singleend_coverage(input_id.split("_")[1])
 
 def get_fastp(json_file):
     with open(json_file, "rb") as fastp_json:
