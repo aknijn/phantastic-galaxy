@@ -36,7 +36,11 @@
             -1 $input_reverse
         #end if
     #else
-        touch $phanttec_json
+        #if $species == "Escherichia coli":
+            echo '{"information_name": "' & $input_id & '","region": "' & $region & '"}' > $phanttec_json &&
+        #else
+            touch $phanttec_json
+        #end if
         touch $virulotypes
         touch $amrgenes
         touch $seqtype
