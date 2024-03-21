@@ -37,7 +37,7 @@
         #end if
     #else
         #if $species == "Listeria monocytogenes":
-            echo '{"information_name": "' & $input_id & '","region": "' & $region & '"}' > $phanttlm_json &&
+            echo "{\"information_name\": \"$input_id\",\"region\": \"$region\"}" > $phanttlm_json &&
         #else
             touch $phanttlm_json
         #end if
