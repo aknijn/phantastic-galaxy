@@ -17,7 +17,7 @@ my ($input1,
     $phantcchew_json) = @ARGV;
 
 # Run program
-my $chewiedir = '/gfs/data-flow/Chewie-NS';
+my $chewiedir = '/disk2/Chewie-NS';
 my $python = "";
 if ($species eq "Listeria monocytogenes") {
     my $ptfdir = "$chewiedir/prodigal_training_files/Listeria_monocytogenes.trn";
