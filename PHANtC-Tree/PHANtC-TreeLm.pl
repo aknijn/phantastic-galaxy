@@ -80,21 +80,21 @@ sub readJsonFile {
         my $sequence = $json_var->{information_name};
         my $region = $json_var->{region};
         my $country = "Italy";
-        my $date_condizioneclinica_origine = getSampleMetadata();
+        my $date_campione_condizioneclinica_origine = getSampleMetadata();
         my $serogroup = $json_var->{serotype_serogroup};
         my $amplicons = $json_var->{serotype_amplicons};
         my $mlst_st = $json_var->{mlst_ST};
         my $mlst_cc = $json_var->{mlst_CC};
         my $mlst_lineage = $json_var->{mlst_lineage};
 		my ($latitude, $longitude) = getLatLong($region);
-        $metadata = join("\t", $sequence, $region, $country, $date_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage, $latitude, $longitude)
+        $metadata = join("\t", $sequence, $region, $country, $date_campione_condizioneclinica_origine, $serogroup, $amplicons, $mlst_st, $mlst_cc, $mlst_lineage, $latitude, $longitude)
     }
     return $metadata;
 }
 
 # Obtain metadata from db not present in json file
 sub getSampleMetadata {
-    my $sql = "select collectionDate,isolate,isolationSource from sample where id=$sample_id";
+    my $sql = "select collectionDate,sampleName,IFNULL(isolate,''),IFNULL(isolationSource,'') from sample where id=$sample_id";
     my $metadata_db;
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
@@ -134,17 +134,17 @@ sub createAllelesFile {
 
 # Obtain metadata from db and write to output file
 sub createMetadataFile {
-    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Serogroup,Amplicons,MLST_ST,MLST_CC,MLST_Lineage,latitude,longitude from v_listeria_opendata";
+    my $sql = "select Ceppo,Regione,InizioSintomi,CondizioneClinica,Origine,Sequence,Serogroup,Amplicons,MLST_ST,MLST_CC,MLST_Lineage,latitude,longitude from v_listeria_opendata";
     # connect to MySQL database
     my %attr = ( PrintError=>0, RaiseError=>1);
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "phantclm_metadata.tsv" or die "Cannot open phantclm_metadata.tsv: $!";
-    print $if "sequence\tregion\tcountry\tdate\tCondizioneClinica\tOrigine\tSerogroup\tAmplicons\tMLST ST\tMLST CC\tlineage\tlatitude\tlongitude\n";
+    print $if "sequence\tregion\tcountry\tdate\tCampione\tCondizioneClinica\tOrigine\tSerogroup\tAmplicons\tMLST ST\tMLST CC\tlineage\tlatitude\tlongitude\n";
     print $if "$sample_metadata\n";
     while (my @row = $sth->fetchrow_array) { 
-      print $if "$row[0]\t$row[1]\tItaly\t$row[2]\t$row[3]\t$row[4]\t$row[5]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\n";
+      print $if "$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\n";
     }
     close $if;
     $sth->finish();
