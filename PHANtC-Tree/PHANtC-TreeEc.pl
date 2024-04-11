@@ -157,9 +157,11 @@ sub createMetadataFile {
     open my $if, '>', "phantcec_metadata.tsv" or die "Cannot open phantcec_metadata.tsv: $!";
     print $if "sequence\tregion\tcountry\tdate\tCampione\tCondizioneClinica\tOrigine\tAntigen O\tAntigen H\tMLST ST\tstx1\tstx2\tstx subtype\teae\tehxA\tlatitude\tlongitude\n";
     print $if "$sample_metadata\n";
+	no warnings 'uninitialized';
     while (my @row = $sth->fetchrow_array) { 
       print $if "$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\t$row[13]\t$row[14]\t$row[15]\n";
     }
+	use warnings 'uninitialized';
     close $if;
     $sth->finish();
     # disconnect from the MySQL database
@@ -169,7 +171,7 @@ sub createMetadataFile {
 # Run ReporTree
 sub runReporTree {
     # calc distance matrix and minimum spanning tree
-    my $result = system("python $scriptdir/reportree.py -a cgMLST.tsv -m phantcec_metadata.tsv --analysis grapetree -thr 4,7,15");
+    my $result = system("python $scriptdir/reportree.py -a cgMLST.tsv -m phantcec_metadata.tsv --analysis grapetree -thr 4,7,15 --zoom-cluster-of-interest 4,7,15 --unzip");
     copy("ReporTree_dist_hamming.tsv", $phantcec_dm);
     copy("ReporTree.nwk", $phantcec_tree);
     copy("ReporTree_partitions.tsv", $phantcec_cluster);
@@ -188,7 +190,7 @@ sub createGrapeTreeLink {
     # create unique filenames
     my $grape_metadata = substr($stamp,0,6) . "/ISS_" . $stamp . ".tsv";
     my $grape_tree = substr($stamp,0,6) . "/ISS_" . $stamp . ".nwk";
-    copy("phantcec_metadata.tsv",$grape_path . $grape_metadata);
+    copy("ReporTree_metadata_w_partitions.tsv",$grape_path . $grape_metadata);
     copy($phantcec_tree,$grape_path . $grape_tree);
     # create the html file linking the tree and metadata files
     my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata";
