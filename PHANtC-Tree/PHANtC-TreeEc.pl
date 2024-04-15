@@ -29,7 +29,7 @@ my (undef, $sample_id) = split('_', $sample_code);
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 $year = 1900 + $year;
 my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
-my $outputname = "/ISS" . $stamp;
+my $outputname = "ISS" . $stamp;
 my ($antigen_o, $sample_metadata) = readJsonFile();
 if ($sample_metadata eq "ND") {
     open FILEHANDLE, '>', $phantcec_tree and close FILEHANDLE or die "Failed to create file: $!\n";
