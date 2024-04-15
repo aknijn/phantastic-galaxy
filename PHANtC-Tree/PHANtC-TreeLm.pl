@@ -29,6 +29,7 @@ my (undef, $sample_id) = split('_', $sample_code);
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 $year = 1900 + $year;
 my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
+my $outputname = "/ISS" . $stamp
 my $sample_metadata = readJsonFile();
 if ($sample_metadata eq "ND") {
     open FILEHANDLE, '>', $phantclm_tree and close FILEHANDLE or die "Failed to create file: $!\n";
@@ -158,7 +159,6 @@ sub createMetadataFile {
 # Run ReporTree
 sub runReporTree {
     # calc distance matrix and minimum spanning tree
-	my $outputname = "/ISS" . $stamp
     my $result = system("python $scriptdir/reportree.py -a cgMLST.tsv -m phantclm_metadata.tsv --analysis grapetree -thr 4,7,15 --zoom-cluster-of-interest 4,7,15 --unzip --sample_of_interest $sample_code -out $outputname");
     copy($outputname . "_dist_hamming.tsv", $phantclm_dm);
     copy($outputname . ".nwk", $phantclm_tree);
@@ -178,7 +178,7 @@ sub createGrapeTreeLink {
     copy("phantclm_metadata.tsv",$grape_path . $grape_metadata);
     copy($phantclm_tree,$grape_path . $grape_tree);
     # create the html file linking the tree and metadata files
-    my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata";;
+    my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata&zooms_list=$outputname_zooms.txt";
     open my $of, '>', "$phantclm_grapetree" or die "Cannot open $phantclm_grapetree: $!";
     print $of "<!DOCTYPE html><html><head>";
     print $of "<meta http-equiv=\"refresh\" content=\"0; URL=$strUrl\" />\n";
