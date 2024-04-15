@@ -26,6 +26,9 @@ my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
 my (undef, $sample_id) = split('_', $sample_code);
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+$year = 1900 + $year;
+my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
 my ($antigen_o, $sample_metadata) = readJsonFile();
 if ($sample_metadata eq "ND") {
     open FILEHANDLE, '>', $phantcec_tree and close FILEHANDLE or die "Failed to create file: $!\n";
@@ -155,7 +158,7 @@ sub createMetadataFile {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
     open my $if, '>', "phantcec_metadata.tsv" or die "Cannot open phantcec_metadata.tsv: $!";
-    print $if "sequence\tregion\tcountry\tdate\tCampione\tCondizioneClinica\tOrigine\tAntigen O\tAntigen H\tMLST ST\tstx1\tstx2\tstx subtype\teae\tehxA\tlatitude\tlongitude\n";
+    print $if "ID\tregion\tcountry\tdate\tCMP\tCondizioneClinica\tOrigine\tAntigen O\tAntigen H\tMLST ST\tstx1\tstx2\tstx subtype\teae\tehxA\tlatitude\tlongitude\n";
     print $if "$sample_metadata\n";
 	no warnings 'uninitialized';
     while (my @row = $sth->fetchrow_array) { 
@@ -171,25 +174,23 @@ sub createMetadataFile {
 # Run ReporTree
 sub runReporTree {
     # calc distance matrix and minimum spanning tree
-    my $result = system("python $scriptdir/reportree.py -a cgMLST.tsv -m phantcec_metadata.tsv --analysis grapetree -thr 4,7,15 --zoom-cluster-of-interest 4,7,15 --unzip");
-    copy("ReporTree_dist_hamming.tsv", $phantcec_dm);
-    copy("ReporTree.nwk", $phantcec_tree);
-    copy("ReporTree_partitions.tsv", $phantcec_cluster);
+	my $outputname = "/ISS" . $stamp
+    my $result = system("python $scriptdir/reportree.py -a cgMLST.tsv -m phantcec_metadata.tsv --analysis grapetree -thr 4,7,15 --zoom-cluster-of-interest 4,7,15 --unzip --sample_of_interest $sample_code -out $outputname");
+    copy($outputname . "_dist_hamming.tsv", $phantcec_dm);
+    copy($outputname . ".nwk", $phantcec_tree);
+    copy($outputname . "_partitions.tsv", $phantcec_cluster);
     return 0;
 }
 
 sub createGrapeTreeLink {
     # copy phantcec_metadata.tsv & $phantcec_tree to a shared path visible by GrapeTree on the server vizapp.iss.it
     my $grape_path = "/gfs/vizapp/grapetree/";
-    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-    $year = 1900 + $year;
-    my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
     my $grape_path_yearmm = $grape_path . substr($stamp,0,6);
     # create the path if it doesn't exist yet
     if ( !-d $grape_path_yearmm) { mkdir $grape_path_yearmm or die "Failed to create path: $grape_path_yearmm"; }
     # create unique filenames
-    my $grape_metadata = substr($stamp,0,6) . "/ISS_" . $stamp . ".tsv";
-    my $grape_tree = substr($stamp,0,6) . "/ISS_" . $stamp . ".nwk";
+    my $grape_metadata = substr($stamp,0,6) . "/ISS" . $stamp . ".tsv";
+    my $grape_tree = substr($stamp,0,6) . "/ISS" . $stamp . ".nwk";
     copy("ReporTree_metadata_w_partitions.tsv",$grape_path . $grape_metadata);
     copy($phantcec_tree,$grape_path . $grape_tree);
     # create the html file linking the tree and metadata files
