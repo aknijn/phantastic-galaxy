@@ -5,7 +5,6 @@ use warnings;
 use Cwd;
 use English;
 use File::Copy;
-use File::Copy::Recursive;
 use File::Basename;
 use DBI;
 use Config::Simple;
@@ -198,7 +197,7 @@ sub createGrapeTreeLink {
     copy($outputname_zooms,$grape_path_yearmm . "/" . $outputname_zooms);
 	my $zoom_dirs = $outputname . "_MST-*";
     for my $zoom_dir (glob $zoom_dirs) {
-      dirmove($zoom_dir,$grape_path_yearmm) or die $!;
+      move($zoom_dir,$grape_path_yearmm . "/" . $zoom_dir) or die $!;
     }
     # create the html file linking the tree and metadata files
     my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata&zooms_list=$outputname_zooms";
