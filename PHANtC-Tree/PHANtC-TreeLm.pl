@@ -173,12 +173,13 @@ sub createGrapeTreeLink {
     # create the path if it doesn't exist yet
     if ( !-d $grape_path_yearmm) { mkdir $grape_path_yearmm or die "Failed to create path: $grape_path_yearmm"; }
     # create unique filenames
-    my $grape_metadata = substr($stamp,0,6) . "/ISS" . $stamp . ".tsv";
-    my $grape_tree = substr($stamp,0,6) . "/ISS" . $stamp . ".nwk";
+    my $grape_metadata = substr($stamp,0,6) . "/" . $outputname . ".tsv";
+    my $grape_tree = substr($stamp,0,6) . "/" . $outputname . ".nwk";
     copy("phantclm_metadata.tsv",$grape_path . $grape_metadata);
     copy($phantclm_tree,$grape_path . $grape_tree);
+	my $outputname_zooms = $outputname . "_zooms.txt";
     # create the html file linking the tree and metadata files
-    my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata&zooms_list=$outputname_zooms.txt";
+    my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata&zooms_list=$outputname_zooms";
     open my $of, '>', "$phantclm_grapetree" or die "Cannot open $phantclm_grapetree: $!";
     print $of "<!DOCTYPE html><html><head>";
     print $of "<meta http-equiv=\"refresh\" content=\"0; URL=$strUrl\" />\n";
