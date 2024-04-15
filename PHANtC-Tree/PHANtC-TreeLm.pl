@@ -175,9 +175,14 @@ sub createGrapeTreeLink {
     # create unique filenames
     my $grape_metadata = substr($stamp,0,6) . "/" . $outputname . ".tsv";
     my $grape_tree = substr($stamp,0,6) . "/" . $outputname . ".nwk";
-    copy("phantclm_metadata.tsv",$grape_path . $grape_metadata);
+    copy($outputname . "_metadata_w_partitions.tsv",$grape_path . $grape_metadata);
     copy($phantclm_tree,$grape_path . $grape_tree);
 	my $outputname_zooms = $outputname . "_zooms.txt";
+    copy($outputname_zooms,$grape_path_yearmm . "/" . $outputname_zooms);
+	my $zoom_dirs = $outputname . "_MST-*";
+    for my $zoom_dir (glob $zoom_dirs) {
+      dirmove($orig,$grape_path_yearmm) or die $!;
+    }
     # create the html file linking the tree and metadata files
     my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata&zooms_list=$outputname_zooms";
     open my $of, '>', "$phantclm_grapetree" or die "Cannot open $phantclm_grapetree: $!";
