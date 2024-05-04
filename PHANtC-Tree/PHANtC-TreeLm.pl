@@ -6,6 +6,7 @@ use Cwd;
 use English;
 use File::Copy;
 use File::Basename;
+use Unicode::Normalize;
 use DBI;
 use Config::Simple;
 use JSON::PP;
@@ -144,14 +145,13 @@ sub createMetadataFile {
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
     my $sth = $dbh->prepare($sql);
     $sth->execute();
-    binmode(STDOUT, ":utf8");
     open my $if, '>', "phantclm_metadata.tsv" or die "Cannot open phantclm_metadata.tsv: $!";
     print $if "ID\tregion\tcountry\tdate\tCMP\tCondizioneClinica\tOrigine\tSerogroup\tAmplicons\tMLST ST\tMLST CC\tlineage\tlatitude\tlongitude\n";
-    print $if "$sample_metadata\n";
+    print $if NFD("$sample_metadata\n");
 	no warnings 'uninitialized';
     while (my @row = $sth->fetchrow_array) { 
 	  if ($sample_code ne $row[5]) {
-        print $if "$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\n";
+        print $if NFD("$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\n");
       }
     }
 	use warnings 'uninitialized';
