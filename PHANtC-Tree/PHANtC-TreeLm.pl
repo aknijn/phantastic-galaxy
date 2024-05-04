@@ -144,6 +144,7 @@ sub createMetadataFile {
     my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
     my $sth = $dbh->prepare($sql);
     $sth->execute();
+	binmode(STDOUT, ":utf8");
     open my $if, '>', "phantclm_metadata.tsv" or die "Cannot open phantclm_metadata.tsv: $!";
     print $if "ID\tregion\tcountry\tdate\tCMP\tCondizioneClinica\tOrigine\tSerogroup\tAmplicons\tMLST ST\tMLST CC\tlineage\tlatitude\tlongitude\n";
     print $if "$sample_metadata\n";
