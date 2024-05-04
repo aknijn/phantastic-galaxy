@@ -112,12 +112,10 @@ def __main__():
         # write results
         if len(sero_typing) == 0:
             report_data["serotype_serogroup"] = "?"
-        else:
-            report_data["serotype_serogroup"] = sero_typing[1][1]
-        if len(sero_typing) == 0:
             report_data["serotype_amplicons"] = "?"
         else:
-            report_data["serotype_amplicons"] = getAmplicons(sero_typing)
+            report_data["serotype_serogroup"] = sero_typing[1][1]
+            report_data["serotype_amplicons"] = sero_typing[1][2]
         report_data["mlst_CC"] = "?"
         report_data["mlst_lineage"] = "?"
         if len(sequence_typing) < 2:
