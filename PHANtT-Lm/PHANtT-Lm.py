@@ -99,7 +99,7 @@ def __main__():
     subprocess.run("mlst --legacy --scheme listeria_2 input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
     sequence_typing = openFileAsTable(args.seqtype)
     # LISSEROTYPER
-    subprocess.run("python LisSero.py input.fasta > output_tab", shell=True)
+    subprocess.run("python " + TOOL_DIR + "/bin/LisSero.py input.fasta > output_tab", shell=True)
     sero_typing = openFileAsTable("output_tab")
 
     try:
