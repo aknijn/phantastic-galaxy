@@ -162,8 +162,10 @@ sub createMetadataFile {
     print $if "ID\tregion\tcountry\tdate\tCMP\tCondizioneClinica\tOrigine\tAntigen O\tAntigen H\tMLST ST\tstx1\tstx2\tstx subtype\teae\tehxA\tlatitude\tlongitude\n";
     print $if "$sample_metadata\n";
 	no warnings 'uninitialized';
-    while (my @row = $sth->fetchrow_array) { 
-      print $if "$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\t$row[13]\t$row[14]\t$row[15]\n";
+    while (my @row = $sth->fetchrow_array) {
+	  if ($sample_code ne $row[5]) {
+        print $if "$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\t$row[13]\t$row[14]\t$row[15]\n";
+	  }
     }
 	use warnings 'uninitialized';
     close $if;

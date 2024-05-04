@@ -148,7 +148,9 @@ sub createMetadataFile {
     print $if "ID\tregion\tcountry\tdate\tCMP\tCondizioneClinica\tOrigine\tSerogroup\tAmplicons\tMLST ST\tMLST CC\tlineage\tlatitude\tlongitude\n";
     print $if "$sample_metadata\n";
     while (my @row = $sth->fetchrow_array) { 
-      print $if "$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\n";
+	  if ($sample_code ne $row[5]) {
+        print $if "$row[5]\t$row[1]\tItaly\t$row[2]\t$row[0]\t$row[3]\t$row[4]\t$row[6]\t$row[7]\t$row[8]\t$row[9]\t$row[10]\t$row[11]\t$row[12]\n";
+      }
     }
     close $if;
     $sth->finish();
