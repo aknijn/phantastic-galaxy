@@ -9,6 +9,7 @@
 """
 
 import argparse
+import configparser
 import sys
 import os
 import fileinput
@@ -16,6 +17,8 @@ import getopt
 import zlib
 import textwrap
 import shutil
+
+TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def fasta_reader(filename):
   # read fasta file and return records
@@ -89,12 +92,16 @@ def __main__():
     parser.add_argument('--hashprofiles', dest='hashprofiles', help='CRC32 hashes MLST profiles')
     args = parser.parse_args()
 
+    config = configparser.ConfigParser()
+    config.read(TOOL_DIR + '/../phantastic.conf')
+    dataflowdir = config['fs']['dataflow_path']
+
     if args.species == "Escherichia coli":
-        schemadirectory = "/gfs/data-flow/Chewie-NS/ecoli/ecoli_INNUENDO_wgMLST_ORIG"
+        schemadirectory = dataflowdir + "/Chewie-NS/ecoli/ecoli_INNUENDO_wgMLST_ORIG"
     elif args.species == "Listeria monocytogenes":
-        schemadirectory = "/gfs/data-flow/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST_ORIG"
+        schemadirectory = dataflowdir + "/Chewie-NS/listeria/lmonocytogenes_Pasteur_cgMLST_ORIG"
     else:
-        schemadirectory = "/gfs/data-flow/Chewie-NS"
+        schemadirectory = dataflowdir + "/Chewie-NS"
     outputdirectory = "outputdirectory"
     profilefile = "cgMLST.tmp"
     # elaborate_fastafile for all fasta files in the directory

@@ -26,6 +26,7 @@ my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
 my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
+my $grape_path = $cfg->param('fs.grape_path');
 my (undef, $sample_id) = split('_', $sample_code);
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 $year = 1900 + $year;
@@ -175,15 +176,14 @@ sub runReporTree {
 
 sub createGrapeTreeLink {
     # copy phantclm_metadata.tsv & $phantclm_tree to a shared path visible by GrapeTree on the server vizapp.iss.it
-    my $grape_path = "/gfs/vizapp/grapetree/";
-    my $grape_path_yearmm = $grape_path . substr($stamp,0,6);
+    my $grape_path_yearmm = $grape_path . "/" . substr($stamp,0,6);
     # create the path if it doesn't exist yet
     if ( !-d $grape_path_yearmm) { mkdir $grape_path_yearmm or die "Failed to create path: $grape_path_yearmm"; }
     # create unique filenames
     my $grape_metadata = substr($stamp,0,6) . "/" . $outputname . ".tsv";
     my $grape_tree = substr($stamp,0,6) . "/" . $outputname . ".nwk";
-    copy($outputname . "_metadata_w_partitions.tsv",$grape_path . $grape_metadata);
-    copy($phantclm_tree,$grape_path . $grape_tree);
+    copy($outputname . "_metadata_w_partitions.tsv",$grape_path . "/" . $grape_metadata);
+    copy($phantclm_tree,$grape_path . "/" . $grape_tree);
 	my $outputname_zooms = $outputname . "_zooms.txt";
     copy($outputname_zooms,$grape_path_yearmm . "/" . $outputname_zooms);
 	my $zoom_dirs = $outputname . "_MST-*";

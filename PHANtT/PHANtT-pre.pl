@@ -20,6 +20,7 @@ my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
 my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
+my $iridadir = $cfg->param('fs.output_path');
 my $idFastqs = getIdFiles($input);
 getSampleNames($idFastqs);
 exit(0);
@@ -38,7 +39,7 @@ sub getSampleNames{
   
     open my $if, '>', $output or die "Error writing to output, program halting.";
     while (my @row = $sth->fetchrow_array) { 
-        print $if "$row[0]\t/gfs/irida-phantastic/data/output/$row[1]\n";
+        print $if "$row[0]\t/$iridadir/$row[1]\n";
     }       
     close $if;
        

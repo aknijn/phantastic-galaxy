@@ -9,8 +9,12 @@
 """
 
 import argparse
+import configparser
 import subprocess
 import json
+import os
+
+TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def __main__():
     parser = argparse.ArgumentParser()
@@ -19,8 +23,12 @@ def __main__():
     parser.add_argument('--contamination_json', dest='contamination_json', help='contamination_json')
     args = parser.parse_args()
 
+    config = configparser.ConfigParser()
+    config.read(TOOL_DIR + '/../phantastic.conf')
+    dataflowdir = config['fs']['dataflow_path']
+
     strContamination = 'No'
-    subprocess.run("kmerfinder.py  -i " + args.input + " -db /gfs/data-flow/KmerFinder/bacteria/bacteria.ATG -tax /gfs/data-flow/KmerFinder/bacteria/bacteria.tax -o output", shell=True)
+    subprocess.run("kmerfinder.py  -i " + args.input + " -db " + dataflowdir + "/KmerFinder/bacteria/bacteria.ATG -tax " + dataflowdir + "/KmerFinder/bacteria/bacteria.tax -o output", shell=True)
     with open('output/results.txt', 'r') as table_in:
         table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
     if len(table_data[0]) == 19:

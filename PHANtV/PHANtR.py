@@ -9,6 +9,7 @@
 """
 
 import argparse
+import configparser
 import sys
 import os
 import shutil
@@ -19,7 +20,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
 from phantdb import IridaDb
 from phantpdf import SampleReport
 
-IRIDA_DIR = '/gfs/irida-phantastic/data/output/'
+TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def getIdFile(filename):
     splitFilename = filename.split("/")
@@ -43,6 +44,11 @@ def __main__():
     parser.add_argument('--phantr_list', dest='phantr_list', help='phantr reports list')
     parser.add_argument('--phantr_reports', dest='phantr_reports', help='phantr reports zip file')
     args = parser.parse_args()
+
+    config = configparser.ConfigParser()
+    config.read(TOOL_DIR + '/../phantastic.conf')
+    IRIDA_DIR = config['fs']['output_path']
+
     sampleReport = SampleReport(args.species)
     metadata = getMetadata(args.input_files, args.user.replace("__at__", "@"), args.species)
 
@@ -57,7 +63,7 @@ def __main__():
     numColumns = len(sampleReport.dataSommarioHeader)
     for metadataRow in metadata:
         report_list.write(metadataRow[0] + "\n")
-        sampleReport.writePdf(metadataRow, IRIDA_DIR + metadataRow[numColumns + 4], IRIDA_DIR + metadataRow[numColumns + 3], 'reports/report_' + metadataRow[0] + '.pdf')
+        sampleReport.writePdf(metadataRow, IRIDA_DIR + "/" + metadataRow[numColumns + 4], IRIDA_DIR + "/" + metadataRow[numColumns + 3], 'reports/report_' + metadataRow[0] + '.pdf')
     report_list.close()
     shutil.make_archive('irida_reports', format='zip', root_dir='reports')
     shutil.copyfile('irida_reports.zip', args.phantr_reports)

@@ -25,6 +25,7 @@ my $cfg = new Config::Simple("$scriptdir/../phantastic.conf");
 my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
+my $grape_path = $cfg->param('fs.grape_path');
 if ($species eq "Shiga toxin-producing Escherichia coli") { $species = "Escherichia coli"; };
 my $files_id = getIdFilesString($input_files);
 runGrapeTree($files_id);
@@ -195,14 +196,14 @@ sub createGrapeTreeLink {
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     $year = 1900 + $year;
     my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
-    my $grape_path_yearmm = $grape_path . substr($stamp,0,6);
+    my $grape_path_yearmm = $grape_path . "/" . substr($stamp,0,6);
     # create the path if it doesn't exist yet
     if ( !-d $grape_path_yearmm) { mkdir $grape_path_yearmm or die "Failed to create path: $grape_path_yearmm"; }
     # create unique filenames
     my $grape_metadata = substr($stamp,0,6) . "/ISS_" . $stamp . ".tsv";
     my $grape_tree = substr($stamp,0,6) . "/ISS_" . $stamp . ".nwk";
-    copy($phantg_metadata,$grape_path . $grape_metadata);
-    copy($phantg_tree,$grape_path . $grape_tree);
+    copy($phantg_metadata,$grape_path . "/" . $grape_metadata);
+    copy($phantg_tree,$grape_path . "/" . $grape_tree);
     # create the html file linking the tree and metadata files
     my $strUrl = "https://irida.iss.it/grapetree/?tree=$grape_tree&metadata=$grape_metadata";
     open my $of, '>', "$phantg_grapetree" or die "Cannot open $phantg_grapetree: $!";
