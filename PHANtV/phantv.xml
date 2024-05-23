@@ -1,13 +1,13 @@
-<tool id="phantv" name="PHANtV" version="2.3">
+<tool id="phantv" name="PHANtV" version="3.0">
     <description>Allele Observer</description>
     <requirements>
-        <requirement type="package" version="3.8">python</requirement>
-        <requirement type="package" version="1.24.1">numpy</requirement>
-        <requirement type="package" version="5.26">perl</requirement>
-        <requirement type="package" version="1.642">perl-dbi</requirement>
-        <requirement type="package" version="4.046">perl-dbd-mysql</requirement>
+        <requirement type="package" version="3.11">python</requirement>
+        <requirement type="package" version="1.26">numpy</requirement>
+        <requirement type="package" version="5.32">perl</requirement>
+        <requirement type="package" version="1.643">perl-dbi</requirement>
+        <requirement type="package" version="4.050">perl-dbd-mysql</requirement>
 		<requirement type="package" version="4.58">perl-config-simple</requirement>
-        <requirement type="package" version="1.80">biopython</requirement>
+        <requirement type="package" version="1.81">biopython</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>

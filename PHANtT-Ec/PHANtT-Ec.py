@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import json
 import datetime
+from pathlib import Path
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,6 +23,23 @@ def openFileAsTable(filename):
     with open(filename) as table_in:
         table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
     return table_data
+
+def get_filetype(input_file):
+    filetype = "error"
+    with open(input_file) as infile:
+        for line in infile:
+            if line in ['\n', '\r\n']:
+                continue
+            elif line[0] == '@':
+                filetype = "fastq"
+                break
+            elif line[0] == '>':
+                filetype = "fasta"
+                break
+            else:
+                filetype = "other"
+                break
+    return filetype
 
 def __main__():
     parser = argparse.ArgumentParser()
@@ -31,70 +49,69 @@ def __main__():
     parser.add_argument('--input_id', dest='input_id', help='sample id')
     parser.add_argument('--region', dest='region', help='region')
     parser.add_argument('--year', dest='year', help='year')
-    parser.add_argument('--serotype', dest='serotype', help='strain serotype')
     parser.add_argument('--output', dest='output', help='output report json file')
     parser.add_argument('--virulotypes', dest='virulotypes', help='strain virulotypes')
     parser.add_argument('--amrgenes', dest='amrgenes', help='strain AMR genes')
     parser.add_argument('--seqtype', dest='seqtype', help='MLST 7 genes')
     args = parser.parse_args()
 
-    subprocess.call("ln -s " + args.fasta + " input.fasta", shell=True)
-    subprocess.call("ln -s " + args.input1 + " input_1.fq", shell=True)
-    # if fastq.gz was uploaded then filename of decompressed reads ends with .dat
-    inputFastq = args.input1.endswith(".fastq") or args.input1.endswith(".dat")
+    os.symlink(args.fasta, 'input.fasta')
+    os.symlink(args.input1, 'input_1.fq')
+    is_fastq = False
+    if get_filetype(args.input1) == "fastq":
+        is_fastq = True
     if args.input2:
-        subprocess.call("ln -s " + args.input2 + " input_2.fq", shell=True)
+        os.symlink(args.input2, 'input_2.fq')
     # AMRGENES (only if fastq are provided)
-    if inputFastq:
-        subprocess.call("abricate --db resfinder input.fasta > " + args.amrgenes, shell=True)
+    if is_fastq:
+        subprocess.run("abricate --db resfinder input.fasta > " + args.amrgenes, shell=True)
     else:
-        subprocess.call("touch " + args.amrgenes, shell=True)
+        Path(args.amrgenes).touch()
     # VIRULOTYPER (only if fastq are provided)
-    if inputFastq:
+    if is_fastq:
         if args.input2:
-            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+            subprocess.run("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq input_2.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
         else:
-            subprocess.call("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
-        subprocess.call("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > virulotyper", shell=True)
+            subprocess.run("perl " + TOOL_DIR + "/scripts/patho_typing.pl 'python " + TOOL_DIR + "/scripts/patho_typing.py -s Escherichia coli -f input_1.fq -o output_dir -j 4 --minGeneCoverage 90 --minGeneIdentity 90 --minGeneDepth 15'", shell=True)
+        subprocess.run("(head -n 1 pathotyper_rep_tot_tab && tail -n +2 pathotyper_rep_tot_tab | sort -k 2rn) > virulotyper", shell=True)
     else:
-        subprocess.call("touch virulotyper", shell=True)
+        Path("virulotyper").touch()
     # SHIGATOXIN TYPER (only if fastq are provided)
-    if inputFastq:
-        os.system("ln -s " + os.popen("which trimmomatic.jar").read().strip() + " trimmomatic.jar")
+    if is_fastq:
+        os.symlink(os.popen("which trimmomatic").read().strip()+".jar", 'trimmomatic.jar')
         if args.input2:
             # TRIMMING
-            subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar PE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq input_2.fq trimmed1 trimmed1unpaired trimmed2 trimmed2unpaired SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:36", shell=True)
+            subprocess.run("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar PE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq input_2.fq trimmed1 trimmed1unpaired trimmed2 trimmed2unpaired SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:36", shell=True)
             # ASSEMBLY
-            subprocess.call("sh " + TOOL_DIR + "/scripts/stx_subtype_pe.sh " + TOOL_DIR + " trimmed1 trimmed2 input.fasta", shell=True)
+            subprocess.run("sh " + TOOL_DIR + "/scripts/stx_subtype_pe.sh " + TOOL_DIR + " trimmed1 trimmed2 input.fasta", shell=True)
         else:
             # TRIMMING
-            subprocess.call("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar SE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq trimmed1 SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:55", shell=True)
+            subprocess.run("java ${_JAVA_OPTIONS:--Xmx8G} -jar trimmomatic.jar SE -threads ${GALAXY_SLOTS:-6} -phred33 input_1.fq trimmed1 SLIDINGWINDOW:5:20 LEADING:3 TRAILING:3 MINLEN:55", shell=True)
             # ASSEMBLY
-            subprocess.call("sh " + TOOL_DIR + "/scripts/stx_subtype_se.sh " + TOOL_DIR + " trimmed1 input.fasta", shell=True)
+            subprocess.run("sh " + TOOL_DIR + "/scripts/stx_subtype_se.sh " + TOOL_DIR + " trimmed1 input.fasta", shell=True)
         # SHIGATOXIN SEQUENCE SEARCH
-        subprocess.call("sh " + TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
+        subprocess.run("sh " + TOOL_DIR + "/scripts/stx_subtype_fa.sh " + TOOL_DIR + " stx.fasta", shell=True)
     else:
         shutil.copy(args.input1, "input.fasta")
-        subprocess.call("touch shigatoxin_fc", shell=True)
+        Path("shigatoxin_fc").touch()
     # SEQUENCETYPER
-    subprocess.call("mlst --legacy --scheme ecoli_4 input.fasta | cut -f3,4,5,6,7,8,9,10 > mlstsevenloci", shell=True)
-    subprocess.call("cat mlstsevenloci > " + args.seqtype, shell=True)
-    sequence_typing = openFileAsTable("mlstsevenloci")
+    subprocess.run("mlst --legacy --scheme ecoli_achtman_4 input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
+    sequence_typing = openFileAsTable(args.seqtype)
     # SEROTYPER O&H
-    if inputFastq:
+    if is_fastq:
         if args.input2:
-            subprocess.call("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
+            subprocess.run("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " y input_1.fq input_2.fq input.fasta", shell=True)
         else:
-            subprocess.call("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " n input_1.fq xxx input.fasta", shell=True)
+            subprocess.run("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " n input_1.fq xxx input.fasta", shell=True)
     else:
-        subprocess.call("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " 0 xxx xxx input.fasta", shell=True)
+        subprocess.run("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " 0 xxx xxx input.fasta", shell=True)
     # SEROTYPER O
-    subprocess.call("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_O | sort -nrk 2 -nrk 3 > serogroup_O_fc", shell=True)
-    subprocess.call("awk -F , '!seen[$0]++' serogroup_O_fc > serogroup_O_fcd", shell=True)
+    subprocess.run("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_O | sort -nrk 2 -nrk 3 > serogroup_O_fc", shell=True)
+    subprocess.run("awk -F , '!seen[$0]++' serogroup_O_fc > serogroup_O_fcd", shell=True)
     sero_typing_o = openFileAsTable("serogroup_O_fcd")
     # SEROTYPER H
-    subprocess.call("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_H | sort -nrk 2 -nrk 3 > serogroup_H_fc", shell=True)
-    subprocess.call("awk -F , '!seen[$0]++' serogroup_H_fc > serogroup_H_fcd", shell=True)
+    subprocess.run("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_H | sort -nrk 2 -nrk 3 > serogroup_H_fc", shell=True)
+    subprocess.run("awk -F , '!seen[$0]++' serogroup_H_fc > serogroup_H_fcd", shell=True)
     sero_typing_h = openFileAsTable("serogroup_H_fcd")
     try:
         report_data = {}
@@ -108,7 +125,6 @@ def __main__():
             report_data["serotype_o"] = "O?"
         else:
             report_data["serotype_o"] = sero_typing_o[0][0][sero_typing_o[0][0].rfind("O"):]
-        subprocess.call("echo " + report_data["serotype_o"] + " > " + args.serotype, shell=True)
         if len(sero_typing_h) == 0:
             report_data["serotype_h"] = "H?"
         else:
@@ -121,11 +137,11 @@ def __main__():
             report_data["mlst_ST"] = "ST?"
         else:
             report_data["mlst_ST"] = "ST" + sequence_typing[1][0]
-        subprocess.call("cat virulotyper > " + args.virulotypes, shell=True)
-        subprocess.call("sort virulotyper | awk '/eae_|stx1._|stx2._|ehxa_/ && $2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_rep", shell=True)
-        subprocess.call("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
+        subprocess.run("cat virulotyper > " + args.virulotypes, shell=True)
+        subprocess.run("sort virulotyper | awk '/eae_|stx1._|stx2._|ehxa_/ && $2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_rep", shell=True)
+        subprocess.run("sort virulotyper | awk '$2>50 && !seen[substr($1, 1, index($1, \"_\")-1)]++ { printf(\"%s%s\",sep,substr($1, 1, index($1, \"_\")-1));sep=\", \" }END{print \"\"}' > virulotyper_all", shell=True)
         
-        if inputFastq:
+        if is_fastq:
             with open('virulotyper_rep') as virurep:
                 virulotype_eae = "-"
                 virulotype_ehxa = "-"
@@ -156,7 +172,7 @@ def __main__():
 
         shigatoxin_typing = openFileAsTable("shigatoxin_fc")
         if len(shigatoxin_typing) == 0:
-            if inputFastq:
+            if is_fastq:
                 str_shigatoxin_subtype = "No subtype match found"
             else:
                 str_shigatoxin_subtype = "ND"

@@ -48,7 +48,7 @@ then
   touch stxdir/multiassembly_stx1_consensus.fasta;
 else
   cat $tooldir/data/stx1.fa >> stxdir/multiassembly_stx1.fasta;
-  muscle -in stxdir/multiassembly_stx1.fasta -out stxdir/multiassembly_stx1_aligned.fasta;
+  muscle -align stxdir/multiassembly_stx1.fasta -output stxdir/multiassembly_stx1_aligned.fasta;
   awk 'BEGIN {RS=">" ; ORS=""} substr($1,1,4)!="stx1" {print ">"$0}' stxdir/multiassembly_stx1_aligned.fasta > stxdir/multiassembly_stx1_aligned_clean.fasta;
   awk '/^>/ {printf("%s%s\n",(N>0?"\n":""),$0);N++;next;} {printf("%s",$0);} END {printf("\n");}' stxdir/multiassembly_stx1_aligned_clean.fasta > stxdir/multiassembly_stx1_aligned_linear.fasta;
   python $tooldir/scripts/GetConsensus.py -i stxdir/multiassembly_stx1_aligned_linear.fasta -o stxdir/multiassembly_stx1_consensus.fasta;
@@ -60,7 +60,7 @@ then
   touch stxdir/multiassembly_stx2_consensus.fasta;
 else
   cat $tooldir/data/stx2.fa >> stxdir/multiassembly_stx2.fasta;
-  muscle -in stxdir/multiassembly_stx2.fasta -out stxdir/multiassembly_stx2_aligned.fasta;
+  muscle -align stxdir/multiassembly_stx2.fasta -output stxdir/multiassembly_stx2_aligned.fasta;
   awk 'BEGIN {RS=">" ; ORS=""} substr($1,1,4)!="stx2" {print ">"$0}' stxdir/multiassembly_stx2_aligned.fasta > stxdir/multiassembly_stx2_aligned_clean.fasta;
   awk '/^>/ {printf("%s%s\n",(N>0?"\n":""),$0);N++;next;} {printf("%s",$0);} END {printf("\n");}' stxdir/multiassembly_stx2_aligned_clean.fasta > stxdir/multiassembly_stx2_aligned_linear.fasta;
   python $tooldir/scripts/GetConsensus.py -i stxdir/multiassembly_stx2_aligned_linear.fasta -o stxdir/multiassembly_stx2_consensus.fasta;

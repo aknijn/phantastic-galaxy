@@ -1,16 +1,16 @@
-<tool id="phantt-lm" name="PHANtT-Lm" version="2.3">
+<tool id="phantt-lm" name="PHANtT-Lm" version="3.0">
     <description>Typing for Listeria monocytogenes</description>
     <requirements>
-        <requirement type="package" version="3.7">python</requirement>
-        <requirement type="package" version="1.17.3">numpy</requirement>
-        <requirement type="package" version="1.74">biopython</requirement>
-        <requirement type="package" version="5.26">perl</requirement>
-        <requirement type="package" version="2.16.1">mlst</requirement>
-        <requirement type="package" version="2.3.4">bowtie2</requirement>
-        <requirement type="package" version="2020.2">tbb</requirement>
+        <requirement type="package" version="3.10">python</requirement>
+        <requirement type="package" version="1.26.4">numpy</requirement>
+        <requirement type="package" version="1.83">biopython</requirement>
+        <requirement type="package" version="5.32">perl</requirement>
+        <requirement type="package" version="2.23">mlst</requirement>
+        <requirement type="package" version="2.5.2">bowtie2</requirement>
         <requirement type="package" version="1.3.1">samtools</requirement>
         <requirement type="package" version="1.3.1">bcftools</requirement>
 		<requirement type="package" version="1.0.1">abricate</requirement>
+		<requirement type="package" version="0.4.9">lissero</requirement>
     </requirements>
     <environment_variables>
         <environment_variable name="HOME">/home/galaxy</environment_variable>
@@ -23,57 +23,46 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $species == "Listeria monocytogenes":
-        perl
-        $__tool_directory__/PHANtT-Lm.pl
-            #if str( $input_pc.forward.name ) == "dummy.fastq" and str( $input_pc.reverse.name ) == "dummy.fastq":
-                'NULL'
-                'NULL'                    
-            #else
-                #if str( $input_pc.reverse.name ) == "dummy.fastq":
-                    ${input_pc.forward}
-                    'NULL'                    
-                #else
-                    #if str( $input_pc.forward.name ) == "dummy.fastq":
-                        ${input_pc.reverse}
-                        'NULL'                    
-                    #else
-                        ${input_pc.forward}
-                        ${input_pc.reverse}
-                    #end if
-                #end if
+    #import os
+    #if os.stat( str($contamination) ).st_size == 0 and $species == "Listeria monocytogenes":
+        python
+        $__tool_directory__/PHANtT-Lm.py --fasta $input_fasta --output $phanttlm_json --input_id $input_id --region '$region' --year $year --virulotypes $virulotypes --amrgenes $amrgenes --seqtype $seqtype
+        #if os.stat( str($input_forward) ).st_size > 10:
+            -1 $input_forward
+            #if os.stat( str($input_reverse) ).st_size > 10:
+                -2 $input_reverse
             #end if
-          ${input_fasta}
-          $input_id
-          '$region'
-          $year
-          $phanttlm_out
-          $virulotypes
-          $amrgenes
-		  $seqtype
-          "python $__tool_directory__/bin/LisSero.py"
+        #else
+            -1 $input_reverse
+        #end if
     #else
-        touch $phanttlm_out
+        #if $species == "Listeria monocytogenes":
+            echo "{\"information_name\": \"$input_id\",\"region\": \"$region\"}" > $phanttlm_json &&
+        #else
+            touch $phanttlm_json
+        #end if
         touch $virulotypes
         touch $amrgenes
-		touch $seqtype
+        touch $seqtype
     #end if
 ]]>
     </command>
 
     <inputs>
-        <param name="input_pc" type="data_collection" format="fastqsanger" collection_type="paired" label="Paired-end FASTQ collection" help="Paired-end FASTQ collection" optional="false" />
-        <param name="input_fasta" format="fasta" type="data" multiple="true" label="fasta file" />
+        <param name="input_forward" type="data" format="fastqsanger" label="Paired-end FASTQ forward" optional="false" />
+        <param name="input_reverse" type="data" format="fastqsanger" label="Paired-end FASTQ reverse" optional="false" />
+        <param name="input_fasta" format="fasta" type="data" label="fasta file" />
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="region" type="text" label="Sample Region" />
         <param name="year" type="text" label="Sample Year" />
         <param name="species" type="text" label="species name" />
+        <param name="contamination" format="json" type="data" label="Contamination" />
     </inputs>
 
-   <outputs>
-        <data name="phanttlm_out" format="json" label="${tool.name} on ${on_string}: typing" />
-        <data name="virulotypes" format="tabular" label="${tool.name} on ${on_string}: virulotypes" />
-        <data name="amrgenes" format="tabular" label="${tool.name} on ${on_string}: amrgenes" />
-        <data name="seqtype" format="tabular" label="${tool.name} on ${on_string}: sequence type" />
-   </outputs>
+    <outputs>
+        <data name="phanttlm_json" format="json" label="${tool.name} on ${on_string}: typing" />
+        <data name="virulotypes" format="tsv" label="${tool.name} on ${on_string}: virulotypes" />
+        <data name="amrgenes" format="tsv" label="${tool.name} on ${on_string}: amrgenes" />
+        <data name="seqtype" format="tsv" label="${tool.name} on ${on_string}: sequence type" />
+    </outputs>
 </tool>

@@ -1,18 +1,9 @@
-<tool id="phantw" name="PHANtW" version="2.3">
+<tool id="phantw" name="PHANtW" version="3.0">
     <description>SNP Observer</description>
     <requirements>
-        <requirement type="package" version="3.6.6">python</requirement>
-        <requirement type="package" version="4.2.0">DendroPy</requirement>
-        <requirement type="package" version="0.8.13">hdbscan</requirement>
-        <requirement type="package" version="2.1.2">matplotlib</requirement>
-        <requirement type="package" version="2.1">networkx</requirement>
-        <requirement type="package" version="0.36.2">numba</requirement>
-        <requirement type="package" version="1.14.1">numpy</requirement>
-        <requirement type="package" version="0.22.0">pandas</requirement>
-        <requirement type="package" version="0.19.1">scikit-learn</requirement>
-        <requirement type="package" version="1.0.0">scipy</requirement>
-        <requirement type="package" version="0.3.5">sharedmem</requirement>
-        <requirement type="package" version="1.1.2">poppunk</requirement>
+        <requirement type="package" version="3.11">python</requirement>
+        <requirement type="package" version="1.26">numpy</requirement>
+        <requirement type="package" version="2.6.1">poppunk</requirement>
     </requirements>
     <!-- basic error handling -->
     <stdio>

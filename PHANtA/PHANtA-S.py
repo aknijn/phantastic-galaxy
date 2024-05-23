@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 ############################################################################
@@ -15,13 +16,32 @@ import shutil
 import subprocess
 import json
 import datetime
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
 from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
+def get_filetype(input_file):
+    filetype = "error"
+    with open(input_file) as infile:
+        for line in infile:
+            if line in ['\n', '\r\n']:
+                continue
+            elif line[0] == '@':
+                filetype = "fastq"
+                break
+            elif line[0] == '>':
+                filetype = "fasta"
+                break
+            else:
+                filetype = "other"
+                break
+    return filetype
+
+
 def get_coverage(input_id):
     with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
-        return iridadb.get_singleend_coverage(input_id[2:])
+        return iridadb.get_singleend_coverage(input_id.split("_")[1])
 
 def get_fastp(json_file):
     with open(json_file, "rb") as fastp_json:
@@ -41,24 +61,28 @@ def __main__():
     parser.add_argument('--quast', dest='quast', help='quast')
     args = parser.parse_args()
 
-    # if filename ends with .dat a fastq.gz file was decomrpessed
-    if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
+    str_coverage = "ND"
+    is_fastq = False
+    if get_filetype(args.input1) == "fastq":
+        is_fastq = True
+    if is_fastq:
         # FASTQ
-        subprocess.call("ln -s " + args.input1 + " fastq_in.fastqsanger", shell=True)
-        if float(get_coverage(args.input_id)) < 100:
+        os.symlink(args.input1, 'fastq_in.fastqsanger')
+        str_coverage = str(get_coverage(args.input_id))
+        if float(str_coverage) < 100:
             # NO TRIMMING
-            subprocess.call("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 0 -t 0 -l 5 --cut_front_window_size 0 --cut_front_mean_quality 1 --cut_tail_window_size 0 --cut_tail_mean_quality 1", shell=True)
+            subprocess.run("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 0 -t 0 -l 5 --cut_front_window_size 0 --cut_front_mean_quality 1 --cut_tail_window_size 0 --cut_tail_mean_quality 1", shell=True)
         else:
             # TRIMMING
-            subprocess.call("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 3 -t 3 -l 55 --cut_front_window_size 5 --cut_front_mean_quality 20 --cut_tail_window_size 5 --cut_tail_mean_quality 20", shell=True)
+            subprocess.run("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 3 -t 3 -l 55 --cut_front_window_size 5 --cut_front_mean_quality 20 --cut_tail_window_size 5 --cut_tail_mean_quality 20", shell=True)
         # ASSEMBLY
         str_sequencer = ""
         # check if the file is ION Torrent
         with open('input_1.fq', 'r') as fq:
             if fq.readline().count(':') == 2:
                 str_sequencer = "--iontorrent"
-        subprocess.call("perl " + TOOL_DIR + "/scripts/spades.pl spades_contigs spades_contig_stats spades_scaffolds spades_scaffold_stats spades_log NODE spades.py --disable-gzip-output --isolate -t ${GALAXY_SLOTS:-16} " + str_sequencer + " -s input_1.fq", shell=True)
-        subprocess.call("perl " + TOOL_DIR + "/scripts/filter_spades_repeats.pl -i spades_contigs -t spades_contig_stats -c 0.33 -r 1.75 -l 1000 -o output_with_repeats -u output_without_repeats -n repeat_sequences_only -e 5000 -f discarded_sequences -s summary", shell=True)
+        subprocess.run("perl " + TOOL_DIR + "/scripts/spades.pl spades_contigs spades_contig_stats spades_scaffolds spades_scaffold_stats spades_log NODE spades.py --disable-gzip-output --isolate -t ${GALAXY_SLOTS:-16} " + str_sequencer + " -s input_1.fq", shell=True)
+        subprocess.run("perl " + TOOL_DIR + "/scripts/filter_spades_repeats.pl -i spades_contigs -t spades_contig_stats -c 0.33 -r 1.75 -l 1000 -o output_with_repeats -u output_without_repeats -n repeat_sequences_only -e 5000 -f discarded_sequences -s summary", shell=True)
         shutil.move("output_without_repeats", args.contigs)
     else:
         # FASTA
@@ -66,7 +90,7 @@ def __main__():
       
     # QUAST
     genome_size_base = str(int(float(args.genomeSize) * 1000000))
-    subprocess.call("quast --threads 4 -o outputdir --est-ref-size " + genome_size_base + " --min-contig 500 -l  '" + args.input_id + "' --contig-thresholds 0,1000 " + args.contigs, shell=True)
+    subprocess.run("quast --threads 4 -o outputdir --est-ref-size " + genome_size_base + " --min-contig 500 -l  '" + args.input_id + "' --contig-thresholds 0,1000 " + args.contigs, shell=True)
     shutil.move("outputdir/report.tsv", args.quast)
 
     # JSON
@@ -75,8 +99,8 @@ def __main__():
     # write JSON (json.dumps => TypeError: Decimal is not JSON serializable)
     #report_data["coverage"] = getCoverage(args.input1)
     #report.write(json.dumps(report_data))
-    if args.input1.endswith(".fastq") or args.input1.endswith(".dat"):
-        report.write("{\"coverage\": \"" + str(get_coverage(args.input_id)) + "\",")
+    if is_fastq:
+        report.write("{\"coverage\": \"" + str_coverage + "\",")
         (read_mean_length, q30_rate, total_bases) = get_fastp('fastp.json')
         report.write("\"read_mean_length\": \"" + str(read_mean_length) + "\",")
         report.write("\"q30_rate\": \"" + str(q30_rate) + "\",")
