@@ -1,0 +1,1351 @@
+{
+    "a_galaxy_workflow": "true",
+    "annotation": "Public Health Analysis of Nucleotides through Assembly, Typing, Clustering",
+    "format-version": "0.1",
+    "name": "PHANtAsTiC 3.0",
+    "steps": {
+        "0": {
+            "annotation": "",
+            "content_id": null,
+            "errors": null,
+            "id": 0,
+            "input_connections": {},
+            "inputs": [
+                {
+                    "description": "",
+                    "name": "input_collection"
+                }
+            ],
+            "label": "input_collection",
+            "name": "Input dataset collection",
+            "outputs": [],
+            "position": {
+                "bottom": 571.9333343505859,
+                "height": 61.80000305175781,
+                "left": -1814.86669921875,
+                "right": -1614.86669921875,
+                "top": 510.1333312988281,
+                "width": 200,
+                "x": -1814.86669921875,
+                "y": 510.1333312988281
+            },
+            "tool_id": null,
+            "tool_state": "{\"optional\": false, \"collection_type\": \"list:paired\"}",
+            "tool_version": null,
+            "type": "data_collection_input",
+            "uuid": "ce7da40d-28da-4c70-9fa4-069432a82354",
+            "workflow_outputs": []
+        },
+        "1": {
+            "annotation": "",
+            "content_id": "phantq",
+            "errors": null,
+            "id": 1,
+            "input_connections": {
+                "input_pc": {
+                    "id": 0,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PHANtQ",
+            "outputs": [
+                {
+                    "name": "phantq_json",
+                    "type": "json"
+                },
+                {
+                    "name": "phantq_forward",
+                    "type": "fastqsanger"
+                },
+                {
+                    "name": "phantq_reverse",
+                    "type": "fastqsanger"
+                }
+            ],
+            "position": {
+                "bottom": 779.86669921875,
+                "height": 276.4000244140625,
+                "left": -1492.199951171875,
+                "right": -1292.199951171875,
+                "top": 503.4666748046875,
+                "width": 200,
+                "x": -1492.199951171875,
+                "y": 503.4666748046875
+            },
+            "post_job_actions": {},
+            "tool_id": "phantq",
+            "tool_state": "{\"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "ba01fcb4-84c3-4e49-9d25-34652ee497b1",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "phantq_forward",
+                    "uuid": "57115fa2-7af4-4c5b-bc41-464432b25d39"
+                },
+                {
+                    "label": null,
+                    "output_name": "phantq_reverse",
+                    "uuid": "eaf1a087-5208-4e36-8e10-3738b7fe4b40"
+                },
+                {
+                    "label": "PHANtQ on input dataset(s): contamination check",
+                    "output_name": "phantq_json",
+                    "uuid": "15021396-e2b4-43ac-b657-04ebf6fecd3c"
+                }
+            ]
+        },
+        "2": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 2,
+            "input_connections": {
+                "input_list": {
+                    "id": 1,
+                    "output_name": "phantq_json"
+                }
+            },
+            "inputs": [],
+            "label": "Contamination",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 564.6000061035156,
+                "height": 113.60000610351562,
+                "left": -1207.199951171875,
+                "right": -1007.199951171875,
+                "top": 451,
+                "width": 200,
+                "x": -1207.199951171875,
+                "y": 451
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "a2376cd0-9f04-48a6-a139-d764f51532e3",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "35bf554f-cd1d-44f5-bbee-027588bde3ed"
+                }
+            ]
+        },
+        "3": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 3,
+            "input_connections": {
+                "input_list": {
+                    "id": 1,
+                    "output_name": "phantq_forward"
+                }
+            },
+            "inputs": [],
+            "label": "fastq_forward",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 741.6333160400391,
+                "height": 113.59999084472656,
+                "left": -1198.86669921875,
+                "right": -998.86669921875,
+                "top": 628.0333251953125,
+                "width": 200,
+                "x": -1198.86669921875,
+                "y": 628.0333251953125
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "11ef53ee-253f-4203-8f01-3b9f49cb2d5e",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "7c09ba8c-4813-43d8-930a-969de346d8bc"
+                }
+            ]
+        },
+        "4": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "errors": null,
+            "id": 4,
+            "input_connections": {
+                "input_list": {
+                    "id": 1,
+                    "output_name": "phantq_reverse"
+                }
+            },
+            "inputs": [],
+            "label": "fastq_reverse",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 875.6000061035156,
+                "height": 113.60000610351562,
+                "left": -1194.86669921875,
+                "right": -994.86669921875,
+                "top": 762,
+                "width": 200,
+                "x": -1194.86669921875,
+                "y": 762
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"ConnectedValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "be0fa917-2254-4d6d-9107-719fd91b7faf",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "d88dbf5a-499e-429e-8398-2d9958e5d347"
+                }
+            ]
+        },
+        "5": {
+            "annotation": "",
+            "content_id": "phanta",
+            "errors": null,
+            "id": 5,
+            "input_connections": {
+                "contamination": {
+                    "id": 2,
+                    "output_name": "output"
+                },
+                "input_forward": {
+                    "id": 3,
+                    "output_name": "output"
+                },
+                "input_reverse": {
+                    "id": 4,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PHANtA",
+            "outputs": [
+                {
+                    "name": "phanta_contigs",
+                    "type": "fasta"
+                },
+                {
+                    "name": "phanta_json",
+                    "type": "json"
+                },
+                {
+                    "name": "phanta_quast",
+                    "type": "tsv"
+                }
+            ],
+            "position": {
+                "bottom": 1037.5,
+                "height": 276,
+                "left": -853.2333374023438,
+                "right": -653.2333374023438,
+                "top": 761.5,
+                "width": 200,
+                "x": -853.2333374023438,
+                "y": 761.5
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionphanta_contigs": {
+                    "action_arguments": {
+                        "newtype": "fasta"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "phanta_contigs"
+                },
+                "ChangeDatatypeActionphanta_quast": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "phanta_quast"
+                },
+                "RenameDatasetActionphanta_contigs": {
+                    "action_arguments": {
+                        "newname": "phantastic_contigs.fasta"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "phanta_contigs"
+                },
+                "RenameDatasetActionphanta_quast": {
+                    "action_arguments": {
+                        "newname": "phantastic_aq.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "phanta_quast"
+                }
+            },
+            "tool_id": "phanta",
+            "tool_state": "{\"contamination\": {\"__class__\": \"ConnectedValue\"}, \"genomeSize\": \"5.0\", \"input_forward\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"input_reverse\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"trueConfigFile\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "e8a4d6bb-0481-4be9-a7cb-9c96b33d6f41",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "phanta_quast",
+                    "uuid": "2b340a75-c6ef-40a5-88b2-774b9a08eb93"
+                },
+                {
+                    "label": null,
+                    "output_name": "phanta_json",
+                    "uuid": "6da24b13-5b23-422b-bf29-6ed1b6ffd89c"
+                },
+                {
+                    "label": null,
+                    "output_name": "phanta_contigs",
+                    "uuid": "1442ea07-147e-425b-b7ac-18ae3a3253d6"
+                }
+            ]
+        },
+        "6": {
+            "annotation": "",
+            "content_id": "phantt-lm",
+            "errors": null,
+            "id": 6,
+            "input_connections": {
+                "contamination": {
+                    "id": 2,
+                    "output_name": "output"
+                },
+                "input_fasta": {
+                    "id": 5,
+                    "output_name": "phanta_contigs"
+                },
+                "input_forward": {
+                    "id": 3,
+                    "output_name": "output"
+                },
+                "input_reverse": {
+                    "id": 4,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PHANtT-Lm",
+            "outputs": [
+                {
+                    "name": "phanttlm_json",
+                    "type": "json"
+                },
+                {
+                    "name": "virulotypes",
+                    "type": "tsv"
+                },
+                {
+                    "name": "amrgenes",
+                    "type": "tsv"
+                },
+                {
+                    "name": "seqtype",
+                    "type": "tsv"
+                }
+            ],
+            "position": {
+                "bottom": 466.13331604003906,
+                "height": 377.5999755859375,
+                "left": -605.2000122070312,
+                "right": -405.20001220703125,
+                "top": 88.53334045410156,
+                "width": 200,
+                "x": -605.2000122070312,
+                "y": 88.53334045410156
+            },
+            "post_job_actions": {},
+            "tool_id": "phantt-lm",
+            "tool_state": "{\"contamination\": {\"__class__\": \"ConnectedValue\"}, \"input_fasta\": {\"__class__\": \"ConnectedValue\"}, \"input_forward\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"input_reverse\": {\"__class__\": \"ConnectedValue\"}, \"region\": \"\", \"species\": \"\", \"year\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "736ba4ad-4373-40e6-8525-91a4cd7490ef",
+            "workflow_outputs": [
+                {
+                    "label": "PHANtT-Lm on input dataset(s): amrgenes",
+                    "output_name": "amrgenes",
+                    "uuid": "591c9751-55bf-4bb7-8a3c-92a690841dcb"
+                },
+                {
+                    "label": "PHANtT-Lm on input dataset(s): typing",
+                    "output_name": "phanttlm_json",
+                    "uuid": "9be3e264-3449-45e8-9623-595a7dd786cc"
+                },
+                {
+                    "label": "PHANtT-Lm on input dataset(s): virulotypes",
+                    "output_name": "virulotypes",
+                    "uuid": "2a3dea5f-fa20-4dfe-a7e3-a3d9125884b0"
+                },
+                {
+                    "label": "PHANtT-Lm on input dataset(s): sequence type",
+                    "output_name": "seqtype",
+                    "uuid": "b977f663-abf7-45e6-ba8f-5dda6c5a5062"
+                }
+            ]
+        },
+        "7": {
+            "annotation": "",
+            "content_id": "phantt-ec",
+            "errors": null,
+            "id": 7,
+            "input_connections": {
+                "contamination": {
+                    "id": 2,
+                    "output_name": "output"
+                },
+                "input_fasta": {
+                    "id": 5,
+                    "output_name": "phanta_contigs"
+                },
+                "input_forward": {
+                    "id": 3,
+                    "output_name": "output"
+                },
+                "input_reverse": {
+                    "id": 4,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PHANtT-Ec",
+            "outputs": [
+                {
+                    "name": "phanttec_json",
+                    "type": "json"
+                },
+                {
+                    "name": "virulotypes",
+                    "type": "tsv"
+                },
+                {
+                    "name": "amrgenes",
+                    "type": "tsv"
+                },
+                {
+                    "name": "seqtype",
+                    "type": "tsv"
+                }
+            ],
+            "position": {
+                "bottom": 16.100006103515625,
+                "height": 377.6000061035156,
+                "left": -613.2000122070312,
+                "right": -413.20001220703125,
+                "top": -361.5,
+                "width": 200,
+                "x": -613.2000122070312,
+                "y": -361.5
+            },
+            "post_job_actions": {},
+            "tool_id": "phantt-ec",
+            "tool_state": "{\"contamination\": {\"__class__\": \"ConnectedValue\"}, \"input_fasta\": {\"__class__\": \"ConnectedValue\"}, \"input_forward\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"input_pc\": {\"__class__\": \"ConnectedValue\"}, \"input_reverse\": {\"__class__\": \"ConnectedValue\"}, \"region\": \"\", \"species\": \"\", \"year\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "f3698467-a45d-4c46-8426-8c9170ab1f82",
+            "workflow_outputs": [
+                {
+                    "label": "PHANtT-Ec on input dataset(s): sequence type",
+                    "output_name": "seqtype",
+                    "uuid": "2165da84-a8cc-4caf-afaa-6dbac72a4250"
+                },
+                {
+                    "label": "PHANtT-Ec on input dataset(s): amrgenes",
+                    "output_name": "amrgenes",
+                    "uuid": "cca4f2af-954d-4476-a8e7-0222e820be15"
+                },
+                {
+                    "label": "PHANtT-Ec on input dataset(s): virulotypes",
+                    "output_name": "virulotypes",
+                    "uuid": "1738789a-dd23-41c6-948f-495ef3ea05c1"
+                },
+                {
+                    "label": "PHANtT-Ec on input dataset(s): typing",
+                    "output_name": "phanttec_json",
+                    "uuid": "d6610724-b31a-4a8c-873b-4041b1a615d4"
+                }
+            ]
+        },
+        "8": {
+            "annotation": "",
+            "content_id": "phantc-chew",
+            "errors": null,
+            "id": 8,
+            "input_connections": {
+                "contamination": {
+                    "id": 2,
+                    "output_name": "output"
+                },
+                "input1": {
+                    "id": 5,
+                    "output_name": "phanta_contigs"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool PHANtC-chew",
+                    "name": "contamination"
+                },
+                {
+                    "description": "runtime parameter for tool PHANtC-chew",
+                    "name": "input1"
+                }
+            ],
+            "label": null,
+            "name": "PHANtC-chew",
+            "outputs": [
+                {
+                    "name": "phantcchew_allele",
+                    "type": "tsv"
+                },
+                {
+                    "name": "phantcchew_json",
+                    "type": "json"
+                }
+            ],
+            "position": {
+                "bottom": 950.2666778564453,
+                "height": 194.8000030517578,
+                "left": -349.20001220703125,
+                "right": -149.20001220703125,
+                "top": 755.4666748046875,
+                "width": 200,
+                "x": -349.20001220703125,
+                "y": 755.4666748046875
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionphantcchew_allele": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "phantcchew_allele"
+                },
+                "RenameDatasetActionphantcchew_allele": {
+                    "action_arguments": {
+                        "newname": "phantastic_ac.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "phantcchew_allele"
+                }
+            },
+            "tool_id": "phantc-chew",
+            "tool_state": "{\"contamination\": {\"__class__\": \"RuntimeValue\"}, \"input1\": {\"__class__\": \"RuntimeValue\"}, \"input_id\": \"\", \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "ba222690-70f5-4ae1-83df-a2a31bda78db",
+            "workflow_outputs": [
+                {
+                    "label": "PHANtC-chew on input dataset(s): allele calls",
+                    "output_name": "phantcchew_allele",
+                    "uuid": "8ef9c675-8392-4c4c-bdd8-54f8ed1e4ade"
+                },
+                {
+                    "label": "PHANtC-chew on input dataset(s): allele filter",
+                    "output_name": "phantcchew_json",
+                    "uuid": "29937a63-41c9-4c6d-8813-f5596e9dfafb"
+                }
+            ]
+        },
+        "9": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 9,
+            "input_connections": {
+                "input1": {
+                    "id": 7,
+                    "output_name": "virulotypes"
+                },
+                "queries_0|input2": {
+                    "id": 6,
+                    "output_name": "virulotypes"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Concatenate datasets",
+                    "name": "input1"
+                }
+            ],
+            "label": "Virulotyping",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 29.566665649414062,
+                "height": 123.60000610351562,
+                "left": -221.26666259765625,
+                "right": -21.26666259765625,
+                "top": -94.03334045410156,
+                "width": 200,
+                "x": -221.26666259765625,
+                "y": -94.03334045410156
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_vir.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "89b1395d-6c2d-4a6d-bfbd-6cdd78a1f0a7",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "3d9f8379-ab9e-4019-b012-68a6657893c1"
+                }
+            ]
+        },
+        "10": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 10,
+            "input_connections": {
+                "input1": {
+                    "id": 7,
+                    "output_name": "amrgenes"
+                },
+                "queries_0|input2": {
+                    "id": 6,
+                    "output_name": "amrgenes"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Concatenate datasets",
+                    "name": "input1"
+                }
+            ],
+            "label": "AMRGenes",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 257.56666564941406,
+                "height": 123.60000610351562,
+                "left": -223.26666259765625,
+                "right": -23.26666259765625,
+                "top": 133.96665954589844,
+                "width": 200,
+                "x": -223.26666259765625,
+                "y": 133.96665954589844
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_amr.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "4ec33d03-d37e-4add-b96e-5b56b8c50078",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "059c13df-ca1b-4a8b-84d6-73e2c0503c67"
+                }
+            ]
+        },
+        "11": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 11,
+            "input_connections": {
+                "input1": {
+                    "id": 7,
+                    "output_name": "phanttec_json"
+                },
+                "queries_0|input2": {
+                    "id": 6,
+                    "output_name": "phanttlm_json"
+                }
+            },
+            "inputs": [],
+            "label": "Typing",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": -178.43331909179688,
+                "height": 123.60000610351562,
+                "left": -207.26666259765625,
+                "right": -7.26666259765625,
+                "top": -302.0333251953125,
+                "width": 200,
+                "x": -207.26666259765625,
+                "y": -302.0333251953125
+            },
+            "post_job_actions": {},
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "e77e80e0-9599-451b-8858-dc462a1c1752",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "687cb88a-d05b-46c1-8fa1-03acd922a056"
+                }
+            ]
+        },
+        "12": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 12,
+            "input_connections": {
+                "input1": {
+                    "id": 7,
+                    "output_name": "seqtype"
+                },
+                "queries_0|input2": {
+                    "id": 6,
+                    "output_name": "seqtype"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Concatenate datasets",
+                    "name": "input1"
+                }
+            ],
+            "label": "SeqTyping",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 501.5666809082031,
+                "height": 123.60000610351562,
+                "left": -231.26666259765625,
+                "right": -31.26666259765625,
+                "top": 377.9666748046875,
+                "width": 200,
+                "x": -231.26666259765625,
+                "y": 377.9666748046875
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_seq.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "ce747715-c616-4a8d-8cc2-f9c8b5b4707c",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "85650f5d-c167-432f-bd26-12e835ec14ad"
+                }
+            ]
+        },
+        "13": {
+            "annotation": "",
+            "content_id": "phantj",
+            "errors": null,
+            "id": 13,
+            "input_connections": {
+                "amrgenes": {
+                    "id": 10,
+                    "output_name": "out_file1"
+                },
+                "phanta_json": {
+                    "id": 5,
+                    "output_name": "phanta_json"
+                },
+                "phantc_json": {
+                    "id": 8,
+                    "output_name": "phantcchew_json"
+                },
+                "phantq_json": {
+                    "id": 2,
+                    "output_name": "output"
+                },
+                "phantt_json": {
+                    "id": 11,
+                    "output_name": "out_file1"
+                },
+                "virulotypes": {
+                    "id": 9,
+                    "output_name": "out_file1"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PHANtJ",
+            "outputs": [
+                {
+                    "name": "phantastic_type",
+                    "type": "json"
+                },
+                {
+                    "name": "samplereport",
+                    "type": "pdf"
+                }
+            ],
+            "position": {
+                "bottom": 745.1666564941406,
+                "height": 275.6000061035156,
+                "left": 128.73333740234375,
+                "right": 328.73333740234375,
+                "top": 469.566650390625,
+                "width": 200,
+                "x": 128.73333740234375,
+                "y": 469.566650390625
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionphantastic_type": {
+                    "action_arguments": {
+                        "newtype": "json"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "phantastic_type"
+                },
+                "ChangeDatatypeActionsamplereport": {
+                    "action_arguments": {
+                        "newtype": "pdf"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "samplereport"
+                },
+                "RenameDatasetActionphantastic_type": {
+                    "action_arguments": {
+                        "newname": "phantastic_type.json"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "phantastic_type"
+                },
+                "RenameDatasetActionsamplereport": {
+                    "action_arguments": {
+                        "newname": "phantastic_report.pdf"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "samplereport"
+                }
+            },
+            "tool_id": "phantj",
+            "tool_state": "{\"amrgenes\": {\"__class__\": \"ConnectedValue\"}, \"phanta_json\": {\"__class__\": \"ConnectedValue\"}, \"phantc_json\": {\"__class__\": \"ConnectedValue\"}, \"phantq_json\": {\"__class__\": \"ConnectedValue\"}, \"phantt_json\": {\"__class__\": \"ConnectedValue\"}, \"sampledate\": \"\", \"species\": \"\", \"strain\": \"\", \"virulotypes\": {\"__class__\": \"ConnectedValue\"}, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "5946f8a6-5c29-40f2-b28a-267dfe62dc87",
+            "workflow_outputs": [
+                {
+                    "label": "phantastic_type",
+                    "output_name": "phantastic_type",
+                    "uuid": "33a38b54-edc1-4683-a8b7-e6853a1cf07a"
+                },
+                {
+                    "label": "sample report",
+                    "output_name": "samplereport",
+                    "uuid": "5d36283e-beae-474d-8dba-4987f60cffe5"
+                }
+            ]
+        },
+        "14": {
+            "annotation": "",
+            "content_id": "phantc-treeec",
+            "errors": null,
+            "id": 14,
+            "input_connections": {
+                "metadata_json": {
+                    "id": 13,
+                    "output_name": "phantastic_type"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PHANtC-TreeEc",
+            "outputs": [
+                {
+                    "name": "phantcec_tree",
+                    "type": "nwk"
+                },
+                {
+                    "name": "phantcec_dm",
+                    "type": "tsv"
+                },
+                {
+                    "name": "phantcec_grapetree",
+                    "type": "txt"
+                },
+                {
+                    "name": "phantcec_cluster",
+                    "type": "tsv"
+                }
+            ],
+            "position": {
+                "bottom": 383.96665954589844,
+                "height": 286.3999938964844,
+                "left": 538.7666625976562,
+                "right": 738.7666625976562,
+                "top": 97.56666564941406,
+                "width": 200,
+                "x": 538.7666625976562,
+                "y": 97.56666564941406
+            },
+            "post_job_actions": {},
+            "tool_id": "phantc-treeec",
+            "tool_state": "{\"input_id\": \"\", \"metadata_json\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "9808ac44-e521-4b0d-9b9e-4f66dabf5e99",
+            "workflow_outputs": [
+                {
+                    "label": "PHANtC-TreeEc on input dataset(s): clusters",
+                    "output_name": "phantcec_cluster",
+                    "uuid": "4a44f6e1-a4e9-4d86-807b-b720a47365fe"
+                },
+                {
+                    "label": "PHANtC-TreeEc on input dataset(s): grapetree",
+                    "output_name": "phantcec_grapetree",
+                    "uuid": "da1c4cf2-85ee-41ea-a0d2-7da9643859b2"
+                },
+                {
+                    "label": "PHANtC-TreeEc on input dataset(s): distance matrix",
+                    "output_name": "phantcec_dm",
+                    "uuid": "b4be079e-7b53-4d0b-9361-d3ffb964a64a"
+                },
+                {
+                    "label": "PHANtC-TreeEc on input dataset(s): phylogeny",
+                    "output_name": "phantcec_tree",
+                    "uuid": "ed20d28e-b4d3-4c12-a28d-5e9b01563dc2"
+                }
+            ]
+        },
+        "15": {
+            "annotation": "",
+            "content_id": "phantc-treelm",
+            "errors": null,
+            "id": 15,
+            "input_connections": {
+                "metadata_json": {
+                    "id": 13,
+                    "output_name": "phantastic_type"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "PHANtC-TreeLm",
+            "outputs": [
+                {
+                    "name": "phantclm_tree",
+                    "type": "nwk"
+                },
+                {
+                    "name": "phantclm_dm",
+                    "type": "tsv"
+                },
+                {
+                    "name": "phantclm_grapetree",
+                    "type": "txt"
+                },
+                {
+                    "name": "phantclm_cluster",
+                    "type": "tsv"
+                }
+            ],
+            "position": {
+                "bottom": 833.13330078125,
+                "height": 347.5999755859375,
+                "left": 532.7999877929688,
+                "right": 732.7999877929688,
+                "top": 485.5333251953125,
+                "width": 200,
+                "x": 532.7999877929688,
+                "y": 485.5333251953125
+            },
+            "post_job_actions": {},
+            "tool_id": "phantc-treelm",
+            "tool_state": "{\"input_id\": \"\", \"metadata_json\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "3.0",
+            "type": "tool",
+            "uuid": "d1f5ae75-e8ae-4baf-9905-7e262d62a81e",
+            "workflow_outputs": [
+                {
+                    "label": "PHANtC-TreeLm on input dataset(s): phylogeny",
+                    "output_name": "phantclm_tree",
+                    "uuid": "269d20ab-e44c-41d9-9518-28872a2001c6"
+                },
+                {
+                    "label": "PHANtC-TreeLm on input dataset(s): distance matrix",
+                    "output_name": "phantclm_dm",
+                    "uuid": "9d407efc-c4c2-47e4-b175-1826b0df8f2e"
+                },
+                {
+                    "label": "PHANtC-TreeLm on input dataset(s): grapetree",
+                    "output_name": "phantclm_grapetree",
+                    "uuid": "1a7f39a1-0cf6-421e-912d-36b112d0046a"
+                },
+                {
+                    "label": "PHANtC-TreeLm on input dataset(s): clusters",
+                    "output_name": "phantclm_cluster",
+                    "uuid": "cdbf7b6f-631e-49d1-bba7-a97f4bf650fe"
+                }
+            ]
+        },
+        "16": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 16,
+            "input_connections": {
+                "input1": {
+                    "id": 14,
+                    "output_name": "phantcec_tree"
+                },
+                "queries_0|input2": {
+                    "id": 15,
+                    "output_name": "phantclm_tree"
+                }
+            },
+            "inputs": [],
+            "label": "Phylogeny",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 260.56666564941406,
+                "height": 123.60000610351562,
+                "left": 963.7666625976562,
+                "right": 1163.7666625976562,
+                "top": 136.96665954589844,
+                "width": 200,
+                "x": 963.7666625976562,
+                "y": 136.96665954589844
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "nwk"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_tree.newick"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "5a6442b3-b319-4dba-a84c-0a03cd12813b",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "843e37ef-c928-4679-84dc-39f6a7ee93a1"
+                }
+            ]
+        },
+        "17": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 17,
+            "input_connections": {
+                "input1": {
+                    "id": 14,
+                    "output_name": "phantcec_dm"
+                },
+                "queries_0|input2": {
+                    "id": 15,
+                    "output_name": "phantclm_dm"
+                }
+            },
+            "inputs": [],
+            "label": "Distances",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 432.5666809082031,
+                "height": 123.60000610351562,
+                "left": 970.7999877929688,
+                "right": 1170.7999877929688,
+                "top": 308.9666748046875,
+                "width": 200,
+                "x": 970.7999877929688,
+                "y": 308.9666748046875
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_dm.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "e2432454-76d8-46d5-a8f2-a4d107e058f5",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "c199ca81-d907-4c3c-a14d-40af01a4421e"
+                }
+            ]
+        },
+        "18": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 18,
+            "input_connections": {
+                "input1": {
+                    "id": 14,
+                    "output_name": "phantcec_grapetree"
+                },
+                "queries_0|input2": {
+                    "id": 15,
+                    "output_name": "phantclm_grapetree"
+                }
+            },
+            "inputs": [],
+            "label": "Grape",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 606.5666809082031,
+                "height": 123.60000610351562,
+                "left": 978.7666625976562,
+                "right": 1178.7666625976562,
+                "top": 482.9666748046875,
+                "width": 200,
+                "x": 978.7666625976562,
+                "y": 482.9666748046875
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "txt"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_grape.html"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "71e8acb1-daf6-495f-8072-ee01def700e4",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "dea9cf76-b32b-43b2-81c5-1623d40d9123"
+                }
+            ]
+        },
+        "19": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 19,
+            "input_connections": {
+                "input1": {
+                    "id": 14,
+                    "output_name": "phantcec_cluster"
+                },
+                "queries_0|input2": {
+                    "id": 15,
+                    "output_name": "phantclm_cluster"
+                }
+            },
+            "inputs": [],
+            "label": "Clusters",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 786.5666809082031,
+                "height": 123.60000610351562,
+                "left": 972.7333374023438,
+                "right": 1172.7333374023438,
+                "top": 662.9666748046875,
+                "width": 200,
+                "x": 972.7333374023438,
+                "y": 662.9666748046875
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_clusters.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "0505ee0b-32fd-445c-ad12-14dad905da28",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "b83c653a-3526-4320-b0bb-5c87c9f47b7c"
+                }
+            ]
+        }
+    },
+    "tags": [
+        "IRIDA"
+    ],
+    "uuid": "b3014b05-af78-4e3c-b842-be2cddda6455",
+    "version": 23
+}
