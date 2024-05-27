@@ -21,7 +21,7 @@
 		--virulotypes $virulotypes
 		--amrgenes $amrgenes
 		--species '$species'
-		--strain '$strain'
+		--strain='$strain'
 		--sampledate $sampledate
 		--phantastic_type $phantastic_type  
 	    --samplereport $samplereport
