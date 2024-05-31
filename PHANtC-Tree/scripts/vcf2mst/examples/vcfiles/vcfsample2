@@ -1,0 +1,34 @@
+CHROM	POS	TYPE	REF	ALT	EVIDENCE	FTYPE	STRAND	NT_POS	AA_POS	EFFECT	LOCUS_TAG	GENE	PRODUCT
+NC_045512	241	snp	C	T	T:1293 C:0	5'UTR	+			intergenic_region n.241C>T 			
+NC_045512	913	snp	C	T	T:1481 C:0	mat_peptide	+	648/21290	216/7095	synonymous_variant c.648C>T p.Ser216Ser	GU280_gp01	ORF1ab	nsp2
+NC_045512	1862	snp	C	T	T:903 C:0	mat_peptide	+	1597/21290	533/7095	missense_variant c.1597C>T p.Leu533Phe	GU280_gp01	ORF1ab	nsp2
+NC_045512	3037	snp	C	T	T:3319 C:1	mat_peptide	+	2772/21290	924/7095	synonymous_variant c.2772C>T p.Phe924Phe	GU280_gp01	ORF1ab	nsp3
+NC_045512	3267	snp	C	T	T:2186 C:0	mat_peptide	+	3002/21290	1001/7095	missense_variant c.3002C>T p.Thr1001Ile	GU280_gp01	ORF1ab	nsp3
+NC_045512	5388	snp	C	A	A:2231 C:0	mat_peptide	+	5123/21290	1708/7095	missense_variant c.5123C>A p.Ala1708Asp	GU280_gp01	ORF1ab	nsp3
+NC_045512	5986	snp	C	T	T:1793 C:1	mat_peptide	+	5721/21290	1907/7095	synonymous_variant c.5721C>T p.Phe1907Phe	GU280_gp01	ORF1ab	nsp3
+NC_045512	6954	snp	T	C	C:1637 T:0	mat_peptide	+	6689/21290	2230/7095	missense_variant c.6689T>C p.Ile2230Thr	GU280_gp01	ORF1ab	nsp3
+NC_045512	11287	del	GTCTGGTTTT	G	G:1621 GTCTGGTTTT:0	mat_peptide	+	11023/21290	3675/7095	conservative_inframe_deletion c.11023_11031delTCTGGTTTT p.Ser3675_Phe3677del	GU280_gp01	ORF1ab	nsp6
+NC_045512	12162	snp	A	G	G:2567 A:1	mat_peptide	+	11897/21290	3966/7095	missense_variant c.11897A>G p.Gln3966Arg	GU280_gp01	ORF1ab	nsp8
+NC_045512	14408	snp	C	T	T:1655 C:0	mat_peptide	+	14143/21290	4715/7095	synonymous_variant c.14143C>T p.Leu4715Leu	GU280_gp01	ORF1ab	RNA-dependent RNA polymerase
+NC_045512	14676	snp	C	T	T:1684 C:0	mat_peptide	+	14411/21290	4804/7095	missense_variant c.14411C>T p.Pro4804Leu	GU280_gp01	ORF1ab	RNA-dependent RNA polymerase
+NC_045512	15279	snp	C	T	T:2034 C:0	mat_peptide	+	15014/21290	5005/7095	missense_variant c.15014C>T p.Thr5005Ile	GU280_gp01	ORF1ab	RNA-dependent RNA polymerase
+NC_045512	16176	snp	T	C	C:2207 T:0	mat_peptide	+	15911/21290	5304/7095	missense_variant c.15911T>C p.Leu5304Pro	GU280_gp01	ORF1ab	RNA-dependent RNA polymerase
+NC_045512	17615	snp	A	G	G:1722 A:0	mat_peptide	+	17350/21290	5784/7095	missense_variant c.17350A>G p.Ser5784Gly	GU280_gp01	ORF1ab	helicase
+NC_045512	21764	del	ATACATG	A	A:907 ATACATG:0	CDS	+	204/3822	68/1273	disruptive_inframe_deletion c.204_209delACATGT p.His69_Val70del	GU280_gp02	S	surface glycoprotein
+NC_045512	21990	del	TTTA	T	T:775 TTTA:0	CDS	+	432/3822	144/1273	disruptive_inframe_deletion c.432_434delTTA p.Tyr145del	GU280_gp02	S	surface glycoprotein
+NC_045512	23063	snp	A	T	T:981 A:1	CDS	+	1501/3822	501/1273	missense_variant c.1501A>T p.Asn501Tyr	GU280_gp02	S	surface glycoprotein
+NC_045512	23271	snp	C	A	A:2657 C:0	CDS	+	1709/3822	570/1273	missense_variant c.1709C>A p.Ala570Asp	GU280_gp02	S	surface glycoprotein
+NC_045512	23403	snp	A	G	G:2921 A:0	CDS	+	1841/3822	614/1273	missense_variant c.1841A>G p.Asp614Gly	GU280_gp02	S	surface glycoprotein
+NC_045512	23604	snp	C	A	A:2523 C:1	CDS	+	2042/3822	681/1273	missense_variant c.2042C>A p.Pro681His	GU280_gp02	S	surface glycoprotein
+NC_045512	23709	snp	C	T	T:2993 C:2	CDS	+	2147/3822	716/1273	missense_variant c.2147C>T p.Thr716Ile	GU280_gp02	S	surface glycoprotein
+NC_045512	24506	snp	T	G	G:1632 T:0	CDS	+	2944/3822	982/1273	missense_variant c.2944T>G p.Ser982Ala	GU280_gp02	S	surface glycoprotein
+NC_045512	24914	snp	G	C	C:1590 G:0	CDS	+	3352/3822	1118/1273	missense_variant c.3352G>C p.Asp1118His	GU280_gp02	S	surface glycoprotein
+NC_045512	27972	snp	C	T	T:2322 C:2	CDS	+	79/366	27/121	stop_gained c.79C>T p.Gln27*	GU280_gp09	ORF8	ORF8 protein
+NC_045512	28001	snp	G	T	T:2424 G:1	CDS	+	108/366	36/121	synonymous_variant c.108G>T p.Pro36Pro	GU280_gp09	ORF8	ORF8 protein
+NC_045512	28048	snp	G	T	T:2086 G:1	CDS	+	155/366	52/121	missense_variant c.155G>T p.Arg52Ile	GU280_gp09	ORF8	ORF8 protein
+NC_045512	28111	snp	A	G	G:1701 A:0	CDS	+	218/366	73/121	missense_variant c.218A>G p.Tyr73Cys	GU280_gp09	ORF8	ORF8 protein
+NC_045512	28270	del	TA	T	T:1309 TA:0								
+NC_045512	28280	mnp	GAT	CTA	CTA:1342 GAT:0	CDS	+	7/1260	3/419	missense_variant c.7_9delGATinsCTA p.Asp3Leu	GU280_gp10	N	nucleocapsid phosphoprotein
+NC_045512	28881	mnp	GGG	AAC	AAC:2077 GGG:0	CDS	+	608/1260	203/419	missense_variant c.608_610delGGGinsAAC p.ArgGly203LysArg	GU280_gp10	N	nucleocapsid phosphoprotein
+NC_045512	28977	snp	C	T	T:1932 C:0	CDS	+	704/1260	235/419	missense_variant c.704C>T p.Ser235Phe	GU280_gp10	N	nucleocapsid phosphoprotein
+NC_045512	29735	del	AGGCCACGCGGAGTACGATCGAGTG	A	A:905 AGGCCACGCGGAGTACGATCGAGTG:0	stem_loop	+			intergenic_region n.29736_29759delGGCCACGCGGAGTACGATCGAGTG 			

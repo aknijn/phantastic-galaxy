@@ -1,0 +1,15 @@
+# first intervals set
+
+0-100,200-1500,5000-5500
+
+# second intervals set
+# empty intervals and spaces are not a problem
+
+150-180, ,, , 2000   -   3000
+
+#----------------------------------------------
+# final intervals will be
+#
+# 0-100,150-180,200-1500,2000-3000,5000-5500
+#----------------------------------------------
+#9000-10000 -minmax-exclude 9534-9534
