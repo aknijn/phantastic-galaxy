@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-## A wrapper script to call reporTree
+## A wrapper script to call reporTree v2.4.1
 use strict;
 use warnings;
 use Cwd;
