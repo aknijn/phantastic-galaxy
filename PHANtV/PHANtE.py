@@ -32,7 +32,11 @@ def getMetadata(inputfiles, inuser, inspecies):
 # Obtain idFile from file path
 def getIdFile(filename):
     splitFilename = filename.split("/")
-    return splitFilename[5]
+    if (splitFilename[5][0]=='A'):
+         inIdFile = splitFilename[6] 
+    else:
+         inIdFile = splitFilename[5] 
+    return inIdFile
 
 def main():
     parser = argparse.ArgumentParser()

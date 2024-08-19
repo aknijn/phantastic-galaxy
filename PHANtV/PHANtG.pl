@@ -62,7 +62,9 @@ sub runGrapeTree {
 sub getIdFile {
     my ($inpath) = @_;
     my(@dirs) = split m%/%, $inpath;
-    return $dirs[5];
+    my $inIdFile = $dirs[5];
+    if (substr($inIdFile,0,1) eq "A") { $inIdFile = $dirs[6]; }
+    return $inIdFile;
 }
 
 # Obtain a string with the idFiles from filepaths

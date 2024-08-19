@@ -24,7 +24,11 @@ TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def getIdFile(filename):
     splitFilename = filename.split("/")
-    return splitFilename[5]
+    if (splitFilename[5][0]=='A'):
+         inIdFile = splitFilename[6] 
+    else:
+         inIdFile = splitFilename[5] 
+    return inIdFile
 
 def getMetadata(inputfiles, inuser, inspecies):
     iridaDb = IridaDb(inspecies)

@@ -20,7 +20,9 @@
       echo '$input_pc.forward' > phantc_filenames &&
     #end if
 
-    awk -v OFS='\t' 'split($1, arr, "/") { printf("%s%s",sep,arr[6]);sep="," }END{print ""}' phantc_filenames > ids.tab &&
+    awk -v OFS='\t' 'split($1, arr, "/") { if (substr(arr[6], 1, 1)=="A") print arr[7]}' phantc_filenames > ids1.tab &&
+    awk -v OFS='\t' 'split($1, arr, "/") { if (substr(arr[6], 1, 1)!="A") print arr[6]}' phantc_filenames >> ids1.tab &&
+    awk '{ printf("%s%s",sep,$0);sep="," }END{print ""}' ids1.tab > ids.tab &&
     perl
       $__tool_directory__/PHANtC-pre.pl
       ids.tab

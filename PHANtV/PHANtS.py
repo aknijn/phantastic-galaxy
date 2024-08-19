@@ -27,7 +27,11 @@ def insertFile(filename, report):
 
 def getIdFile(filename):
     splitFilename = filename.split("/")
-    return splitFilename[5]
+    if (splitFilename[5][0]=='A'):
+         inIdFile = splitFilename[6] 
+    else:
+         inIdFile = splitFilename[5] 
+    return inIdFile
 
 def getMetadata(inputfiles, inspecies):
     iridaDb = IridaDb(inspecies)
