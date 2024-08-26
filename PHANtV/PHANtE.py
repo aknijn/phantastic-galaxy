@@ -33,9 +33,9 @@ def getMetadata(inputfiles, inuser, inspecies):
 def getIdFile(filename):
     splitFilename = filename.split("/")
     if (splitFilename[5][0]=='A'):
-         inIdFile = splitFilename[6] 
+         inIdFile = splitFilename[6]
     else:
-         inIdFile = splitFilename[5] 
+         inIdFile = splitFilename[5]
     return inIdFile
 
 def main():

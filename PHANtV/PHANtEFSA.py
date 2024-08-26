@@ -26,9 +26,9 @@ from phantdb import IridaDb
 def get_file_id(filename):
     splitFilename = filename.split("/")
     if (splitFilename[5][0]=='A'):
-         inIdFile = splitFilename[6] 
+         inIdFile = splitFilename[6]
     else:
-         inIdFile = splitFilename[5] 
+         inIdFile = splitFilename[5]
     return inIdFile
 
 def create_allelicprofile_file(allele_database, sample_code, sample_name, phantefsa_allelicprofile):
