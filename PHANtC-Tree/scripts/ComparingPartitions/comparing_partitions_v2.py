@@ -333,7 +333,6 @@ def main():
 		print("Preparing for comparing methods...")
 		print("Preparing for comparing methods...", file = log)
 		
-		"""
 		# remove redundant samples
 		
 		if not args.keep_redundants: # needs to remove redundant samples 
@@ -341,7 +340,7 @@ def main():
 			print("Removing redundant samples...", file = log)
 			matrix1 = rm_redundant(matrix1, log)
 			matrix2 = rm_redundant(matrix2, log)
-		"""
+		
 		
 		# ordering
 		
@@ -386,6 +385,18 @@ def main():
 		
 		clean_matrix1 = filtered_matrix1.drop(filtered_matrix1.columns[0], axis=1)
 		clean_matrix2 = filtered_matrix2.drop(filtered_matrix2.columns[0], axis=1)
+
+		# removing columns in which all samples form a cluster 
+
+		for col in clean_matrix1.columns:
+			if len(pandas.unique(clean_matrix1[col])) == 1:
+				clean_matrix1 = clean_matrix1.drop(col, axis=1)
+		for col in clean_matrix2.columns:
+			if len(pandas.unique(clean_matrix2[col])) == 1:
+				clean_matrix2 = clean_matrix2.drop(col, axis=1)
+
+		print("\tN partitions matrix 1:", len(clean_matrix1.columns))
+		print("\tN partitions matrix 2:", len(clean_matrix2.columns))
 
 		# comparing methods
 		
