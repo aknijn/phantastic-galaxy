@@ -249,27 +249,27 @@ def main():
         EFSA_ROLE = "EURL STEC"
     else:
         EFSA_ROLE = "XXXX"
-    iridadb = IridaDb(args.species)
-    if iridadb.user_in_role(args.user.replace("__at__", "@"), EFSA_ROLE):
+    iridaDb = IridaDb(args.species)
+    if iridaDb.user_in_role(args.user.replace("__at__", "@"), EFSA_ROLE):
         with open(args.input_files, 'r') as f:
             content = f.readlines()
         idfiles = [get_file_id(x.rstrip('\n')) for x in content]
         file_ids = ",".join(idfiles)
-        metadata = iridadb.metadata_for_efsa(file_ids)
+        metadata = iridaDb.metadata_for_efsa(file_ids)
         #sample_id, sample_code, sample_name, fastq1, fastq2, phantastic_type, phantastic_aq, phantastic_seq, phantastic_vir
         try:
             # initialise the cumulative output files
             payload_data = {}
             payloads = open(args.phantefsa_payloads, 'w')
-            shutil.copyfile(iridadb.allele_header_file, args.phantefsa_allelicprofiles)
+            shutil.copyfile(iridaDb.allele_header_file, args.phantefsa_allelicprofiles)
             Path(args.phantefsa_apiresponses).touch()
             if metadata:
                 # Upload each sample to the EFSA WGS database
                 for meta_row in metadata:
                     # define allelicprofile filename and copy the header row into it
                     allelicprofile = meta_row[2] + ".tsv"
-                    shutil.copyfile(iridadb.allele_header_file, allelicprofile)
-                    create_allelicprofile_file(iridadb, meta_row[1], meta_row[2], allelicprofile)
+                    shutil.copyfile(iridaDb.allele_header_file, allelicprofile)
+                    create_allelicprofile_file(iridaDb, meta_row[1], meta_row[2], allelicprofile)
                     # save result in the cumulative allelicprofiles file
                     subprocess.run("tail -n 1 " + allelicprofile + " >> " + args.phantefsa_allelicprofiles, shell=True)
                     # obtain the json data for the three parts that will be fused into one payload file
@@ -284,7 +284,7 @@ def main():
                     apiresponse = meta_row[2] + ".txt"
                     analyticalPipelineRunId = call_upload_results(payload, apiresponse)
                     call_upload_results_allelicprofile(allelicprofile, analyticalPipelineRunId, apiresponse)
-                    iridadb.update_externalId(analyticalPipelineRunId, meta_row[0])
+                    iridaDb.update_externalId(analyticalPipelineRunId, meta_row[0])
                     # save response data in the cumulative apiresponses file
                     subprocess.run("echo ================================================= >> " + args.phantefsa_apiresponses, shell=True)
                     subprocess.run("echo " + meta_row[2] + " >> " + args.phantefsa_apiresponses, shell=True)
@@ -294,7 +294,7 @@ def main():
             payloads.close()
     else:
         subprocess.run("echo 'Utente non autorizzato' > " + args.phantefsa_apiresponses, shell=True)
-    iridadb.close()
+    iridaDb.close()
 
 if __name__ == "__main__":
     main()
