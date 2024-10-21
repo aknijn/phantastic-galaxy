@@ -1,8 +1,6 @@
 <tool id="phantw" name="PHANtW" version="3.0">
     <description>SNP Observer</description>
     <requirements>
-        <requirement type="package" version="3.11">python</requirement>
-        <requirement type="package" version="2.1.2">numpy</requirement>
         <requirement type="package" version="2.7.0">poppunk</requirement>
     </requirements>
     <!-- basic error handling -->
