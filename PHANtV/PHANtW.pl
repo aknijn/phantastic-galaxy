@@ -15,7 +15,7 @@ my ($input_file,
 # Run program
 my $abs_path = Cwd::abs_path($PROGRAM_NAME);
 my $scriptdir = dirname($abs_path);
-prepareEnvironment();
+#prepareEnvironment();
 my $result=runPopPUNK();
 #move("output/output_core_NJ.nwk", $phantw_tree);
 system(qq(sed 's-\\x27--g' output_viz/output_viz_core_NJ.nwk > $phantw_tree));
