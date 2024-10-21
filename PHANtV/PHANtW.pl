@@ -26,7 +26,7 @@ exit($result);
 # Run PopPUNK
 sub runPopPUNK {
     my $result_db = system("poppunk --create-db --r-files $input_file --threads 4 --k-step 2 --min-k 9 --plot-fit 0 --overwrite --output dbdir");
-    my $result_fit = system("poppunk --fit-model dbscan --threads 4 --output output --full-db --K 2 --microreact --ref-db dbdir --distances dbdir/dbdir.dists");
+    my $result_fit = system("poppunk --fit-model dbscan --threads 4 --output output --K 2 --ref-db dbdir --distances dbdir/dbdir.dists");
 	system("poppunk_visualise --ref-db dbdir --model-dir output --output output_viz --microreact");
     system("python $scriptdir/scripts/extract_distances.py  --distances dbdir/dbdir.dists --output distances.txt");
     return $result_db+$result_fit;
