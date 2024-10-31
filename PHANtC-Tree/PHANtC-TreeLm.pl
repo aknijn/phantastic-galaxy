@@ -27,6 +27,7 @@ my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
 my $grape_path = $cfg->param('fs.grape_path');
+my $grape_domain = $cfg->param('url.grape_domain');
 my (undef, $sample_id) = split('_', $sample_code);
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 $year = 1900 + $year;
@@ -191,7 +192,7 @@ sub createGrapeTreeLink {
       move($zoom_dir,$grape_path_yearmm . "/" . $zoom_dir) or die $!;
     }
     # create the html file linking the tree and metadata files
-    my $strUrl = "https://irida.iss.it/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata&zooms_list=$outputname_zooms";
+    my $strUrl = "$grape_domain/spread/?tree=spread/$grape_tree&metadata=spread/$grape_metadata&zooms_list=$outputname_zooms";
     open my $of, '>', "$phantclm_grapetree" or die "Cannot open $phantclm_grapetree: $!";
     print $of "<!DOCTYPE html><html><head>";
     print $of "<meta http-equiv=\"refresh\" content=\"0; URL=$strUrl\" />\n";

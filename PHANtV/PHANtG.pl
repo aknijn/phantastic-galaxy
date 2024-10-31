@@ -26,6 +26,7 @@ my $dsn = $cfg->param('db.dsn');
 my $user = $cfg->param('db.user');
 my $pwd = $cfg->param('db.password');
 my $grape_path = $cfg->param('fs.grape_path');
+my $grape_domain = $cfg->param('url.grape_domain');
 if ($species eq "Shiga toxin-producing Escherichia coli") { $species = "Escherichia coli"; };
 my $files_id = getIdFilesString($input_files);
 runGrapeTree($files_id);
@@ -194,7 +195,6 @@ sub createMetadataFile {
 
 sub createGrapeTreeLink {
     # copy $phantg_metadata & $phantg_tree to a shared path visible by GrapeTree on the server vizapp.iss.it
-    my $grape_path = "/gfs/vizapp/grapetree/";
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     $year = 1900 + $year;
     my $stamp = sprintf("%04d%02d%02d%02d%02d%02d", $year, $mon+1, $mday, $hour, $min, $sec);
@@ -207,7 +207,7 @@ sub createGrapeTreeLink {
     copy($phantg_metadata,$grape_path . "/" . $grape_metadata);
     copy($phantg_tree,$grape_path . "/" . $grape_tree);
     # create the html file linking the tree and metadata files
-    my $strUrl = "https://irida.iss.it/grapetree/?tree=$grape_tree&metadata=$grape_metadata";
+    my $strUrl = "$grape_domain/grapetree/?tree=$grape_tree&metadata=$grape_metadata";
     open my $of, '>', "$phantg_grapetree" or die "Cannot open $phantg_grapetree: $!";
     print $of "<!DOCTYPE html><html><head>";
     print $of "<meta http-equiv=\"refresh\" content=\"0; URL=$strUrl\" />\n";
