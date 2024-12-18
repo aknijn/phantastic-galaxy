@@ -34,7 +34,10 @@ def __main__():
     if len(table_data[0]) == 19:
         for row in table_data:
             if row[18] != args.species and row[18] != 'Species' and float(row[6]) > 10.0:
-                strContamination = row[18]
+                if strContamination != 'No':
+                    strContamination = strContamination + ", " + row[18]
+                else:
+                    strContamination = row[18]
     report_json = open(args.contamination_json, 'w')
     if strContamination != 'No':
         report_data = {}
