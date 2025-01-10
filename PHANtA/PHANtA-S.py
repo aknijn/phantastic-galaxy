@@ -16,8 +16,6 @@ import shutil
 import subprocess
 import json
 import datetime
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../PHANtLibs/")
-from phantdb import IridaDb
 
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -38,14 +36,12 @@ def get_filetype(input_file):
                 break
     return filetype
 
-#def get_coverage(input_id):
-#    with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
-#        return iridadb.get_singleend_coverage(input_id.split("_")[1])
-
-def get_coverage(input_fastq):
+def get_coverage(input_fastq, genome_size):
     str_cmd = "cat " + input_fastq + " | paste - - - - | cut -f 2 | tr -d '\n' | wc -c"
-    coverage = subprocess.run(str_cmd, shell=True, capture_output=True)
-    return coverage.stdout.decode("utf-8").strip()
+    genomeSize = subprocess.run(str_cmd, shell=True, capture_output=True)
+    coverage = "{:.2f}".format( float(genomeSize.stdout.decode("utf-8").strip()) / (float(genome_size)*1000000) )
+    return coverage
+
 
 def get_fastp(json_file):
     with open(json_file, "rb") as fastp_json:
@@ -72,7 +68,7 @@ def __main__():
     if is_fastq:
         # FASTQ
         os.symlink(args.input1, 'fastq_in.fastqsanger')
-        str_coverage = str(get_coverage(args.input1))
+        str_coverage = str(get_coverage(args.input1, args.genomeSize))
         if float(str_coverage) < 100:
             # NO TRIMMING
             subprocess.run("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 0 -t 0 -l 5 --cut_front_window_size 0 --cut_front_mean_quality 1 --cut_tail_window_size 0 --cut_tail_mean_quality 1", shell=True)
