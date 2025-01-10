@@ -76,32 +76,34 @@ sub collectOutput{
     $allele_line =~ s/-/0/ig;
     $allele_line =~ s/.fasta//ig;
     close $if_in;
-
-    my $sql_insert = "";
-    my $sql_update = "";
-    if ($species eq "Listeria monocytogenes") {
-        $sql_insert = "insert into mlst_listeria (sample_code) values (?)";
-        $sql_update = "update mlst_listeria set permille_loci=?, allele_strain=? where sample_code=?";
+	# only insert samples that are not (proficiency) test nor accreditation samples
+	my $sample_type = substr $input1_name, 0, 2;
+    if ($sample_type ne "PT" && $sample_type ne "TT" && $sample_type ne "AC") {
+        my $sql_insert = "";
+        my $sql_update = "";
+        if ($species eq "Listeria monocytogenes") {
+            $sql_insert = "insert into mlst_listeria (sample_code) values (?)";
+            $sql_update = "update mlst_listeria set permille_loci=?, allele_strain=? where sample_code=?";
+        }
+        elsif ($species eq "Escherichia coli") {
+            $sql_insert = "insert into mlst_ecoli (sample_code) values (?)";
+            $sql_update = "update mlst_ecoli set permille_loci=?, allele_strain=? where sample_code=?";
+        }
+        # connect to MySQL database
+        my %attr = ( PrintError=>0, RaiseError=>0);
+        my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
+        my $sth_insert = $dbh->prepare($sql_insert);
+        $sth_insert->execute($input1_name);
+        my $sth_update = $dbh->prepare($sql_update);
+        $sth_update->bind_param( 1, $permille_loci );
+        $sth_update->bind_param( 2, $allele_line );
+        $sth_update->bind_param( 3, $input1_name );
+        $sth_update->execute();
+        $sth_insert->finish();
+        $sth_update->finish();
+        # disconnect from the MySQL database
+        $dbh->disconnect();
     }
-    elsif ($species eq "Escherichia coli") {
-        $sql_insert = "insert into mlst_ecoli (sample_code) values (?)";
-        $sql_update = "update mlst_ecoli set permille_loci=?, allele_strain=? where sample_code=?";
-    }
-
-    # connect to MySQL database
-    my %attr = ( PrintError=>0, RaiseError=>0);
-    my $dbh = DBI->connect($dsn,$user,$pwd,\%attr);
-    my $sth_insert = $dbh->prepare($sql_insert);
-    $sth_insert->execute($input1_name);
-    my $sth_update = $dbh->prepare($sql_update);
-    $sth_update->bind_param( 1, $permille_loci );
-    $sth_update->bind_param( 2, $allele_line );
-    $sth_update->bind_param( 3, $input1_name );
-    $sth_update->execute();
-    $sth_insert->finish();
-    $sth_update->finish();
-    # disconnect from the MySQL database
-    $dbh->disconnect();
     return 0;
 }
 
