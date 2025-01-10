@@ -38,10 +38,14 @@ def get_filetype(input_file):
                 break
     return filetype
 
+#def get_coverage(input_id):
+#    with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
+#        return iridadb.get_singleend_coverage(input_id.split("_")[1])
 
-def get_coverage(input_id):
-    with IridaDb("Shiga toxin-producing Escherichia coli") as iridadb:
-        return iridadb.get_singleend_coverage(input_id.split("_")[1])
+def get_coverage(input_fastq):
+    str_cmd = "cat " + input_fastq + " | paste - - - - | cut -f 2 | tr -d '\n' | wc -c"
+    coverage = subprocess.run(str_cmd, shell=True, check=True)
+    return coverage
 
 def get_fastp(json_file):
     with open(json_file, "rb") as fastp_json:
@@ -68,7 +72,7 @@ def __main__():
     if is_fastq:
         # FASTQ
         os.symlink(args.input1, 'fastq_in.fastqsanger')
-        str_coverage = str(get_coverage(args.input_id))
+        str_coverage = str(get_coverage(args.input1))
         if float(str_coverage) < 100:
             # NO TRIMMING
             subprocess.run("fastp --thread 4 -i fastq_in.fastqsanger -o input_1.fq -f 0 -t 0 -l 5 --cut_front_window_size 0 --cut_front_mean_quality 1 --cut_tail_window_size 0 --cut_tail_mean_quality 1", shell=True)
