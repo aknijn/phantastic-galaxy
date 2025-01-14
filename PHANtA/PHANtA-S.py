@@ -42,7 +42,6 @@ def get_coverage(input_fastq, genome_size):
     coverage = "{:.2f}".format( float(genomeSize.stdout.decode("utf-8").strip()) / (float(genome_size)*1000000) )
     return coverage
 
-
 def get_fastp(json_file):
     with open(json_file, "rb") as fastp_json:
         fastp_dict = json.load(fastp_json)
