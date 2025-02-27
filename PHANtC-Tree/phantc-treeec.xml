@@ -15,7 +15,7 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $species == "Escherichia coli":
+    #if $species == "Escherichia coli" and $input_id[:3] != "PT_" and $input_id[:3] != "TT_":
         perl 
         $__tool_directory__/PHANtC-TreeEc.pl
           $input_id
