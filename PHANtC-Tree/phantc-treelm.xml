@@ -15,7 +15,7 @@
     </stdio>
     <command>
 <![CDATA[
-    #if $species == "Listeria monocytogenes" and $input_id[:3] != "PT_" and $input_id[:3] != "TT_":
+    #if $species == "Listeria monocytogenes" and str($input_id)[:3] != "PT_" and str($input_id)[:3] != "TT_":
         perl 
         $__tool_directory__/PHANtC-TreeLm.pl
           $input_id
