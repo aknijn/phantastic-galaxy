@@ -33,6 +33,7 @@ def __main__():
         table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
     if len(table_data[0]) == 19:
         for row in table_data:
+            # Template_Coverage>10.0 AND Template_length>100.0
             if row[18] != args.species and row[18] != 'Species' and float(row[6]) > 10.0 and float(row[4]) > 100.0:
                 if strContamination != 'No':
                     strContamination = strContamination + ", " + row[18]
