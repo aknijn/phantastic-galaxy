@@ -34,12 +34,15 @@ def __main__():
     if len(table_data[0]) == 19:
         for row in table_data:
             # Template_Coverage>10.0 AND Template_length>100.0
-            if row[18] != args.species and row[18] != 'Species' and float(row[6]) > 10.0 and float(row[4]) > 100.0:
+            str_species = row[18]
+            if str_species == "Shigella flexneri":
+                str_species = "Escherichia coli"
+            if str_species != args.species and str_species != 'Species' and float(row[6]) > 10.0 and float(row[4]) > 100.0:
                 if strContamination != 'No':
-                    if not (row[18] in strContamination):
-                        strContamination = strContamination + ", " + row[18]
+                    if not (str_species in strContamination):
+                        strContamination = strContamination + ", " + str_species
                 else:
-                    strContamination = row[18]
+                    strContamination = str_species
     report_json = open(args.contamination_json, 'w')
     if strContamination != 'No':
         report_data = {}
