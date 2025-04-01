@@ -36,7 +36,8 @@ def __main__():
             # Template_Coverage>10.0 AND Template_length>100.0
             if row[18] != args.species and row[18] != 'Species' and float(row[6]) > 10.0 and float(row[4]) > 100.0:
                 if strContamination != 'No':
-                    strContamination = strContamination + ", " + row[18]
+                    if not (row[18] in strContamination):
+                        strContamination = strContamination + ", " + row[18]
                 else:
                     strContamination = row[18]
     report_json = open(args.contamination_json, 'w')
