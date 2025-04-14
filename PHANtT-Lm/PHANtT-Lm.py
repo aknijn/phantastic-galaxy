@@ -96,7 +96,7 @@ def __main__():
     else:
         Path("virulotyper").touch()
     # SEQUENCETYPER
-    subprocess.run("mlst --legacy --scheme listeria_2 input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
+    subprocess.run("mlst --legacy --scheme listeria_pasteur input.fasta | cut -f3,4,5,6,7,8,9,10 > " + args.seqtype, shell=True)
     sequence_typing = openFileAsTable(args.seqtype)
     # LISSEROTYPER
     subprocess.run("python " + TOOL_DIR + "/bin/LisSero.py input.fasta > output_tab", shell=True)
