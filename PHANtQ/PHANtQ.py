@@ -33,11 +33,11 @@ def __main__():
         table_data = [[str(col).rstrip() for col in row.split('\t')] for row in table_in]
     if len(table_data[0]) == 19:
         for row in table_data:
-            # Template_Coverage>10.0 AND Template_length>100.0
+            # Query_Coverage>4.0 AND Template_length>100.0
             str_species = row[18]
             if str_species == "Shigella flexneri":
                 str_species = "Escherichia coli"
-            if str_species != args.species and str_species != 'Species' and float(row[6]) > 10.0 and float(row[4]) > 100.0:
+            if str_species != args.species and str_species != 'Species' and float(row[5]) > 4.0 and float(row[4]) > 100.0:
                 if strContamination != 'No':
                     if not (str_species in strContamination):
                         strContamination = strContamination + ", " + str_species
