@@ -20,6 +20,7 @@
         $__tool_directory__/PHANtC-TreeEc.pl
           $input_id
 		  $metadata_json
+          $alleleprofile_file
           $phantcec_tree
           $phantcec_dm
           $phantcec_grapetree
@@ -37,6 +38,7 @@
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="metadata_json" format="json" type="data" label="metadata_json" />
         <param name="species" type="text" label="Expected species name" />
+        <param name="alleleprofile_file" format="tsv" type="data" label="allele profile" />
     </inputs>
 
     <!-- define outputs -->

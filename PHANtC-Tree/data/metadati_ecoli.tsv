@@ -1,0 +1,5 @@
+﻿ID	region	country	date	CMP	CondizioneClinica	Origine	Antigen O	Antigen H	MLST ST	stx1	stx2	stx subtype	eae	ehxA	latitude	longitude
+ACCR_1		18991230			AC_5304	O55	H7	ST335	stx1	-	stx1a	eae	-		
+ACCR_2		18991230			AC_5305	O55	H7	ST335	stx1	-	stx1a	eae	-		
+ACCR_3		18991230			AC_5306	O157	H7	ST11	stx1	stx2	stx1a stx2c	eae	ehxa		
+ACCR_4		18991230			AC_5307	O157	H7	ST11	stx1	-	stx1a	eae	ehxa		

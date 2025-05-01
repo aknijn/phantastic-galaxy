@@ -6,7 +6,7 @@
         <requirement type="package" version="1.643">perl-dbi</requirement>
         <requirement type="package" version="4.050">perl-dbd-mysql</requirement>
         <requirement type="package" version="4.58">perl-config-simple</requirement>
-	</requirements>
+    </requirements>
     <!-- basic error handling -->
     <stdio>
         <!-- Assume anything other than zero is an error -->
@@ -19,16 +19,17 @@
         perl 
         $__tool_directory__/PHANtC-TreeLm.pl
           $input_id
-		  $metadata_json
+          $metadata_json
+          $alleleprofile_file
           $phantclm_tree
           $phantclm_dm
-		  $phantclm_grapetree
-		  $phantclm_cluster
+          $phantclm_grapetree
+          $phantclm_cluster
     #else
         touch $phantclm_tree
         touch $phantclm_dm
-		touch $phantclm_grapetree
-		touch $phantclm_cluster
+        touch $phantclm_grapetree
+        touch $phantclm_cluster
     #end if
 ]]>
     </command>
@@ -37,6 +38,7 @@
         <param name="input_id" type="text" label="IRIDA sample code" />
         <param name="metadata_json" format="json" type="data" label="metadata_json" />
         <param name="species" type="text" label="Expected species name" />
+        <param name="alleleprofile_file" format="tsv" type="data" label="allele profile" />
     </inputs>
 
     <!-- define outputs -->

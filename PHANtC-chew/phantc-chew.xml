@@ -23,9 +23,11 @@
           $input1
           $input_id
           '$species'
+          $phantcchew_alleleprofile
           $phantcchew_allele
           $phantcchew_json
     #else
+        touch $phantcchew_alleleprofile
         touch $phantcchew_allele
         touch $phantcchew_json
     #end if
@@ -41,6 +43,7 @@
 
     <!-- define outputs -->
     <outputs>
+        <data format="tsv" name="phantcchew_alleleprofile" label="${tool.name} on ${on_string}: allele profile" ></data>
         <data format="tsv" name="phantcchew_allele" label="${tool.name} on ${on_string}: allele calls" ></data>
         <data format="json" name="phantcchew_json" label="${tool.name} on ${on_string}: allele filter" ></data>
    </outputs>

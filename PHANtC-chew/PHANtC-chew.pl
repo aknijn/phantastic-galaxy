@@ -13,6 +13,7 @@ use Config::Simple;
 my ($input1,
     $input1_name,
 	$species,
+    $phantcchew_alleleprofile,
     $phantcchew_allele,
     $phantcchew_json) = @ARGV;
 
@@ -71,11 +72,14 @@ sub collectOutput{
     <$if_in>;
     my $allele_line = <$if_in>;
     chomp $allele_line;
-    # remove INF- from newly inferred alleles, substitute - with 0 and remove .fasta from the filename
+    # remove INF- from newly inferred alleles, substitute - with 0 and remove .fasta from the filename to recover sample_code
     $allele_line =~ s/INF-//ig;
     $allele_line =~ s/-/0/ig;
     $allele_line =~ s/.fasta//ig;
     close $if_in;
+    open my $of_ap, '>', $phantcchew_alleleprofile or die "Cannot open alleleprofile: $!";
+    print $of_ap $allele_line;
+    close $of_ap;
 	# only insert samples that are not (proficiency) test nor accreditation samples
 	my $sample_type = substr $input1_name, 0, 2;
     if ($sample_type ne "PT" && $sample_type ne "TT" && $sample_type ne "AC") {
