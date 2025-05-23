@@ -20,14 +20,14 @@
             "name": "Input dataset collection",
             "outputs": [],
             "position": {
-                "bottom": 571.9333343505859,
-                "height": 61.80000305175781,
-                "left": -1814.86669921875,
-                "right": -1614.86669921875,
-                "top": 510.1333312988281,
-                "width": 200,
-                "x": -1814.86669921875,
-                "y": 510.1333312988281
+                "bottom": 322.57083892822266,
+                "height": 48.9666748046875,
+                "left": -1073.9791870117188,
+                "right": -913.9791870117188,
+                "top": 273.60416412353516,
+                "width": 160,
+                "x": -1073.9791870117188,
+                "y": 273.60416412353516
             },
             "tool_id": null,
             "tool_state": "{\"optional\": false, \"collection_type\": \"list:paired\"}",
@@ -65,14 +65,14 @@
                 }
             ],
             "position": {
-                "bottom": 779.86669921875,
-                "height": 276.4000244140625,
-                "left": -1492.199951171875,
-                "right": -1292.199951171875,
-                "top": 503.4666748046875,
-                "width": 200,
-                "x": -1492.199951171875,
-                "y": 503.4666748046875
+                "bottom": 487.4416694641113,
+                "height": 220.48333740234375,
+                "left": -751.2916564941406,
+                "right": -591.2916564941406,
+                "top": 266.9583320617676,
+                "width": 160,
+                "x": -751.2916564941406,
+                "y": 266.9583320617676
             },
             "post_job_actions": {},
             "tool_id": "phantq",
@@ -82,19 +82,19 @@
             "uuid": "ba01fcb4-84c3-4e49-9d25-34652ee497b1",
             "workflow_outputs": [
                 {
+                    "label": "PHANtQ on input dataset(s): contamination check",
+                    "output_name": "phantq_json",
+                    "uuid": "733840c6-6882-4c3b-8582-72bb84430179"
+                },
+                {
                     "label": null,
                     "output_name": "phantq_forward",
-                    "uuid": "57115fa2-7af4-4c5b-bc41-464432b25d39"
+                    "uuid": "3eaffd22-599a-4d84-9097-af54728fce20"
                 },
                 {
                     "label": null,
                     "output_name": "phantq_reverse",
-                    "uuid": "eaf1a087-5208-4e36-8e10-3738b7fe4b40"
-                },
-                {
-                    "label": "PHANtQ on input dataset(s): contamination check",
-                    "output_name": "phantq_json",
-                    "uuid": "15021396-e2b4-43ac-b657-04ebf6fecd3c"
+                    "uuid": "d8761db4-3aec-41e7-b8be-f4825078772d"
                 }
             ]
         },
@@ -119,14 +119,14 @@
                 }
             ],
             "position": {
-                "bottom": 564.6000061035156,
-                "height": 113.60000610351562,
-                "left": -1207.199951171875,
-                "right": -1007.199951171875,
-                "top": 451,
-                "width": 200,
-                "x": -1207.199951171875,
-                "y": 451
+                "bottom": 304.6916694641113,
+                "height": 90.23333740234375,
+                "left": -466.2916564941406,
+                "right": -306.2916564941406,
+                "top": 214.45833206176758,
+                "width": 160,
+                "x": -466.2916564941406,
+                "y": 214.45833206176758
             },
             "post_job_actions": {},
             "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
@@ -144,7 +144,7 @@
                 {
                     "label": null,
                     "output_name": "output",
-                    "uuid": "35bf554f-cd1d-44f5-bbee-027588bde3ed"
+                    "uuid": "674d5e45-3aa7-4e80-926d-1e3997610bb5"
                 }
             ]
         },
@@ -169,14 +169,14 @@
                 }
             ],
             "position": {
-                "bottom": 741.6333160400391,
-                "height": 113.59999084472656,
-                "left": -1198.86669921875,
-                "right": -998.86669921875,
-                "top": 628.0333251953125,
-                "width": 200,
-                "x": -1198.86669921875,
-                "y": 628.0333251953125
+                "bottom": 481.81666564941406,
+                "height": 90.23333740234375,
+                "left": -457.95833587646484,
+                "right": -297.95833587646484,
+                "top": 391.5833282470703,
+                "width": 160,
+                "x": -457.95833587646484,
+                "y": 391.5833282470703
             },
             "post_job_actions": {},
             "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
@@ -194,7 +194,7 @@
                 {
                     "label": null,
                     "output_name": "output",
-                    "uuid": "7c09ba8c-4813-43d8-930a-969de346d8bc"
+                    "uuid": "dd7dc86e-7d1e-4343-81c7-a94d0b2b68ef"
                 }
             ]
         },
@@ -219,14 +219,14 @@
                 }
             ],
             "position": {
-                "bottom": 875.6000061035156,
-                "height": 113.60000610351562,
-                "left": -1194.86669921875,
-                "right": -994.86669921875,
-                "top": 762,
-                "width": 200,
-                "x": -1194.86669921875,
-                "y": 762
+                "bottom": 615.6916732788086,
+                "height": 90.23333740234375,
+                "left": -453.97918701171875,
+                "right": -293.97918701171875,
+                "top": 525.4583358764648,
+                "width": 160,
+                "x": -453.97918701171875,
+                "y": 525.4583358764648
             },
             "post_job_actions": {},
             "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
@@ -244,7 +244,7 @@
                 {
                     "label": null,
                     "output_name": "output",
-                    "uuid": "d88dbf5a-499e-429e-8398-2d9958e5d347"
+                    "uuid": "fc47bffd-d58d-4661-80d8-f2e14d80cf6a"
                 }
             ]
         },
@@ -285,14 +285,14 @@
                 }
             ],
             "position": {
-                "bottom": 1037.5,
-                "height": 276,
-                "left": -853.2333374023438,
-                "right": -653.2333374023438,
-                "top": 761.5,
-                "width": 200,
-                "x": -853.2333374023438,
-                "y": 761.5
+                "bottom": 745.1250152587891,
+                "height": 220.1666717529297,
+                "left": -112.37499237060547,
+                "right": 47.62500762939453,
+                "top": 524.9583435058594,
+                "width": 160,
+                "x": -112.37499237060547,
+                "y": 524.9583435058594
             },
             "post_job_actions": {
                 "ChangeDatatypeActionphanta_contigs": {
@@ -332,18 +332,18 @@
             "workflow_outputs": [
                 {
                     "label": null,
-                    "output_name": "phanta_quast",
-                    "uuid": "2b340a75-c6ef-40a5-88b2-774b9a08eb93"
-                },
-                {
-                    "label": null,
                     "output_name": "phanta_json",
-                    "uuid": "6da24b13-5b23-422b-bf29-6ed1b6ffd89c"
+                    "uuid": "c76c78a1-c441-4244-84a3-0d278b54f15a"
                 },
                 {
                     "label": null,
                     "output_name": "phanta_contigs",
-                    "uuid": "1442ea07-147e-425b-b7ac-18ae3a3253d6"
+                    "uuid": "955aa614-32bc-4b9a-89b3-5bdd5597bd5d"
+                },
+                {
+                    "label": null,
+                    "output_name": "phanta_quast",
+                    "uuid": "6713c080-8923-4cac-a1cb-0a898db4f4b3"
                 }
             ]
         },
@@ -392,14 +392,14 @@
                 }
             ],
             "position": {
-                "bottom": 466.13331604003906,
-                "height": 377.5999755859375,
-                "left": -605.2000122070312,
-                "right": -405.20001220703125,
-                "top": 88.53334045410156,
-                "width": 200,
-                "x": -605.2000122070312,
-                "y": 88.53334045410156
+                "bottom": 153.5166893005371,
+                "height": 301.433349609375,
+                "left": 135.625,
+                "right": 295.625,
+                "top": -147.9166603088379,
+                "width": 160,
+                "x": 135.625,
+                "y": -147.9166603088379
             },
             "post_job_actions": {},
             "tool_id": "phantt-lm",
@@ -409,24 +409,24 @@
             "uuid": "736ba4ad-4373-40e6-8525-91a4cd7490ef",
             "workflow_outputs": [
                 {
-                    "label": "PHANtT-Lm on input dataset(s): amrgenes",
-                    "output_name": "amrgenes",
-                    "uuid": "591c9751-55bf-4bb7-8a3c-92a690841dcb"
-                },
-                {
-                    "label": "PHANtT-Lm on input dataset(s): typing",
-                    "output_name": "phanttlm_json",
-                    "uuid": "9be3e264-3449-45e8-9623-595a7dd786cc"
-                },
-                {
                     "label": "PHANtT-Lm on input dataset(s): virulotypes",
                     "output_name": "virulotypes",
-                    "uuid": "2a3dea5f-fa20-4dfe-a7e3-a3d9125884b0"
+                    "uuid": "8523bf93-85bb-4521-9bb6-1f5a3d4a9af1"
                 },
                 {
                     "label": "PHANtT-Lm on input dataset(s): sequence type",
                     "output_name": "seqtype",
-                    "uuid": "b977f663-abf7-45e6-ba8f-5dda6c5a5062"
+                    "uuid": "16378fd2-555a-415c-8376-f360a4e1ca52"
+                },
+                {
+                    "label": "PHANtT-Lm on input dataset(s): typing",
+                    "output_name": "phanttlm_json",
+                    "uuid": "3a84e6a8-5a4f-4dd9-843c-44caf4291a5a"
+                },
+                {
+                    "label": "PHANtT-Lm on input dataset(s): amrgenes",
+                    "output_name": "amrgenes",
+                    "uuid": "e3805a47-5a64-4330-8d82-0bb82b7ad694"
                 }
             ]
         },
@@ -475,14 +475,14 @@
                 }
             ],
             "position": {
-                "bottom": 16.100006103515625,
-                "height": 377.6000061035156,
-                "left": -613.2000122070312,
-                "right": -413.20001220703125,
-                "top": -361.5,
-                "width": 200,
-                "x": -613.2000122070312,
-                "y": -361.5
+                "bottom": -296.56664276123047,
+                "height": 301.433349609375,
+                "left": 127.68749237060547,
+                "right": 287.68749237060547,
+                "top": -597.9999923706055,
+                "width": 160,
+                "x": 127.68749237060547,
+                "y": -597.9999923706055
             },
             "post_job_actions": {},
             "tool_id": "phantt-ec",
@@ -492,24 +492,24 @@
             "uuid": "f3698467-a45d-4c46-8426-8c9170ab1f82",
             "workflow_outputs": [
                 {
+                    "label": "PHANtT-Ec on input dataset(s): virulotypes",
+                    "output_name": "virulotypes",
+                    "uuid": "3bc6c3ef-1398-4ff8-a189-60cfedd6d30f"
+                },
+                {
                     "label": "PHANtT-Ec on input dataset(s): sequence type",
                     "output_name": "seqtype",
-                    "uuid": "2165da84-a8cc-4caf-afaa-6dbac72a4250"
+                    "uuid": "34ceff32-1d25-443b-bdd1-eae363384c67"
                 },
                 {
                     "label": "PHANtT-Ec on input dataset(s): amrgenes",
                     "output_name": "amrgenes",
-                    "uuid": "cca4f2af-954d-4476-a8e7-0222e820be15"
-                },
-                {
-                    "label": "PHANtT-Ec on input dataset(s): virulotypes",
-                    "output_name": "virulotypes",
-                    "uuid": "1738789a-dd23-41c6-948f-495ef3ea05c1"
+                    "uuid": "4e32ea50-88cd-4bca-b730-c6bf56d32331"
                 },
                 {
                     "label": "PHANtT-Ec on input dataset(s): typing",
                     "output_name": "phanttec_json",
-                    "uuid": "d6610724-b31a-4a8c-873b-4041b1a615d4"
+                    "uuid": "5c16467d-f668-483d-a1fa-c32265dbc057"
                 }
             ]
         },
@@ -528,19 +528,14 @@
                     "output_name": "phanta_contigs"
                 }
             },
-            "inputs": [
-                {
-                    "description": "runtime parameter for tool PHANtC-chew",
-                    "name": "contamination"
-                },
-                {
-                    "description": "runtime parameter for tool PHANtC-chew",
-                    "name": "input1"
-                }
-            ],
+            "inputs": [],
             "label": null,
             "name": "PHANtC-chew",
             "outputs": [
+                {
+                    "name": "phantcchew_alleleprofile",
+                    "type": "tsv"
+                },
                 {
                     "name": "phantcchew_allele",
                     "type": "tsv"
@@ -551,14 +546,14 @@
                 }
             ],
             "position": {
-                "bottom": 950.2666778564453,
-                "height": 194.8000030517578,
-                "left": -349.20001220703125,
-                "right": -149.20001220703125,
-                "top": 755.4666748046875,
-                "width": 200,
-                "x": -349.20001220703125,
-                "y": 755.4666748046875
+                "bottom": 714.7916870117188,
+                "height": 195.8333282470703,
+                "left": 391.68750762939453,
+                "right": 551.6875076293945,
+                "top": 518.9583587646484,
+                "width": 160,
+                "x": 391.68750762939453,
+                "y": 518.9583587646484
             },
             "post_job_actions": {
                 "ChangeDatatypeActionphantcchew_allele": {
@@ -577,20 +572,25 @@
                 }
             },
             "tool_id": "phantc-chew",
-            "tool_state": "{\"contamination\": {\"__class__\": \"RuntimeValue\"}, \"input1\": {\"__class__\": \"RuntimeValue\"}, \"input_id\": \"\", \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_state": "{\"contamination\": {\"__class__\": \"ConnectedValue\"}, \"input1\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "3.0",
             "type": "tool",
             "uuid": "ba222690-70f5-4ae1-83df-a2a31bda78db",
             "workflow_outputs": [
                 {
+                    "label": null,
+                    "output_name": "phantcchew_alleleprofile",
+                    "uuid": "dafd1974-57fa-4819-a64d-c66c7732ee88"
+                },
+                {
                     "label": "PHANtC-chew on input dataset(s): allele calls",
                     "output_name": "phantcchew_allele",
-                    "uuid": "8ef9c675-8392-4c4c-bdd8-54f8ed1e4ade"
+                    "uuid": "81b14c9b-6d78-4f7a-8154-cf4239e29a31"
                 },
                 {
                     "label": "PHANtC-chew on input dataset(s): allele filter",
                     "output_name": "phantcchew_json",
-                    "uuid": "29937a63-41c9-4c6d-8813-f5596e9dfafb"
+                    "uuid": "e550be31-15e0-44a6-b169-cf2fc0d0efd2"
                 }
             ]
         },
@@ -602,74 +602,6 @@
             "input_connections": {
                 "input1": {
                     "id": 7,
-                    "output_name": "virulotypes"
-                },
-                "queries_0|input2": {
-                    "id": 6,
-                    "output_name": "virulotypes"
-                }
-            },
-            "inputs": [
-                {
-                    "description": "runtime parameter for tool Concatenate datasets",
-                    "name": "input1"
-                }
-            ],
-            "label": "Virulotyping",
-            "name": "Concatenate datasets",
-            "outputs": [
-                {
-                    "name": "out_file1",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 29.566665649414062,
-                "height": 123.60000610351562,
-                "left": -221.26666259765625,
-                "right": -21.26666259765625,
-                "top": -94.03334045410156,
-                "width": 200,
-                "x": -221.26666259765625,
-                "y": -94.03334045410156
-            },
-            "post_job_actions": {
-                "ChangeDatatypeActionout_file1": {
-                    "action_arguments": {
-                        "newtype": "tsv"
-                    },
-                    "action_type": "ChangeDatatypeAction",
-                    "output_name": "out_file1"
-                },
-                "RenameDatasetActionout_file1": {
-                    "action_arguments": {
-                        "newname": "phantastic_vir.tsv"
-                    },
-                    "action_type": "RenameDatasetAction",
-                    "output_name": "out_file1"
-                }
-            },
-            "tool_id": "cat1",
-            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "1.0.0",
-            "type": "tool",
-            "uuid": "89b1395d-6c2d-4a6d-bfbd-6cdd78a1f0a7",
-            "workflow_outputs": [
-                {
-                    "label": null,
-                    "output_name": "out_file1",
-                    "uuid": "3d9f8379-ab9e-4019-b012-68a6657893c1"
-                }
-            ]
-        },
-        "10": {
-            "annotation": "",
-            "content_id": "cat1",
-            "errors": null,
-            "id": 10,
-            "input_connections": {
-                "input1": {
-                    "id": 7,
                     "output_name": "amrgenes"
                 },
                 "queries_0|input2": {
@@ -677,12 +609,7 @@
                     "output_name": "amrgenes"
                 }
             },
-            "inputs": [
-                {
-                    "description": "runtime parameter for tool Concatenate datasets",
-                    "name": "input1"
-                }
-            ],
+            "inputs": [],
             "label": "AMRGenes",
             "name": "Concatenate datasets",
             "outputs": [
@@ -692,14 +619,14 @@
                 }
             ],
             "position": {
-                "bottom": 257.56666564941406,
-                "height": 123.60000610351562,
-                "left": -223.26666259765625,
-                "right": -23.26666259765625,
-                "top": 133.96665954589844,
-                "width": 200,
-                "x": -223.26666259765625,
-                "y": 133.96665954589844
+                "bottom": -4.308338165283203,
+                "height": 98.23333740234375,
+                "left": 517.6250076293945,
+                "right": 677.6250076293945,
+                "top": -102.54167556762695,
+                "width": 160,
+                "x": 517.6250076293945,
+                "y": -102.54167556762695
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -718,7 +645,7 @@
                 }
             },
             "tool_id": "cat1",
-            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "1.0.0",
             "type": "tool",
             "uuid": "4ec33d03-d37e-4add-b96e-5b56b8c50078",
@@ -726,7 +653,70 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "059c13df-ca1b-4a8b-84d6-73e2c0503c67"
+                    "uuid": "ce686423-950a-4553-a28e-7f27fdea3bdc"
+                }
+            ]
+        },
+        "10": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 10,
+            "input_connections": {
+                "input1": {
+                    "id": 7,
+                    "output_name": "seqtype"
+                },
+                "queries_0|input2": {
+                    "id": 6,
+                    "output_name": "seqtype"
+                }
+            },
+            "inputs": [],
+            "label": "SeqTyping",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 239.6916618347168,
+                "height": 98.23332214355469,
+                "left": 509.62501525878906,
+                "right": 669.6250152587891,
+                "top": 141.4583396911621,
+                "width": 160,
+                "x": 509.62501525878906,
+                "y": 141.4583396911621
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_seq.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "ce747715-c616-4a8d-8cc2-f9c8b5b4707c",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "a9712579-8d27-42a9-9081-ca9afda6742d"
                 }
             ]
         },
@@ -735,6 +725,69 @@
             "content_id": "cat1",
             "errors": null,
             "id": 11,
+            "input_connections": {
+                "input1": {
+                    "id": 7,
+                    "output_name": "virulotypes"
+                },
+                "queries_0|input2": {
+                    "id": 6,
+                    "output_name": "virulotypes"
+                }
+            },
+            "inputs": [],
+            "label": "Virulotyping",
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": -232.308349609375,
+                "height": 98.23333740234375,
+                "left": 519.6250152587891,
+                "right": 679.6250152587891,
+                "top": -330.54168701171875,
+                "width": 160,
+                "x": 519.6250152587891,
+                "y": -330.54168701171875
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "out_file1"
+                },
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "phantastic_vir.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "out_file1"
+                }
+            },
+            "tool_id": "cat1",
+            "tool_state": "{\"input1\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "1.0.0",
+            "type": "tool",
+            "uuid": "89b1395d-6c2d-4a6d-bfbd-6cdd78a1f0a7",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "0ecc5f5d-f3de-48af-9558-0e0837c75c7d"
+                }
+            ]
+        },
+        "12": {
+            "annotation": "",
+            "content_id": "cat1",
+            "errors": null,
+            "id": 12,
             "input_connections": {
                 "input1": {
                     "id": 7,
@@ -755,14 +808,14 @@
                 }
             ],
             "position": {
-                "bottom": -178.43331909179688,
-                "height": 123.60000610351562,
-                "left": -207.26666259765625,
-                "right": -7.26666259765625,
-                "top": -302.0333251953125,
-                "width": 200,
-                "x": -207.26666259765625,
-                "y": -302.0333251953125
+                "bottom": -440.3083190917969,
+                "height": 98.23332214355469,
+                "left": 533.6249923706055,
+                "right": 693.6249923706055,
+                "top": -538.5416412353516,
+                "width": 160,
+                "x": 533.6249923706055,
+                "y": -538.5416412353516
             },
             "post_job_actions": {},
             "tool_id": "cat1",
@@ -774,86 +827,88 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "687cb88a-d05b-46c1-8fa1-03acd922a056"
-                }
-            ]
-        },
-        "12": {
-            "annotation": "",
-            "content_id": "cat1",
-            "errors": null,
-            "id": 12,
-            "input_connections": {
-                "input1": {
-                    "id": 7,
-                    "output_name": "seqtype"
-                },
-                "queries_0|input2": {
-                    "id": 6,
-                    "output_name": "seqtype"
-                }
-            },
-            "inputs": [
-                {
-                    "description": "runtime parameter for tool Concatenate datasets",
-                    "name": "input1"
-                }
-            ],
-            "label": "SeqTyping",
-            "name": "Concatenate datasets",
-            "outputs": [
-                {
-                    "name": "out_file1",
-                    "type": "input"
-                }
-            ],
-            "position": {
-                "bottom": 501.5666809082031,
-                "height": 123.60000610351562,
-                "left": -231.26666259765625,
-                "right": -31.26666259765625,
-                "top": 377.9666748046875,
-                "width": 200,
-                "x": -231.26666259765625,
-                "y": 377.9666748046875
-            },
-            "post_job_actions": {
-                "ChangeDatatypeActionout_file1": {
-                    "action_arguments": {
-                        "newtype": "tsv"
-                    },
-                    "action_type": "ChangeDatatypeAction",
-                    "output_name": "out_file1"
-                },
-                "RenameDatasetActionout_file1": {
-                    "action_arguments": {
-                        "newname": "phantastic_seq.tsv"
-                    },
-                    "action_type": "RenameDatasetAction",
-                    "output_name": "out_file1"
-                }
-            },
-            "tool_id": "cat1",
-            "tool_state": "{\"input1\": {\"__class__\": \"RuntimeValue\"}, \"queries\": [{\"__index__\": 0, \"input2\": {\"__class__\": \"RuntimeValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
-            "tool_version": "1.0.0",
-            "type": "tool",
-            "uuid": "ce747715-c616-4a8d-8cc2-f9c8b5b4707c",
-            "workflow_outputs": [
-                {
-                    "label": null,
-                    "output_name": "out_file1",
-                    "uuid": "85650f5d-c167-432f-bd26-12e835ec14ad"
+                    "uuid": "50cea387-0598-4668-a438-4ded35a42dc8"
                 }
             ]
         },
         "13": {
             "annotation": "",
-            "content_id": "phantj",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
             "errors": null,
             "id": 13,
             "input_connections": {
+                "input_list": {
+                    "id": 8,
+                    "output_name": "phantcchew_alleleprofile"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Collapse Collection",
+                    "name": "input_list"
+                }
+            ],
+            "label": "cgMLST",
+            "name": "Collapse Collection",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 610.5249938964844,
+                "height": 90.23332214355469,
+                "left": 895.2916717529297,
+                "right": 1055.2916717529297,
+                "top": 520.2916717529297,
+                "width": 160,
+                "x": 895.2916717529297,
+                "y": 520.2916717529297
+            },
+            "post_job_actions": {
+                "ChangeDatatypeActionoutput": {
+                    "action_arguments": {
+                        "newtype": "tsv"
+                    },
+                    "action_type": "ChangeDatatypeAction",
+                    "output_name": "output"
+                },
+                "RenameDatasetActionoutput": {
+                    "action_arguments": {
+                        "newname": "phantastic_alleleprofile.tsv"
+                    },
+                    "action_type": "RenameDatasetAction",
+                    "output_name": "output"
+                }
+            },
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "90981f86000f",
+                "name": "collapse_collections",
+                "owner": "nml",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"filename\": {\"add_name\": \"false\", \"__current_case__\": 1}, \"input_list\": {\"__class__\": \"RuntimeValue\"}, \"one_header\": \"false\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "5.1.0",
+            "type": "tool",
+            "uuid": "8215e730-38ff-4fe1-8c40-a4ee2b0a2e72",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "516338fa-7448-4597-b645-9699b72c26da"
+                }
+            ]
+        },
+        "14": {
+            "annotation": "",
+            "content_id": "phantj",
+            "errors": null,
+            "id": 14,
+            "input_connections": {
                 "amrgenes": {
-                    "id": 10,
+                    "id": 9,
                     "output_name": "out_file1"
                 },
                 "phanta_json": {
@@ -869,11 +924,11 @@
                     "output_name": "output"
                 },
                 "phantt_json": {
-                    "id": 11,
+                    "id": 12,
                     "output_name": "out_file1"
                 },
                 "virulotypes": {
-                    "id": 9,
+                    "id": 11,
                     "output_name": "out_file1"
                 }
             },
@@ -891,14 +946,14 @@
                 }
             ],
             "position": {
-                "bottom": 745.1666564941406,
-                "height": 275.6000061035156,
-                "left": 128.73333740234375,
-                "right": 328.73333740234375,
-                "top": 469.566650390625,
-                "width": 200,
-                "x": 128.73333740234375,
-                "y": 469.566650390625
+                "bottom": 396.6875,
+                "height": 219.8333282470703,
+                "left": 884.6250152587891,
+                "right": 1044.625015258789,
+                "top": 176.8541717529297,
+                "width": 160,
+                "x": 884.6250152587891,
+                "y": 176.8541717529297
             },
             "post_job_actions": {
                 "ChangeDatatypeActionphantastic_type": {
@@ -939,23 +994,27 @@
                 {
                     "label": "phantastic_type",
                     "output_name": "phantastic_type",
-                    "uuid": "33a38b54-edc1-4683-a8b7-e6853a1cf07a"
+                    "uuid": "0b70cbe0-264e-4477-afce-897fc1757312"
                 },
                 {
                     "label": "sample report",
                     "output_name": "samplereport",
-                    "uuid": "5d36283e-beae-474d-8dba-4987f60cffe5"
+                    "uuid": "755b12f1-a11b-4185-ba9a-c56722c1b20a"
                 }
             ]
         },
-        "14": {
+        "15": {
             "annotation": "",
             "content_id": "phantc-treeec",
             "errors": null,
-            "id": 14,
+            "id": 15,
             "input_connections": {
-                "metadata_json": {
+                "alleleprofile_file": {
                     "id": 13,
+                    "output_name": "output"
+                },
+                "metadata_json": {
+                    "id": 14,
                     "output_name": "phantastic_type"
                 }
             },
@@ -981,18 +1040,18 @@
                 }
             ],
             "position": {
-                "bottom": 383.96665954589844,
-                "height": 286.3999938964844,
-                "left": 538.7666625976562,
-                "right": 738.7666625976562,
-                "top": 97.56666564941406,
-                "width": 200,
-                "x": 538.7666625976562,
-                "y": 97.56666564941406
+                "bottom": 113.92499542236328,
+                "height": 252.8000030517578,
+                "left": 1279.625015258789,
+                "right": 1439.625015258789,
+                "top": -138.87500762939453,
+                "width": 160,
+                "x": 1279.625015258789,
+                "y": -138.87500762939453
             },
             "post_job_actions": {},
             "tool_id": "phantc-treeec",
-            "tool_state": "{\"input_id\": \"\", \"metadata_json\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_state": "{\"alleleprofile_file\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"metadata_json\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "3.0",
             "type": "tool",
             "uuid": "9808ac44-e521-4b0d-9b9e-4f66dabf5e99",
@@ -1000,33 +1059,37 @@
                 {
                     "label": "PHANtC-TreeEc on input dataset(s): clusters",
                     "output_name": "phantcec_cluster",
-                    "uuid": "4a44f6e1-a4e9-4d86-807b-b720a47365fe"
-                },
-                {
-                    "label": "PHANtC-TreeEc on input dataset(s): grapetree",
-                    "output_name": "phantcec_grapetree",
-                    "uuid": "da1c4cf2-85ee-41ea-a0d2-7da9643859b2"
+                    "uuid": "1568215b-fb22-43f8-9d50-6ce655edba76"
                 },
                 {
                     "label": "PHANtC-TreeEc on input dataset(s): distance matrix",
                     "output_name": "phantcec_dm",
-                    "uuid": "b4be079e-7b53-4d0b-9361-d3ffb964a64a"
+                    "uuid": "c10eaf40-ced0-4a4a-93a6-7e72aa061f95"
                 },
                 {
                     "label": "PHANtC-TreeEc on input dataset(s): phylogeny",
                     "output_name": "phantcec_tree",
-                    "uuid": "ed20d28e-b4d3-4c12-a28d-5e9b01563dc2"
+                    "uuid": "e8498f9a-82c5-46dc-a4b2-7908c8aff0ac"
+                },
+                {
+                    "label": "PHANtC-TreeEc on input dataset(s): grapetree",
+                    "output_name": "phantcec_grapetree",
+                    "uuid": "0dea498f-ebb5-41cb-9a77-fa1f3da115b4"
                 }
             ]
         },
-        "15": {
+        "16": {
             "annotation": "",
             "content_id": "phantc-treelm",
             "errors": null,
-            "id": 15,
+            "id": 16,
             "input_connections": {
-                "metadata_json": {
+                "alleleprofile_file": {
                     "id": 13,
+                    "output_name": "output"
+                },
+                "metadata_json": {
+                    "id": 14,
                     "output_name": "phantastic_type"
                 }
             },
@@ -1052,18 +1115,18 @@
                 }
             ],
             "position": {
-                "bottom": 833.13330078125,
-                "height": 347.5999755859375,
-                "left": 532.7999877929688,
-                "right": 732.7999877929688,
-                "top": 485.5333251953125,
-                "width": 200,
-                "x": 532.7999877929688,
-                "y": 485.5333251953125
+                "bottom": 501.8416748046875,
+                "height": 252.8000030517578,
+                "left": 1273.7083435058594,
+                "right": 1433.7083435058594,
+                "top": 249.0416717529297,
+                "width": 160,
+                "x": 1273.7083435058594,
+                "y": 249.0416717529297
             },
             "post_job_actions": {},
             "tool_id": "phantc-treelm",
-            "tool_state": "{\"input_id\": \"\", \"metadata_json\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_state": "{\"alleleprofile_file\": {\"__class__\": \"ConnectedValue\"}, \"input_id\": \"\", \"metadata_json\": {\"__class__\": \"ConnectedValue\"}, \"species\": \"\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
             "tool_version": "3.0",
             "type": "tool",
             "uuid": "d1f5ae75-e8ae-4baf-9905-7e262d62a81e",
@@ -1071,37 +1134,37 @@
                 {
                     "label": "PHANtC-TreeLm on input dataset(s): phylogeny",
                     "output_name": "phantclm_tree",
-                    "uuid": "269d20ab-e44c-41d9-9518-28872a2001c6"
+                    "uuid": "43a7d45b-f79e-490d-8e76-facb954ae3c3"
                 },
                 {
                     "label": "PHANtC-TreeLm on input dataset(s): distance matrix",
                     "output_name": "phantclm_dm",
-                    "uuid": "9d407efc-c4c2-47e4-b175-1826b0df8f2e"
+                    "uuid": "bee65c97-5c0a-476f-a750-47748b046b95"
                 },
                 {
                     "label": "PHANtC-TreeLm on input dataset(s): grapetree",
                     "output_name": "phantclm_grapetree",
-                    "uuid": "1a7f39a1-0cf6-421e-912d-36b112d0046a"
+                    "uuid": "e3471432-1e16-42fc-ab0e-c6c97d7fa11a"
                 },
                 {
                     "label": "PHANtC-TreeLm on input dataset(s): clusters",
                     "output_name": "phantclm_cluster",
-                    "uuid": "cdbf7b6f-631e-49d1-bba7-a97f4bf650fe"
+                    "uuid": "d416972e-2f06-4a10-8efa-414a8869ca76"
                 }
             ]
         },
-        "16": {
+        "17": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 16,
+            "id": 17,
             "input_connections": {
                 "input1": {
-                    "id": 14,
+                    "id": 15,
                     "output_name": "phantcec_tree"
                 },
                 "queries_0|input2": {
-                    "id": 15,
+                    "id": 16,
                     "output_name": "phantclm_tree"
                 }
             },
@@ -1115,14 +1178,14 @@
                 }
             ],
             "position": {
-                "bottom": 260.56666564941406,
-                "height": 123.60000610351562,
-                "left": 963.7666625976562,
-                "right": 1163.7666625976562,
-                "top": 136.96665954589844,
-                "width": 200,
-                "x": 963.7666625976562,
-                "y": 136.96665954589844
+                "bottom": -1.3083267211914062,
+                "height": 98.23333740234375,
+                "left": 1704.6249389648438,
+                "right": 1864.6249389648438,
+                "top": -99.54166412353516,
+                "width": 160,
+                "x": 1704.6249389648438,
+                "y": -99.54166412353516
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1149,22 +1212,22 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "843e37ef-c928-4679-84dc-39f6a7ee93a1"
+                    "uuid": "3d8e52fc-e9a2-43e0-9f8c-a9daadab13a0"
                 }
             ]
         },
-        "17": {
+        "18": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 17,
+            "id": 18,
             "input_connections": {
                 "input1": {
-                    "id": 14,
+                    "id": 15,
                     "output_name": "phantcec_dm"
                 },
                 "queries_0|input2": {
-                    "id": 15,
+                    "id": 16,
                     "output_name": "phantclm_dm"
                 }
             },
@@ -1178,14 +1241,14 @@
                 }
             ],
             "position": {
-                "bottom": 432.5666809082031,
-                "height": 123.60000610351562,
-                "left": 970.7999877929688,
-                "right": 1170.7999877929688,
-                "top": 308.9666748046875,
-                "width": 200,
-                "x": 970.7999877929688,
-                "y": 308.9666748046875
+                "bottom": 170.6916618347168,
+                "height": 98.23333740234375,
+                "left": 1711.6874694824219,
+                "right": 1871.6874694824219,
+                "top": 72.45832443237305,
+                "width": 160,
+                "x": 1711.6874694824219,
+                "y": 72.45832443237305
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1212,22 +1275,22 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "c199ca81-d907-4c3c-a14d-40af01a4421e"
+                    "uuid": "e6c9aebc-fe8f-4f02-8bf1-8584e9102e2e"
                 }
             ]
         },
-        "18": {
+        "19": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 18,
+            "id": 19,
             "input_connections": {
                 "input1": {
-                    "id": 14,
+                    "id": 15,
                     "output_name": "phantcec_grapetree"
                 },
                 "queries_0|input2": {
-                    "id": 15,
+                    "id": 16,
                     "output_name": "phantclm_grapetree"
                 }
             },
@@ -1241,14 +1304,14 @@
                 }
             ],
             "position": {
-                "bottom": 606.5666809082031,
-                "height": 123.60000610351562,
-                "left": 978.7666625976562,
-                "right": 1178.7666625976562,
-                "top": 482.9666748046875,
-                "width": 200,
-                "x": 978.7666625976562,
-                "y": 482.9666748046875
+                "bottom": 344.6916618347168,
+                "height": 98.23332214355469,
+                "left": 1719.6249389648438,
+                "right": 1879.6249389648438,
+                "top": 246.4583396911621,
+                "width": 160,
+                "x": 1719.6249389648438,
+                "y": 246.4583396911621
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1275,22 +1338,22 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "dea9cf76-b32b-43b2-81c5-1623d40d9123"
+                    "uuid": "9395fd97-3170-4e4b-93a1-a436385f485b"
                 }
             ]
         },
-        "19": {
+        "20": {
             "annotation": "",
             "content_id": "cat1",
             "errors": null,
-            "id": 19,
+            "id": 20,
             "input_connections": {
                 "input1": {
-                    "id": 14,
+                    "id": 15,
                     "output_name": "phantcec_cluster"
                 },
                 "queries_0|input2": {
-                    "id": 15,
+                    "id": 16,
                     "output_name": "phantclm_cluster"
                 }
             },
@@ -1304,14 +1367,14 @@
                 }
             ],
             "position": {
-                "bottom": 786.5666809082031,
-                "height": 123.60000610351562,
-                "left": 972.7333374023438,
-                "right": 1172.7333374023438,
-                "top": 662.9666748046875,
-                "width": 200,
-                "x": 972.7333374023438,
-                "y": 662.9666748046875
+                "bottom": 524.6916809082031,
+                "height": 98.23332214355469,
+                "left": 1713.6250305175781,
+                "right": 1873.6250305175781,
+                "top": 426.45835876464844,
+                "width": 160,
+                "x": 1713.6250305175781,
+                "y": 426.45835876464844
             },
             "post_job_actions": {
                 "ChangeDatatypeActionout_file1": {
@@ -1338,7 +1401,7 @@
                 {
                     "label": null,
                     "output_name": "out_file1",
-                    "uuid": "b83c653a-3526-4320-b0bb-5c87c9f47b7c"
+                    "uuid": "cdb8b343-c125-4465-85fb-4b495f9c6911"
                 }
             ]
         }
@@ -1346,6 +1409,6 @@
     "tags": [
         "IRIDA"
     ],
-    "uuid": "b3014b05-af78-4e3c-b842-be2cddda6455",
-    "version": 23
+    "uuid": "11172e5f-c32b-4149-b8ae-8dfa41d1b881",
+    "version": 26
 }
