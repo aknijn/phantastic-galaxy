@@ -106,11 +106,12 @@ def __main__():
     else:
         subprocess.run("sh " + TOOL_DIR + "/scripts/serotype.sh " + TOOL_DIR + " 0 xxx xxx input.fasta", shell=True)
     # SEROTYPER O
-    subprocess.run("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_O | sort -nrk 2 -nrk 3 > serogroup_O_fc", shell=True)
+    # order by coverage, pident, length
+    subprocess.run("awk -F '\t' '$4>800,s=index($0,\"_cov_\") { print $2 FS $3 FS $4 FS $16 FS substr($1,s+5,6) }' serogroup_O | sort -nrk 5 -nrk 2 -nrk 3 > serogroup_O_fc", shell=True)
     subprocess.run("awk -F , '!seen[$0]++' serogroup_O_fc > serogroup_O_fcd", shell=True)
     sero_typing_o = openFileAsTable("serogroup_O_fcd")
     # SEROTYPER H
-    subprocess.run("awk -F '\t' '$4>800 { print $2 FS $3 FS $4 FS $16 }' serogroup_H | sort -nrk 2 -nrk 3 > serogroup_H_fc", shell=True)
+    subprocess.run("awk -F '\t' '$4>800,s=index($0,\"_cov_\") { print $2 FS $3 FS $4 FS $16 FS substr($1,s+5,6) }' serogroup_H | sort -nrk 5 -nrk 2 -nrk 3 > serogroup_H_fc", shell=True)
     subprocess.run("awk -F , '!seen[$0]++' serogroup_H_fc > serogroup_H_fcd", shell=True)
     sero_typing_h = openFileAsTable("serogroup_H_fcd")
     try:
